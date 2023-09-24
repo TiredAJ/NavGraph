@@ -240,7 +240,7 @@ namespace NavGraphTools
             using (StreamWriter Writer = new StreamWriter(_OutputStream))
             {
                 Writer.Write
-                (JsonSerializer.Serialize<Dictionary<int, NavNode>>(Nodes).ToCharArray());
+                (JsonSerializer.Serialize(Nodes).ToCharArray());
             }
         }
         #endregion
