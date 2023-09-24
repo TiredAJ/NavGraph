@@ -146,7 +146,7 @@ namespace NavGraphTester
 
         public static void ConnectNodes()
         {
-            uint RoomA, RoomB;
+            int RoomA, RoomB;
             bool IsOneWay = false, ValidInput = false;
             ConsoleKey Input;
 
@@ -188,11 +188,11 @@ namespace NavGraphTester
 
             Console.WriteLine("Please enter the UID of the first room: ");
 
-            uint.TryParse(Console.ReadLine(), out RoomA);
+            int.TryParse(Console.ReadLine(), out RoomA);
 
             Console.WriteLine("Please enter the UID of a room to connect: ");
 
-            uint.TryParse(Console.ReadLine(), out RoomB);
+            int.TryParse(Console.ReadLine(), out RoomB);
 
             Console.Write("Please chose a direction from the first room: [N/E/S/W] ");
 
@@ -237,7 +237,7 @@ namespace NavGraphTester
 
         public static void ConnectElevationNodes()
         {
-            uint A, B;
+            int A, B;
             bool Up = false;
 
             var AllNodes = Map.GetAllNodes();
@@ -258,9 +258,9 @@ namespace NavGraphTester
             { Console.WriteLine("Key not recognised"); }
 
             Console.WriteLine("Please enter the UID of the first elevation node to connect: ");
-            uint.TryParse(Console.ReadLine(), out A);
+            int.TryParse(Console.ReadLine(), out A);
             Console.WriteLine("Please enter the UID of the second elevation node to connect: ");
-            uint.TryParse(Console.ReadLine(), out B);
+            int.TryParse(Console.ReadLine(), out B);
 
             Console.Write("Does B connect atop A? [Y/N] ");
             if(DebugReadKey() == ConsoleKey.Y)
@@ -273,7 +273,7 @@ namespace NavGraphTester
 
         public static void RemoveNode()
         {
-            uint UIDToRemove = 0;
+            int UIDToRemove = 0;
 
             ConsoleKey CK;
 
@@ -292,7 +292,7 @@ namespace NavGraphTester
 
             Console.Write("\nPlease enter the UID of the node to remove: ");
 
-            uint.TryParse(Console.ReadLine(), out UIDToRemove);
+            int.TryParse(Console.ReadLine(), out UIDToRemove);
 
             Console.Write("Would you like to [R]emove or [P]op node?");
 
@@ -319,7 +319,7 @@ namespace NavGraphTester
                 Console.WriteLine($"> {N.Key}\t[{N.Value.InternalName}]");
                 if (IncludeConnectedNodes && N.Value.GetConnectedNodes().Count > 0)
                 {
-                    foreach (KeyValuePair<NodeDirection, uint> iN in N.Value.GetConnectedNodes())
+                    foreach (KeyValuePair<NodeDirection, int> iN in N.Value.GetConnectedNodes())
                     {Console.WriteLine($"\t\\ {iN.Key} -> {iN.Value}");}
                 }
                 else if (IncludeConnectedNodes)

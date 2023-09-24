@@ -6,18 +6,19 @@ namespace NavGraphTools
     {
         #region MemberVariables
         //reserves 50 UIDs for flags and such:
-        //UID 0 = no node, UID 1 = no entry (1 way)
-        public const uint MINIMUM_UID = 50;
+        //UID 0 = no node
+        public const int MINIMUM_UID = 25;
+        //if uid is negative & < -25, it's a one-way connection
+        //for example, if A -> B is one way, A would store B's UID, but B would store the negative of A's UID
 
-        //Internal so *Navigator* has access to it but nothing outside this assembly does
-        
-        internal Dictionary<uint, NavNode> Nodes = new Dictionary<uint, NavNode>();
+        //Internal so *Navigator* has access to it but nothing outside this assembly does        
+        internal Dictionary<int, NavNode> Nodes = new Dictionary<int, NavNode>();
 
         ///For generating new UIDs
-        internal uint BaseUID = MINIMUM_UID;
+        internal int BaseUID = MINIMUM_UID;
 
-        private uint _AvailableUID;
-        internal uint AvailableUID 
+        private int _AvailableUID;
+        internal int AvailableUID 
         { 
             get
             { return _AvailableUID++; }
@@ -37,8 +38,8 @@ namespace NavGraphTools
             {
                 Random RND = new Random(((int)DateTime.Now.Ticks));
 
-                //generates a base UID from MINIMUM_UID to 134,217,727
-                BaseUID = (uint)RND.Next((int)MINIMUM_UID, (int)(uint.MaxValue / 8192));
+                //generates a base UID from MINIMUM_UID to 65536
+                BaseUID = RND.Next(MINIMUM_UID, 65536);
 
                 _AvailableUID = BaseUID++;
             }
@@ -50,10 +51,10 @@ namespace NavGraphTools
         /// </summary>
         /// <param name="_NewNode">The node to be added</param>
         /// <returns>UID if succesful, 0 if it fails</returns>
-        public uint AddNode(NavNode _NewNode)
+        public int AddNode(NavNode _NewNode)
         {
             //auto increments
-            uint TempUID = AvailableUID;
+            int TempUID = AvailableUID;
 
             //increments on loop until it finds a new key
             while (Nodes.ContainsKey(TempUID))
@@ -78,7 +79,7 @@ namespace NavGraphTools
         /// <param name="_Direction">Which direction A is connected to B</param>
         /// <param name="_IsOneWay">Whether the connection only goes from A to B</param>
         /// <param name="_Overwrite">If true it will replace any exisiting connections between A and B</param>
-        public void ConnectNodes(uint _AUID, uint _BUID, NodeDirection _Direction, bool _IsOneWay, bool _Overwrite)
+        public void ConnectNodes(int _AUID, int _BUID, NodeDirection _Direction, bool _IsOneWay, bool _Overwrite)
         {
             if (!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID))
             {throw new Exception("One or both nodes don't exist!");}
@@ -90,7 +91,7 @@ namespace NavGraphTools
                 Nodes[_AUID].AddConnectedNode(_BUID, _Direction);
 
                 if (_IsOneWay)
-                {Nodes[_BUID].AddConnectedNode(1, (NodeDirection)((int)_Direction * -1));}
+                {Nodes[_BUID].AddConnectedNode(_AUID * -1, (NodeDirection)((int)_Direction * -1));}
                 else
                 {Nodes[_BUID].AddConnectedNode(_AUID, (NodeDirection)((int)_Direction * -1));}
             }
@@ -102,7 +103,7 @@ namespace NavGraphTools
         /// <param name="_AUID">The UID of the Elevation Node A</param>
         /// <param name="_BUID">The UID of the Elevation Node B</param>
         /// <param name="Up">Whether B connects atop A [true] or beneath [false]</param>
-        public void ConnectElevationNodes(uint _AUID, uint _BUID, bool Up)
+        public void ConnectElevationNodes(int _AUID, int _BUID, bool Up)
         {
             NavNode? TempA;
             NavNode? TempB;
@@ -136,7 +137,7 @@ namespace NavGraphTools
         /// Removes the node with the specified UID. Ignores if node doesn't exist
         /// </summary>
         /// <param name="_UID">Unique ID of the node to remove</param>
-        public void RemoveNode(uint _UID) 
+        public void RemoveNode(int _UID) 
         {
             if (DoesNodeExist(_UID))
             {Nodes.Remove(_UID);}
@@ -149,7 +150,7 @@ namespace NavGraphTools
         /// </summary>
         /// <param name="_UID">Unique ID of the node to remove & return</param>
         /// <returns>The node if it exists. Otherwise null</returns>
-        public NavNode? PopNode(uint _UID)
+        public NavNode? PopNode(int _UID)
         {
             if (!DoesNodeExist(_UID))
             {return null;}
@@ -169,7 +170,7 @@ namespace NavGraphTools
         /// <param name="_UID">Unique ID of the node to get</param>
         /// <returns>Returns the node with the UID or null if it doesn't exist</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public NavNode? TryGetNode(uint _UID)
+        public NavNode? TryGetNode(int _UID)
         {
             if (DoesNodeExist(_UID))
             {return Nodes[_UID];}
@@ -181,7 +182,7 @@ namespace NavGraphTools
         /// Gets all the nodes in the graph with their UID
         /// </summary>
         /// <returns>a list of all nodes int the Graph</returns>
-        public Dictionary<uint, NavNode> GetAllNodes()
+        public Dictionary<int, NavNode> GetAllNodes()
         {return Nodes;}
 
         #endregion
@@ -192,7 +193,7 @@ namespace NavGraphTools
         /// </summary>
         /// <param name="_UID">UID of the node to check</param>
         /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
-        public bool DoesNodeExist(uint _UID)
+        public bool DoesNodeExist(int _UID)
         {
             if (Nodes.ContainsKey(_UID))
             {return true;}
@@ -205,23 +206,16 @@ namespace NavGraphTools
         /// </summary>
         /// <param name="_UID">UID of the base node to check</param>
         /// <returns>How many connections (between 0-4 inclusive) the base node has</returns>
-        public uint NumberOfConnections(uint _UID)
+        public int NumberOfConnections(int _UID)
         {
             NavNode? Temp;
-            uint Counter = 0;
 
             Temp = TryGetNode(_UID);
 
             if (Temp == null)
             { throw new Exception("No node exists with the specified UID!"); }
 
-            foreach (KeyValuePair<NodeDirection, uint> N in Temp.Nodes)
-            {
-                if (N.Value > MINIMUM_UID)
-                {Counter++;}
-            }
-
-            return Counter;
+            return Temp.GetConnectedNodes().Count;
         }
 
 
@@ -233,7 +227,7 @@ namespace NavGraphTools
         public void Deserialise(Stream _InputStream)
         {
             using (StreamReader Reader = new StreamReader(_InputStream))
-            {Nodes = JsonSerializer.Deserialize<Dictionary<uint, NavNode>>(Reader.ReadToEnd());}
+            {Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd());}
 
             //gets the largets value in the just deserialised group of keys
             BaseUID = Nodes.Keys.Max();
@@ -246,7 +240,7 @@ namespace NavGraphTools
             using (StreamWriter Writer = new StreamWriter(_OutputStream))
             {
                 Writer.Write
-                (JsonSerializer.Serialize<Dictionary<uint, NavNode>>(Nodes).ToCharArray());
+                (JsonSerializer.Serialize<Dictionary<int, NavNode>>(Nodes).ToCharArray());
             }
         }
         #endregion
@@ -264,7 +258,7 @@ namespace NavGraphTools
         /// <param name="DestNodeUID">The UID of the destination node</param>
         /// <param name="_NG">The navgraph object to navigate</param>
         /// <returns>A list of nodes in order to travel from Start to End</returns>
-        public List<NavNode> StartNavigation(uint StartNodeUID, uint DestNodeUID, ref NavGraph _NG)
+        public List<NavNode> StartNavigation(int StartNodeUID, int DestNodeUID, ref NavGraph _NG)
         {
             //navigate
 

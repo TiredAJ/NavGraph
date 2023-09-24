@@ -14,11 +14,12 @@ namespace NavGraphTools
         public NavNode()
         { }
 
+        #region Member Variables
         [JsonInclude]
-        public uint UID { get; internal set; } = 0;
-        public string BlockPrefix { get; set; }
-        public string BlockName { get; set; }
-        public string Floor { get; set; }
+        public int UID { get; internal set; } = 0;
+        public string BlockPrefix { get; set; } = "J";
+        public string BlockName { get; set; } = "Johnstone";
+        public string Floor { get; set; } = "Ground";
         public virtual string InternalName { get; set; } = "Default Node";
         [JsonInclude]
         public virtual ListDictionary Nodes { get; internal set; } = new ListDictionary()
@@ -28,27 +29,31 @@ namespace NavGraphTools
             {NodeDirection.South, 0 },
             {NodeDirection.West, 0 },
         };
+        #endregion
 
-        public void AddConnectedNode(uint _NodeUID, NodeDirection _Direction)
+        #region Altering Connections
+        public void AddConnectedNode(int _NodeUID, NodeDirection _Direction)
         { Nodes[_Direction] = _NodeUID; }
 
         public void RemoveConnectedNode(NodeDirection _Direction)
         { Nodes[_Direction] = 0; }
+        #endregion
 
-        public uint GetNode(NodeDirection _Direction)
-        { return (uint)Nodes[_Direction]; }
+        #region Getting Connections
+        public int GetNode(NodeDirection _Direction)
+        { return (int)Nodes[_Direction]; }
 
         /// <summary>
         /// Gets a dictionary containing all connected nodes
         /// </summary>
         /// <returns></returns>
-        public virtual Dictionary<NodeDirection, uint> GetConnectedNodes()
+        public virtual Dictionary<NodeDirection, int> GetConnectedNodes()
         {
-            Dictionary<NodeDirection, uint> Temp = new Dictionary<NodeDirection, uint>();
+            Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
 
-            foreach (KeyValuePair<NodeDirection, uint> N in ToDictionary(Nodes))
+            foreach (KeyValuePair<NodeDirection, int> N in ToDictionary(Nodes))
             {
-                if (N.Value >= NavGraph.MINIMUM_UID || N.Value == 1)
+                if (N.Value >= NavGraph.MINIMUM_UID || N.Value <= -25)
                 { Temp.Add(N.Key, N.Value); }
             }
 
@@ -62,12 +67,14 @@ namespace NavGraphTools
         /// <returns>[true] if something's connected, else [false]</returns>
         public bool IsConnected(NodeDirection _Direction)
         {
-            if ((uint)Nodes[_Direction] > 0)
+            if ((int)Nodes[_Direction] > 0)
             { return true; }
             else
             { return false; }
         }
+        #endregion
 
+        #region Misc
         /// <summary>
         /// Clones the object
         /// </summary>
@@ -80,12 +87,12 @@ namespace NavGraphTools
         /// </summary>
         /// <param name="_Dict">Input ListDictionary</param>
         /// <returns>Peroperly formatted Dictionary</returns>
-        public static Dictionary<NodeDirection, uint> ToDictionary(ListDictionary _Dict)
+        public static Dictionary<NodeDirection, int> ToDictionary(ListDictionary _Dict)
         {
-            Dictionary<NodeDirection, uint> Temp = new Dictionary<NodeDirection, uint>();
+            Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
 
             foreach (DictionaryEntry DE in _Dict)
-            { Temp.Add((NodeDirection)DE.Key, (uint)DE.Value); }
+            { Temp.Add((NodeDirection)DE.Key, (int)DE.Value); }
 
             return Temp;
         }
@@ -93,27 +100,33 @@ namespace NavGraphTools
         public override string ToString()
         {
             return $"UID: {UID}, Internal name: {InternalName}, Connections: " +
-                $"(N: {(uint)Nodes[NodeDirection.North]}), (E: {(uint)Nodes[NodeDirection.East]}), " +
-                $"(S: {(uint)Nodes[NodeDirection.South]}), (W: {(uint)Nodes[NodeDirection.West]})";
+                $"(N: {(int)Nodes[NodeDirection.North]}), (E: {(int)Nodes[NodeDirection.East]}), " +
+                $"(S: {(int)Nodes[NodeDirection.South]}), (W: {(int)Nodes[NodeDirection.West]})";
         }
+        #endregion
     }
 
     [JsonSerializable(typeof(RoomNode))]
     public class RoomNode : NavNode
     {
+        #region Member Variables
         public override string InternalName { get; set; } = "Default Room";
-        public string RoomName { get; set; }
+        public string RoomName { get; set; } = "Default Room Name";
 
         [ListStringLength(50, true)]
-        public List<string> Tags { get; set; }
+        public List<string> Tags { get; set; } = new List<string>();
+        #endregion
 
+        #region Misc
         public override string ToString()
         { return base.ToString() + $", Room name: {RoomName}"; }
+        #endregion
     }
 
     [JsonSerializable(typeof(ElevationNode))]
     public class ElevationNode : NavNode
     {
+        #region Member Variables
         public override string InternalName { get; set; } = "Default Elevation";
 
         [JsonInclude]
@@ -126,30 +139,36 @@ namespace NavGraphTools
             {NodeDirection.Up, 0 },
             {NodeDirection.Down, 0 },
         };
+        #endregion
 
-        public override Dictionary<NodeDirection, uint> GetConnectedNodes()
+        #region Getting Connections
+        public override Dictionary<NodeDirection, int> GetConnectedNodes()
         {
-            Dictionary<NodeDirection, uint> Temp = new Dictionary<NodeDirection, uint>();
+            Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
 
-            foreach (KeyValuePair<NodeDirection, uint> N in ToDictionary(Nodes))
+            foreach (KeyValuePair<NodeDirection, int> N in ToDictionary(Nodes))
             {
-                if (N.Value >= NavGraph.MINIMUM_UID || N.Value == 1)
+                if (N.Value >= NavGraph.MINIMUM_UID || N.Value <= -25)
                 { Temp.Add(N.Key, N.Value); }
             }
 
             return Temp;
         }
+        #endregion
 
+        #region Misc
         public override string ToString()
         {
-            return base.ToString() + $", Up connection: {(uint)Nodes[NodeDirection.Up]}," +
-                $" Down connection: {(uint)Nodes[NodeDirection.Down]}";
+            return base.ToString() + $", Up connection: {(int)Nodes[NodeDirection.Up]}," +
+                $" Down connection: {(int)Nodes[NodeDirection.Down]}";
         }
+        #endregion
     }
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     internal sealed class ListStringLength : ValidationAttribute
     {
+        #region Member Variables
         readonly int _Length;
         readonly bool _Trim;
 
@@ -157,6 +176,7 @@ namespace NavGraphTools
         { get => _Length; }
         public bool Trim
         { get => _Trim; }
+        #endregion
 
         /// <summary>
         /// Constructor for Attribute
