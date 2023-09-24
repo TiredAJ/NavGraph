@@ -5,7 +5,7 @@ class ToDo
 {
     List<Priorities>
     {
-        "Remove [Serializable] attribute from Nodes, turns out it's just for XML serialisation",
+        
     }
 
     List<Maybes>
