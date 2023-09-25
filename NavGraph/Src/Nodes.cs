@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace NavGraphTools
@@ -116,7 +113,7 @@ namespace NavGraphTools
         public override string InternalName { get; set; } = "Default Elevation";
 
         [JsonInclude]
-        public override Dictionary<NodeDirection, int>Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(6)
+        public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(6)
         {
             {NodeDirection.North, 0 },
             {NodeDirection.East, 0 },

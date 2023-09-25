@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavGraph", "NavGraph.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavGraphTester", "..\NavGraphTester\NavGraphTester.csproj", "{AA087C0D-AD1A-486A-B24A-2970038681C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavMapCreatorGUI", "..\NavMapCreatorGUI\NavMapCreatorGUI.csproj", "{52877D55-9313-4E81-862B-D380E4AFD595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavMapCreatorGUI", "..\NavMapCreatorGUI\NavMapCreatorGUI.csproj", "{52877D55-9313-4E81-862B-D380E4AFD595}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

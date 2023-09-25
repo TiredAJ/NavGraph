@@ -18,8 +18,8 @@ namespace NavGraphTools
         internal int BaseUID = MINIMUM_UID;
 
         private int _AvailableUID;
-        internal int AvailableUID 
-        { 
+        internal int AvailableUID
+        {
             get
             { return _AvailableUID++; }
 
@@ -58,7 +58,7 @@ namespace NavGraphTools
 
             //increments on loop until it finds a new key
             while (Nodes.ContainsKey(TempUID))
-            {TempUID = AvailableUID;}
+            { TempUID = AvailableUID; }
 
             _NewNode.UID = TempUID;
 
@@ -82,18 +82,18 @@ namespace NavGraphTools
         public void ConnectNodes(int _AUID, int _BUID, NodeDirection _Direction, bool _IsOneWay, bool _Overwrite)
         {
             if (!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID))
-            {throw new Exception("One or both nodes don't exist!");}
+            { throw new Exception("One or both nodes don't exist!"); }
 
             if (_Overwrite ||
-                (!Nodes[_AUID].IsConnected(_Direction) && 
+                (!Nodes[_AUID].IsConnected(_Direction) &&
                  !Nodes[_BUID].IsConnected((NodeDirection)((int)_Direction * -1))))
             {
                 Nodes[_AUID].AddConnectedNode(_BUID, _Direction);
 
                 if (_IsOneWay)
-                {Nodes[_BUID].AddConnectedNode(_AUID * -1, (NodeDirection)((int)_Direction * -1));}
+                { Nodes[_BUID].AddConnectedNode(_AUID * -1, (NodeDirection)((int)_Direction * -1)); }
                 else
-                {Nodes[_BUID].AddConnectedNode(_AUID, (NodeDirection)((int)_Direction * -1));}
+                { Nodes[_BUID].AddConnectedNode(_AUID, (NodeDirection)((int)_Direction * -1)); }
             }
         }
 
@@ -109,10 +109,10 @@ namespace NavGraphTools
             NavNode? TempB;
 
             if (!Nodes.TryGetValue(_AUID, out TempA))
-            {throw new Exception("Node does not exist!");}
+            { throw new Exception("Node does not exist!"); }
 
             if (!Nodes.TryGetValue(_BUID, out TempB))
-            {throw new Exception("Node does not exist!");}
+            { throw new Exception("Node does not exist!"); }
 
             if (TempA is ElevationNode TA && TempB is ElevationNode TB)
             {
@@ -128,7 +128,7 @@ namespace NavGraphTools
                 }
             }
             else
-            {throw new Exception("One or both nodes weren't elevation nodes!");}
+            { throw new Exception("One or both nodes weren't elevation nodes!"); }
         }
         #endregion
 
@@ -137,10 +137,10 @@ namespace NavGraphTools
         /// Removes the node with the specified UID. Ignores if node doesn't exist
         /// </summary>
         /// <param name="_UID">Unique ID of the node to remove</param>
-        public void RemoveNode(int _UID) 
+        public void RemoveNode(int _UID)
         {
             if (DoesNodeExist(_UID))
-            {Nodes.Remove(_UID);}
+            { Nodes.Remove(_UID); }
         }
         #endregion
 
@@ -153,7 +153,7 @@ namespace NavGraphTools
         public NavNode? PopNode(int _UID)
         {
             if (!DoesNodeExist(_UID))
-            {return null;}
+            { return null; }
 
             NavNode Temp = Nodes[_UID].Clone();
 
@@ -173,9 +173,9 @@ namespace NavGraphTools
         public NavNode? TryGetNode(int _UID)
         {
             if (DoesNodeExist(_UID))
-            {return Nodes[_UID];}
+            { return Nodes[_UID]; }
             else
-            {return null;}
+            { return null; }
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace NavGraphTools
         /// </summary>
         /// <returns>a list of all nodes int the Graph</returns>
         public Dictionary<int, NavNode> GetAllNodes()
-        {return Nodes;}
+        { return Nodes; }
 
         #endregion
 
@@ -196,9 +196,9 @@ namespace NavGraphTools
         public bool DoesNodeExist(int _UID)
         {
             if (Nodes.ContainsKey(_UID))
-            {return true;}
+            { return true; }
             else
-            {return false;}
+            { return false; }
         }
 
         /// <summary>
@@ -220,14 +220,14 @@ namespace NavGraphTools
 
 
         public int CountNodes()
-        {return Nodes.Count;}
+        { return Nodes.Count; }
         #endregion
 
         #region Serialising stuff
         public void Deserialise(Stream _InputStream)
         {
             using (StreamReader Reader = new StreamReader(_InputStream))
-            {Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd());}
+            { Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd()); }
 
             //gets the largets value in the just deserialised group of keys
             BaseUID = Nodes.Keys.Max();
@@ -235,7 +235,7 @@ namespace NavGraphTools
             _AvailableUID = BaseUID + 1;
         }
 
-        public void Serialise(Stream _OutputStream) 
+        public void Serialise(Stream _OutputStream)
         {
             using (StreamWriter Writer = new StreamWriter(_OutputStream))
             {
