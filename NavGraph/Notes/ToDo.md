@@ -5,7 +5,7 @@ class ToDo
 {
     List<Priorities>
     {
-        
+        "Check elevation node connections before connecting. Similar to normal node connection. Also add overwrite"
     }
 
     List<Maybes>

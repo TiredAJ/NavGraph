@@ -17,6 +17,7 @@ namespace NavGraphTools
         ///For generating new UIDs
         internal int BaseUID = MINIMUM_UID;
 
+        //The next assignable UID
         private int _AvailableUID;
         internal int AvailableUID
         {
@@ -60,10 +61,13 @@ namespace NavGraphTools
             while (Nodes.ContainsKey(TempUID))
             { TempUID = AvailableUID; }
 
+            //assigns the node it's UID
             _NewNode.UID = TempUID;
 
+            //adds the node to the Dictionary
             Nodes.Add(TempUID, _NewNode);
 
+            //returns the assigned UID
             return TempUID;
 
             //Note: it may run for a while possibly if it struggles to find a new key
@@ -81,15 +85,20 @@ namespace NavGraphTools
         /// <param name="_Overwrite">If true it will replace any exisiting connections between A and B</param>
         public void ConnectNodes(int _AUID, int _BUID, NodeDirection _Direction, bool _IsOneWay, bool _Overwrite)
         {
+            //checks if both nodes exists
             if (!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID))
             { throw new Exception("One or both nodes don't exist!"); }
 
+            //checks if the user's specified overwrite or checks nodes have connections
             if (_Overwrite ||
                 (!Nodes[_AUID].IsConnected(_Direction) &&
                  !Nodes[_BUID].IsConnected((NodeDirection)((int)_Direction * -1))))
             {
+                //connects node B to node A
                 Nodes[_AUID].AddConnectedNode(_BUID, _Direction);
 
+                //checks if the user's specified the connection is one-way. If so the inverse of Node A's uid
+                //connected to B
                 if (_IsOneWay)
                 { Nodes[_BUID].AddConnectedNode(_AUID * -1, (NodeDirection)((int)_Direction * -1)); }
                 else
@@ -108,14 +117,17 @@ namespace NavGraphTools
             NavNode? TempA;
             NavNode? TempB;
 
+            //checks that both nodes exist in the dictionary and grabs the object
             if (!Nodes.TryGetValue(_AUID, out TempA))
             { throw new Exception("Node does not exist!"); }
 
             if (!Nodes.TryGetValue(_BUID, out TempB))
             { throw new Exception("Node does not exist!"); }
 
+            //checks if both objects are Elevation node objects and assigns a new variable as ElevationNodes
             if (TempA is ElevationNode TA && TempB is ElevationNode TB)
             {
+                //checks if the user's defined that B is above A
                 if (Up)
                 {
                     TA.Nodes[NodeDirection.Up] = _BUID;
@@ -215,30 +227,46 @@ namespace NavGraphTools
             if (Temp == null)
             { throw new Exception("No node exists with the specified UID!"); }
 
+            //counts how many elements are in the returned dictionary
             return Temp.GetConnectedNodes().Count;
         }
 
-
+        /// <summary>
+        /// Returns the number of nodes in the internal dictionary
+        /// </summary>
+        /// <returns>An integer of the count</returns>
         public int CountNodes()
         { return Nodes.Count; }
         #endregion
 
         #region Serialising stuff
+        /// <summary>
+        /// Takes an input stream and writes data to it
+        /// </summary>
+        /// <param name="_InputStream">Stream data is to be written to</param>
         public void Deserialise(Stream _InputStream)
         {
+            //generates a StreamReader from the input stream and passes it to the JSON deserialiser
             using (StreamReader Reader = new StreamReader(_InputStream))
             { Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd()); }
 
             //gets the largets value in the just deserialised group of keys
             BaseUID = Nodes.Keys.Max();
 
+            //asigns the next available UID to the base UID +1
             _AvailableUID = BaseUID + 1;
         }
 
+        /// <summary>
+        /// Takes a stream to write data to
+        /// </summary>
+        /// <param name="_OutputStream">The stream to write to</param>
         public void Serialise(Stream _OutputStream)
         {
+            //generates a stream writer from the input stream 
             using (StreamWriter Writer = new StreamWriter(_OutputStream))
             {
+                //uses the stream writer to write the string output of the JSON Serialiser
                 Writer.Write
                 (JsonSerializer.Serialize(Nodes).ToCharArray());
             }
