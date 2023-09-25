@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace NavGraphTools
@@ -22,7 +23,7 @@ namespace NavGraphTools
         public string Floor { get; set; } = "Ground";
         public virtual string InternalName { get; set; } = "Default Node";
         [JsonInclude]
-        public virtual ListDictionary Nodes { get; internal set; } = new ListDictionary()
+        public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4)
         {
             {NodeDirection.North, 0 },
             {NodeDirection.East, 0 },
@@ -51,7 +52,7 @@ namespace NavGraphTools
         {
             Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
 
-            foreach (KeyValuePair<NodeDirection, int> N in ToDictionary(Nodes))
+            foreach (KeyValuePair<NodeDirection, int> N in Nodes)
             {
                 if (N.Value >= NavGraph.MINIMUM_UID || N.Value <= -25)
                 { Temp.Add(N.Key, N.Value); }
@@ -81,21 +82,6 @@ namespace NavGraphTools
         /// <returns>A copy of the object</returns>
         public NavNode Clone()
         { return (NavNode)this.MemberwiseClone(); }
-
-        /// <summary>
-        /// Use to convert wacky ListDictionarys to proper Dictionarys
-        /// </summary>
-        /// <param name="_Dict">Input ListDictionary</param>
-        /// <returns>Peroperly formatted Dictionary</returns>
-        public static Dictionary<NodeDirection, int> ToDictionary(ListDictionary _Dict)
-        {
-            Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
-
-            foreach (DictionaryEntry DE in _Dict)
-            { Temp.Add((NodeDirection)DE.Key, (int)DE.Value); }
-
-            return Temp;
-        }
 
         public override string ToString()
         {
@@ -130,7 +116,7 @@ namespace NavGraphTools
         public override string InternalName { get; set; } = "Default Elevation";
 
         [JsonInclude]
-        public override ListDictionary Nodes { get; internal set; } = new ListDictionary()
+        public override Dictionary<NodeDirection, int>Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(6)
         {
             {NodeDirection.North, 0 },
             {NodeDirection.East, 0 },
@@ -146,7 +132,7 @@ namespace NavGraphTools
         {
             Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
 
-            foreach (KeyValuePair<NodeDirection, int> N in ToDictionary(Nodes))
+            foreach (KeyValuePair<NodeDirection, int> N in Nodes)
             {
                 if (N.Value >= NavGraph.MINIMUM_UID || N.Value <= -25)
                 { Temp.Add(N.Key, N.Value); }
