@@ -1,13 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace NavGraphTools
+namespace NavGraphTools.Src
 {
     [JsonSerializable(typeof(NavNode))]
     [JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
     [JsonDerivedType(typeof(RoomNode), typeDiscriminator: "Room")]
     [JsonDerivedType(typeof(ElevationNode), typeDiscriminator: "Elevation")]
-    public class NavNode
+    [JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "Corridor")]
+    [JsonDerivedType(typeof(PredefinedNode), typeDiscriminator: "Predefined")]
+    public abstract class NavNode
     {
         public NavNode()
         { }
@@ -20,13 +23,7 @@ namespace NavGraphTools
         public string Floor { get; set; } = "Ground";
         public virtual string InternalName { get; set; } = "Default Node";
         [JsonInclude]
-        public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4)
-        {
-            {NodeDirection.North, 0 },
-            {NodeDirection.East, 0 },
-            {NodeDirection.South, 0 },
-            {NodeDirection.West, 0 },
-        };
+        public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4);
         #endregion
 
         #region Altering Connections
@@ -89,12 +86,34 @@ namespace NavGraphTools
         #endregion
     }
 
+    [JsonSerializable(typeof(CorridorNode))]
+    public class CorridorNode : NavNode
+    {
+        [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | NodeDirection.West)]
+        public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
+        {
+            {NodeDirection.North, 0 },
+            {NodeDirection.East, 0 },
+            {NodeDirection.South, 0 },
+            {NodeDirection.West, 0 }
+        };
+    }
+
     [JsonSerializable(typeof(RoomNode))]
     public class RoomNode : NavNode
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Room";
         public string RoomName { get; set; } = "Default Room Name";
+
+        [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | NodeDirection.West)]
+        public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
+        {
+            {NodeDirection.North, 0 },
+            {NodeDirection.East, 0 },
+            {NodeDirection.South, 0 },
+            {NodeDirection.West, 0 }
+        };
 
         [ListStringLength(50, true)]
         public List<string> Tags { get; set; } = new List<string>();
@@ -113,6 +132,8 @@ namespace NavGraphTools
         public override string InternalName { get; set; } = "Default Elevation";
 
         [JsonInclude]
+        [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | 
+            NodeDirection.West | NodeDirection.Up | NodeDirection.South)]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(6)
         {
             {NodeDirection.North, 0 },
@@ -142,11 +163,38 @@ namespace NavGraphTools
         #region Misc
         public override string ToString()
         {
-            return base.ToString() + $", Up connection: {(int)Nodes[NodeDirection.Up]}," +
-                $" Down connection: {(int)Nodes[NodeDirection.Down]}";
+            return base.ToString() + $", Up connection: {Nodes[NodeDirection.Up]}," +
+                $" Down connection: {Nodes[NodeDirection.Down]}";
         }
         #endregion
     }
+
+    [JsonSerializable(typeof(PredefinedNode))]
+    public class PredefinedNode : NavNode
+    {
+        #region Member Variables
+        [JsonInclude]
+        [DictionaryDirection(NodeDirection.A | NodeDirection.B)]
+        public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
+        {
+            {NodeDirection.A, 0 },
+            {NodeDirection.B, 0 },
+        };
+
+        //Awaiting implementation
+        //public int RouteReference;
+        #endregion
+
+        #region Misc
+        public override string ToString()
+        {
+            return base.ToString() + $", Connection A: {Nodes[NodeDirection.A]}," +
+                $" Connection B: {Nodes[NodeDirection.Down]}";
+        }
+        #endregion
+    }
+
+    #region Attributes
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     internal sealed class ListStringLength : ValidationAttribute
@@ -198,6 +246,24 @@ namespace NavGraphTools
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    internal sealed class DictionaryDirection : ValidationAttribute
+    {
+        List<NodeDirection> AllowedDirections = new List<NodeDirection>();
+
+        public DictionaryDirection(params NodeDirection[] _AllowedDirections)
+        {AllowedDirections = _AllowedDirections.ToList();}
+
+        public override bool IsValid(object? _Value)
+        {
+            if (_Value == null && !(AllowedDirections.Contains((NodeDirection)_Value)))
+            {return false;}
+            else
+            {return true;}
+        }
+    }
+    #endregion
+
     public enum NodeDirection
     {
         North = 1,
@@ -205,6 +271,8 @@ namespace NavGraphTools
         South = -1,
         West = -2,
         Up = 3,
-        Down = -3
+        Down = -3,
+        A = 4,
+        B = -4
     }
 }

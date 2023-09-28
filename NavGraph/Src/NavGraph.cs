@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+﻿using NavGraph.Src;
+using System.Text.Json;
 
-namespace NavGraphTools
+namespace NavGraphTools.Src
 {
-    public class NavGraph
+    public class NavGraph : Graph<NavNode>
     {
         #region MemberVariables
         //reserves 50 UIDs for flags and such:
@@ -10,9 +11,6 @@ namespace NavGraphTools
         public const int MINIMUM_UID = 25;
         //if uid is negative & < -25, it's a one-way connection
         //for example, if A -> B is one way, A would store B's UID, but B would store the negative of A's UID
-
-        //Internal so *Navigator* has access to it but nothing outside this assembly does        
-        internal Dictionary<int, NavNode> Nodes = new Dictionary<int, NavNode>();
 
         ///For generating new UIDs
         internal int BaseUID = MINIMUM_UID;
@@ -33,7 +31,7 @@ namespace NavGraphTools
         /// Default Constructor
         /// </summary>
         /// <param name="GenerateNewGraph">[true] if you're creating a new graph, [false] if you're going to read in data</param>
-        public NavGraph(bool GenerateNewGraph)
+        public NavGraph(bool GenerateNewGraph) : base(GenerateNewGraph)
         {
             if (GenerateNewGraph)
             {
@@ -175,50 +173,14 @@ namespace NavGraphTools
         }
         #endregion
 
-        #region Getting Nodes
-        /// <summary>
-        /// Attempts to retreive the node
-        /// </summary>
-        /// <param name="_UID">Unique ID of the node to get</param>
-        /// <returns>Returns the node with the UID or null if it doesn't exist</returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public NavNode? TryGetNode(int _UID)
-        {
-            if (DoesNodeExist(_UID))
-            { return Nodes[_UID]; }
-            else
-            { return null; }
-        }
-
-        /// <summary>
-        /// Gets all the nodes in the graph with their UID
-        /// </summary>
-        /// <returns>a list of all nodes int the Graph</returns>
-        public Dictionary<int, NavNode> GetAllNodes()
-        { return Nodes; }
-
-        #endregion
-
         #region Node Checking
-        /// <summary>
-        /// Checks if a node with the specified UI exists
-        /// </summary>
-        /// <param name="_UID">UID of the node to check</param>
-        /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
-        public bool DoesNodeExist(int _UID)
-        {
-            if (Nodes.ContainsKey(_UID))
-            { return true; }
-            else
-            { return false; }
-        }
 
         /// <summary>
         /// Gets how many connections this node has (minimum of 0, max of 4)
         /// </summary>
         /// <param name="_UID">UID of the base node to check</param>
         /// <returns>How many connections (between 0-4 inclusive) the base node has</returns>
-        public int NumberOfConnections(int _UID)
+        public override int NumberOfConnections(int _UID)
         {
             NavNode? Temp;
 
@@ -230,13 +192,6 @@ namespace NavGraphTools
             //counts how many elements are in the returned dictionary
             return Temp.GetConnectedNodes().Count;
         }
-
-        /// <summary>
-        /// Returns the number of nodes in the internal dictionary
-        /// </summary>
-        /// <returns>An integer of the count</returns>
-        public int CountNodes()
-        { return Nodes.Count; }
         #endregion
 
         #region Serialising stuff
@@ -244,7 +199,7 @@ namespace NavGraphTools
         /// Takes an input stream and writes data to it
         /// </summary>
         /// <param name="_InputStream">Stream data is to be written to</param>
-        public void Deserialise(Stream _InputStream)
+        public override void Deserialise(Stream _InputStream)
         {
             //generates a StreamReader from the input stream and passes it to the JSON deserialiser
             using (StreamReader Reader = new StreamReader(_InputStream))
@@ -272,6 +227,32 @@ namespace NavGraphTools
             }
         }
         #endregion
+    }
+
+    public class ReadonlyNavGraph : Graph<NavNode>
+    {
+        public ReadonlyNavGraph() : base()
+        { }
+
+        public override void Deserialise(Stream _InputStream)
+        {
+            //generates a StreamReader from the input stream and passes it to the JSON deserialiser
+            using (StreamReader Reader = new StreamReader(_InputStream))
+            { Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd()); }
+        }
+
+        public override int NumberOfConnections(int _UID)
+        {
+            NavNode? Temp;
+
+            Temp = TryGetNode(_UID);
+
+            if (Temp == null)
+            { throw new Exception("No node exists with the specified UID!"); }
+
+            //counts how many elements are in the returned dictionary
+            return Temp.GetConnectedNodes().Count;
+        }
     }
 
     public class Navigator
