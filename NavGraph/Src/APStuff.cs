@@ -1,7 +1,10 @@
-﻿using System;
+﻿using NavGraphTools.Src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace NavGraph.Src
@@ -14,7 +17,8 @@ namespace NavGraph.Src
 
         public override void Deserialise(Stream _InputStream)
         {
-            throw new NotImplementedException();
+            using (StreamReader Reader = new StreamReader(_InputStream))
+            { Nodes = JsonSerializer.Deserialize<Dictionary<int, APNode>>(Reader.ReadToEnd()); }
         }
 
         public override int NumberOfConnections(int _UID)
@@ -23,8 +27,10 @@ namespace NavGraph.Src
         }
     }
 
+    [JsonSerializable(typeof(APNode))]
     public class APNode
     {
+        [JsonInclude]
         public int UID { get; internal set; }
         public string BSSID { get; set; }
         public string SSID { get; set; }

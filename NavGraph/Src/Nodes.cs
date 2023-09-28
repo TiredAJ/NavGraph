@@ -89,6 +89,7 @@ namespace NavGraphTools.Src
     [JsonSerializable(typeof(CorridorNode))]
     public class CorridorNode : NavNode
     {
+        [JsonInclude]
         [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | NodeDirection.West)]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
         {
