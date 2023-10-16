@@ -1,15 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace NavGraphTools.Src
 {
+    #region JSON attributes
     [JsonSerializable(typeof(NavNode))]
     [JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
     [JsonDerivedType(typeof(RoomNode), typeDiscriminator: "Room")]
     [JsonDerivedType(typeof(ElevationNode), typeDiscriminator: "Elevation")]
     [JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "Corridor")]
-    [JsonDerivedType(typeof(PredefinedNode), typeDiscriminator: "Predefined")]
+    [JsonDerivedType(typeof(GatewayNode), typeDiscriminator: "Gateway")]
+    #endregion
     public abstract class NavNode
     {
         public NavNode()
@@ -77,6 +80,20 @@ namespace NavGraphTools.Src
         public NavNode Clone()
         { return (NavNode)this.MemberwiseClone(); }
 
+        /// <summary>
+        /// Checks if UID isn't a flag UID
+        /// </summary>
+        /// <returns><see langword="true"/> if UID isn't a flag, false otherwise</returns>
+        public bool IsValidUID(int _UID)
+        {
+            if (_UID > NavGraph.MINIMUM_UID)
+            {return true;}
+            else if (_UID < (NavGraph.MINIMUM_UID * -1))
+            {return true;}
+            else
+            {return false;}
+        }
+
         public override string ToString()
         {
             return $"UID: {UID}, Internal name: {InternalName}, Connections: " +
@@ -90,7 +107,6 @@ namespace NavGraphTools.Src
     public class CorridorNode : NavNode
     {
         [JsonInclude]
-        [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | NodeDirection.West)]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
         {
             {NodeDirection.North, 0 },
@@ -107,7 +123,7 @@ namespace NavGraphTools.Src
         public override string InternalName { get; set; } = "Default Room";
         public string RoomName { get; set; } = "Default Room Name";
 
-        [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | NodeDirection.West)]
+        [JsonInclude]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
         {
             {NodeDirection.North, 0 },
@@ -133,8 +149,6 @@ namespace NavGraphTools.Src
         public override string InternalName { get; set; } = "Default Elevation";
 
         [JsonInclude]
-        [DictionaryDirection(NodeDirection.North | NodeDirection.East | NodeDirection.South | 
-            NodeDirection.West | NodeDirection.Up | NodeDirection.South)]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(6)
         {
             {NodeDirection.North, 0 },
@@ -170,28 +184,37 @@ namespace NavGraphTools.Src
         #endregion
     }
 
-    [JsonSerializable(typeof(PredefinedNode))]
-    public class PredefinedNode : NavNode
+    [JsonSerializable(typeof(GatewayNode))]
+    public class GatewayNode : NavNode
     {
         #region Member Variables
         [JsonInclude]
-        [DictionaryDirection(NodeDirection.A | NodeDirection.B)]
-        public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
-        {
-            //{NodeDirection.A, 0 },
-            //{NodeDirection.B, 0 },
-        };
+        public override Dictionary<NodeDirection, int> Nodes { get => throw new NotImplementedException(); }
 
-        //Awaiting implementation
-        //public int RouteReference;
+        public Dictionary<int, string> Connections = new Dictionary<int, string>();
+
         #endregion
 
         #region Misc
-        //public override string ToString()
-        //{
-        //    return base.ToString() + $", Connection A: {Nodes[NodeDirection.A]}," +
-        //        $" Connection B: {Nodes[NodeDirection.Down]}";
-        //}
+        /// <summary>
+        /// Gets connected block gateways
+        /// </summary>
+        /// <returns></returns>
+        public new Dictionary<string, int> GetConnectedNodes()
+        {
+            return Connections.Where(X => IsValidUID(X.Value)).ToDictionary
+                (X => X.Key, X => X.Value);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder SB = new StringBuilder();
+
+            foreach (var CN in Connections)
+            {SB.Append($"Block: {CN.Key}, UID: {CN.Value}\n");}
+
+            return SB.ToString();
+        }
         #endregion
     }
 

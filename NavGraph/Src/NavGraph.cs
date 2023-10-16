@@ -86,6 +86,10 @@ namespace NavGraphTools.Src
             //checks if both nodes exists
             if (!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID))
             { throw new Exception("One or both nodes don't exist!"); }
+            else if (
+                (Nodes[_AUID] is ElevationNode || Nodes[_BUID] is ElevationNode) ||
+                (Nodes[_AUID] is GatewayNode || Nodes[_BUID] is GatewayNode))
+            {throw new Exception("Please do not connect Elevation or Gateway nodes with this function");}
 
             //checks if the user's specified overwrite or checks nodes have connections
             if (_Overwrite ||
@@ -116,11 +120,8 @@ namespace NavGraphTools.Src
             NavNode? TempB;
 
             //checks that both nodes exist in the dictionary and grabs the object
-            if (!Nodes.TryGetValue(_AUID, out TempA))
-            { throw new Exception("Node does not exist!"); }
-
-            if (!Nodes.TryGetValue(_BUID, out TempB))
-            { throw new Exception("Node does not exist!"); }
+            if (!Nodes.TryGetValue(_AUID, out TempA) || !Nodes.TryGetValue(_BUID, out TempB))
+            {throw new Exception("Node does not exist!");}
 
             //checks if both objects are Elevation node objects and assigns a new variable as ElevationNodes
             if (TempA is ElevationNode TA && TempB is ElevationNode TB)
@@ -139,6 +140,28 @@ namespace NavGraphTools.Src
             }
             else
             { throw new Exception("One or both nodes weren't elevation nodes!"); }
+        }
+
+        /// <summary>
+        /// Connects two gateway nodes together
+        /// </summary>
+        /// <param name="_AUID">UID of first node</param>
+        /// <param name="_BUID">UID of second node</param>
+        public void ConnectGatewayNodes(int _AUID, int _BUID)
+        {
+            NavNode? A;
+            NavNode? B;
+
+            if (!Nodes.TryGetValue(_AUID, out A) || !Nodes.TryGetValue(_BUID, out B))
+            {throw new Exception("Node does not exist!");}
+
+            if (A is GatewayNode TA && B is GatewayNode TB)
+            {
+                TA.Connections.Add(_BUID, TB.BlockName);
+                TB.Connections.Add(_AUID, TA.BlockName);
+            }
+            else
+            {throw new Exception("One or both nodes aren't Gateway Nodes!");}
         }
         #endregion
 

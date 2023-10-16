@@ -24,7 +24,7 @@
   <Class Name="NavGraphTools.Src.NavGraph">
     <Position X="13.75" Y="5.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAEAAAAAAAgAADAgAAAgAAIQAAAIIAI=</HashCode>
+      <HashCode>AAABAAAAAAAAAAEAIAAAAAgAADAgAAAgAAIQAAAIIAI=</HashCode>
       <FileName>Src\NavGraph.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -45,7 +45,7 @@
   <Class Name="NavGraphTools.Src.NavNode">
     <Position X="2" Y="1.5" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAAgBAAAAAAAAAlEAgAACAAAEAAAgAAAAAAAAQAAEBA=</HashCode>
+      <HashCode>AAAgBAAAAAAAAAlEAgAACAABEAAAgAAAAAAAAQAAEBA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -70,17 +70,17 @@
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="NavGraphTools.Src.PredefinedNode">
+  <Class Name="NavGraphTools.Src.GatewayNode">
     <Position X="0.5" Y="8.5" Width="3.5" />
     <InheritanceLine Type="NavGraphTools.Src.NavNode" ManuallyRouted="true">
       <Path>
-        <Point X="4.25" Y="5.362" />
-        <Point X="4.25" Y="9.343" />
-        <Point X="4" Y="9.343" />
+        <Point X="4.25" Y="5.555" />
+        <Point X="4.25" Y="9.665" />
+        <Point X="4" Y="9.665" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAAAAAAAgAAAAAAAACAAAAA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -94,7 +94,7 @@
   <Enum Name="NavGraphTools.Src.NodeDirection">
     <Position X="7.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACAAAIAAAAAAAAAAAAAAAAAEAAAAAAAAAAAIAEBAAY=</HashCode>
+      <HashCode>AACAAAIAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAABAAY=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
   </Enum>
