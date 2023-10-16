@@ -178,8 +178,8 @@ namespace NavGraphTools.Src
         [DictionaryDirection(NodeDirection.A | NodeDirection.B)]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
         {
-            {NodeDirection.A, 0 },
-            {NodeDirection.B, 0 },
+            //{NodeDirection.A, 0 },
+            //{NodeDirection.B, 0 },
         };
 
         //Awaiting implementation
@@ -187,11 +187,11 @@ namespace NavGraphTools.Src
         #endregion
 
         #region Misc
-        public override string ToString()
-        {
-            return base.ToString() + $", Connection A: {Nodes[NodeDirection.A]}," +
-                $" Connection B: {Nodes[NodeDirection.Down]}";
-        }
+        //public override string ToString()
+        //{
+        //    return base.ToString() + $", Connection A: {Nodes[NodeDirection.A]}," +
+        //        $" Connection B: {Nodes[NodeDirection.Down]}";
+        //}
         #endregion
     }
 
@@ -273,7 +273,5 @@ namespace NavGraphTools.Src
         West = -2,
         Up = 3,
         Down = -3,
-        A = 4,
-        B = -4
     }
 }
