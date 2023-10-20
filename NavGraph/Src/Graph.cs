@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace NavGraph.Src
+namespace NavGraphTools.Src
 {
     public abstract class Graph<T>
     {

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NavGraphTools.Src
 {
+    #region Abstract & Interface
     #region JSON attributes
     [JsonSerializable(typeof(NavNode))]
     [JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
@@ -103,8 +104,32 @@ namespace NavGraphTools.Src
         #endregion
     }
 
+    /// <summary>
+    /// Interface for giving nodes the direction to the nearest elevation node
+    /// </summary>
+    public interface iElvFlowDirection
+    {
+        public NodeDirection ElvNodeDirection { get; set; }
+    }
+
+    /// <summary>
+    /// Interface for giving nodes the direction to the nearest gateway node
+    /// </summary>
+    public interface iGatewayFlowDirection
+    {
+        public NodeDirection GatewayNodeDirection { get; set; }
+    }
+
+    /// <summary>
+    /// DO NOT USE. It's just so I can use a where constraint on Elv & Gateway
+    /// </summary>
+    public interface SpecialNodes
+    { }
+    #endregion
+
+    #region Derived nodes
     [JsonSerializable(typeof(CorridorNode))]
-    public class CorridorNode : NavNode
+    public class CorridorNode : NavNode, iElvFlowDirection, iGatewayFlowDirection
     {
         [JsonInclude]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
@@ -114,10 +139,12 @@ namespace NavGraphTools.Src
             {NodeDirection.South, 0 },
             {NodeDirection.West, 0 }
         };
+        public NodeDirection ElvNodeDirection { get; set; }
+        public NodeDirection GatewayNodeDirection { get; set; }
     }
 
     [JsonSerializable(typeof(RoomNode))]
-    public class RoomNode : NavNode
+    public class RoomNode : NavNode, iElvFlowDirection, iGatewayFlowDirection
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Room";
@@ -134,6 +161,8 @@ namespace NavGraphTools.Src
 
         [ListStringLength(50, true)]
         public List<string> Tags { get; set; } = new List<string>();
+        public NodeDirection ElvNodeDirection { get; set; }
+        public NodeDirection GatewayNodeDirection { get; set; }
         #endregion
 
         #region Misc
@@ -143,7 +172,7 @@ namespace NavGraphTools.Src
     }
 
     [JsonSerializable(typeof(ElevationNode))]
-    public class ElevationNode : NavNode
+    public class ElevationNode : NavNode, iGatewayFlowDirection, SpecialNodes
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Elevation";
@@ -158,6 +187,7 @@ namespace NavGraphTools.Src
             {NodeDirection.Up, 0 },
             {NodeDirection.Down, 0 },
         };
+        public NodeDirection GatewayNodeDirection { get; set; }
         #endregion
 
         #region Getting Connections
@@ -185,13 +215,14 @@ namespace NavGraphTools.Src
     }
 
     [JsonSerializable(typeof(GatewayNode))]
-    public class GatewayNode : NavNode
+    public class GatewayNode : NavNode, iElvFlowDirection, SpecialNodes
     {
         #region Member Variables
         [JsonInclude]
         public override Dictionary<NodeDirection, int> Nodes { get => throw new NotImplementedException(); }
 
-        public Dictionary<int, string> Connections = new Dictionary<int, string>();
+        public Dictionary<int, string> Connections = new Dictionary<int, string>(); 
+        public NodeDirection ElvNodeDirection { get; set; }
 
         #endregion
 
@@ -217,6 +248,7 @@ namespace NavGraphTools.Src
         }
         #endregion
     }
+    #endregion
 
     #region Attributes
 

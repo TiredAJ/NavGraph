@@ -1,0 +1,65 @@
+﻿using NavGraphTools.Src;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NavGraphTools.Src
+{
+    public class Navigator
+    {
+        #region Variables
+        private NavNode Origin { get; set; }
+        private NavNode Destination { get; set; }
+        private NavNode CurrentLocation = null;
+
+        //states
+        private bool IsSFloor = false;
+        private bool IsSBlock = false;
+        private bool IsSGFloor = false;
+
+        //A* stuff
+        private List<int> Path = new List<int>();
+        private List<int> VisitedNodes = new List<int>();
+        #endregion
+
+        /// <summary>
+        /// Starts navigation
+        /// </summary>
+        /// <param name="StartNodeUID">The UID of the node to start from</param>
+        /// <param name="DestNodeUID">The UID of the destination node</param>
+        /// <param name="_NG">The navgraph object to navigate</param>
+        /// <returns>A list of nodes in order to travel from Start to End</returns>
+        public List<int>? StartNavigation(int _StartNodeUID, int _DestNodeUID, ref NavGraph _NG)
+        {
+            //navigate
+
+            return Path;
+        }
+
+        public List<int>? StartNavigation(int _DestNode, ref NavGraph _NG)
+        {
+
+
+            return Path;
+        }
+
+        public List<int> Nearest<T>(ref NavGraph _NG) where T : SpecialNodes
+        {
+            List<int> Path = new List<int>();
+
+
+
+
+            throw new NotImplementedException();
+
+            //return;
+        }
+
+        public void Navigate(ref NavGraph _NG)
+        {
+
+        }
+    }
+}
