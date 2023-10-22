@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NavGraphTools.Src
+namespace NavGraphTools
 {
     #region Abstract & Interface
     #region JSON attributes

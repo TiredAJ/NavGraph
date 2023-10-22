@@ -1,4 +1,4 @@
-﻿using NavGraphTools.Src;
+﻿using NavGraphTools;
 using System.Diagnostics;
 
 namespace NavGraphTester

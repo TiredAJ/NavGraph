@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace NavGraphTools.Src
+namespace NavGraphTools
 {
     public class NavGraph : Graph<NavNode>
     {

@@ -1,5 +1,4 @@
-﻿using NavGraphTools.Src;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace NavGraphTools.Src
+namespace NavGraphTools
 {
     public class NetGraph : Graph<APNode>
     {

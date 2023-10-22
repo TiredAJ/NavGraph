@@ -1,11 +1,11 @@
-﻿using NavGraphTools.Src;
+﻿using NavGraphTools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NavGraphTools.Src
+namespace NavGraphTools
 {
     public class Navigator
     {
