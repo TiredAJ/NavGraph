@@ -14,6 +14,10 @@ namespace NavGraphTools
         ///For generating new UIDs
         internal int BaseUID = MINIMUM_UID;
 
+        public Dictionary<string, (int Max, int Min)> Blocks = new Dictionary<string, (int Max, int Min)>();
+        //                         ^No floors
+        //                  ^Block name
+
         //The next assignable UID
         private int _AvailableUID;
         internal int AvailableUID
@@ -253,6 +257,10 @@ namespace NavGraphTools
 
     public class ReadonlyNavGraph : Graph<NavNode>
     {
+        public Dictionary<string, (int Max, int Min)> Blocks = new Dictionary<string, (int Max, int Min)>();
+        //                         ^No floors
+        //                  ^Block name
+
         public ReadonlyNavGraph() : base()
         { }
 

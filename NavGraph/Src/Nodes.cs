@@ -22,9 +22,8 @@ namespace NavGraphTools
         #region Member Variables
         [JsonInclude]
         public int UID { get; internal set; } = 0;
-        public string BlockPrefix { get; set; } = "J";
         public string BlockName { get; set; } = "Johnstone";
-        public string Floor { get; set; } = "Ground";
+        public int Floor { get; set; } = 0;
         public virtual string InternalName { get; set; } = "Default Node";
         [JsonInclude]
         public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4);
@@ -73,6 +72,21 @@ namespace NavGraphTools
             else
             { return false; }
         }
+
+        /// <summary>
+        /// Checks if a node can connect on this direction
+        /// </summary>
+        /// <param name="_Direction"></param>
+        /// <returns><see langword="true"/> if available, <see langword="false"/> otherwise</returns>
+        public virtual bool IsAvailable(NodeDirection _Direction)
+        {
+            if (_Direction == NodeDirection.Up || _Direction == NodeDirection.Down)
+            {return false;}
+            else if (Nodes[_Direction] == 0)
+            {return true;}
+            else
+            {return false;}
+        }
         #endregion
 
         #region Misc
@@ -103,6 +117,7 @@ namespace NavGraphTools
                 $"(N: {(int)Nodes[NodeDirection.North]}), (E: {(int)Nodes[NodeDirection.East]}), " +
                 $"(S: {(int)Nodes[NodeDirection.South]}), (W: {(int)Nodes[NodeDirection.West]})";
         }
+
         #endregion
     }
 
@@ -151,9 +166,10 @@ namespace NavGraphTools
         public NodeDirection GatewayNodeDirection { get; set; }
         #endregion
 
-        #region Misc
+        #region Overrides
         public override string ToString()
         { return base.ToString() + $", Room name: {RoomName}"; }
+
         #endregion
     }
 
@@ -191,11 +207,24 @@ namespace NavGraphTools
         }
         #endregion
 
-        #region Misc
+        #region Overrides
         public override string ToString()
         {
             return base.ToString() + $", Up connection: {Nodes[NodeDirection.Up]}," +
                 $" Down connection: {Nodes[NodeDirection.Down]}";
+        }
+
+        /// <summary>
+        /// Checks if a node can connect on this direction (includes up/down)
+        /// </summary>
+        /// <param name="_Direction">Direction to check</param>
+        /// <returns><see langword="true"/> if available, <see langword="false"/> otherwise</returns>
+        public override bool IsAvailable(NodeDirection _Direction)
+        {
+            if (Nodes[_Direction] == 0)
+            { return true; }
+            else
+            { return false; }
         }
         #endregion
     }
@@ -216,7 +245,7 @@ namespace NavGraphTools
 
         #endregion
 
-        #region Misc
+        #region Overrides
         /// <summary>
         /// Gets connected block gateways
         /// </summary>
@@ -236,6 +265,13 @@ namespace NavGraphTools
 
             return SB.ToString();
         }
+
+        /// <summary>
+        /// ALWAYS RETURNS FALSE
+        /// </summary>
+        /// <returns>False, unless cosmic bitflip or some shit</returns>
+        public override bool IsAvailable(NodeDirection _Direction)
+        {return false;}
         #endregion
     }
     #endregion
