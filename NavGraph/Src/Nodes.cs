@@ -28,6 +28,8 @@ namespace NavGraphTools.Src
         public virtual string InternalName { get; set; } = "Default Node";
         [JsonInclude]
         public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4);
+        public NodeDirection? ElvNodeDirection { get; set; }
+        public NodeDirection? GatewayNodeDirection { get; set; }
         #endregion
 
         #region Altering Connections
@@ -105,22 +107,6 @@ namespace NavGraphTools.Src
     }
 
     /// <summary>
-    /// Interface for giving nodes the direction to the nearest elevation node
-    /// </summary>
-    public interface iElvFlowDirection
-    {
-        public NodeDirection ElvNodeDirection { get; set; }
-    }
-
-    /// <summary>
-    /// Interface for giving nodes the direction to the nearest gateway node
-    /// </summary>
-    public interface iGatewayFlowDirection
-    {
-        public NodeDirection GatewayNodeDirection { get; set; }
-    }
-
-    /// <summary>
     /// DO NOT USE. It's just so I can use a where constraint on Elv & Gateway
     /// </summary>
     public interface SpecialNodes
@@ -129,7 +115,7 @@ namespace NavGraphTools.Src
 
     #region Derived nodes
     [JsonSerializable(typeof(CorridorNode))]
-    public class CorridorNode : NavNode, iElvFlowDirection, iGatewayFlowDirection
+    public class CorridorNode : NavNode
     {
         [JsonInclude]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
@@ -144,7 +130,7 @@ namespace NavGraphTools.Src
     }
 
     [JsonSerializable(typeof(RoomNode))]
-    public class RoomNode : NavNode, iElvFlowDirection, iGatewayFlowDirection
+    public class RoomNode : NavNode
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Room";
@@ -172,7 +158,7 @@ namespace NavGraphTools.Src
     }
 
     [JsonSerializable(typeof(ElevationNode))]
-    public class ElevationNode : NavNode, iGatewayFlowDirection, SpecialNodes
+    public class ElevationNode : NavNode, SpecialNodes
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Elevation";
@@ -187,7 +173,7 @@ namespace NavGraphTools.Src
             {NodeDirection.Up, 0 },
             {NodeDirection.Down, 0 },
         };
-        public NodeDirection GatewayNodeDirection { get; set; }
+        public new NodeDirection? ElvNodeDirection { get => null; }
         #endregion
 
         #region Getting Connections
@@ -215,14 +201,18 @@ namespace NavGraphTools.Src
     }
 
     [JsonSerializable(typeof(GatewayNode))]
-    public class GatewayNode : NavNode, iElvFlowDirection, SpecialNodes
+    public class GatewayNode : NavNode, SpecialNodes
     {
-        #region Member Variables
-        [JsonInclude]
-        public override Dictionary<NodeDirection, int> Nodes { get => throw new NotImplementedException(); }
+        #region Member Variables        
+        //Throws exception because Nodes shouldn't be used for gateways
+        public override Dictionary<NodeDirection, int> Nodes { get => throw new Exception(); }
 
-        public Dictionary<int, string> Connections = new Dictionary<int, string>(); 
-        public NodeDirection ElvNodeDirection { get; set; }
+        [JsonInclude]
+        //why is this an <int, string> dictionary?
+        public Dictionary<int, string> Connections = new Dictionary<int, string>();
+        //                      ^Block name?
+        //                 ^gateway UID?
+        public new NodeDirection? GatewayNodeDirection { get => null; }
 
         #endregion
 
@@ -231,9 +221,9 @@ namespace NavGraphTools.Src
         /// Gets connected block gateways
         /// </summary>
         /// <returns></returns>
-        public new Dictionary<string, int> GetConnectedNodes()
+        public new Dictionary<int, string> GetConnectedNodes()
         {
-            return Connections.Where(X => IsValidUID(X.Value)).ToDictionary
+            return Connections.Where(X => IsValidUID(X.Key)).ToDictionary
                 (X => X.Key, X => X.Value);
         }
 

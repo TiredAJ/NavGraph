@@ -49,12 +49,42 @@ namespace NavGraphTools.Src
         {
             List<int> Path = new List<int>();
 
+            if (typeof(T) == typeof(ElevationNode) && CurrentLocation.ElvNodeDirection != null)
+            {return ElvFlowFollower(ref _NG);}
+            else if (typeof(T) == typeof(GatewayNode) && CurrentLocation.GatewayNodeDirection != null)
+            {return GateFlowFollower(ref _NG);}
 
+            return new List<int>();
+        }
 
+        private List<int> ElvFlowFollower(ref NavGraph _NG)
+        {
+            NavNode Step = CurrentLocation;
+            List<int> Path = new List<int>();
 
-            throw new NotImplementedException();
+            while (Step.ElvNodeDirection != null)
+            {
+                Path.Add(Step.UID);
 
-            //return;
+                Step = _NG.TryGetNode(Step.GetNode((NodeDirection)Step.ElvNodeDirection));
+            }
+
+            return Path;
+        }
+
+        private List<int> GateFlowFollower(ref NavGraph _NG)
+        {
+            NavNode Step = CurrentLocation;
+            List<int> Path = new List<int>();
+
+            while (Step.GatewayNodeDirection != null)
+            {
+                Path.Add(Step.UID);
+
+                Step = _NG.TryGetNode(Step.GetNode((NodeDirection)Step.GatewayNodeDirection));
+            }
+
+            return Path;
         }
 
         public void Navigate(ref NavGraph _NG)

@@ -1,4 +1,4 @@
-﻿using NavGraphTools;
+﻿using NavGraphTools.Src;
 using System.Diagnostics;
 
 namespace NavGraphTester
@@ -9,7 +9,7 @@ namespace NavGraphTester
         static Navigator Nav;
         static void Main(string[] args)
         {
-            NavNode TempNode = new NavNode();
+            NavNode TempNode;
 
             Map = new NavGraph(true);
 
@@ -87,7 +87,7 @@ namespace NavGraphTester
 
         public static NavNode NewNode()
         {
-            NavNode Temp = new NavNode();
+            NavNode? Temp = null;
             bool RoomNode = true, AcceptableInput = false;
             ConsoleKey TempCK;
 
@@ -114,6 +114,8 @@ namespace NavGraphTester
 
             } while (!AcceptableInput);
 
+            if (Temp == null)
+            {throw new NullReferenceException("Temp was null!");}
 
             Console.Clear();
 
