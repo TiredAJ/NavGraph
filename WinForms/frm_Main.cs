@@ -4,13 +4,11 @@ namespace WinForms
 {
     public partial class frm_Main : Form
     {
-        private bool NodeEditMode = false;
         private int CurNodeUID = 0;
         private int CurFloor;
         private NodeDirection CurDir;
         private string SelectedBlock = string.Empty;
         private string CurBlock;
-        private Dictionary<NodeDirection, (int UID, bool Oneway)> TempNodeConnections = new Dictionary<NodeDirection, (int UID, bool Oneway)>();
         private NavGraph NG = new NavGraph(true);
 
         public frm_Main()
@@ -217,14 +215,10 @@ namespace WinForms
             else if (Temp is GatewayNode)
             { cmbx_NodeType.SelectedItem = "Gateway"; }
 
-            TempNodeConnections.Clear();
-
             gbx_Node.Text = $"Create/Edit Node: {CurNodeUID}";
 
             btn_Node_Save.Enabled = true;
             btn_Node_Delete.Enabled = true;
-
-            NodeEditMode = true;
         }
 
         private void btn_Node_Create_Click(object sender, EventArgs e)
@@ -241,7 +235,6 @@ namespace WinForms
             RefreshNodesTree();
             ClearBox(gbx_Node);
 
-            NodeEditMode = false;
             dgv_Connections.ClearSelection();
         }
 
@@ -330,7 +323,6 @@ namespace WinForms
             btn_Node_Save.Enabled = false;
             btn_Node_Delete.Enabled = false;
 
-            NodeEditMode = false;
             dgv_Connections.ClearSelection();
         }
 
