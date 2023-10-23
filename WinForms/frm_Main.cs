@@ -4,16 +4,40 @@ namespace WinForms
 {
     public partial class frm_Main : Form
     {
-        public NavGraph NG = new NavGraph(true);
-        private string SelectedBlock = string.Empty;
+        private bool NodeEditMode = false;
         private int CurNodeUID = 0;
-        private NodeDirection CurDir;
-        private string CurBlock;
         private int CurFloor;
+        private NodeDirection CurDir;
+        private string SelectedBlock = string.Empty;
+        private string CurBlock;
         private Dictionary<NodeDirection, (int UID, bool Oneway)> TempNodeConnections = new Dictionary<NodeDirection, (int UID, bool Oneway)>();
+        private NavGraph NG = new NavGraph(true);
 
         public frm_Main()
-        { InitializeComponent(); }
+        {
+            InitializeComponent();
+
+            dgv_Connections.Rows.Add("North", null, false);
+            dgv_Connections.Rows.Add("East", null, false);
+            dgv_Connections.Rows.Add("South", null, false);
+            dgv_Connections.Rows.Add("West", null, false);
+
+            dgv_Connections.Rows[0].Tag = NodeDirection.North;
+            dgv_Connections.Rows[1].Tag = NodeDirection.East;
+            dgv_Connections.Rows[2].Tag = NodeDirection.South;
+            dgv_Connections.Rows[3].Tag = NodeDirection.West;
+
+            dgv_Connections.ClearSelection();
+
+            //dgv_Connections.Rows.Add(new DataGridViewRow()
+            //{ Tag = NodeDirection.North }.SetValues("North", new List<int>(), false));
+            //dgv_Connections.Rows.Add(new DataGridViewRow()
+            //{ Tag = NodeDirection.East }.SetValues("East", new List<int>(), false));
+            //dgv_Connections.Rows.Add(new DataGridViewRow()
+            //{ Tag = NodeDirection.South }.SetValues("South", new List<int>(), false));
+            //dgv_Connections.Rows.Add(new DataGridViewRow()
+            //{ Tag = NodeDirection.West }.SetValues("West", new List<int>(), false));
+        }
 
         #region Blocks
         private void btn_CreateBlock_Click(object sender, EventArgs e)
@@ -64,7 +88,7 @@ namespace WinForms
                 if (!(N.Value is GatewayNode))
                 {
                     foreach (var CN in N.Value.GetConnectedNodes())
-                    { Current.Nodes.Add($"{CN.Key}:{CN.Value}"); }
+                    { Current.Nodes.Add($"{CN.Key}: {CN.Value}"); }
                 }
             }
 
@@ -98,7 +122,7 @@ namespace WinForms
         private void btn_Delete_Click(object sender, EventArgs e)
         {
             NG.Blocks.Remove(SelectedBlock);
-            lstbx_AvailableNodes.Items.Remove(SelectedBlock);
+            lst_Blocks.Items.Remove(SelectedBlock);
 
             RefreshBlocksList();
             ClearBox(gbx_EditBlock);
@@ -128,19 +152,29 @@ namespace WinForms
         private void cmbx_NodeType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbx_NodeType.SelectedIndex >= 0)
-            { gbx_Node_Connections.Enabled = true; }
+            { dgv_Connections.Enabled = true; }
             else
-            { gbx_Node_Connections.Enabled = false; }
+            { dgv_Connections.Enabled = false; }
 
             if (cmbx_NodeType.SelectedItem.ToString() == "Elevation")
             {
-                cmbx_NodeDirection.Items.AddRange(new[] { "Up", "Down" });
+                dgv_Connections.Rows.Add("Up", null, false);
+                dgv_Connections.Rows.Add("Down", null, false);
+
+                dgv_Connections.Rows[4].Tag = NodeDirection.Up;
+                dgv_Connections.Rows[5].Tag = NodeDirection.Down;
+
+                dgv_Connections.Columns[2].Visible = false;
+                
                 txt_PublicName.Enabled = false;
             }
             else
             {
-                cmbx_NodeDirection.Items.Remove("Up");
-                cmbx_NodeDirection.Items.Remove("Down");
+                dgv_Connections.Rows.RemoveAt(4);
+                dgv_Connections.Rows.RemoveAt(5);
+
+                dgv_Connections.Columns[2].Visible = true;
+
                 txt_PublicName.Enabled = true;
             }
 
@@ -154,68 +188,43 @@ namespace WinForms
                 txt_Node_Tags.Enabled = false;
                 txt_PublicName.Enabled = false;
             }
+
+            if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
+            {/*extra bits*/}
         }
 
         private void nud_Node_Floor_ValueChanged(object sender, EventArgs e)
         { CurFloor = (int)nud_Node_Floor.Value; }
 
-        private void cmbx_NodeDirection_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (cmbx_NodeDirection.SelectedItem.ToString())
-            {
-                default:
-                { throw new Exception($"wtf: {cmbx_NodeDirection.SelectedItem}"); }
-                case "North":
-                { CurDir = NodeDirection.North; break; }
-                case "East":
-                { CurDir = NodeDirection.East; break; }
-                case "South":
-                { CurDir = NodeDirection.South; break; }
-                case "West":
-                { CurDir = NodeDirection.West; break; }
-                case "Up":
-                { CurDir = NodeDirection.Up; break; }
-                case "Down":
-                { CurDir = NodeDirection.Down; break; }
-            }
-
-            Task.Run(() =>
-            {
-                //Filters through all nodes to find ones that aren't connected on the
-                //selected direction (and isn't the current node)
-                var AvailableNodes = NG.GetAllNodes()
-                    .Where
-                     (
-                        X => X.Value.BlockName == CurBlock
-                        && X.Value.Floor == CurFloor
-                     )
-                    .Where
-                     (
-                        X => X.Key != CurNodeUID &&
-                        X.Value.IsAvailable(CurDir)
-                     )
-                    .Select(X => (object)X.Key)
-                    .ToArray();
-
-                lstbx_AvailableNodes.Invoke(() =>
-                {
-                    lstbx_AvailableNodes.Items.Clear();
-                    lstbx_AvailableNodes.Items.AddRange(AvailableNodes);
-                    lstbx_AvailableNodes.Refresh();
-                });
-            });
-        }
-
         private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            NavNode Temp;
             if (trvw_Nodes.SelectedNode.Text.Contains(':'))
-            {CurNodeUID = int.Parse(trvw_Nodes.SelectedNode.Text.Split([':'])[1]);}
+            { CurNodeUID = int.Parse(trvw_Nodes.SelectedNode.Text.Split(new[] { ':' })[1]); }
             else
-            {CurNodeUID = int.Parse(trvw_Nodes.SelectedNode.Text);}
+            { CurNodeUID = int.Parse(trvw_Nodes.SelectedNode.Text); }
+
+            Temp = NG.TryGetNode(CurNodeUID);
+
+            txt_InternalName.Text = Temp.InternalName;
+
+            if (Temp is CorridorNode)
+            { cmbx_NodeType.SelectedItem = "Corridor"; }
+            else if (Temp is RoomNode)
+            { cmbx_NodeType.SelectedItem = "Room"; }
+            else if (Temp is ElevationNode)
+            { cmbx_NodeType.SelectedItem = "Elevation"; }
+            else if (Temp is GatewayNode)
+            { cmbx_NodeType.SelectedItem = "Gateway"; }
 
             TempNodeConnections.Clear();
 
             gbx_Node.Text = $"Create/Edit Node: {CurNodeUID}";
+
+            btn_Node_Save.Enabled = true;
+            btn_Node_Delete.Enabled = true;
+
+            NodeEditMode = true;
         }
 
         private void btn_Node_Create_Click(object sender, EventArgs e)
@@ -231,17 +240,9 @@ namespace WinForms
 
             RefreshNodesTree();
             ClearBox(gbx_Node);
-        }
 
-        private void lstbx_AvailableNodes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int Temp = int.Parse(lstbx_AvailableNodes.SelectedItem.ToString());
-            bool IsOneWay = chkbx_OneWay.Checked;
-
-            if (TempNodeConnections.ContainsKey(CurDir))
-            { TempNodeConnections[CurDir] = (Temp, IsOneWay); }
-            else
-            { TempNodeConnections.Add(CurDir, (Temp, IsOneWay)); }
+            NodeEditMode = false;
+            dgv_Connections.ClearSelection();
         }
 
         private void Create_Elevation()
@@ -254,8 +255,11 @@ namespace WinForms
 
             CurNodeUID = NG.AddNode(EN);
 
-            foreach (var CNN in TempNodeConnections)
-            { NG.ConnectElevationNodes(CurNodeUID, CNN.Value.UID, CNN.Key); }
+            foreach (DataGridViewRow Row in dgv_Connections.Rows)
+            {
+                if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                { NG.ConnectElevationNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag); }
+            }
         }
 
         private void Create_Room()
@@ -266,12 +270,18 @@ namespace WinForms
             RN.Floor = (int)nud_Node_Floor.Value;
             RN.InternalName = txt_InternalName.Text;
             RN.RoomName = txt_PublicName.Text;
-            RN.Tags = txt_Node_Tags.Text.Split([',']).ToList();
+            RN.Tags = txt_Node_Tags.Text.Split(new[] { ',' }).ToList();
 
             CurNodeUID = NG.AddNode(RN);
 
-            foreach (var CNN in TempNodeConnections)
-            { NG.ConnectNodes(CurNodeUID, CNN.Value.UID, CNN.Key, CNN.Value.Oneway); }
+            foreach (DataGridViewRow Row in dgv_Connections.Rows)
+            {
+                if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                { NG.ConnectNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+            }
+
+            //foreach (var CNN in TempNodeConnections)
+            //{ NG.ConnectNodes(CurNodeUID, CNN.Value.UID, CNN.Key, CNN.Value.Oneway); }
         }
 
         private void Create_Corridor()
@@ -284,8 +294,11 @@ namespace WinForms
 
             CurNodeUID = NG.AddNode(CN);
 
-            foreach (var CNN in TempNodeConnections)
-            { NG.ConnectNodes(CurNodeUID, CNN.Value.UID, CNN.Key, CNN.Value.Oneway); }
+            foreach (DataGridViewRow Row in dgv_Connections.Rows)
+            {
+                if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                { NG.ConnectNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+            }
         }
 
         private void Create_Gateway()
@@ -298,8 +311,14 @@ namespace WinForms
 
             CurNodeUID = NG.AddNode(GN);
 
-            foreach (var CNN in TempNodeConnections)
-            { NG.ConnectGatewayNodes(CurNodeUID, CNN.Value.UID); }
+            foreach (DataGridViewRow Row in dgv_Connections.Rows)
+            {
+                if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                { NG.ConnectGatewayNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString())); }
+            }
+
+            //foreach (var CNN in TempNodeConnections)
+            //{ NG.ConnectGatewayNodes(CurNodeUID, CNN.Value.UID); }
         }
 
         private void btn_Node_Delete_Click(object sender, EventArgs e)
@@ -308,6 +327,11 @@ namespace WinForms
             trvw_Nodes.Nodes.Remove(trvw_Nodes.SelectedNode);
 
             trvw_Nodes.Refresh();
+            btn_Node_Save.Enabled = false;
+            btn_Node_Delete.Enabled = false;
+
+            NodeEditMode = false;
+            dgv_Connections.ClearSelection();
         }
 
         private void btn_Node_Save_Click(object sender, EventArgs e)
@@ -323,30 +347,45 @@ namespace WinForms
 
             if (TempNode is CorridorNode CN)
             {
-                foreach (var CNN in TempNodeConnections)
-                { NG.ConnectNodes(CurNodeUID, CNN.Value.UID, CNN.Key, CNN.Value.Oneway); }
+                foreach (DataGridViewRow Row in dgv_Connections.Rows)
+                {
+                    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                    { NG.ConnectNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+                }
             }
             else if (TempNode is RoomNode RN)
             {
                 RN.RoomName = txt_PublicName.Text;
-                RN.Tags = txt_Node_Tags.Text.Split([',']).ToList();
+                RN.Tags = txt_Node_Tags.Text.Split(new[] { ',' }).ToList();
 
-                foreach (var CNN in TempNodeConnections)
-                { NG.ConnectNodes(CurNodeUID, CNN.Value.UID, CNN.Key, CNN.Value.Oneway); }
+                foreach (DataGridViewRow Row in dgv_Connections.Rows)
+                {
+                    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                    { NG.ConnectNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+                }
             }
             else if (TempNode is GatewayNode GN)
             {
                 //do later, am eeeepy
-                foreach (var CNN in TempNodeConnections)
-                { NG.ConnectGatewayNodes(CurNodeUID, CNN.Value.UID); }
+                foreach (DataGridViewRow Row in dgv_Connections.Rows)
+                {
+                    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                    { NG.ConnectGatewayNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString())); }
+                }
             }
             else if (TempNode is ElevationNode EN)
             {
-                foreach (var CNN in TempNodeConnections)
-                { NG.ConnectElevationNodes(CurNodeUID, CNN.Value.UID, CNN.Key); }
+                foreach (DataGridViewRow Row in dgv_Connections.Rows)
+                {
+                    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
+                    { NG.ConnectElevationNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag); }
+                }
             }
 
             NG.SetNode(CurNodeUID, TempNode);
+
+            btn_Node_Save.Enabled = false;
+            btn_Node_Delete.Enabled = false;
         }
         #endregion
 
@@ -370,5 +409,70 @@ namespace WinForms
             }
         }
         #endregion
+
+        private void dgv_Connections_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            /*
+            Task.Run(() =>
+            {
+                //Filters through all nodes to find ones that aren't connected on the
+                //selected direction (and isn't the current node)
+                var AvailableNodes = NG.GetAllNodes()
+                    .Where
+                     (
+                        X => X.Value.BlockName == CurBlock
+                        && X.Value.Floor == CurFloor
+                     )
+                    .Where
+                     (
+                        X => X.Key != CurNodeUID &&
+                        X.Value.IsAvailable(CurDir)
+                     )
+                    .Select(X => (object)X.Key)
+                    .ToArray();
+
+                lstbx_AvailableNodes.Invoke(() =>
+                {
+                    lstbx_AvailableNodes.Items.Clear();
+                    lstbx_AvailableNodes.Items.AddRange(AvailableNodes);
+                    lstbx_AvailableNodes.Refresh();
+
+                    if (NodeEditMode)
+                    { lstbx_AvailableNodes.SelectedItem = NG.TryGetNode(CurNodeUID).Nodes[CurDir]; }
+                });
+            });
+             */
+
+            int SelectedIndex = dgv_Connections.SelectedRows[0].Index;
+
+            CurDir = (NodeDirection)dgv_Connections.Rows[SelectedIndex].Tag;
+
+            Task.Run(() =>
+            {
+                var AvailableNodes = NG.GetAllNodes()
+                    .Where
+                        (
+                        X => X.Value.BlockName == CurBlock
+                        && X.Value.Floor == CurFloor
+                        )
+                    .Where
+                        (
+                        X => X.Key != CurNodeUID &&
+                        X.Value.IsAvailable(CurDir)
+                        )
+                    .Select(X => X.Key.ToString())
+                    .ToArray();
+
+                dgv_Connections.Invoke(() =>
+                {
+                    var CMBX = (dgv_Connections.Rows[SelectedIndex].Cells[1] as DataGridViewComboBoxCell);
+
+                    CMBX.Items.Clear();
+                    CMBX.Items.AddRange(AvailableNodes);
+
+                    dgv_Connections.Refresh();
+                });
+            });
+        }
     }
 }
