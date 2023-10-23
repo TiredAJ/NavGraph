@@ -55,7 +55,7 @@ namespace NavGraphTools
         /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
         public bool DoesNodeExist(int _UID)
         {
-            if (Nodes.ContainsKey(_UID))
+            if (IsValidUID(_UID) && Nodes.ContainsKey(_UID))
             { return true; }
             else
             { return false; }
@@ -74,6 +74,11 @@ namespace NavGraphTools
         /// <returns>An integer of the count</returns>
         public int CountNodes()
         { return Nodes.Count; }
+        #endregion
+
+        #region Checks
+        public bool IsValidUID(int _UID)
+        { return NavNode.IsValidUID(_UID); }
         #endregion
 
         #region Serialising stuff

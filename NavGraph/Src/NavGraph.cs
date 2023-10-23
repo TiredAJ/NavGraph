@@ -75,6 +75,25 @@ namespace NavGraphTools
         }
         #endregion
 
+        #region Set
+        /// <summary>
+        /// Sets the node at the specified UID
+        /// </summary>
+        /// <param name="_UID">UID of node to overwrite</param>
+        /// <param name="_NewNode">New node to overwrite old data</param>
+        /// <returns><see langword="true"/> if successful, <see langword="false"/> otherwise</returns>
+        public bool SetNode(int _UID, NavNode _NewNode)
+        {
+            if (Nodes.ContainsKey(_UID))
+            {
+                Nodes[_UID] = _NewNode;
+                return true;
+            }
+            else
+            {return false;}
+        }
+        #endregion
+
         #region Connecting Nodes
         /// <summary>
         /// Connects two nodes. Parameters are from the perspective of Node A
@@ -83,32 +102,25 @@ namespace NavGraphTools
         /// <param name="_BUID">The UID of Node B</param>
         /// <param name="_Direction">Which direction A is connected to B</param>
         /// <param name="_IsOneWay">Whether the connection only goes from A to B</param>
-        /// <param name="_Overwrite">If true it will replace any exisiting connections between A and B</param>
-        public void ConnectNodes(int _AUID, int _BUID, NodeDirection _Direction, bool _IsOneWay, bool _Overwrite)
+        public void ConnectNodes(int _AUID, int _BUID, NodeDirection _Direction, bool _IsOneWay)
         {
             //checks if both nodes exists
-            if (!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID))
+            if ((!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID)))
             { throw new Exception("One or both nodes don't exist!"); }
             else if (
                 (Nodes[_AUID] is ElevationNode || Nodes[_BUID] is ElevationNode) ||
                 (Nodes[_AUID] is GatewayNode || Nodes[_BUID] is GatewayNode))
             {throw new Exception("Please do not connect Elevation or Gateway nodes with this function");}
+            else if (_Direction == NodeDirection.Up || _Direction == NodeDirection.Down)
+            {throw new Exception("_Direction is not valid for this node type");}
 
-            //checks if the user's specified overwrite or checks nodes have connections
-            if (_Overwrite ||
-                (!Nodes[_AUID].IsConnected(_Direction) &&
-                 !Nodes[_BUID].IsConnected((NodeDirection)((int)_Direction * -1))))
-            {
-                //connects node B to node A
-                Nodes[_AUID].AddConnectedNode(_BUID, _Direction);
+            //connects node B to node A
+            Nodes[_AUID].ConnectNode(_BUID, _Direction);
 
-                //checks if the user's specified the connection is one-way. If so the inverse of Node A's uid
-                //connected to B
-                if (_IsOneWay)
-                { Nodes[_BUID].AddConnectedNode(_AUID * -1, (NodeDirection)((int)_Direction * -1)); }
-                else
-                { Nodes[_BUID].AddConnectedNode(_AUID, (NodeDirection)((int)_Direction * -1)); }
-            }
+            if (_IsOneWay)
+            { Nodes[_BUID].ConnectNode(_AUID * -1, (NodeDirection)((int)_Direction * -1)); }
+            else
+            { Nodes[_BUID].ConnectNode(_AUID, (NodeDirection)((int)_Direction * -1)); }
         }
 
         /// <summary>
@@ -117,7 +129,7 @@ namespace NavGraphTools
         /// <param name="_AUID">The UID of the Elevation Node A</param>
         /// <param name="_BUID">The UID of the Elevation Node B</param>
         /// <param name="Up">Whether B connects atop A [true] or beneath [false]</param>
-        public void ConnectElevationNodes(int _AUID, int _BUID, bool Up)
+        public void ConnectElevationNodes(int _AUID, int _BUID, NodeDirection _Direction)
         {
             NavNode? TempA;
             NavNode? TempB;
@@ -125,21 +137,10 @@ namespace NavGraphTools
             //checks that both nodes exist in the dictionary and grabs the object
             if (!Nodes.TryGetValue(_AUID, out TempA) || !Nodes.TryGetValue(_BUID, out TempB))
             {throw new Exception("Node does not exist!");}
-
-            //checks if both objects are Elevation node objects and assigns a new variable as ElevationNodes
-            if (TempA is ElevationNode TA && TempB is ElevationNode TB)
+            else if (TempA is ElevationNode TA && TempB is ElevationNode TB)
             {
-                //checks if the user's defined that B is above A
-                if (Up)
-                {
-                    TA.Nodes[NodeDirection.Up] = _BUID;
-                    TB.Nodes[NodeDirection.Down] = _AUID;
-                }
-                else
-                {
-                    TB.Nodes[NodeDirection.Up] = _AUID;
-                    TA.Nodes[NodeDirection.Down] = _BUID;
-                }
+                TA.ConnectNode(_BUID, _Direction);
+                TB.ConnectNode(_AUID, _Direction);
             }
             else
             { throw new Exception("One or both nodes weren't elevation nodes!"); }
@@ -160,8 +161,8 @@ namespace NavGraphTools
 
             if (A is GatewayNode TA && B is GatewayNode TB)
             {
-                TA.Connections.Add(_BUID, TB.BlockName);
-                TB.Connections.Add(_AUID, TA.BlockName);
+                TA.ConnectNode(_BUID, TB.BlockName);
+                TB.ConnectNode(_AUID, TA.BlockName);
             }
             else
             {throw new Exception("One or both nodes aren't Gateway Nodes!");}
@@ -200,7 +201,6 @@ namespace NavGraphTools
         #endregion
 
         #region Node Checking
-
         /// <summary>
         /// Gets how many connections this node has (minimum of 0, max of 4)
         /// </summary>

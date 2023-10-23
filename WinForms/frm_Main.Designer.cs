@@ -37,6 +37,7 @@
             txt_Node_Tags = new TextBox();
             label7 = new Label();
             gbx_Node_Connections = new GroupBox();
+            chkbx_OneWay = new CheckBox();
             lstbx_AvailableNodes = new ListBox();
             label6 = new Label();
             cmbx_NodeDirection = new ComboBox();
@@ -145,6 +146,7 @@
             btn_Node_Delete.TabIndex = 16;
             btn_Node_Delete.Text = "Delete";
             btn_Node_Delete.UseVisualStyleBackColor = true;
+            btn_Node_Delete.Click += btn_Node_Delete_Click;
             // 
             // btn_Node_Save
             // 
@@ -155,6 +157,7 @@
             btn_Node_Save.TabIndex = 15;
             btn_Node_Save.Text = "Save";
             btn_Node_Save.UseVisualStyleBackColor = true;
+            btn_Node_Save.Click += btn_Node_Save_Click;
             // 
             // btn_Node_Create
             // 
@@ -185,6 +188,7 @@
             // 
             // gbx_Node_Connections
             // 
+            gbx_Node_Connections.Controls.Add(chkbx_OneWay);
             gbx_Node_Connections.Controls.Add(lstbx_AvailableNodes);
             gbx_Node_Connections.Controls.Add(label6);
             gbx_Node_Connections.Controls.Add(cmbx_NodeDirection);
@@ -196,6 +200,16 @@
             gbx_Node_Connections.TabIndex = 11;
             gbx_Node_Connections.TabStop = false;
             gbx_Node_Connections.Text = "Connections";
+            // 
+            // chkbx_OneWay
+            // 
+            chkbx_OneWay.AutoSize = true;
+            chkbx_OneWay.Location = new Point(8, 80);
+            chkbx_OneWay.Name = "chkbx_OneWay";
+            chkbx_OneWay.Size = new Size(97, 24);
+            chkbx_OneWay.TabIndex = 12;
+            chkbx_OneWay.Text = "Is one way";
+            chkbx_OneWay.UseVisualStyleBackColor = true;
             // 
             // lstbx_AvailableNodes
             // 
@@ -264,6 +278,7 @@
             nud_Node_Floor.Name = "nud_Node_Floor";
             nud_Node_Floor.Size = new Size(145, 27);
             nud_Node_Floor.TabIndex = 4;
+            nud_Node_Floor.ValueChanged += nud_Node_Floor_ValueChanged;
             // 
             // label3
             // 
@@ -297,6 +312,8 @@
             // 
             // cmbx_BlockSelect
             // 
+            cmbx_BlockSelect.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_BlockSelect.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_BlockSelect.FormattingEnabled = true;
             cmbx_BlockSelect.Location = new Point(6, 98);
             cmbx_BlockSelect.Name = "cmbx_BlockSelect";
@@ -378,6 +395,7 @@
             btn_Delete.TabIndex = 1;
             btn_Delete.Text = "Delete";
             btn_Delete.UseVisualStyleBackColor = true;
+            btn_Delete.Click += btn_Delete_Click;
             // 
             // lbl_Edit_HighestFloor
             // 
@@ -596,5 +614,6 @@
         private Button btn_Node_Create;
         private TextBox txt_Node_Tags;
         private Label label7;
+        private CheckBox chkbx_OneWay;
     }
 }

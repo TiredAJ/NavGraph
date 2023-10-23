@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -22,9 +24,10 @@ namespace NavGraphTools
         #region Member Variables
         [JsonInclude]
         public int UID { get; internal set; } = 0;
-        public string BlockName { get; set; } = "Johnstone";
+        public string BlockName { get; set; } = "Default Block";
         public int Floor { get; set; } = 0;
         public virtual string InternalName { get; set; } = "Default Node";
+
         [JsonInclude]
         public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4);
         public NodeDirection? ElvNodeDirection { get; set; }
@@ -32,11 +35,17 @@ namespace NavGraphTools
         #endregion
 
         #region Altering Connections
-        public void AddConnectedNode(int _NodeUID, NodeDirection _Direction)
-        { Nodes[_Direction] = _NodeUID; }
+        internal virtual void ConnectNode(int _NodeUID, NodeDirection _Direction)
+        {
+            if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down )
+            {Nodes[_Direction] = _NodeUID;}
+        }
 
-        public void RemoveConnectedNode(NodeDirection _Direction)
-        { Nodes[_Direction] = 0; }
+        internal virtual void RemoveConnectedNode(NodeDirection _Direction)
+        {
+            if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down)
+            {Nodes[_Direction] = 0;}
+        }
         #endregion
 
         #region Getting Connections
@@ -100,8 +109,8 @@ namespace NavGraphTools
         /// <summary>
         /// Checks if UID isn't a flag UID
         /// </summary>
-        /// <returns><see langword="true"/> if UID isn't a flag, false otherwise</returns>
-        public bool IsValidUID(int _UID)
+        /// <returns><see langword="true"/> if UID isn't a flag, <see langword="false"/> otherwise</returns>
+        public static bool IsValidUID(int _UID)
         {
             if (_UID > NavGraph.MINIMUM_UID)
             {return true;}
@@ -117,7 +126,6 @@ namespace NavGraphTools
                 $"(N: {(int)Nodes[NodeDirection.North]}), (E: {(int)Nodes[NodeDirection.East]}), " +
                 $"(S: {(int)Nodes[NodeDirection.South]}), (W: {(int)Nodes[NodeDirection.West]})";
         }
-
         #endregion
     }
 
@@ -192,7 +200,7 @@ namespace NavGraphTools
         public new NodeDirection? ElvNodeDirection { get => null; }
         #endregion
 
-        #region Getting Connections
+        #region Connections
         public override Dictionary<NodeDirection, int> GetConnectedNodes()
         {
             Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
@@ -226,6 +234,12 @@ namespace NavGraphTools
             else
             { return false; }
         }
+
+        internal override void ConnectNode(int _NodeUID, NodeDirection _Direction)
+        {Nodes[_Direction] = _NodeUID;}
+
+        internal override void RemoveConnectedNode(NodeDirection _Direction)
+        {Nodes[_Direction] = 0;}
         #endregion
     }
 
@@ -242,7 +256,6 @@ namespace NavGraphTools
         //                      ^Block name?
         //                 ^gateway UID?
         public new NodeDirection? GatewayNodeDirection { get => null; }
-
         #endregion
 
         #region Overrides
@@ -272,6 +285,20 @@ namespace NavGraphTools
         /// <returns>False, unless cosmic bitflip or some shit</returns>
         public override bool IsAvailable(NodeDirection _Direction)
         {return false;}
+
+        internal void ConnectNode(int _NodeUID, string _BlockName)
+        {
+            if (Connections.ContainsKey(_NodeUID))
+            {Connections[_NodeUID] = _BlockName;}
+            else
+            {Connections.Add(_NodeUID, _BlockName);}
+        }
+
+        internal void RemoveConnectedNode(int _NodeUID)
+        {
+            if (Connections.ContainsKey(_NodeUID))
+            {Connections.Remove(_NodeUID);}
+        }
         #endregion
     }
     #endregion

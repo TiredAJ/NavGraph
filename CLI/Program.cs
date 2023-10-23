@@ -124,14 +124,11 @@ namespace NavGraphTester
             else
             {Console.WriteLine("Creating new elevation node...\n");}
 
-            Console.Write("Block Prefix: ");
-            Temp.BlockPrefix = Console.ReadLine();
-
             Console.Write("Block Name: ");
             Temp.BlockName = Console.ReadLine();
 
             Console.Write("Floor: ");
-            Temp.Floor = Console.ReadLine();
+            Temp.Floor = int.Parse(Console.ReadLine());
 
             Console.Write("Internal Name: ");
             Temp.InternalName = Console.ReadLine();
