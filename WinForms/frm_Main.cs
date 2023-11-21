@@ -163,7 +163,7 @@ namespace WinForms
                 dgv_Connections.Rows[5].Tag = NodeDirection.Down;
 
                 dgv_Connections.Columns[2].Visible = false;
-                
+
                 txt_PublicName.Enabled = false;
             }
             else
@@ -465,6 +465,13 @@ namespace WinForms
                     dgv_Connections.Refresh();
                 });
             });
+        }
+
+        private void btn_SetSaveLocation_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog SFD = new SaveFileDialog();
+
+            
         }
     }
 }

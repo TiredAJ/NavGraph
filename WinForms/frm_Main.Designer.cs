@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            tabControl1 = new TabControl();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
             dgv_Connections = new DataGridView();
@@ -74,7 +74,14 @@
             lbl_New_BlockName = new Label();
             txt_New_BlockName = new TextBox();
             lst_Blocks = new ListBox();
-            tabControl1.SuspendLayout();
+            tbpg_Export = new TabPage();
+            btn_SetSaveLocation = new Button();
+            textBox1 = new TextBox();
+            panel1 = new Panel();
+            btn_AdminPanelExport = new Button();
+            btn_ExportBoth = new Button();
+            btn_AppExport = new Button();
+            tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_Connections).BeginInit();
@@ -87,18 +94,21 @@
             gbx_NewBlock.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nud_New_HighestFloor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_New_LowestFloor).BeginInit();
+            tbpg_Export.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // tabControl1
+            // tbctrl_MainTabs
             // 
-            tabControl1.Controls.Add(tbpg_Nodes);
-            tabControl1.Controls.Add(tbpg_Blocks);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(659, 532);
-            tabControl1.TabIndex = 0;
+            tbctrl_MainTabs.Controls.Add(tbpg_Nodes);
+            tbctrl_MainTabs.Controls.Add(tbpg_Blocks);
+            tbctrl_MainTabs.Controls.Add(tbpg_Export);
+            tbctrl_MainTabs.Dock = DockStyle.Fill;
+            tbctrl_MainTabs.Location = new Point(0, 0);
+            tbctrl_MainTabs.Name = "tbctrl_MainTabs";
+            tbctrl_MainTabs.SelectedIndex = 0;
+            tbctrl_MainTabs.Size = new Size(659, 532);
+            tbctrl_MainTabs.TabIndex = 0;
             // 
             // tbpg_Nodes
             // 
@@ -143,14 +153,14 @@
             // 
             dgv_Connections.AllowUserToAddRows = false;
             dgv_Connections.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgv_Connections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgv_Connections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgv_Connections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_Connections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_OneWay });
             dgv_Connections.Location = new Point(0, 183);
@@ -159,13 +169,13 @@
             dgv_Connections.RowTemplate.Height = 29;
             dgv_Connections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_Connections.Size = new Size(402, 181);
-            dgv_Connections.TabIndex = 13;
+            dgv_Connections.TabIndex = 5;
             dgv_Connections.CellClick += dgv_Connections_CellClick;
             // 
             // clm_NodeDirection
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle5;
             clm_NodeDirection.Frozen = true;
             clm_NodeDirection.HeaderText = "Direction";
             clm_NodeDirection.MinimumWidth = 6;
@@ -175,8 +185,8 @@
             // 
             // clm_AvailNodes
             // 
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle6;
             clm_AvailNodes.Frozen = true;
             clm_AvailNodes.HeaderText = "Available Nodes";
             clm_AvailNodes.MinimumWidth = 6;
@@ -200,7 +210,7 @@
             btn_Node_Delete.Location = new Point(296, 443);
             btn_Node_Delete.Name = "btn_Node_Delete";
             btn_Node_Delete.Size = new Size(95, 33);
-            btn_Node_Delete.TabIndex = 16;
+            btn_Node_Delete.TabIndex = 9;
             btn_Node_Delete.Text = "Delete";
             btn_Node_Delete.UseVisualStyleBackColor = true;
             btn_Node_Delete.Click += btn_Node_Delete_Click;
@@ -211,7 +221,7 @@
             btn_Node_Save.Location = new Point(159, 443);
             btn_Node_Save.Name = "btn_Node_Save";
             btn_Node_Save.Size = new Size(95, 33);
-            btn_Node_Save.TabIndex = 15;
+            btn_Node_Save.TabIndex = 8;
             btn_Node_Save.Text = "Save";
             btn_Node_Save.UseVisualStyleBackColor = true;
             btn_Node_Save.Click += btn_Node_Save_Click;
@@ -221,7 +231,7 @@
             btn_Node_Create.Location = new Point(6, 443);
             btn_Node_Create.Name = "btn_Node_Create";
             btn_Node_Create.Size = new Size(95, 33);
-            btn_Node_Create.TabIndex = 14;
+            btn_Node_Create.TabIndex = 7;
             btn_Node_Create.Text = "Create";
             btn_Node_Create.UseVisualStyleBackColor = true;
             btn_Node_Create.Click += btn_Node_Create_Click;
@@ -232,7 +242,7 @@
             txt_Node_Tags.Location = new Point(4, 398);
             txt_Node_Tags.Name = "txt_Node_Tags";
             txt_Node_Tags.Size = new Size(387, 27);
-            txt_Node_Tags.TabIndex = 13;
+            txt_Node_Tags.TabIndex = 6;
             // 
             // label7
             // 
@@ -248,7 +258,7 @@
             txt_InternalName.Location = new Point(207, 150);
             txt_InternalName.Name = "txt_InternalName";
             txt_InternalName.Size = new Size(185, 27);
-            txt_InternalName.TabIndex = 8;
+            txt_InternalName.TabIndex = 4;
             // 
             // label5
             // 
@@ -264,7 +274,7 @@
             txt_PublicName.Location = new Point(6, 150);
             txt_PublicName.Name = "txt_PublicName";
             txt_PublicName.Size = new Size(185, 27);
-            txt_PublicName.TabIndex = 6;
+            txt_PublicName.TabIndex = 3;
             // 
             // label4
             // 
@@ -280,7 +290,7 @@
             nud_Node_Floor.Location = new Point(209, 99);
             nud_Node_Floor.Name = "nud_Node_Floor";
             nud_Node_Floor.Size = new Size(145, 27);
-            nud_Node_Floor.TabIndex = 4;
+            nud_Node_Floor.TabIndex = 2;
             nud_Node_Floor.ValueChanged += nud_Node_Floor_ValueChanged;
             // 
             // label3
@@ -301,7 +311,7 @@
             cmbx_NodeType.Location = new Point(6, 46);
             cmbx_NodeType.Name = "cmbx_NodeType";
             cmbx_NodeType.Size = new Size(185, 28);
-            cmbx_NodeType.TabIndex = 1;
+            cmbx_NodeType.TabIndex = 0;
             cmbx_NodeType.SelectedIndexChanged += cmbx_NodeType_SelectedIndexChanged;
             // 
             // label2
@@ -321,7 +331,7 @@
             cmbx_BlockSelect.Location = new Point(6, 98);
             cmbx_BlockSelect.Name = "cmbx_BlockSelect";
             cmbx_BlockSelect.Size = new Size(185, 28);
-            cmbx_BlockSelect.TabIndex = 2;
+            cmbx_BlockSelect.TabIndex = 1;
             cmbx_BlockSelect.SelectedIndexChanged += cmbx_BlockSelect_SelectedIndexChanged;
             // 
             // label1
@@ -341,7 +351,7 @@
             trvw_Nodes.Location = new Point(3, 3);
             trvw_Nodes.Name = "trvw_Nodes";
             trvw_Nodes.Size = new Size(246, 493);
-            trvw_Nodes.TabIndex = 2;
+            trvw_Nodes.TabIndex = 200;
             trvw_Nodes.AfterSelect += trvw_Nodes_AfterSelect;
             // 
             // tbpg_Blocks
@@ -390,14 +400,14 @@
             nud_Edit_HighestFloor.Location = new Point(120, 132);
             nud_Edit_HighestFloor.Name = "nud_Edit_HighestFloor";
             nud_Edit_HighestFloor.Size = new Size(98, 27);
-            nud_Edit_HighestFloor.TabIndex = 13;
+            nud_Edit_HighestFloor.TabIndex = 7;
             // 
             // btn_Delete
             // 
             btn_Delete.Location = new Point(6, 212);
             btn_Delete.Name = "btn_Delete";
             btn_Delete.Size = new Size(111, 39);
-            btn_Delete.TabIndex = 1;
+            btn_Delete.TabIndex = 8;
             btn_Delete.Text = "Delete";
             btn_Delete.UseVisualStyleBackColor = true;
             btn_Delete.Click += btn_Delete_Click;
@@ -416,7 +426,7 @@
             btn_SaveBlock.Location = new Point(138, 212);
             btn_SaveBlock.Name = "btn_SaveBlock";
             btn_SaveBlock.Size = new Size(111, 39);
-            btn_SaveBlock.TabIndex = 0;
+            btn_SaveBlock.TabIndex = 9;
             btn_SaveBlock.Text = "Save";
             btn_SaveBlock.UseVisualStyleBackColor = true;
             btn_SaveBlock.Click += btn_SaveBlock_Click;
@@ -428,7 +438,7 @@
             nud_Edit_LowestFloor.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             nud_Edit_LowestFloor.Name = "nud_Edit_LowestFloor";
             nud_Edit_LowestFloor.Size = new Size(89, 27);
-            nud_Edit_LowestFloor.TabIndex = 11;
+            nud_Edit_LowestFloor.TabIndex = 6;
             // 
             // lbl_Edit_BlockName
             // 
@@ -453,8 +463,8 @@
             txt_Edit_BlockName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txt_Edit_BlockName.Location = new Point(6, 62);
             txt_Edit_BlockName.Name = "txt_Edit_BlockName";
-            txt_Edit_BlockName.Size = new Size(212, 34);
-            txt_Edit_BlockName.TabIndex = 8;
+            txt_Edit_BlockName.Size = new Size(212, 29);
+            txt_Edit_BlockName.TabIndex = 5;
             // 
             // gbx_NewBlock
             // 
@@ -478,7 +488,7 @@
             btn_CreateBlock.Location = new Point(6, 181);
             btn_CreateBlock.Name = "btn_CreateBlock";
             btn_CreateBlock.Size = new Size(111, 39);
-            btn_CreateBlock.TabIndex = 1;
+            btn_CreateBlock.TabIndex = 4;
             btn_CreateBlock.Text = "Create";
             btn_CreateBlock.UseVisualStyleBackColor = true;
             btn_CreateBlock.Click += btn_CreateBlock_Click;
@@ -488,7 +498,7 @@
             nud_New_HighestFloor.Location = new Point(124, 129);
             nud_New_HighestFloor.Name = "nud_New_HighestFloor";
             nud_New_HighestFloor.Size = new Size(98, 27);
-            nud_New_HighestFloor.TabIndex = 7;
+            nud_New_HighestFloor.TabIndex = 3;
             // 
             // lbl_New_HighestFloor
             // 
@@ -506,7 +516,7 @@
             nud_New_LowestFloor.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             nud_New_LowestFloor.Name = "nud_New_LowestFloor";
             nud_New_LowestFloor.Size = new Size(89, 27);
-            nud_New_LowestFloor.TabIndex = 5;
+            nud_New_LowestFloor.TabIndex = 2;
             // 
             // lbl_New_LowestFloor
             // 
@@ -531,7 +541,7 @@
             txt_New_BlockName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txt_New_BlockName.Location = new Point(10, 59);
             txt_New_BlockName.Name = "txt_New_BlockName";
-            txt_New_BlockName.Size = new Size(212, 34);
+            txt_New_BlockName.Size = new Size(212, 29);
             txt_New_BlockName.TabIndex = 1;
             // 
             // lst_Blocks
@@ -542,18 +552,87 @@
             lst_Blocks.Location = new Point(3, 3);
             lst_Blocks.Name = "lst_Blocks";
             lst_Blocks.Size = new Size(234, 493);
-            lst_Blocks.TabIndex = 4;
+            lst_Blocks.TabIndex = 200;
             lst_Blocks.SelectedIndexChanged += lst_Blocks_SelectedIndexChanged;
+            // 
+            // tbpg_Export
+            // 
+            tbpg_Export.Controls.Add(btn_SetSaveLocation);
+            tbpg_Export.Controls.Add(textBox1);
+            tbpg_Export.Controls.Add(panel1);
+            tbpg_Export.Location = new Point(4, 29);
+            tbpg_Export.Name = "tbpg_Export";
+            tbpg_Export.Padding = new Padding(3);
+            tbpg_Export.Size = new Size(651, 499);
+            tbpg_Export.TabIndex = 2;
+            tbpg_Export.Text = "Export";
+            tbpg_Export.UseVisualStyleBackColor = true;
+            // 
+            // btn_SetSaveLocation
+            // 
+            btn_SetSaveLocation.Location = new Point(247, 49);
+            btn_SetSaveLocation.Name = "btn_SetSaveLocation";
+            btn_SetSaveLocation.Size = new Size(151, 27);
+            btn_SetSaveLocation.TabIndex = 1;
+            btn_SetSaveLocation.Text = "Choose save location";
+            btn_SetSaveLocation.UseVisualStyleBackColor = true;
+            btn_SetSaveLocation.Click += btn_SetSaveLocation_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            textBox1.Location = new Point(8, 6);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(635, 33);
+            textBox1.TabIndex = 0;
+            textBox1.WordWrap = false;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btn_AdminPanelExport);
+            panel1.Controls.Add(btn_ExportBoth);
+            panel1.Controls.Add(btn_AppExport);
+            panel1.Location = new Point(0, 82);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(651, 317);
+            panel1.TabIndex = 3;
+            // 
+            // btn_AdminPanelExport
+            // 
+            btn_AdminPanelExport.Location = new Point(121, 129);
+            btn_AdminPanelExport.Name = "btn_AdminPanelExport";
+            btn_AdminPanelExport.Size = new Size(399, 53);
+            btn_AdminPanelExport.TabIndex = 3;
+            btn_AdminPanelExport.Text = "Export for FARap";
+            btn_AdminPanelExport.UseVisualStyleBackColor = true;
+            // 
+            // btn_ExportBoth
+            // 
+            btn_ExportBoth.Location = new Point(121, 213);
+            btn_ExportBoth.Name = "btn_ExportBoth";
+            btn_ExportBoth.Size = new Size(399, 53);
+            btn_ExportBoth.TabIndex = 4;
+            btn_ExportBoth.Text = "Export for Both";
+            btn_ExportBoth.UseVisualStyleBackColor = true;
+            // 
+            // btn_AppExport
+            // 
+            btn_AppExport.Location = new Point(121, 48);
+            btn_AppExport.Name = "btn_AppExport";
+            btn_AppExport.Size = new Size(399, 53);
+            btn_AppExport.TabIndex = 2;
+            btn_AppExport.Text = "Export for FARa";
+            btn_AppExport.UseVisualStyleBackColor = true;
             // 
             // frm_Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(659, 532);
-            Controls.Add(tabControl1);
+            Controls.Add(tbctrl_MainTabs);
             Name = "frm_Main";
             Text = "Main";
-            tabControl1.ResumeLayout(false);
+            tbctrl_MainTabs.ResumeLayout(false);
             tbpg_Nodes.ResumeLayout(false);
             gbx_Node.ResumeLayout(false);
             gbx_Node.PerformLayout();
@@ -569,12 +648,15 @@
             gbx_NewBlock.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nud_New_HighestFloor).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_New_LowestFloor).EndInit();
+            tbpg_Export.ResumeLayout(false);
+            tbpg_Export.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TabControl tabControl1;
+        private TabControl tbctrl_MainTabs;
         private TabPage tbpg_Nodes;
         private GroupBox gbx_EditNode;
         private GroupBox gbx_Node;
@@ -619,5 +701,12 @@
         private DataGridViewTextBoxColumn clm_NodeDirection;
         private DataGridViewComboBoxColumn clm_AvailNodes;
         private DataGridViewCheckBoxColumn clm_OneWay;
+        private TabPage tbpg_Export;
+        private Button btn_SetSaveLocation;
+        private TextBox textBox1;
+        private Panel panel1;
+        private Button btn_AdminPanelExport;
+        private Button btn_ExportBoth;
+        private Button btn_AppExport;
     }
 }
