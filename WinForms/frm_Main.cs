@@ -12,6 +12,8 @@ namespace WinForms
         private string SelectedBlock = string.Empty;
         private string CurBlock;
         private NavGraph NG = new NavGraph(true);
+        private string? DefaultFileLoc = null;
+        private SaveFileDialog SFD = new SaveFileDialog();
 
         public frm_Main()
         {
@@ -54,9 +56,20 @@ namespace WinForms
 
         private void btn_SetSaveLocation_Click(object sender, EventArgs e)
         {
-            SaveFileDialog SFD = new SaveFileDialog();
+            SFD = new SaveFileDialog()
+            {
+                AddExtension = true,
+                CheckPathExists = true,
+                CheckWriteAccess = true,
+                DefaultExt = "APJSON",
+                CreatePrompt = true,
+                Filter = ".APJSON"
+            };
 
-
+            if (DefaultFileLoc == null)
+            { SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
+            else
+            { SFD.InitialDirectory = DefaultFileLoc; }
         }
     }
 }

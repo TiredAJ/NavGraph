@@ -250,7 +250,7 @@ namespace WinForms
                         (
                             X => X.Value.BlockName == CurBlock
                             && X.Value.Floor == CurFloor
-                            && X.Value.IsAvailable(CurDir)
+                            && X.Value.IsAvailable((NodeDirection)((int)CurDir * -1))
                         )
                         .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
                         .ToArray();
@@ -415,6 +415,6 @@ namespace WinForms
         /// </summary>
         /// <returns>int extracted from input</returns>
         public static int SplitNodeID(this string _In)
-        { return int.Parse(_In.Split(" ").First()); }
+        { return int.Parse(_In.Split(new[] { ' ', ':' }).First()); }
     }
 }

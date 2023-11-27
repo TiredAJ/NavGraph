@@ -28,17 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
-            dgv_GatewayConnections = new DataGridView();
-            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
-            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
             dgv_NodeConnections = new DataGridView();
             clm_NodeDirection = new DataGridViewTextBoxColumn();
             clm_AvailNodes = new DataGridViewComboBoxColumn();
@@ -58,6 +55,9 @@
             label2 = new Label();
             cmbx_BlockSelect = new ComboBox();
             label1 = new Label();
+            dgv_GatewayConnections = new DataGridView();
+            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
+            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
             trvw_Nodes = new TreeView();
             tbpg_Blocks = new TabPage();
             pnl_Right_Blocks = new Panel();
@@ -89,9 +89,9 @@
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgv_NodeConnections).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).BeginInit();
             tbpg_Blocks.SuspendLayout();
             pnl_Right_Blocks.SuspendLayout();
             gbx_EditBlock.SuspendLayout();
@@ -155,51 +155,6 @@
             gbx_Node.TabIndex = 0;
             gbx_Node.TabStop = false;
             gbx_Node.Text = "Create/Edit Node";
-            // 
-            // dgv_GatewayConnections
-            // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn1 });
-            dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv_GatewayConnections.Location = new Point(0, 183);
-            dgv_GatewayConnections.MultiSelect = false;
-            dgv_GatewayConnections.Name = "dgv_GatewayConnections";
-            dgv_GatewayConnections.RowHeadersWidth = 51;
-            dgv_GatewayConnections.RowTemplate.Height = 29;
-            dgv_GatewayConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_GatewayConnections.Size = new Size(402, 181);
-            dgv_GatewayConnections.TabIndex = 13;
-            dgv_GatewayConnections.TabStop = false;
-            dgv_GatewayConnections.CellClick += dgv_GatewayConnections_CellClick;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewComboBoxColumn1.Frozen = true;
-            dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
-            dataGridViewComboBoxColumn1.MinimumWidth = 6;
-            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
-            dataGridViewComboBoxColumn1.Width = 125;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            dataGridViewCheckBoxColumn1.Frozen = true;
-            dataGridViewCheckBoxColumn1.HeaderText = "Is one way?";
-            dataGridViewCheckBoxColumn1.MinimumWidth = 6;
-            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            dataGridViewCheckBoxColumn1.Resizable = DataGridViewTriState.True;
-            dataGridViewCheckBoxColumn1.SortMode = DataGridViewColumnSortMode.Automatic;
-            dataGridViewCheckBoxColumn1.Width = 80;
             // 
             // dgv_NodeConnections
             // 
@@ -396,6 +351,51 @@
             label1.Size = new Size(45, 20);
             label1.TabIndex = 0;
             label1.Text = "Block";
+            // 
+            // dgv_GatewayConnections
+            // 
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn1 });
+            dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
+            dgv_GatewayConnections.Location = new Point(0, 183);
+            dgv_GatewayConnections.MultiSelect = false;
+            dgv_GatewayConnections.Name = "dgv_GatewayConnections";
+            dgv_GatewayConnections.RowHeadersWidth = 51;
+            dgv_GatewayConnections.RowTemplate.Height = 29;
+            dgv_GatewayConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_GatewayConnections.Size = new Size(402, 181);
+            dgv_GatewayConnections.TabIndex = 13;
+            dgv_GatewayConnections.TabStop = false;
+            dgv_GatewayConnections.CellClick += dgv_GatewayConnections_CellClick;
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewComboBoxColumn1.Frozen = true;
+            dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
+            dataGridViewComboBoxColumn1.MinimumWidth = 6;
+            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
+            dataGridViewComboBoxColumn1.Width = 125;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            dataGridViewCheckBoxColumn1.Frozen = true;
+            dataGridViewCheckBoxColumn1.HeaderText = "Is one way?";
+            dataGridViewCheckBoxColumn1.MinimumWidth = 6;
+            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            dataGridViewCheckBoxColumn1.Resizable = DataGridViewTriState.True;
+            dataGridViewCheckBoxColumn1.SortMode = DataGridViewColumnSortMode.Automatic;
+            dataGridViewCheckBoxColumn1.Width = 80;
             // 
             // trvw_Nodes
             // 
@@ -691,9 +691,9 @@
             tbpg_Nodes.ResumeLayout(false);
             gbx_Node.ResumeLayout(false);
             gbx_Node.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv_NodeConnections).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).EndInit();
             tbpg_Blocks.ResumeLayout(false);
             pnl_Right_Blocks.ResumeLayout(false);
             gbx_EditBlock.ResumeLayout(false);
