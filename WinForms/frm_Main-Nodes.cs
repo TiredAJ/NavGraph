@@ -56,7 +56,7 @@ namespace WinForms
                 foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
                 {
                     if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-                    { NG.ConnectNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+                    { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
                 }
             }
             else if (TempNode is RoomNode RN)
@@ -161,7 +161,9 @@ namespace WinForms
             }
 
             if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
-            {/*extra bits*/}
+            { dgv_GatewayConnections.BringToFront(); }
+            else
+            { dgv_NodeConnections.BringToFront(); }
         }
 
         private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
@@ -201,7 +203,7 @@ namespace WinForms
             Task.Run(() =>
             {
                 //Filters through all nodes to find ones that aren't connected on the
-                //selected direction (and isn't the current node)
+                //selected direction (and isn't the current GN)
                 var AvailableNodes = NG.GetAllNodes()
                     .Where
                      (
@@ -228,7 +230,9 @@ namespace WinForms
             });
              */
 
-            int SelectedIndex = dgv_NodeConnections.SelectedRows[0].Index;
+            //int SelectedIndex = dgv_NodeConnections.SelectedRows[0].Index;
+
+            int SelectedIndex = e.RowIndex;
 
             if (dgv_NodeConnections.Rows[SelectedIndex].Tag != null)
             { CurDir = (NodeDirection)dgv_NodeConnections.Rows[SelectedIndex].Tag; }
@@ -253,7 +257,9 @@ namespace WinForms
 
                     dgv_NodeConnections.Invoke(() =>
                     {
-                        var CMBX = (dgv_NodeConnections.Rows[SelectedIndex].Cells[1] as DataGridViewComboBoxCell);
+                        var CMBX = (dgv_NodeConnections.Rows[SelectedIndex]
+                                                            .Cells[1]
+                                                            as DataGridViewComboBoxCell);
 
                         if (CMBX != null)
                         {
@@ -268,7 +274,6 @@ namespace WinForms
                 SW.Stop();
                 Debug.WriteLine($"Retrieving Nodes took {SW.ElapsedMilliseconds}ms");
             }
-
         }
 
         private void ResetNC_DGV()
@@ -286,7 +291,44 @@ namespace WinForms
 
         private void dgv_GatewayConnections_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            Stopwatch SW = new Stopwatch();
 
+            if (e.ColumnIndex == 0)
+            {
+                SW.Start();
+
+                Task.Run(() =>
+                {
+                    var AvailableNodes = NG.GetAllNodes()
+                        .AsParallel()
+                        .Where(X => X.Key != CurNodeUID)
+                        .Where
+                        (
+                            X => X.Value is GatewayNode GN
+                            && !GN.IsConnected(CurNodeUID)
+                        )
+                        .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                        .ToArray();
+
+                    dgv_NodeConnections.Invoke(() =>
+                    {
+                        var CMBX = (dgv_GatewayConnections.Rows[e.RowIndex]
+                                                            .Cells[e.ColumnIndex]
+                                                            as DataGridViewComboBoxCell);
+
+                        if (CMBX != null)
+                        {
+                            CMBX.Items.Clear();
+                            CMBX.Items.AddRange(AvailableNodes);
+                        }
+
+                        dgv_NodeConnections.Refresh();
+                    });
+                });
+
+                SW.Stop();
+                Debug.WriteLine($"Retrieving Nodes took {SW.ElapsedMilliseconds}ms");
+            }
         }
 
         private void Create_Elevation()

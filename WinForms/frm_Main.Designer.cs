@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -130,7 +130,6 @@
             // 
             // gbx_Node
             // 
-            gbx_Node.Controls.Add(dgv_GatewayConnections);
             gbx_Node.Controls.Add(dgv_NodeConnections);
             gbx_Node.Controls.Add(btn_Node_Delete);
             gbx_Node.Controls.Add(btn_Node_Save);
@@ -147,6 +146,7 @@
             gbx_Node.Controls.Add(label2);
             gbx_Node.Controls.Add(cmbx_BlockSelect);
             gbx_Node.Controls.Add(label1);
+            gbx_Node.Controls.Add(dgv_GatewayConnections);
             gbx_Node.Dock = DockStyle.Fill;
             gbx_Node.Location = new Point(350, 3);
             gbx_Node.Name = "gbx_Node";
@@ -158,31 +158,32 @@
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv_GatewayConnections.Location = new Point(128, 251);
+            dgv_GatewayConnections.Location = new Point(0, 183);
             dgv_GatewayConnections.MultiSelect = false;
             dgv_GatewayConnections.Name = "dgv_GatewayConnections";
             dgv_GatewayConnections.RowHeadersWidth = 51;
             dgv_GatewayConnections.RowTemplate.Height = 29;
             dgv_GatewayConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_GatewayConnections.Size = new Size(226, 113);
+            dgv_GatewayConnections.Size = new Size(402, 181);
             dgv_GatewayConnections.TabIndex = 13;
+            dgv_GatewayConnections.TabStop = false;
             dgv_GatewayConnections.CellClick += dgv_GatewayConnections_CellClick;
             // 
             // dataGridViewComboBoxColumn1
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle5;
             dataGridViewComboBoxColumn1.Frozen = true;
             dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
             dataGridViewComboBoxColumn1.MinimumWidth = 6;
@@ -204,14 +205,14 @@
             // 
             dgv_NodeConnections.AllowUserToAddRows = false;
             dgv_NodeConnections.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv_NodeConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_NodeConnections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_OneWay });
             dgv_NodeConnections.Location = new Point(0, 183);
@@ -219,14 +220,15 @@
             dgv_NodeConnections.RowHeadersWidth = 51;
             dgv_NodeConnections.RowTemplate.Height = 29;
             dgv_NodeConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_NodeConnections.Size = new Size(402, 181);
+            dgv_NodeConnections.Size = new Size(404, 181);
             dgv_NodeConnections.TabIndex = 5;
+            dgv_NodeConnections.TabStop = false;
             dgv_NodeConnections.CellClick += dgv_NodeConnections_CellClick;
             // 
             // clm_NodeDirection
             // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle2;
             clm_NodeDirection.Frozen = true;
             clm_NodeDirection.HeaderText = "Direction";
             clm_NodeDirection.MinimumWidth = 6;
@@ -236,8 +238,8 @@
             // 
             // clm_AvailNodes
             // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle3;
             clm_AvailNodes.Frozen = true;
             clm_AvailNodes.HeaderText = "Available Nodes";
             clm_AvailNodes.MinimumWidth = 6;

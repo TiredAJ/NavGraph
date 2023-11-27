@@ -83,6 +83,19 @@ namespace NavGraphTools
         }
 
         /// <summary>
+        /// Checks if a UID is connected on any direction
+        /// </summary>
+        /// <param name="_UID">The UID to check</param>
+        /// <returns>[true] if it is connected, else [false]</returns>
+        public bool IsConnected(int _UID)
+        {
+            if (Nodes.ContainsValue(_UID))
+            { return true; }
+            else
+            { return false; }
+        }
+
+        /// <summary>
         /// Checks if a node can connect on this direction
         /// </summary>
         /// <param name="_Direction"></param>
@@ -281,6 +294,14 @@ namespace NavGraphTools
         /// <returns>False, unless cosmic bitflip or some shit</returns>
         public override bool IsAvailable(NodeDirection _Direction)
         { return false; }
+
+        public new bool IsConnected(int _UID)
+        {
+            if (Connections.ContainsKey(_UID))
+            { return true; }
+            else
+            { return false; }
+        }
 
         internal void ConnectNode(int _NodeUID, string _BlockName)
         {
