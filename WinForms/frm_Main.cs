@@ -14,6 +14,8 @@ namespace WinForms
         private NavGraph NG = new NavGraph(true);
         private string? DefaultFileLoc = null;
         private SaveFileDialog SFD = new SaveFileDialog();
+        private Stream? FileSaveS = null;
+
 
         public frm_Main()
         {
@@ -63,7 +65,7 @@ namespace WinForms
                 CheckWriteAccess = true,
                 DefaultExt = "APJSON",
                 CreatePrompt = true,
-                Filter = ".APJSON"
+                Filter = "Admin Panel NavGraph JSON file (*.apjson)|*.apjson"
             };
 
             if (DefaultFileLoc == null)

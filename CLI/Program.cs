@@ -20,9 +20,9 @@ namespace NavGraphTester
                 Console.Clear();
 
                 if (Map.CountNodes() > 0)
-                {Console.WriteLine($"Map currently contains {Map.CountNodes()} Nodes\n");}
+                { Console.WriteLine($"Map currently contains {Map.CountNodes()} Nodes\n"); }
                 else
-                {Console.WriteLine("Map currently contains no nodes\n");}
+                { Console.WriteLine("Map currently contains no nodes\n"); }
 
                 Console.Write("What would you like to do?\n\t[0] Create Node");
                 Console.Write("\n\t[1] Connect nodes\n\t[2] Connect Elevation Nodes\n\t[3] Remove node");
@@ -41,17 +41,17 @@ namespace NavGraphTester
                     case ConsoleKey.D2:
                     {
                         ConnectElevationNodes();
-                        break; 
+                        break;
                     }
                     case ConsoleKey.D3:
                     {
                         RemoveNode();
-                        break; 
+                        break;
                     }
                     case ConsoleKey.D4:
                     {
                         ListNodes(false);
-                        break; 
+                        break;
                     }
                     case ConsoleKey.D5:
                     {
@@ -76,10 +76,10 @@ namespace NavGraphTester
 
                             Console.WriteLine("\nWould you like to make another? [y]/[n] ");
                         } while (DebugReadKey() != ConsoleKey.N);
-                        break; 
+                        break;
                     }
                     default:
-                    {break;}
+                    { break; }
                 }
 
             } while (true);
@@ -115,14 +115,14 @@ namespace NavGraphTester
             } while (!AcceptableInput);
 
             if (Temp == null)
-            {throw new NullReferenceException("Temp was null!");}
+            { throw new NullReferenceException("Temp was null!"); }
 
             Console.Clear();
 
             if (RoomNode)
-            {Console.WriteLine("Creating new room node...\n");}
+            { Console.WriteLine("Creating new room node...\n"); }
             else
-            {Console.WriteLine("Creating new elevation node...\n");}
+            { Console.WriteLine("Creating new elevation node...\n"); }
 
             Console.Write("Block Name: ");
             Temp.BlockName = Console.ReadLine();
@@ -176,7 +176,7 @@ namespace NavGraphTester
                     ValidInput = true;
                 }
                 else if (Input == ConsoleKey.N)
-                {ValidInput = true;}
+                { ValidInput = true; }
                 else
                 {
                     Console.WriteLine("Key not recognised");
@@ -225,13 +225,13 @@ namespace NavGraphTester
             Input = DebugReadKey();
 
             if (Input == ConsoleKey.Y)
-            {IsOneWay = true;}
+            { IsOneWay = true; }
             else if (Input == ConsoleKey.N)
-            {IsOneWay = false;}
+            { IsOneWay = false; }
             else
-            {Console.WriteLine("Unrecognised key");}
+            { Console.WriteLine("Unrecognised key"); }
 
-            Map.ConnectNodes(RoomA, RoomB, ND,IsOneWay, false);
+            Map.ConnectNodes(RoomA, RoomB, ND, IsOneWay, false);
         }
 
         public static void ConnectElevationNodes()
@@ -262,12 +262,12 @@ namespace NavGraphTester
             int.TryParse(Console.ReadLine(), out B);
 
             Console.Write("Does B connect atop A? [Y/N] ");
-            if(DebugReadKey() == ConsoleKey.Y)
-            {Up = true;}
+            if (DebugReadKey() == ConsoleKey.Y)
+            { Up = true; }
             else
-            {Up = false;}
+            { Up = false; }
 
-            Map.ConnectElevationNodes(A, B,Up);
+            Map.ConnectElevationNodes(A, B, Up);
         }
 
         public static void RemoveNode()
@@ -298,7 +298,7 @@ namespace NavGraphTester
             CK = DebugReadKey();
 
             if (CK == ConsoleKey.R)
-            {Map.RemoveNode(UIDToRemove);}
+            { Map.RemoveNode(UIDToRemove); }
             else if (CK == ConsoleKey.P)
             {
 
@@ -319,10 +319,10 @@ namespace NavGraphTester
                 if (IncludeConnectedNodes && N.Value.GetConnectedNodes().Count > 0)
                 {
                     foreach (KeyValuePair<NodeDirection, int> iN in N.Value.GetConnectedNodes())
-                    {Console.WriteLine($"\t\\ {iN.Key} -> {iN.Value}");}
+                    { Console.WriteLine($"\t\\ {iN.Key} -> {iN.Value}"); }
                 }
                 else if (IncludeConnectedNodes)
-                {Console.WriteLine("\t\\ No connected Nodes");}
+                { Console.WriteLine("\t\\ No connected Nodes"); }
             }
 
             Console.WriteLine("Press any key to return");
@@ -333,8 +333,8 @@ namespace NavGraphTester
         {
             var Nodes = Map.GetAllNodes().Where(KVP => KVP.Value is T);
 
-            foreach (var N in Nodes) 
-            {Console.WriteLine($"\tUID: {N.Key}, Room: {((ElevationNode)N.Value).InternalName}");}
+            foreach (var N in Nodes)
+            { Console.WriteLine($"\tUID: {N.Key}, Room: {((ElevationNode)N.Value).InternalName}"); }
         }
 
         public static void Serialise()
@@ -342,7 +342,7 @@ namespace NavGraphTester
             string FileLoc = "../Data.txt";
 
             using (FileStream FS = new FileStream(FileLoc, FileMode.OpenOrCreate))
-            {Map.Serialise(FS);}
+            { Map.Serialise(FS); }
         }
 
         public static void Deserialise()
@@ -350,7 +350,7 @@ namespace NavGraphTester
             string FileLoc = "../Data.txt";
 
             using (FileStream FS = new FileStream(FileLoc, FileMode.Open))
-            {Map.Deserialise(FS);}
+            { Map.Deserialise(FS); }
         }
 
         public static ConsoleKey DebugReadKey()
