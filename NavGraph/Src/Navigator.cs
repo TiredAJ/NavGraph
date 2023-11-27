@@ -1,18 +1,13 @@
-﻿using NavGraphTools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Ignore Spelling: Nav Dest
 
 namespace NavGraphTools
 {
     public class Navigator
     {
         #region Variables
-        private NavNode Origin { get; set; }
-        private NavNode Destination { get; set; }
-        private NavNode CurrentLocation = null;
+        private NavNode? Origin { get; set; }
+        private NavNode? Destination { get; set; }
+        private NavNode? CurrentLocation = null;
 
         //states
         private bool IsSFloor = false;
@@ -45,14 +40,14 @@ namespace NavGraphTools
             return Path;
         }
 
-        public List<int> Nearest<T>(ref NavGraph _NG) where T : SpecialNodes
+        public List<int> Nearest<T>(ref NavGraph _NG) where T : ISpecialNodes
         {
             List<int> Path = new List<int>();
 
             if (typeof(T) == typeof(ElevationNode) && CurrentLocation.ElvNodeDirection != null)
-            {return ElvFlowFollower(ref _NG);}
+            { return ElvFlowFollower(ref _NG); }
             else if (typeof(T) == typeof(GatewayNode) && CurrentLocation.GatewayNodeDirection != null)
-            {return GateFlowFollower(ref _NG);}
+            { return GateFlowFollower(ref _NG); }
 
             return new List<int>();
         }

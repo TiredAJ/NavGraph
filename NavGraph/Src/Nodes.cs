@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Ignore Spelling: Nav UID Elv
+
+using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -37,14 +37,14 @@ namespace NavGraphTools
         #region Altering Connections
         internal virtual void ConnectNode(int _NodeUID, NodeDirection _Direction)
         {
-            if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down )
-            {Nodes[_Direction] = _NodeUID;}
+            if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down)
+            { Nodes[_Direction] = _NodeUID; }
         }
 
         internal virtual void RemoveConnectedNode(NodeDirection _Direction)
         {
             if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down)
-            {Nodes[_Direction] = 0;}
+            { Nodes[_Direction] = 0; }
         }
         #endregion
 
@@ -90,11 +90,11 @@ namespace NavGraphTools
         public virtual bool IsAvailable(NodeDirection _Direction)
         {
             if (_Direction == NodeDirection.Up || _Direction == NodeDirection.Down)
-            {return false;}
+            { return false; }
             else if (Nodes[_Direction] == 0)
-            {return true;}
+            { return true; }
             else
-            {return false;}
+            { return false; }
         }
         #endregion
 
@@ -113,11 +113,11 @@ namespace NavGraphTools
         public static bool IsValidUID(int _UID)
         {
             if (_UID > NavGraph.MINIMUM_UID)
-            {return true;}
+            { return true; }
             else if (_UID < (NavGraph.MINIMUM_UID * -1))
-            {return true;}
+            { return true; }
             else
-            {return false;}
+            { return false; }
         }
 
         public override string ToString()
@@ -132,7 +132,7 @@ namespace NavGraphTools
     /// <summary>
     /// DO NOT USE. It's just so I can use a where constraint on Elv & Gateway
     /// </summary>
-    public interface SpecialNodes
+    public interface ISpecialNodes
     { }
     #endregion
 
@@ -148,8 +148,6 @@ namespace NavGraphTools
             {NodeDirection.South, 0 },
             {NodeDirection.West, 0 }
         };
-        public NodeDirection ElvNodeDirection { get; set; }
-        public NodeDirection GatewayNodeDirection { get; set; }
     }
 
     [JsonSerializable(typeof(RoomNode))]
@@ -170,8 +168,6 @@ namespace NavGraphTools
 
         [ListStringLength(50, true)]
         public List<string> Tags { get; set; } = new List<string>();
-        public NodeDirection ElvNodeDirection { get; set; }
-        public NodeDirection GatewayNodeDirection { get; set; }
         #endregion
 
         #region Overrides
@@ -182,7 +178,7 @@ namespace NavGraphTools
     }
 
     [JsonSerializable(typeof(ElevationNode))]
-    public class ElevationNode : NavNode, SpecialNodes
+    public class ElevationNode : NavNode, ISpecialNodes
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Elevation";
@@ -236,15 +232,15 @@ namespace NavGraphTools
         }
 
         internal override void ConnectNode(int _NodeUID, NodeDirection _Direction)
-        {Nodes[_Direction] = _NodeUID;}
+        { Nodes[_Direction] = _NodeUID; }
 
         internal override void RemoveConnectedNode(NodeDirection _Direction)
-        {Nodes[_Direction] = 0;}
+        { Nodes[_Direction] = 0; }
         #endregion
     }
 
     [JsonSerializable(typeof(GatewayNode))]
-    public class GatewayNode : NavNode, SpecialNodes
+    public class GatewayNode : NavNode, ISpecialNodes
     {
         #region Member Variables        
         //Throws exception because Nodes shouldn't be used for gateways
@@ -274,7 +270,7 @@ namespace NavGraphTools
             StringBuilder SB = new StringBuilder();
 
             foreach (var CN in Connections)
-            {SB.Append($"Block: {CN.Key}, UID: {CN.Value}\n");}
+            { SB.Append($"Block: {CN.Key}, UID: {CN.Value}\n"); }
 
             return SB.ToString();
         }
@@ -284,20 +280,20 @@ namespace NavGraphTools
         /// </summary>
         /// <returns>False, unless cosmic bitflip or some shit</returns>
         public override bool IsAvailable(NodeDirection _Direction)
-        {return false;}
+        { return false; }
 
         internal void ConnectNode(int _NodeUID, string _BlockName)
         {
             if (Connections.ContainsKey(_NodeUID))
-            {Connections[_NodeUID] = _BlockName;}
+            { Connections[_NodeUID] = _BlockName; }
             else
-            {Connections.Add(_NodeUID, _BlockName);}
+            { Connections.Add(_NodeUID, _BlockName); }
         }
 
         internal void RemoveConnectedNode(int _NodeUID)
         {
             if (Connections.ContainsKey(_NodeUID))
-            {Connections.Remove(_NodeUID);}
+            { Connections.Remove(_NodeUID); }
         }
         #endregion
     }
@@ -361,14 +357,14 @@ namespace NavGraphTools
         List<NodeDirection> AllowedDirections = new List<NodeDirection>();
 
         public DictionaryDirection(params NodeDirection[] _AllowedDirections)
-        {AllowedDirections = _AllowedDirections.ToList();}
+        { AllowedDirections = _AllowedDirections.ToList(); }
 
         public override bool IsValid(object? _Value)
         {
             if (_Value == null && !(AllowedDirections.Contains((NodeDirection)_Value)))
-            {return false;}
+            { return false; }
             else
-            {return true;}
+            { return true; }
         }
     }
     #endregion

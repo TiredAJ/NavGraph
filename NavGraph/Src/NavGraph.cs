@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
+
+using System.Text.Json;
 
 namespace NavGraphTools
 {
@@ -90,7 +92,7 @@ namespace NavGraphTools
                 return true;
             }
             else
-            {return false;}
+            { return false; }
         }
         #endregion
 
@@ -110,9 +112,9 @@ namespace NavGraphTools
             else if (
                 (Nodes[_AUID] is ElevationNode || Nodes[_BUID] is ElevationNode) ||
                 (Nodes[_AUID] is GatewayNode || Nodes[_BUID] is GatewayNode))
-            {throw new Exception("Please do not connect Elevation or Gateway nodes with this function");}
+            { throw new Exception("Please do not connect Elevation or Gateway nodes with this function"); }
             else if (_Direction == NodeDirection.Up || _Direction == NodeDirection.Down)
-            {throw new Exception("_Direction is not valid for this node type");}
+            { throw new Exception("_Direction is not valid for this node type"); }
 
             //connects node B to node A
             Nodes[_AUID].ConnectNode(_BUID, _Direction);
@@ -136,7 +138,7 @@ namespace NavGraphTools
 
             //checks that both nodes exist in the dictionary and grabs the object
             if (!Nodes.TryGetValue(_AUID, out TempA) || !Nodes.TryGetValue(_BUID, out TempB))
-            {throw new Exception("Node does not exist!");}
+            { throw new Exception("Node does not exist!"); }
             else if (TempA is ElevationNode TA && TempB is ElevationNode TB)
             {
                 TA.ConnectNode(_BUID, _Direction);
@@ -157,7 +159,7 @@ namespace NavGraphTools
             NavNode? B;
 
             if (!Nodes.TryGetValue(_AUID, out A) || !Nodes.TryGetValue(_BUID, out B))
-            {throw new Exception("Node does not exist!");}
+            { throw new Exception("Node does not exist!"); }
 
             if (A is GatewayNode TA && B is GatewayNode TB)
             {
@@ -165,7 +167,7 @@ namespace NavGraphTools
                 TB.ConnectNode(_AUID, TA.BlockName);
             }
             else
-            {throw new Exception("One or both nodes aren't Gateway Nodes!");}
+            { throw new Exception("One or both nodes aren't Gateway Nodes!"); }
         }
         #endregion
 
