@@ -18,9 +18,10 @@ namespace WinForms
 
         #region Exporting
         private string? DefaultFileLoc = null;
+        private string FileLoc = "";
         private SaveFileDialog SFD = new SaveFileDialog();
         private Stream? FileSaveS = null;
-        private bool Both = false;
+        private bool Zipped = false;
         private ExportType ExportOptions = ExportType.FARap;
         #endregion
         #endregion
@@ -71,16 +72,50 @@ namespace WinForms
                 AddExtension = true,
                 CheckPathExists = true,
                 CheckWriteAccess = true,
-                DefaultExt = "apjson",
-                CreatePrompt = false,
-                Filter = "Admin Panel NavGraph JSON file (*.apjson)|*.apjson",
-                FileName = "AP-Map"
+                CreatePrompt = false
             };
 
             if (DefaultFileLoc == null)
             { SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
             else
             { SFD.InitialDirectory = DefaultFileLoc; }
+
+            switch (ExportOptions)
+            {
+                case ExportType.FARa:
+                {
+                    SFD.DefaultExt = "ajson";
+                    SFD.FileName = "A-NavGraph";
+                    SFD.Filter = "Application NavGraph JSON file (*.ajson)|*.ajson";
+
+                    break;
+                }
+                case ExportType.Both:
+                {
+                    if (Zipped)
+                    {//Zipped file
+                        SFD.DefaultExt = "ajson.zip";
+                        SFD.FileName = "NavGraph";
+                        SFD.Filter = "NavGraph Zipped JSON file (*.ajson.zip)|*.ajson.zip";
+                    }
+                    else
+                    {//Folder
+                        SFD.DefaultExt = "";
+                        SFD.FileName = "";
+                        SFD.Filter = "";
+                    }
+                    break;
+                }
+                case ExportType.FARap:
+                default:
+                {
+                    SFD.DefaultExt = "apjson";
+                    SFD.FileName = "AP-NavGraph";
+                    SFD.Filter = "Admin Panel NavGraph JSON file (*.apjson)|*.apjson";
+                    break;
+                }
+            }
+
 
             switch (SFD.ShowDialog())
             {
@@ -105,21 +140,24 @@ namespace WinForms
             FileSaveS = SFD.OpenFile();
 
             using (StreamWriter Writer = new StreamWriter(FileSaveS))
-            { txt_SaveLocation.Text = ((FileStream)(Writer.BaseStream)).Name; }
+            {
+                txt_SaveLocation.Text = ((FileStream)(Writer.BaseStream)).Name;
+                FileLoc = txt_SaveLocation.Text;
+            }
         }
 
         private void rbtn_Export_CheckedChanged(object sender, EventArgs e)
         {
             if (sender is RadioButton SE && SE.Tag.ToString() != "Both")
             {
-                SFD.DefaultExt = $".{SE.Tag.ToString()}";
+                //SFD.DefaultExt = $".{SE.Tag.ToString()}";
 
-                if (SE.Tag.ToString() == "ajson")
-                { SFD.Filter = "Admin Panel NavGraph JSON file (*.ajson)|*.ajson"; }
-                else
-                { SFD.Filter = "Application NavGraph JSON file (*.apjson)|*.apjson"; }
+                //if (SE.Tag.ToString() == "ajson")
+                //{ SFD.Filter = "Admin Panel NavGraph JSON file (*.ajson)|*.ajson"; }
+                //else
+                //{ SFD.Filter = "Application NavGraph JSON file (*.apjson)|*.apjson"; }
 
-
+                ExportOptions = (ExportType)(int)SE.Tag;
 
                 pnl_ZipOptions.Enabled = false;
             }
@@ -130,13 +168,38 @@ namespace WinForms
                 pnl_ZipOptions.Enabled = true;
             }
         }
+
+        private void rbtn_Export_ZipState_CheckedChanged(object sender, EventArgs e)
+        {
+
+
+            if ()
+            {
+
+            }
+
+        }
+
+        private void ExportToApp()
+        { }
+
+        private void ExportToAdmin()
+        { }
+
+        private void ExportToZipped()
+        {
+            //maybe use 7zip?
+        }
+
+        private void ExportToFolder()
+        { }
     }
 
     public enum ExportType : int
     {
-        FARap,
-        FARa,
-        Both
+        FARap = 0,
+        FARa = 1,
+        Both = 2
     }
 
 }
