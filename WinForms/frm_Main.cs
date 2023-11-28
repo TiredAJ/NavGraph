@@ -6,16 +6,24 @@ namespace WinForms
 {
     public partial class frm_Main : Form
     {
+        #region Member Variables
+        #region Nodes
         private int CurNodeUID = 0;
         private int CurFloor;
         private NodeDirection CurDir;
         private string SelectedBlock = string.Empty;
         private string CurBlock;
         private NavGraph NG = new NavGraph(true);
+        #endregion
+
+        #region Exporting
         private string? DefaultFileLoc = null;
         private SaveFileDialog SFD = new SaveFileDialog();
         private Stream? FileSaveS = null;
-
+        private bool Both = false;
+        private ExportType ExportOptions = ExportType.FARap;
+        #endregion
+        #endregion
 
         public frm_Main()
         {
@@ -63,15 +71,72 @@ namespace WinForms
                 AddExtension = true,
                 CheckPathExists = true,
                 CheckWriteAccess = true,
-                DefaultExt = "APJSON",
-                CreatePrompt = true,
-                Filter = "Admin Panel NavGraph JSON file (*.apjson)|*.apjson"
+                DefaultExt = "apjson",
+                CreatePrompt = false,
+                Filter = "Admin Panel NavGraph JSON file (*.apjson)|*.apjson",
+                FileName = "AP-Map"
             };
 
             if (DefaultFileLoc == null)
             { SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
             else
             { SFD.InitialDirectory = DefaultFileLoc; }
+
+            switch (SFD.ShowDialog())
+            {
+                case DialogResult.None:
+                break;
+                case DialogResult.Cancel:
+                case DialogResult.Abort:
+                case DialogResult.No:
+                break;
+                case DialogResult.Ignore:
+                break;
+                case DialogResult.Retry:
+                case DialogResult.TryAgain:
+                break;
+                case DialogResult.OK:
+                case DialogResult.Yes:
+                case DialogResult.Continue:
+                default:
+                break;
+            }
+
+            FileSaveS = SFD.OpenFile();
+
+            using (StreamWriter Writer = new StreamWriter(FileSaveS))
+            { txt_SaveLocation.Text = ((FileStream)(Writer.BaseStream)).Name; }
+        }
+
+        private void rbtn_Export_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender is RadioButton SE && SE.Tag.ToString() != "Both")
+            {
+                SFD.DefaultExt = $".{SE.Tag.ToString()}";
+
+                if (SE.Tag.ToString() == "ajson")
+                { SFD.Filter = "Admin Panel NavGraph JSON file (*.ajson)|*.ajson"; }
+                else
+                { SFD.Filter = "Application NavGraph JSON file (*.apjson)|*.apjson"; }
+
+
+
+                pnl_ZipOptions.Enabled = false;
+            }
+            else
+            {
+                Both = true;
+
+                pnl_ZipOptions.Enabled = true;
+            }
         }
     }
+
+    public enum ExportType : int
+    {
+        FARap,
+        FARa,
+        Both
+    }
+
 }
