@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -80,15 +80,12 @@
             txt_New_BlockName = new TextBox();
             lst_Blocks = new ListBox();
             tbpg_Export = new TabPage();
-            btn_SetSaveLocation = new Button();
-            txt_SaveLocation = new TextBox();
+            panel2 = new Panel();
+            btn_Import = new Button();
             panel1 = new Panel();
             panel3 = new Panel();
             rbtn_Export_FARapp = new RadioButton();
             radioButton2 = new RadioButton();
-            pnl_ZipOptions = new Panel();
-            radioButton1 = new RadioButton();
-            radioButton3 = new RadioButton();
             rbtn_Export_Both = new RadioButton();
             btn_Export = new Button();
             tbctrl_MainTabs.SuspendLayout();
@@ -106,9 +103,9 @@
             ((System.ComponentModel.ISupportInitialize)nud_New_HighestFloor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_New_LowestFloor).BeginInit();
             tbpg_Export.SuspendLayout();
+            panel2.SuspendLayout();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
-            pnl_ZipOptions.SuspendLayout();
             SuspendLayout();
             // 
             // tbctrl_MainTabs
@@ -167,20 +164,19 @@
             // 
             dgv_NodeConnections.AllowUserToAddRows = false;
             dgv_NodeConnections.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = SystemColors.Control;
-            dataGridViewCellStyle11.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dgv_NodeConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_NodeConnections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_OneWay });
             dgv_NodeConnections.Location = new Point(0, 183);
             dgv_NodeConnections.Name = "dgv_NodeConnections";
             dgv_NodeConnections.RowHeadersWidth = 51;
-            dgv_NodeConnections.RowTemplate.Height = 29;
             dgv_NodeConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_NodeConnections.Size = new Size(404, 181);
             dgv_NodeConnections.TabIndex = 5;
@@ -189,8 +185,8 @@
             // 
             // clm_NodeDirection
             // 
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle7;
             clm_NodeDirection.Frozen = true;
             clm_NodeDirection.HeaderText = "Direction";
             clm_NodeDirection.MinimumWidth = 6;
@@ -200,8 +196,8 @@
             // 
             // clm_AvailNodes
             // 
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle8;
             clm_AvailNodes.Frozen = true;
             clm_AvailNodes.HeaderText = "Available Nodes";
             clm_AvailNodes.MinimumWidth = 6;
@@ -361,14 +357,14 @@
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = SystemColors.Control;
-            dataGridViewCellStyle14.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle14.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = SystemColors.Control;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
@@ -376,7 +372,6 @@
             dgv_GatewayConnections.MultiSelect = false;
             dgv_GatewayConnections.Name = "dgv_GatewayConnections";
             dgv_GatewayConnections.RowHeadersWidth = 51;
-            dgv_GatewayConnections.RowTemplate.Height = 29;
             dgv_GatewayConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_GatewayConnections.Size = new Size(402, 181);
             dgv_GatewayConnections.TabIndex = 13;
@@ -385,8 +380,8 @@
             // 
             // dataGridViewComboBoxColumn1
             // 
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle10;
             dataGridViewComboBoxColumn1.Frozen = true;
             dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
             dataGridViewComboBoxColumn1.MinimumWidth = 6;
@@ -407,7 +402,7 @@
             // trvw_Nodes
             // 
             trvw_Nodes.Dock = DockStyle.Left;
-            trvw_Nodes.Font = new Font("Cascadia Mono", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            trvw_Nodes.Font = new Font("Cascadia Mono", 9F, FontStyle.Bold);
             trvw_Nodes.FullRowSelect = true;
             trvw_Nodes.HideSelection = false;
             trvw_Nodes.Location = new Point(3, 3);
@@ -522,7 +517,7 @@
             // 
             // txt_Edit_BlockName
             // 
-            txt_Edit_BlockName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_Edit_BlockName.Font = new Font("Segoe UI", 12F);
             txt_Edit_BlockName.Location = new Point(6, 62);
             txt_Edit_BlockName.Name = "txt_Edit_BlockName";
             txt_Edit_BlockName.Size = new Size(212, 34);
@@ -600,7 +595,7 @@
             // 
             // txt_New_BlockName
             // 
-            txt_New_BlockName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_New_BlockName.Font = new Font("Segoe UI", 12F);
             txt_New_BlockName.Location = new Point(10, 59);
             txt_New_BlockName.Name = "txt_New_BlockName";
             txt_New_BlockName.Size = new Size(212, 34);
@@ -610,7 +605,6 @@
             // 
             lst_Blocks.Dock = DockStyle.Left;
             lst_Blocks.FormattingEnabled = true;
-            lst_Blocks.ItemHeight = 20;
             lst_Blocks.Location = new Point(3, 3);
             lst_Blocks.Name = "lst_Blocks";
             lst_Blocks.Size = new Size(289, 493);
@@ -619,67 +613,74 @@
             // 
             // tbpg_Export
             // 
-            tbpg_Export.Controls.Add(btn_SetSaveLocation);
-            tbpg_Export.Controls.Add(txt_SaveLocation);
+            tbpg_Export.Controls.Add(panel2);
             tbpg_Export.Controls.Add(panel1);
             tbpg_Export.Location = new Point(4, 29);
             tbpg_Export.Name = "tbpg_Export";
-            tbpg_Export.Padding = new Padding(3);
+            tbpg_Export.Padding = new Padding(6);
             tbpg_Export.Size = new Size(760, 499);
             tbpg_Export.TabIndex = 2;
             tbpg_Export.Text = "Export";
             tbpg_Export.UseVisualStyleBackColor = true;
             // 
-            // btn_SetSaveLocation
+            // panel2
             // 
-            btn_SetSaveLocation.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            btn_SetSaveLocation.Location = new Point(235, 49);
-            btn_SetSaveLocation.Name = "btn_SetSaveLocation";
-            btn_SetSaveLocation.Size = new Size(265, 43);
-            btn_SetSaveLocation.TabIndex = 1;
-            btn_SetSaveLocation.Text = "Choose save location";
-            btn_SetSaveLocation.UseVisualStyleBackColor = true;
-            btn_SetSaveLocation.Click += btn_SetSaveLocation_Click;
+            panel2.BackColor = Color.Gainsboro;
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(btn_Import);
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(6, 345);
+            panel2.Margin = new Padding(9);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(748, 148);
+            panel2.TabIndex = 12;
             // 
-            // txt_SaveLocation
+            // btn_Import
             // 
-            txt_SaveLocation.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            txt_SaveLocation.Location = new Point(8, 6);
-            txt_SaveLocation.Name = "txt_SaveLocation";
-            txt_SaveLocation.Size = new Size(744, 39);
-            txt_SaveLocation.TabIndex = 0;
-            txt_SaveLocation.WordWrap = false;
+            btn_Import.Dock = DockStyle.Bottom;
+            btn_Import.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
+            btn_Import.Location = new Point(0, 64);
+            btn_Import.Margin = new Padding(0, 3, 0, 3);
+            btn_Import.Name = "btn_Import";
+            btn_Import.Size = new Size(746, 82);
+            btn_Import.TabIndex = 9;
+            btn_Import.Text = "Import";
+            btn_Import.UseVisualStyleBackColor = true;
+            btn_Import.Click += btn_Import_Click;
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Gainsboro;
+            panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(btn_Export);
-            panel1.Location = new Point(0, 98);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(6, 6);
+            panel1.Margin = new Padding(9);
             panel1.Name = "panel1";
-            panel1.Size = new Size(760, 360);
-            panel1.TabIndex = 3;
+            panel1.Size = new Size(748, 293);
+            panel1.TabIndex = 11;
             // 
             // panel3
             // 
             panel3.Controls.Add(rbtn_Export_FARapp);
             panel3.Controls.Add(radioButton2);
-            panel3.Controls.Add(pnl_ZipOptions);
             panel3.Controls.Add(rbtn_Export_Both);
+            panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 0);
+            panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(281, 260);
+            panel3.Size = new Size(746, 189);
             panel3.TabIndex = 10;
             // 
             // rbtn_Export_FARapp
             // 
             rbtn_Export_FARapp.AutoSize = true;
-            rbtn_Export_FARapp.Checked = true;
-            rbtn_Export_FARapp.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            rbtn_Export_FARapp.Font = new Font("Segoe UI", 18F);
             rbtn_Export_FARapp.Location = new Point(9, 3);
             rbtn_Export_FARapp.Name = "rbtn_Export_FARapp";
             rbtn_Export_FARapp.Size = new Size(242, 45);
             rbtn_Export_FARapp.TabIndex = 5;
-            rbtn_Export_FARapp.TabStop = true;
             rbtn_Export_FARapp.Tag = "1";
             rbtn_Export_FARapp.Text = "Export for FARa";
             rbtn_Export_FARapp.UseVisualStyleBackColor = true;
@@ -688,7 +689,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            radioButton2.Font = new Font("Segoe UI", 18F);
             radioButton2.Location = new Point(9, 54);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(260, 45);
@@ -698,65 +699,32 @@
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += rbtn_Export_CheckedChanged;
             // 
-            // pnl_ZipOptions
-            // 
-            pnl_ZipOptions.Controls.Add(radioButton1);
-            pnl_ZipOptions.Controls.Add(radioButton3);
-            pnl_ZipOptions.Enabled = false;
-            pnl_ZipOptions.Location = new Point(0, 159);
-            pnl_ZipOptions.Margin = new Padding(6);
-            pnl_ZipOptions.Name = "pnl_ZipOptions";
-            pnl_ZipOptions.Size = new Size(156, 101);
-            pnl_ZipOptions.TabIndex = 8;
-            // 
-            // radioButton1
-            // 
-            radioButton1.AutoSize = true;
-            radioButton1.Checked = true;
-            radioButton1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            radioButton1.Location = new Point(9, 3);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(118, 32);
-            radioButton1.TabIndex = 10;
-            radioButton1.TabStop = true;
-            radioButton1.Tag = "both";
-            radioButton1.Text = "Unzipped";
-            radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            radioButton3.AutoSize = true;
-            radioButton3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            radioButton3.Location = new Point(9, 41);
-            radioButton3.Name = "radioButton3";
-            radioButton3.Size = new Size(95, 32);
-            radioButton3.TabIndex = 9;
-            radioButton3.Tag = "apjson";
-            radioButton3.Text = "Zipped";
-            radioButton3.UseVisualStyleBackColor = true;
-            // 
             // rbtn_Export_Both
             // 
             rbtn_Export_Both.AutoSize = true;
-            rbtn_Export_Both.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            rbtn_Export_Both.Font = new Font("Segoe UI", 18F);
             rbtn_Export_Both.Location = new Point(9, 105);
             rbtn_Export_Both.Name = "rbtn_Export_Both";
-            rbtn_Export_Both.Size = new Size(101, 45);
+            rbtn_Export_Both.Size = new Size(221, 45);
             rbtn_Export_Both.TabIndex = 7;
             rbtn_Export_Both.Tag = "2";
-            rbtn_Export_Both.Text = "Both";
+            rbtn_Export_Both.Text = "Both (Zipped)";
             rbtn_Export_Both.UseVisualStyleBackColor = true;
             rbtn_Export_Both.CheckedChanged += rbtn_Export_CheckedChanged;
             // 
             // btn_Export
             // 
-            btn_Export.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            btn_Export.Location = new Point(6, 268);
+            btn_Export.Dock = DockStyle.Bottom;
+            btn_Export.Enabled = false;
+            btn_Export.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
+            btn_Export.Location = new Point(0, 209);
+            btn_Export.Margin = new Padding(0, 3, 0, 3);
             btn_Export.Name = "btn_Export";
-            btn_Export.Size = new Size(275, 87);
+            btn_Export.Size = new Size(746, 82);
             btn_Export.TabIndex = 9;
             btn_Export.Text = "Export";
             btn_Export.UseVisualStyleBackColor = true;
+            btn_Export.Click += btn_Export_Click;
             // 
             // frm_Main
             // 
@@ -784,12 +752,10 @@
             ((System.ComponentModel.ISupportInitialize)nud_New_HighestFloor).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_New_LowestFloor).EndInit();
             tbpg_Export.ResumeLayout(false);
-            tbpg_Export.PerformLayout();
+            panel2.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            pnl_ZipOptions.ResumeLayout(false);
-            pnl_ZipOptions.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -841,19 +807,16 @@
         private DataGridViewComboBoxColumn clm_AvailNodes;
         private DataGridViewCheckBoxColumn clm_OneWay;
         private TabPage tbpg_Export;
-        private Button btn_SetSaveLocation;
-        private TextBox txt_SaveLocation;
-        private Panel panel1;
         private DataGridView dgv_GatewayConnections;
         private DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
         private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private RadioButton rbtn_Export_Both;
         private RadioButton radioButton2;
         private RadioButton rbtn_Export_FARapp;
-        private Panel pnl_ZipOptions;
-        private RadioButton radioButton1;
-        private RadioButton radioButton3;
         private Button btn_Export;
         private Panel panel3;
+        private Panel panel1;
+        private Panel panel2;
+        private Button btn_Import;
     }
 }

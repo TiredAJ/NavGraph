@@ -232,10 +232,11 @@ namespace WinForms
 
             //int SelectedIndex = dgv_NodeConnections.SelectedRows[0].Index;
 
-            int SelectedIndex = e.RowIndex;
+            if (e.RowIndex < 0)
+            { return; }
 
-            if (dgv_NodeConnections.Rows[SelectedIndex].Tag != null)
-            { CurDir = (NodeDirection)dgv_NodeConnections.Rows[SelectedIndex].Tag; }
+            if (dgv_NodeConnections.Rows[e.RowIndex].Tag != null)
+            { CurDir = (NodeDirection)dgv_NodeConnections.Rows[e.RowIndex].Tag; }
 
             if (e.ColumnIndex == 1)
             {
@@ -257,7 +258,7 @@ namespace WinForms
 
                     dgv_NodeConnections.Invoke(() =>
                     {
-                        var CMBX = (dgv_NodeConnections.Rows[SelectedIndex]
+                        var CMBX = (dgv_NodeConnections.Rows[e.RowIndex]
                                                             .Cells[1]
                                                             as DataGridViewComboBoxCell);
 

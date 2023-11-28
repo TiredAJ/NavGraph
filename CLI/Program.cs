@@ -231,7 +231,7 @@ namespace NavGraphTester
             else
             { Console.WriteLine("Unrecognised key"); }
 
-            Map.ConnectNodes(RoomA, RoomB, ND, IsOneWay, false);
+            //Map.ConnectNodes(RoomA, RoomB, ND, IsOneWay, false);
         }
 
         public static void ConnectElevationNodes()

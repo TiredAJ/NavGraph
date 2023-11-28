@@ -10,7 +10,7 @@ namespace NavGraphTools
     #region Abstract & Interface
     #region JSON attributes
     [JsonSerializable(typeof(NavNode))]
-    [JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
+    //[JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
     [JsonDerivedType(typeof(RoomNode), typeDiscriminator: "Room")]
     [JsonDerivedType(typeof(ElevationNode), typeDiscriminator: "Elevation")]
     [JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "Corridor")]
@@ -135,7 +135,7 @@ namespace NavGraphTools
 
         public override string ToString()
         {
-            return $"UID: {UID}, Internal name: {InternalName}, Connections: " +
+            return $"UID: {UID}, InternalNode name: {InternalName}, Connections: " +
                 $"(N: {(int)Nodes[NodeDirection.North]}), (E: {(int)Nodes[NodeDirection.East]}), " +
                 $"(S: {(int)Nodes[NodeDirection.South]}), (W: {(int)Nodes[NodeDirection.West]})";
         }

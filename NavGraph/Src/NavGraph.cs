@@ -1,6 +1,7 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NavGraphTools
 {
@@ -14,14 +15,19 @@ namespace NavGraphTools
         //for example, if A -> B is one way, A would store B's UID, but B would store the negative of A's UID
 
         ///For generating new UIDs
+        [JsonInclude]
         internal int BaseUID = MINIMUM_UID;
 
+        [JsonInclude]
         public Dictionary<string, (int Max, int Min)> Blocks = new Dictionary<string, (int Max, int Min)>();
         //                         ^No floors
         //                  ^Block name
 
         //The next assignable UID
+        [JsonInclude]
         private int _AvailableUID;
+
+        [JsonIgnore]
         internal int AvailableUID
         {
             get
@@ -30,6 +36,14 @@ namespace NavGraphTools
             set
             { _AvailableUID = value; }
         }
+
+        [JsonIgnore]
+        private JsonSerializerOptions JSO = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+            IncludeFields = true,
+            WriteIndented = true,
+        };
         #endregion
 
         /// <summary>
@@ -224,34 +238,77 @@ namespace NavGraphTools
 
         #region Serialising stuff
         /// <summary>
+        /// DO NOT USE. "WARRANTY" VOID!
+        /// </summary>
+        public override void Deserialise(Stream _InputStream)
+        { throw new NotImplementedException("Pls do not use"); }
+
+
+        /// <summary>
         /// Takes an input stream and writes data to it
         /// </summary>
         /// <param name="_InputStream">Stream data is to be written to</param>
-        public override void Deserialise(Stream _InputStream)
+        public void Deserialise(Stream _InputStream, NGSerialiseOptions _SO)
         {
-            //generates a StreamReader from the input stream and passes it to the JSON deserialiser
+            //generates a StreamReader from the input stream
             using (StreamReader Reader = new StreamReader(_InputStream))
-            { Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd()); }
+            {
+                NGSerialiseTemplate SerData = new NGSerialiseTemplate();
 
-            //gets the largets value in the just deserialised group of keys
-            BaseUID = Nodes.Keys.Max();
+                SerData = JsonSerializer.Deserialize<NGSerialiseTemplate>
+                    (Reader.ReadToEnd(), JSO);
 
-            //asigns the next available UID to the base UID +1
-            _AvailableUID = BaseUID + 1;
+                switch (_SO)
+                {
+                    case NGSerialiseOptions.IncludeMetadata:
+                    {//include blocks dictionary
+                        Blocks = SerData.NG.Blocks;
+                        Nodes = SerData.NG.Nodes;
+                        BaseUID = SerData.NG.BaseUID;
+                        AvailableUID = SerData.NG.AvailableUID;
+
+                        break;
+                    }
+                    case NGSerialiseOptions.SerialiseForApp:
+                    default:
+                    {//just nodes but for App
+                        Nodes = SerData.Nodes;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// Takes a stream to write data to
         /// </summary>
         /// <param name="_OutputStream">The stream to write to</param>
-        public void Serialise(Stream _OutputStream)
+        /// <param name="_SO">Specify what happens during serialisation</param>
+        public void Serialise(Stream _OutputStream, NGSerialiseOptions _SO)
         {
             //generates a stream writer from the input stream 
             using (StreamWriter Writer = new StreamWriter(_OutputStream))
             {
+                NGSerialiseTemplate SerData = new NGSerialiseTemplate();
+
+                switch (_SO)
+                {
+                    case NGSerialiseOptions.IncludeMetadata:
+                    {//include blocks dictionary
+                        SerData.NG = this;
+                        break;
+                    }
+                    case NGSerialiseOptions.SerialiseForApp:
+                    default:
+                    {//just nodes but for App
+                        SerData.Nodes = Nodes;
+                        break;
+                    }
+                }
+
                 //uses the stream writer to write the string output of the JSON Serialiser
                 Writer.Write
-                (JsonSerializer.Serialize(Nodes).ToCharArray());
+                (JsonSerializer.Serialize(SerData, JSO).ToCharArray());
             }
         }
         #endregion
@@ -259,10 +316,6 @@ namespace NavGraphTools
 
     public class ReadonlyNavGraph : Graph<NavNode>
     {
-        public Dictionary<string, (int Max, int Min)> Blocks = new Dictionary<string, (int Max, int Min)>();
-        //                         ^No floors
-        //                  ^Block name
-
         public ReadonlyNavGraph() : base()
         { }
 
@@ -273,6 +326,7 @@ namespace NavGraphTools
             { Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd()); }
         }
 
+        //why is this here?
         public override int NumberOfConnections(int _UID)
         {
             NavNode? Temp;
@@ -284,6 +338,29 @@ namespace NavGraphTools
 
             //counts how many elements are in the returned dictionary
             return Temp.GetConnectedNodes().Count;
+        }
+    }
+
+    public enum NGSerialiseOptions : int
+    {
+        IncludeMetadata = 0,
+        SerialiseForApp = 1
+    }
+
+    internal struct NGSerialiseTemplate
+    {
+        [JsonInclude]
+        public Dictionary<int, NavNode>? Nodes { get; set; }
+        [JsonInclude]
+        public Dictionary<string, (int Max, int Min)>? Blocks { get; set; }
+
+        [JsonInclude]
+        public NavGraph? NG { get; set; }
+
+        public NGSerialiseTemplate()
+        {
+            Nodes = null;
+            Blocks = null;
         }
     }
 }

@@ -19,9 +19,6 @@ namespace WinForms
         #region Exporting
         private string? DefaultFileLoc = null;
         private string FileLoc = "";
-        private SaveFileDialog SFD = new SaveFileDialog();
-        private Stream? FileSaveS = null;
-        private bool Zipped = false;
         private ExportType ExportOptions = ExportType.FARap;
         #endregion
         #endregion
@@ -65,14 +62,29 @@ namespace WinForms
             }
         }
 
-        private void btn_SetSaveLocation_Click(object sender, EventArgs e)
+        private void rbtn_Export_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton SE)
+            {
+                ExportOptions = (ExportType)int.Parse(SE.Tag.ToString());
+
+                btn_Export.Enabled = true;
+            }
+        }
+
+        private void btn_Export_Click(object sender, EventArgs e)
+        {
+            Stream? FileSaveS = null;
+            SaveFileDialog SFD = new SaveFileDialog();
+
             SFD = new SaveFileDialog()
             {
                 AddExtension = true,
                 CheckPathExists = true,
                 CheckWriteAccess = true,
-                CreatePrompt = false
+                CreatePrompt = false,
+                RestoreDirectory = true,
+                OkRequiresInteraction = true,
             };
 
             if (DefaultFileLoc == null)
@@ -87,23 +99,13 @@ namespace WinForms
                     SFD.DefaultExt = "ajson";
                     SFD.FileName = "A-NavGraph";
                     SFD.Filter = "Application NavGraph JSON file (*.ajson)|*.ajson";
-
                     break;
                 }
-                case ExportType.Both:
+                case ExportType.Zipped:
                 {
-                    if (Zipped)
-                    {//Zipped file
-                        SFD.DefaultExt = "ajson.zip";
-                        SFD.FileName = "NavGraph";
-                        SFD.Filter = "NavGraph Zipped JSON file (*.ajson.zip)|*.ajson.zip";
-                    }
-                    else
-                    {//Folder
-                        SFD.DefaultExt = "";
-                        SFD.FileName = "";
-                        SFD.Filter = "";
-                    }
+                    SFD.DefaultExt = "ajson.zip";
+                    SFD.FileName = "NavGraph";
+                    SFD.Filter = "NavGraph Zipped JSON file (*.ajson.zip)|*.ajson.zip";
                     break;
                 }
                 case ExportType.FARap:
@@ -116,90 +118,94 @@ namespace WinForms
                 }
             }
 
-
             switch (SFD.ShowDialog())
             {
-                case DialogResult.None:
-                break;
                 case DialogResult.Cancel:
                 case DialogResult.Abort:
                 case DialogResult.No:
-                break;
-                case DialogResult.Ignore:
-                break;
-                case DialogResult.Retry:
-                case DialogResult.TryAgain:
-                break;
-                case DialogResult.OK:
-                case DialogResult.Yes:
-                case DialogResult.Continue:
-                default:
-                break;
+                { return; }
             }
 
             FileSaveS = SFD.OpenFile();
 
-            using (StreamWriter Writer = new StreamWriter(FileSaveS))
+            switch (ExportOptions)
             {
-                txt_SaveLocation.Text = ((FileStream)(Writer.BaseStream)).Name;
-                FileLoc = txt_SaveLocation.Text;
+                case ExportType.FARap:
+                { ExportToAdmin(FileSaveS); break; }
+                default:
+                case ExportType.FARa:
+                { ExportToApp(FileSaveS); break; }
+                case ExportType.Zipped:
+                { ExportToZipped(FileSaveS); break; }
             }
         }
 
-        private void rbtn_Export_CheckedChanged(object sender, EventArgs e)
-        {
-            if (sender is RadioButton SE && SE.Tag.ToString() != "Both")
-            {
-                //SFD.DefaultExt = $".{SE.Tag.ToString()}";
+        private void ExportToApp(Stream _DataStream)
+        { NG.Serialise(_DataStream, NGSerialiseOptions.SerialiseForApp); }
 
-                //if (SE.Tag.ToString() == "ajson")
-                //{ SFD.Filter = "Admin Panel NavGraph JSON file (*.ajson)|*.ajson"; }
-                //else
-                //{ SFD.Filter = "Application NavGraph JSON file (*.apjson)|*.apjson"; }
-
-                ExportOptions = (ExportType)(int)SE.Tag;
-
-                pnl_ZipOptions.Enabled = false;
-            }
-            else
-            {
-                Both = true;
-
-                pnl_ZipOptions.Enabled = true;
-            }
-        }
-
-        private void rbtn_Export_ZipState_CheckedChanged(object sender, EventArgs e)
-        {
-
-
-            if ()
-            {
-
-            }
-
-        }
-
-        private void ExportToApp()
+        private void ExportToAdmin(Stream _DataStream)
         { }
 
-        private void ExportToAdmin()
-        { }
-
-        private void ExportToZipped()
+        private void ExportToZipped(Stream _DataStream)
         {
             //maybe use 7zip?
         }
 
-        private void ExportToFolder()
+        private void btn_Import_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog()
+            {
+                Filter = "NavGraph JSON files (*.ajson;*.apjson;*.ajson.zip)|*.ajson;*.apjson;*.ajson.zip",
+                Title = "Choose NavGraph JSON file to import",
+                SupportMultiDottedExtensions = true,
+                RestoreDirectory = true,
+                Multiselect = false,
+                OkRequiresInteraction = true,
+                CheckPathExists = true,
+            };
+
+            if (DefaultFileLoc == null)
+            { OFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
+            else
+            { OFD.InitialDirectory = DefaultFileLoc; }
+
+            switch (Path.GetExtension(OFD.FileName))
+            {
+                case ".apjson":
+                { ImportFromAdmin(OFD.OpenFile()); break; }
+                case ".ajson":
+                { ImportFromApp(OFD.OpenFile()); break; }
+                case ".zip":
+                { ImportFromZipped(OFD.OpenFile()); break; }
+                default:
+                { MessageBox.Show("IDKHOW, but that's not the right file?"); break; }
+            }
+        }
+
+        private void ImportFromApp(Stream _File)
         { }
+
+        private void ImportFromAdmin(Stream _File)
+        { }
+
+        private void ImportFromZipped(Stream _File)
+        {
+            using (FileStream F = _File as FileStream)
+            {
+                if (!F.Name.Contains(".ajson.zip"))
+                {
+                    MessageBox.Show("Wrong kinda zip file buddy");
+                    return;
+                }
+            }
+        }
     }
 
     public enum ExportType : int
     {
         FARap = 0,
         FARa = 1,
-        Both = 2
+        Zipped = 2
     }
 
 }

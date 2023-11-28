@@ -1,10 +1,13 @@
 ﻿// Ignore Spelling: Nav UID Deserialise
 
+using System.Text.Json.Serialization;
+
 namespace NavGraphTools
 {
     public abstract class Graph<T>
     {
-        //Internal so *Navigator* has access to it but nothing outside this assembly does        
+        //InternalNode so *Navigator* has access to it but nothing outside this assembly does        
+        [JsonInclude]
         internal Dictionary<int, T> Nodes = new Dictionary<int, T>();
 
         /// <summary>
