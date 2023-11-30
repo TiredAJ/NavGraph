@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -88,6 +88,8 @@
             radioButton2 = new RadioButton();
             rbtn_Export_Both = new RadioButton();
             btn_Export = new Button();
+            tbpg_Combine = new TabPage();
+            textBox1 = new TextBox();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
@@ -106,6 +108,7 @@
             panel2.SuspendLayout();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
+            tbpg_Combine.SuspendLayout();
             SuspendLayout();
             // 
             // tbctrl_MainTabs
@@ -113,6 +116,7 @@
             tbctrl_MainTabs.Controls.Add(tbpg_Nodes);
             tbctrl_MainTabs.Controls.Add(tbpg_Blocks);
             tbctrl_MainTabs.Controls.Add(tbpg_Export);
+            tbctrl_MainTabs.Controls.Add(tbpg_Combine);
             tbctrl_MainTabs.Dock = DockStyle.Fill;
             tbctrl_MainTabs.Location = new Point(0, 0);
             tbctrl_MainTabs.Name = "tbctrl_MainTabs";
@@ -164,14 +168,14 @@
             // 
             dgv_NodeConnections.AllowUserToAddRows = false;
             dgv_NodeConnections.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = SystemColors.Control;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.BackColor = SystemColors.Control;
+            dataGridViewCellStyle26.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle26.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle26.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle26.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
+            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
             dgv_NodeConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_NodeConnections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_OneWay });
             dgv_NodeConnections.Location = new Point(0, 183);
@@ -185,8 +189,8 @@
             // 
             // clm_NodeDirection
             // 
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle27;
             clm_NodeDirection.Frozen = true;
             clm_NodeDirection.HeaderText = "Direction";
             clm_NodeDirection.MinimumWidth = 6;
@@ -196,8 +200,8 @@
             // 
             // clm_AvailNodes
             // 
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle28;
             clm_AvailNodes.Frozen = true;
             clm_AvailNodes.HeaderText = "Available Nodes";
             clm_AvailNodes.MinimumWidth = 6;
@@ -357,14 +361,14 @@
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = SystemColors.Control;
-            dataGridViewCellStyle9.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = SystemColors.Control;
+            dataGridViewCellStyle29.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle29.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle29.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle29.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle29.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
@@ -380,8 +384,8 @@
             // 
             // dataGridViewComboBoxColumn1
             // 
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle30;
             dataGridViewComboBoxColumn1.Frozen = true;
             dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
             dataGridViewComboBoxColumn1.MinimumWidth = 6;
@@ -726,6 +730,27 @@
             btn_Export.UseVisualStyleBackColor = true;
             btn_Export.Click += btn_Export_Click;
             // 
+            // tbpg_Combine
+            // 
+            tbpg_Combine.Controls.Add(textBox1);
+            tbpg_Combine.Location = new Point(4, 29);
+            tbpg_Combine.Name = "tbpg_Combine";
+            tbpg_Combine.Padding = new Padding(3);
+            tbpg_Combine.Size = new Size(760, 499);
+            tbpg_Combine.TabIndex = 3;
+            tbpg_Combine.Text = "Combine";
+            tbpg_Combine.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(58, 60);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(604, 278);
+            textBox1.TabIndex = 0;
+            textBox1.Text = "So this page will allow the user to combine two .apjson files into 1. \r\nThis allows a .apjson per floor per block. Genius right? doubt it.\r\n\r\nAnyway, think about UID clashes and shit.";
+            // 
             // frm_Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -756,6 +781,8 @@
             panel1.ResumeLayout(false);
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            tbpg_Combine.ResumeLayout(false);
+            tbpg_Combine.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -818,5 +845,7 @@
         private Panel panel1;
         private Panel panel2;
         private Button btn_Import;
+        private TabPage tbpg_Combine;
+        private TextBox textBox1;
     }
 }
