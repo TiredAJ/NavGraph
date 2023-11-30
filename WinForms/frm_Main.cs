@@ -155,7 +155,7 @@ namespace WinForms
         {
             OpenFileDialog OFD = new OpenFileDialog()
             {
-                Filter = "NavGraph JSON files (*.ajson;*.apjson;*.ajson.zip)|*.ajson;*.apjson;*.ajson.zip",
+                Filter = "NavGraph JSON files (*.apjson;*.ajson.zip)|*.apjson;*.ajson.zip",
                 Title = "Choose NavGraph JSON file to import",
                 SupportMultiDottedExtensions = true,
                 RestoreDirectory = true,
@@ -173,8 +173,6 @@ namespace WinForms
             {
                 case ".apjson":
                 { ImportFromAdmin(OFD.OpenFile()); break; }
-                case ".ajson":
-                { ImportFromApp(OFD.OpenFile()); break; }
                 case ".zip":
                 { ImportFromZipped(OFD.OpenFile()); break; }
                 default:
@@ -182,11 +180,11 @@ namespace WinForms
             }
         }
 
-        private void ImportFromApp(Stream _File)
-        { }
-
         private void ImportFromAdmin(Stream _File)
-        { }
+        {
+            NG.Deserialise(_File);
+
+        }
 
         private void ImportFromZipped(Stream _File)
         {
@@ -198,6 +196,8 @@ namespace WinForms
                     return;
                 }
             }
+
+            //ImportFromAdmin();
         }
     }
 

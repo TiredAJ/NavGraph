@@ -238,17 +238,10 @@ namespace NavGraphTools
 
         #region Serialising stuff
         /// <summary>
-        /// DO NOT USE. "WARRANTY" VOID!
-        /// </summary>
-        public override void Deserialise(Stream _InputStream)
-        { throw new NotImplementedException("Pls do not use"); }
-
-
-        /// <summary>
         /// Takes an input stream and writes data to it
         /// </summary>
         /// <param name="_InputStream">Stream data is to be written to</param>
-        public void Deserialise(Stream _InputStream, NGSerialiseOptions _SO)
+        public override void Deserialise(Stream _InputStream)
         {
             //generates a StreamReader from the input stream
             using (StreamReader Reader = new StreamReader(_InputStream))
@@ -258,24 +251,10 @@ namespace NavGraphTools
                 SerData = JsonSerializer.Deserialize<NGSerialiseTemplate>
                     (Reader.ReadToEnd(), JSO);
 
-                switch (_SO)
-                {
-                    case NGSerialiseOptions.IncludeMetadata:
-                    {//include blocks dictionary
-                        Blocks = SerData.NG.Blocks;
-                        Nodes = SerData.NG.Nodes;
-                        BaseUID = SerData.NG.BaseUID;
-                        AvailableUID = SerData.NG.AvailableUID;
-
-                        break;
-                    }
-                    case NGSerialiseOptions.SerialiseForApp:
-                    default:
-                    {//just nodes but for App
-                        Nodes = SerData.Nodes;
-                        break;
-                    }
-                }
+                Blocks = SerData.NG.Blocks;
+                Nodes = SerData.NG.Nodes;
+                BaseUID = SerData.NG.BaseUID;
+                AvailableUID = SerData.NG.AvailableUID;
             }
         }
 
