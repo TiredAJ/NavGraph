@@ -182,11 +182,10 @@ namespace NavGraphTools
         /// <param name="_BUID">UID of second node</param>
         public void ConnectGatewayNodes(int _AUID, int _BUID)
         {
-            NavNode? A;
-            NavNode? B;
+            NavNode? A, B;
 
             if (!Nodes.TryGetValue(_AUID, out A) || !Nodes.TryGetValue(_BUID, out B))
-            { throw new Exception("Node does not exist!"); }
+            { throw new Exception("Node(s) does not exist!"); }
 
             if (A is GatewayNode TA && B is GatewayNode TB)
             {
@@ -195,6 +194,29 @@ namespace NavGraphTools
             }
             else
             { throw new Exception("One or both nodes aren't Gateway Nodes!"); }
+        }
+
+        /// <summary>
+        /// Connects a Gateway node to a non-gateway node
+        /// </summary>
+        public void ConnectGatewayNode(int _GW_UID, int _AUID, NodeDirection _ND)
+        {
+            NavNode? A, B;
+
+            if (
+                    !Nodes.TryGetValue(_GW_UID, out A) ||
+                    !Nodes.TryGetValue(_AUID, out B) ||
+                    Math.Abs((int)_ND) > 2
+                )
+            { throw new Exception("Node(s) does not exist!"); }
+
+            if (A is GatewayNode GW && B is not GatewayNode)
+            {
+                GW.ConnectNode(_AUID, _ND);
+                B.ConnectNode(_GW_UID, (NodeDirection)((int)_ND * -1));
+            }
+            else
+            { throw new Exception("Wrong configuration of nodes!"); }
         }
         #endregion
 

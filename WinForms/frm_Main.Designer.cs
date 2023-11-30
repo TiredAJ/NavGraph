@@ -36,15 +36,16 @@
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
+            pnl_NormalNodes = new Panel();
             dgv_NodeConnections = new DataGridView();
             clm_NodeDirection = new DataGridViewTextBoxColumn();
             clm_AvailNodes = new DataGridViewComboBoxColumn();
             clm_OneWay = new DataGridViewCheckBoxColumn();
+            label7 = new Label();
+            txt_Node_Tags = new TextBox();
             btn_Node_Delete = new Button();
             btn_Node_Save = new Button();
             btn_Node_Create = new Button();
-            txt_Node_Tags = new TextBox();
-            label7 = new Label();
             txt_InternalName = new TextBox();
             label5 = new Label();
             txt_PublicName = new TextBox();
@@ -55,9 +56,12 @@
             label2 = new Label();
             cmbx_BlockSelect = new ComboBox();
             label1 = new Label();
+            pnl_GW = new Panel();
+            label8 = new Label();
+            cmbx_GW_AvailableNodes = new ComboBox();
+            label6 = new Label();
+            cmbx_GW_Direction = new ComboBox();
             dgv_GatewayConnections = new DataGridView();
-            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
-            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
             trvw_Nodes = new TreeView();
             tbpg_Blocks = new TabPage();
             pnl_Right_Blocks = new Panel();
@@ -90,11 +94,15 @@
             btn_Export = new Button();
             tbpg_Combine = new TabPage();
             textBox1 = new TextBox();
+            dgvcmbx_GW_AvailableNodes = new DataGridViewComboBoxColumn();
+            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
+            pnl_NormalNodes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_NodeConnections).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).BeginInit();
+            pnl_GW.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).BeginInit();
             tbpg_Blocks.SuspendLayout();
             pnl_Right_Blocks.SuspendLayout();
@@ -118,12 +126,15 @@
             tbctrl_MainTabs.Controls.Add(tbpg_Export);
             tbctrl_MainTabs.Controls.Add(tbpg_Combine);
             tbctrl_MainTabs.Dock = DockStyle.Fill;
+            tbctrl_MainTabs.HotTrack = true;
             tbctrl_MainTabs.Location = new Point(0, 0);
             tbctrl_MainTabs.Margin = new Padding(3, 2, 3, 2);
+            tbctrl_MainTabs.Multiline = true;
             tbctrl_MainTabs.Name = "tbctrl_MainTabs";
             tbctrl_MainTabs.SelectedIndex = 0;
-            tbctrl_MainTabs.Size = new Size(672, 399);
+            tbctrl_MainTabs.Size = new Size(673, 399);
             tbctrl_MainTabs.TabIndex = 0;
+            tbctrl_MainTabs.TabStop = false;
             // 
             // tbpg_Nodes
             // 
@@ -133,19 +144,17 @@
             tbpg_Nodes.Margin = new Padding(3, 2, 3, 2);
             tbpg_Nodes.Name = "tbpg_Nodes";
             tbpg_Nodes.Padding = new Padding(3, 2, 3, 2);
-            tbpg_Nodes.Size = new Size(664, 371);
+            tbpg_Nodes.Size = new Size(665, 371);
             tbpg_Nodes.TabIndex = 0;
             tbpg_Nodes.Text = "Nodes";
             tbpg_Nodes.UseVisualStyleBackColor = true;
             // 
             // gbx_Node
             // 
-            gbx_Node.Controls.Add(dgv_NodeConnections);
+            gbx_Node.Controls.Add(pnl_NormalNodes);
             gbx_Node.Controls.Add(btn_Node_Delete);
             gbx_Node.Controls.Add(btn_Node_Save);
             gbx_Node.Controls.Add(btn_Node_Create);
-            gbx_Node.Controls.Add(txt_Node_Tags);
-            gbx_Node.Controls.Add(label7);
             gbx_Node.Controls.Add(txt_InternalName);
             gbx_Node.Controls.Add(label5);
             gbx_Node.Controls.Add(txt_PublicName);
@@ -156,16 +165,27 @@
             gbx_Node.Controls.Add(label2);
             gbx_Node.Controls.Add(cmbx_BlockSelect);
             gbx_Node.Controls.Add(label1);
-            gbx_Node.Controls.Add(dgv_GatewayConnections);
+            gbx_Node.Controls.Add(pnl_GW);
             gbx_Node.Dock = DockStyle.Fill;
             gbx_Node.Location = new Point(307, 2);
             gbx_Node.Margin = new Padding(3, 2, 3, 2);
             gbx_Node.Name = "gbx_Node";
-            gbx_Node.Padding = new Padding(4, 4, 4, 4);
-            gbx_Node.Size = new Size(354, 367);
+            gbx_Node.Padding = new Padding(4);
+            gbx_Node.Size = new Size(355, 367);
             gbx_Node.TabIndex = 0;
             gbx_Node.TabStop = false;
             gbx_Node.Text = "Create/Edit Node";
+            // 
+            // pnl_NormalNodes
+            // 
+            pnl_NormalNodes.BackColor = SystemColors.ControlLight;
+            pnl_NormalNodes.Controls.Add(dgv_NodeConnections);
+            pnl_NormalNodes.Controls.Add(label7);
+            pnl_NormalNodes.Controls.Add(txt_Node_Tags);
+            pnl_NormalNodes.Location = new Point(0, 137);
+            pnl_NormalNodes.Name = "pnl_NormalNodes";
+            pnl_NormalNodes.Size = new Size(351, 184);
+            pnl_NormalNodes.TabIndex = 1;
             // 
             // dgv_NodeConnections
             // 
@@ -181,12 +201,13 @@
             dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv_NodeConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_NodeConnections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_OneWay });
-            dgv_NodeConnections.Location = new Point(0, 137);
+            dgv_NodeConnections.Dock = DockStyle.Top;
+            dgv_NodeConnections.Location = new Point(0, 0);
             dgv_NodeConnections.Margin = new Padding(3, 2, 3, 2);
             dgv_NodeConnections.Name = "dgv_NodeConnections";
             dgv_NodeConnections.RowHeadersWidth = 51;
             dgv_NodeConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_NodeConnections.Size = new Size(354, 136);
+            dgv_NodeConnections.Size = new Size(351, 140);
             dgv_NodeConnections.TabIndex = 5;
             dgv_NodeConnections.TabStop = false;
             dgv_NodeConnections.CellClick += dgv_NodeConnections_CellClick;
@@ -200,7 +221,7 @@
             clm_NodeDirection.MinimumWidth = 6;
             clm_NodeDirection.Name = "clm_NodeDirection";
             clm_NodeDirection.ReadOnly = true;
-            clm_NodeDirection.Width = 125;
+            clm_NodeDirection.Width = 90;
             // 
             // clm_AvailNodes
             // 
@@ -222,6 +243,24 @@
             clm_OneWay.Resizable = DataGridViewTriState.True;
             clm_OneWay.SortMode = DataGridViewColumnSortMode.Automatic;
             clm_OneWay.Width = 80;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(3, 142);
+            label7.Name = "label7";
+            label7.Size = new Size(136, 15);
+            label7.TabIndex = 12;
+            label7.Text = "Tags (comma separated)";
+            // 
+            // txt_Node_Tags
+            // 
+            txt_Node_Tags.Enabled = false;
+            txt_Node_Tags.Location = new Point(2, 157);
+            txt_Node_Tags.Margin = new Padding(3, 2, 3, 2);
+            txt_Node_Tags.Name = "txt_Node_Tags";
+            txt_Node_Tags.Size = new Size(346, 23);
+            txt_Node_Tags.TabIndex = 6;
             // 
             // btn_Node_Delete
             // 
@@ -257,24 +296,6 @@
             btn_Node_Create.Text = "Create";
             btn_Node_Create.UseVisualStyleBackColor = true;
             btn_Node_Create.Click += btn_Node_Create_Click;
-            // 
-            // txt_Node_Tags
-            // 
-            txt_Node_Tags.Enabled = false;
-            txt_Node_Tags.Location = new Point(4, 298);
-            txt_Node_Tags.Margin = new Padding(3, 2, 3, 2);
-            txt_Node_Tags.Name = "txt_Node_Tags";
-            txt_Node_Tags.Size = new Size(339, 23);
-            txt_Node_Tags.TabIndex = 6;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(5, 283);
-            label7.Name = "label7";
-            label7.Size = new Size(136, 15);
-            label7.TabIndex = 12;
-            label7.Text = "Tags (comma separated)";
             // 
             // txt_InternalName
             // 
@@ -372,6 +393,57 @@
             label1.TabIndex = 0;
             label1.Text = "Block";
             // 
+            // pnl_GW
+            // 
+            pnl_GW.BackColor = SystemColors.ControlLight;
+            pnl_GW.Controls.Add(label8);
+            pnl_GW.Controls.Add(cmbx_GW_AvailableNodes);
+            pnl_GW.Controls.Add(label6);
+            pnl_GW.Controls.Add(cmbx_GW_Direction);
+            pnl_GW.Controls.Add(dgv_GatewayConnections);
+            pnl_GW.Location = new Point(0, 137);
+            pnl_GW.Name = "pnl_GW";
+            pnl_GW.Size = new Size(351, 184);
+            pnl_GW.TabIndex = 14;
+            pnl_GW.Visible = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(139, 16);
+            label8.Name = "label8";
+            label8.Size = new Size(92, 15);
+            label8.TabIndex = 17;
+            label8.Text = "Available Nodes";
+            // 
+            // cmbx_GW_AvailableNodes
+            // 
+            cmbx_GW_AvailableNodes.FormattingEnabled = true;
+            cmbx_GW_AvailableNodes.Location = new Point(139, 34);
+            cmbx_GW_AvailableNodes.Name = "cmbx_GW_AvailableNodes";
+            cmbx_GW_AvailableNodes.Size = new Size(203, 23);
+            cmbx_GW_AvailableNodes.TabIndex = 16;
+            cmbx_GW_AvailableNodes.TabStop = false;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(6, 16);
+            label6.Name = "label6";
+            label6.Size = new Size(55, 15);
+            label6.TabIndex = 15;
+            label6.Text = "Direction";
+            // 
+            // cmbx_GW_Direction
+            // 
+            cmbx_GW_Direction.FormattingEnabled = true;
+            cmbx_GW_Direction.Items.AddRange(new object[] { "North", "South", "East", "West" });
+            cmbx_GW_Direction.Location = new Point(6, 34);
+            cmbx_GW_Direction.Name = "cmbx_GW_Direction";
+            cmbx_GW_Direction.Size = new Size(121, 23);
+            cmbx_GW_Direction.TabIndex = 14;
+            cmbx_GW_Direction.TabStop = false;
+            // 
             // dgv_GatewayConnections
             // 
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -383,39 +455,19 @@
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
             dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn1 });
+            dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dgvcmbx_GW_AvailableNodes, dataGridViewCheckBoxColumn1 });
+            dgv_GatewayConnections.Dock = DockStyle.Bottom;
             dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv_GatewayConnections.Location = new Point(0, 137);
+            dgv_GatewayConnections.Location = new Point(0, 73);
             dgv_GatewayConnections.Margin = new Padding(3, 2, 3, 2);
             dgv_GatewayConnections.MultiSelect = false;
             dgv_GatewayConnections.Name = "dgv_GatewayConnections";
             dgv_GatewayConnections.RowHeadersWidth = 51;
             dgv_GatewayConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_GatewayConnections.Size = new Size(352, 136);
+            dgv_GatewayConnections.Size = new Size(351, 111);
             dgv_GatewayConnections.TabIndex = 13;
             dgv_GatewayConnections.TabStop = false;
             dgv_GatewayConnections.CellClick += dgv_GatewayConnections_CellClick;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewComboBoxColumn1.Frozen = true;
-            dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
-            dataGridViewComboBoxColumn1.MinimumWidth = 6;
-            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
-            dataGridViewComboBoxColumn1.Width = 125;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            dataGridViewCheckBoxColumn1.Frozen = true;
-            dataGridViewCheckBoxColumn1.HeaderText = "Is one way?";
-            dataGridViewCheckBoxColumn1.MinimumWidth = 6;
-            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            dataGridViewCheckBoxColumn1.Resizable = DataGridViewTriState.True;
-            dataGridViewCheckBoxColumn1.SortMode = DataGridViewColumnSortMode.Automatic;
-            dataGridViewCheckBoxColumn1.Width = 80;
             // 
             // trvw_Nodes
             // 
@@ -438,7 +490,7 @@
             tbpg_Blocks.Margin = new Padding(3, 2, 3, 2);
             tbpg_Blocks.Name = "tbpg_Blocks";
             tbpg_Blocks.Padding = new Padding(3, 2, 3, 2);
-            tbpg_Blocks.Size = new Size(664, 371);
+            tbpg_Blocks.Size = new Size(665, 371);
             tbpg_Blocks.TabIndex = 1;
             tbpg_Blocks.Text = "Blocks";
             tbpg_Blocks.UseVisualStyleBackColor = true;
@@ -451,8 +503,8 @@
             pnl_Right_Blocks.Location = new Point(256, 2);
             pnl_Right_Blocks.Margin = new Padding(3, 2, 3, 2);
             pnl_Right_Blocks.Name = "pnl_Right_Blocks";
-            pnl_Right_Blocks.Padding = new Padding(4, 4, 4, 4);
-            pnl_Right_Blocks.Size = new Size(405, 367);
+            pnl_Right_Blocks.Padding = new Padding(4);
+            pnl_Right_Blocks.Size = new Size(406, 367);
             pnl_Right_Blocks.TabIndex = 5;
             // 
             // gbx_EditBlock
@@ -470,7 +522,7 @@
             gbx_EditBlock.Margin = new Padding(3, 2, 3, 2);
             gbx_EditBlock.Name = "gbx_EditBlock";
             gbx_EditBlock.Padding = new Padding(3, 2, 3, 2);
-            gbx_EditBlock.Size = new Size(397, 189);
+            gbx_EditBlock.Size = new Size(398, 189);
             gbx_EditBlock.TabIndex = 3;
             gbx_EditBlock.TabStop = false;
             gbx_EditBlock.Text = "Edit Block";
@@ -565,7 +617,7 @@
             gbx_NewBlock.Margin = new Padding(3, 2, 3, 2);
             gbx_NewBlock.Name = "gbx_NewBlock";
             gbx_NewBlock.Padding = new Padding(3, 2, 3, 2);
-            gbx_NewBlock.Size = new Size(397, 170);
+            gbx_NewBlock.Size = new Size(398, 170);
             gbx_NewBlock.TabIndex = 2;
             gbx_NewBlock.TabStop = false;
             gbx_NewBlock.Text = "New Block";
@@ -655,7 +707,7 @@
             tbpg_Export.Margin = new Padding(3, 2, 3, 2);
             tbpg_Export.Name = "tbpg_Export";
             tbpg_Export.Padding = new Padding(5, 4, 5, 4);
-            tbpg_Export.Size = new Size(664, 371);
+            tbpg_Export.Size = new Size(665, 371);
             tbpg_Export.TabIndex = 2;
             tbpg_Export.Text = "Export/Import";
             tbpg_Export.UseVisualStyleBackColor = true;
@@ -669,7 +721,7 @@
             panel2.Location = new Point(5, 255);
             panel2.Margin = new Padding(8, 7, 8, 7);
             panel2.Name = "panel2";
-            panel2.Size = new Size(654, 112);
+            panel2.Size = new Size(655, 112);
             panel2.TabIndex = 12;
             // 
             // btn_Import
@@ -679,7 +731,7 @@
             btn_Import.Location = new Point(0, 48);
             btn_Import.Margin = new Padding(0, 2, 0, 2);
             btn_Import.Name = "btn_Import";
-            btn_Import.Size = new Size(652, 62);
+            btn_Import.Size = new Size(653, 62);
             btn_Import.TabIndex = 9;
             btn_Import.Text = "Import";
             btn_Import.UseVisualStyleBackColor = true;
@@ -695,7 +747,7 @@
             panel1.Location = new Point(5, 4);
             panel1.Margin = new Padding(8, 7, 8, 7);
             panel1.Name = "panel1";
-            panel1.Size = new Size(654, 220);
+            panel1.Size = new Size(655, 220);
             panel1.TabIndex = 11;
             // 
             // panel3
@@ -707,7 +759,7 @@
             panel3.Location = new Point(0, 0);
             panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(652, 142);
+            panel3.Size = new Size(653, 142);
             panel3.TabIndex = 10;
             // 
             // rbtn_Export_FARapp
@@ -760,7 +812,7 @@
             btn_Export.Location = new Point(0, 156);
             btn_Export.Margin = new Padding(0, 2, 0, 2);
             btn_Export.Name = "btn_Export";
-            btn_Export.Size = new Size(652, 62);
+            btn_Export.Size = new Size(653, 62);
             btn_Export.TabIndex = 9;
             btn_Export.Text = "Export";
             btn_Export.UseVisualStyleBackColor = true;
@@ -773,7 +825,7 @@
             tbpg_Combine.Margin = new Padding(3, 2, 3, 2);
             tbpg_Combine.Name = "tbpg_Combine";
             tbpg_Combine.Padding = new Padding(3, 2, 3, 2);
-            tbpg_Combine.Size = new Size(664, 371);
+            tbpg_Combine.Size = new Size(665, 371);
             tbpg_Combine.TabIndex = 3;
             tbpg_Combine.Text = "Combine";
             tbpg_Combine.UseVisualStyleBackColor = true;
@@ -789,11 +841,32 @@
             textBox1.TabIndex = 0;
             textBox1.Text = "So this page will allow the user to combine two .apjson files into 1. \r\nThis allows a .apjson per floor per block. Genius right? doubt it.\r\n\r\nAnyway, think about UID clashes and shit.";
             // 
+            // dgvcmbx_GW_AvailableNodes
+            // 
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle5;
+            dgvcmbx_GW_AvailableNodes.Frozen = true;
+            dgvcmbx_GW_AvailableNodes.HeaderText = "Available Nodes";
+            dgvcmbx_GW_AvailableNodes.MinimumWidth = 6;
+            dgvcmbx_GW_AvailableNodes.Name = "dgvcmbx_GW_AvailableNodes";
+            dgvcmbx_GW_AvailableNodes.Resizable = DataGridViewTriState.True;
+            dgvcmbx_GW_AvailableNodes.Width = 125;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            dataGridViewCheckBoxColumn1.Frozen = true;
+            dataGridViewCheckBoxColumn1.HeaderText = "Is one way?";
+            dataGridViewCheckBoxColumn1.MinimumWidth = 6;
+            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            dataGridViewCheckBoxColumn1.Resizable = DataGridViewTriState.True;
+            dataGridViewCheckBoxColumn1.SortMode = DataGridViewColumnSortMode.Automatic;
+            dataGridViewCheckBoxColumn1.Width = 80;
+            // 
             // frm_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(672, 399);
+            ClientSize = new Size(673, 399);
             Controls.Add(tbctrl_MainTabs);
             Margin = new Padding(3, 2, 3, 2);
             Name = "frm_Main";
@@ -803,8 +876,12 @@
             tbpg_Nodes.ResumeLayout(false);
             gbx_Node.ResumeLayout(false);
             gbx_Node.PerformLayout();
+            pnl_NormalNodes.ResumeLayout(false);
+            pnl_NormalNodes.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_NodeConnections).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).EndInit();
+            pnl_GW.ResumeLayout(false);
+            pnl_GW.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).EndInit();
             tbpg_Blocks.ResumeLayout(false);
             pnl_Right_Blocks.ResumeLayout(false);
@@ -831,7 +908,6 @@
         private TabControl tbctrl_MainTabs;
         private TabPage tbpg_Nodes;
         private GroupBox gbx_EditNode;
-        private GroupBox gbx_Node;
         private TabPage tbpg_Blocks;
         private GroupBox gbx_EditBlock;
         private NumericUpDown nud_Edit_HighestFloor;
@@ -854,29 +930,7 @@
         private TreeView trvw_Nodes;
         private Panel pnl_Right_Blocks;
         private ListBox lst_Blocks;
-        private Label label1;
-        private ComboBox cmbx_BlockSelect;
-        private ComboBox cmbx_NodeType;
-        private Label label2;
-        private NumericUpDown nud_Node_Floor;
-        private Label label3;
-        private TextBox txt_InternalName;
-        private Label label5;
-        private TextBox txt_PublicName;
-        private Label label4;
-        private Button btn_Node_Delete;
-        private Button btn_Node_Save;
-        private Button btn_Node_Create;
-        private TextBox txt_Node_Tags;
-        private Label label7;
-        private DataGridView dgv_NodeConnections;
-        private DataGridViewTextBoxColumn clm_NodeDirection;
-        private DataGridViewComboBoxColumn clm_AvailNodes;
-        private DataGridViewCheckBoxColumn clm_OneWay;
         private TabPage tbpg_Export;
-        private DataGridView dgv_GatewayConnections;
-        private DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
-        private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private RadioButton rbtn_Export_Both;
         private RadioButton radioButton2;
         private RadioButton rbtn_Export_FARapp;
@@ -887,5 +941,34 @@
         private Button btn_Import;
         private TabPage tbpg_Combine;
         private TextBox textBox1;
+        private GroupBox gbx_Node;
+        private Panel pnl_NormalNodes;
+        private DataGridView dgv_NodeConnections;
+        private DataGridViewTextBoxColumn clm_NodeDirection;
+        private DataGridViewComboBoxColumn clm_AvailNodes;
+        private DataGridViewCheckBoxColumn clm_OneWay;
+        private Label label7;
+        private TextBox txt_Node_Tags;
+        private Button btn_Node_Delete;
+        private Button btn_Node_Save;
+        private Button btn_Node_Create;
+        private TextBox txt_InternalName;
+        private Label label5;
+        private TextBox txt_PublicName;
+        private Label label4;
+        private NumericUpDown nud_Node_Floor;
+        private Label label3;
+        private ComboBox cmbx_NodeType;
+        private Label label2;
+        private ComboBox cmbx_BlockSelect;
+        private Label label1;
+        private Panel pnl_GW;
+        private Label label8;
+        private ComboBox cmbx_GW_AvailableNodes;
+        private Label label6;
+        private ComboBox cmbx_GW_Direction;
+        private DataGridView dgv_GatewayConnections;
+        private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        public DataGridViewComboBoxColumn dgvcmbx_GW_AvailableNodes;
     }
 }

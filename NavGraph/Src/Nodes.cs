@@ -255,12 +255,30 @@ namespace NavGraphTools
     [JsonSerializable(typeof(GatewayNode))]
     public class GatewayNode : NavNode, ISpecialNodes
     {
-        #region Member Variables        
-        //Throws exception because Nodes shouldn't be used for gateways
-        public override Dictionary<NodeDirection, int> Nodes { get => throw new Exception(); }
+        #region Member Variables
+        [JsonInclude]
+        private Dictionary<NodeDirection, int> _Nodes = new Dictionary<NodeDirection, int>();
+
+
+        [JsonIgnore]
+        public override Dictionary<NodeDirection, int> Nodes
+        {
+            get => _Nodes;
+
+            internal set
+            {//Tries to ensure this only has 1 hard connection
+                if (_Nodes.Count == 1)
+                {
+                    _Nodes.Clear();
+
+                    KeyValuePair<NodeDirection, int> Temp = value.First();
+
+                    _Nodes.Add(Temp.Key, Temp.Value);
+                }
+            }
+        }
 
         [JsonInclude]
-        //why is this an <int, string> dictionary?
         public Dictionary<int, string> Connections = new Dictionary<int, string>();
         //                      ^Block name?
         //                 ^gateway UID?
@@ -269,14 +287,18 @@ namespace NavGraphTools
 
         #region Overrides
         /// <summary>
-        /// Gets connected block gateways
+        /// Returns the 1 connected non-gateway node
         /// </summary>
-        /// <returns></returns>
-        public new Dictionary<int, string> GetConnectedNodes()
-        {
-            return Connections.Where(X => IsValidUID(X.Key)).ToDictionary
-                (X => X.Key, X => X.Value);
-        }
+        /// <returns>A dictionary defining their direction and their UID</returns>
+        public override Dictionary<NodeDirection, int> GetConnectedNodes()
+        { return Nodes; }
+
+        /// <summary>
+        /// Gets connected Gateway nodes
+        /// </summary>
+        /// <returns>A dictionary of Gateway UIDs and the name of their block</returns>
+        public Dictionary<int, string> GetConnectedGateways()
+        { return Connections; }
 
         public override string ToString()
         {
@@ -289,7 +311,7 @@ namespace NavGraphTools
         }
 
         /// <summary>
-        /// ALWAYS RETURNS FALSE
+        /// 
         /// </summary>
         /// <returns>False, unless cosmic bitflip or some shit</returns>
         public override bool IsAvailable(NodeDirection _Direction)
@@ -297,10 +319,16 @@ namespace NavGraphTools
 
         public new bool IsConnected(int _UID)
         {
-            if (Connections.ContainsKey(_UID))
+            if (Connections.ContainsKey(_UID) || Nodes.ContainsValue(_UID))
             { return true; }
             else
             { return false; }
+        }
+
+        internal override void ConnectNode(int _NodeUID, NodeDirection _Direction)
+        {
+            if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down)
+            { Nodes[_Direction] = _NodeUID; }
         }
 
         internal void ConnectNode(int _NodeUID, string _BlockName)
@@ -386,6 +414,31 @@ namespace NavGraphTools
             { return false; }
             else
             { return true; }
+        }
+    }
+    #endregion
+
+    #region Misc
+    public static class Helpers
+    {
+        public static NodeDirection ToDirection(this string _Str)
+        {
+            switch (_Str.ToLower())
+            {
+                default:
+                case "north":
+                { return NodeDirection.North; }
+                case "east":
+                { return NodeDirection.East; }
+                case "south":
+                { return NodeDirection.South; }
+                case "west":
+                { return NodeDirection.West; }
+                case "up":
+                { return NodeDirection.Up; }
+                case "down":
+                { return NodeDirection.Down; }
+            }
         }
     }
     #endregion

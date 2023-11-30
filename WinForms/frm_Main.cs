@@ -42,6 +42,8 @@ namespace WinForms
 
             NG.Blocks.Add("Johnstone", (4, 0));
             RefreshBlocksList();
+
+            dgv_GatewayConnections.Rows.Add();
         }
 
         private void ClearBox(GroupBox _GBX)

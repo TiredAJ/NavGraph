@@ -26,12 +26,6 @@ namespace WinForms
             FillBlocksControls();
         }
 
-        private void RefreshNodesTree()
-        {
-            trvw_Nodes.Nodes.Clear();
-            FillNodesTree();
-        }
-
         private void FillBlocksControls()
         {
             lst_Blocks.Items.AddRange(NG.Blocks.Keys.ToArray());
@@ -49,20 +43,23 @@ namespace WinForms
             {
                 Current = trvw_Nodes.Nodes.Add($"{N.Key} \"{N.Value.InternalName}\"");
 
-                if (!(N.Value is GatewayNode))
+                if (N.Value is GatewayNode GN)
+                {
+                    foreach (var CN in GN.GetConnectedNodes())
+                    {
+                        Current.Nodes.Add
+                        ($"{CN.Key}:".PadRight(6) + $" {CN.Value} \"{GetNodeName(CN.Value)}\"");
+                    }
+                    foreach (var CN in GN.GetConnectedGateways())
+                    { Current.Nodes.Add($"{CN.Key} -> {CN.Value} \"{GetNodeName(CN.Key)}\""); }
+                }
+                else
                 {
                     foreach (var CN in N.Value.GetConnectedNodes())
                     {
                         Current.Nodes.Add
                         ($"{CN.Key}:".PadRight(6) + $" {CN.Value} \"{GetNodeName(CN.Value)}\"");
                     }
-                }
-                else
-                {
-                    var GN = N.Value as GatewayNode;
-
-                    foreach (var CN in GN.GetConnectedNodes())
-                    { Current.Nodes.Add($"{CN.Key} -> {CN.Value} \"{GetNodeName(CN.Key)}\""); }
                 }
             }
 

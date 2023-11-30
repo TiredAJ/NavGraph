@@ -93,6 +93,8 @@ namespace WinForms
 
             btn_Node_Save.Enabled = false;
             btn_Node_Delete.Enabled = false;
+
+            RefreshNodesTree();
         }
 
         private void nud_Node_Floor_ValueChanged(object sender, EventArgs e)
@@ -161,9 +163,12 @@ namespace WinForms
             }
 
             if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
-            { dgv_GatewayConnections.BringToFront(); }
+            { SetupGW(); }
             else
-            { dgv_NodeConnections.BringToFront(); }
+            {
+                pnl_NormalNodes.BringToFront();
+                pnl_GW.Visible = false;
+            }
         }
 
         private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
@@ -314,8 +319,8 @@ namespace WinForms
                     dgv_NodeConnections.Invoke(() =>
                     {
                         var CMBX = (dgv_GatewayConnections.Rows[e.RowIndex]
-                                                            .Cells[e.ColumnIndex]
-                                                            as DataGridViewComboBoxCell);
+                                                                        .Cells[e.ColumnIndex]
+                                                                        as DataGridViewComboBoxCell);
 
                         if (CMBX != null)
                         {
@@ -323,7 +328,7 @@ namespace WinForms
                             CMBX.Items.AddRange(AvailableNodes);
                         }
 
-                        dgv_NodeConnections.Refresh();
+                        dgv_GatewayConnections.Refresh();
                     });
                 });
 
@@ -336,7 +341,7 @@ namespace WinForms
         {
             ElevationNode EN = new ElevationNode();
 
-            EN.BlockName = cmbx_BlockSelect.SelectedItem.ToString();
+            EN.BlockName = cmbx_BlockSelect.Text;
             EN.Floor = (int)nud_Node_Floor.Value;
             EN.InternalName = txt_InternalName.Text;
 
@@ -353,7 +358,7 @@ namespace WinForms
         {
             RoomNode RN = new RoomNode();
 
-            RN.BlockName = cmbx_BlockSelect.SelectedItem.ToString();
+            RN.BlockName = cmbx_BlockSelect.Text;
             RN.Floor = (int)nud_Node_Floor.Value;
             RN.InternalName = txt_InternalName.Text.Trim();
             RN.RoomName = txt_PublicName.Text.Trim();
@@ -375,7 +380,7 @@ namespace WinForms
         {
             CorridorNode CN = new CorridorNode();
 
-            CN.BlockName = cmbx_BlockSelect.SelectedItem.ToString();
+            CN.BlockName = cmbx_BlockSelect.Text;
             CN.Floor = (int)nud_Node_Floor.Value;
             CN.InternalName = txt_InternalName.Text.Trim();
 
@@ -392,21 +397,57 @@ namespace WinForms
         {
             GatewayNode GN = new GatewayNode();
 
-            GN.BlockName = cmbx_BlockSelect.SelectedItem.ToString();
+            GN.BlockName = cmbx_BlockSelect.Text;
             GN.Floor = (int)nud_Node_Floor.Value;
             GN.InternalName = txt_InternalName.Text.Trim();
 
             CurNodeUID = NG.AddNode(GN);
 
-            foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
+            if (cmbx_GW_AvailableNodes.Text != string.Empty)
+            { NG.ConnectGatewayNode(CurNodeUID, cmbx_GW_AvailableNodes.Text.SplitNodeID(), cmbx_GW_Direction.Text.ToDirection()); }
+
+
+            foreach (DataGridViewRow Row in dgv_GatewayConnections.Rows)
             {
-                if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-                { NG.ConnectGatewayNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID()); }
+                if (Row.Cells[0] is DataGridViewComboBoxCell DGVCBX && DGVCBX.Value != null)
+                { NG.ConnectGatewayNodes(CurNodeUID, (Row.Cells[0] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID()); }
             }
         }
 
         private string GetNodeName(int _UID)
         { return NG.TryGetNode(_UID).InternalName; }
+
+        private void SetupGW()
+        {
+            pnl_GW.BringToFront();
+            pnl_GW.Visible = true;
+
+            NodeDirection ND = (NodeDirection)((int)cmbx_GW_Direction.SelectedText.ToDirection() * -1);
+
+            Task.Run(() =>
+            {
+                var AvailableNodes = NG.GetAllNodes()
+                    .AsParallel()
+                    .Where(X => X.Value is not GatewayNode)
+                    .Where(X => X.Value.IsAvailable(ND))
+                    .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                    .ToArray();
+
+                cmbx_GW_AvailableNodes.Invoke(() =>
+                {
+                    cmbx_GW_AvailableNodes.Items.Clear();
+                    cmbx_GW_AvailableNodes.Items.AddRange(AvailableNodes);
+
+                    cmbx_GW_AvailableNodes.Refresh();
+                });
+            });
+        }
+
+        private void RefreshNodesTree()
+        {
+            trvw_Nodes.Nodes.Clear();
+            FillNodesTree();
+        }
     }
 
     public static class Extensions
