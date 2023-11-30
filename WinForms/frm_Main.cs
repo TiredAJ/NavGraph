@@ -144,7 +144,7 @@ namespace WinForms
         { NG.Serialise(_DataStream, NGSerialiseOptions.SerialiseForApp); }
 
         private void ExportToAdmin(Stream _DataStream)
-        { }
+        { NG.Serialise(_DataStream, NGSerialiseOptions.IncludeMetadata); }
 
         private void ExportToZipped(Stream _DataStream)
         {
@@ -169,6 +169,16 @@ namespace WinForms
             else
             { OFD.InitialDirectory = DefaultFileLoc; }
 
+            switch (OFD.ShowDialog())
+            {
+                case DialogResult.None:
+                case DialogResult.Cancel:
+                case DialogResult.Abort:
+                case DialogResult.Ignore:
+                case DialogResult.No:
+                { return; }
+            }
+
             switch (Path.GetExtension(OFD.FileName))
             {
                 case ".apjson":
@@ -184,6 +194,7 @@ namespace WinForms
         {
             NG.Deserialise(_File);
 
+            RefreshNodesTree();
         }
 
         private void ImportFromZipped(Stream _File)

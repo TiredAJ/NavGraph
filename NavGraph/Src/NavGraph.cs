@@ -40,9 +40,12 @@ namespace NavGraphTools
         [JsonIgnore]
         private JsonSerializerOptions JSO = new JsonSerializerOptions()
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never,
             IncludeFields = true,
             WriteIndented = true,
+            PropertyNameCaseInsensitive = true,
+            PreferredObjectCreationHandling = JsonObjectCreationHandling.Replace,
+
         };
         #endregion
 
@@ -61,6 +64,16 @@ namespace NavGraphTools
 
                 _AvailableUID = BaseUID++;
             }
+        }
+
+        /// <summary>
+        /// FOR DESERIALISATION ONLY. DO NOT USE.
+        /// </summary>
+        public NavGraph()
+        {
+            BaseUID = MINIMUM_UID;
+            Blocks = new Dictionary<string, (int Max, int Min)>();
+            _AvailableUID = BaseUID + 1;
         }
 
         #region Adding Nodes
@@ -248,8 +261,10 @@ namespace NavGraphTools
             {
                 NGSerialiseTemplate SerData = new NGSerialiseTemplate();
 
+                string Temp = Reader.ReadToEnd();
+
                 SerData = JsonSerializer.Deserialize<NGSerialiseTemplate>
-                    (Reader.ReadToEnd(), JSO);
+                    (Temp, JSO);
 
                 Blocks = SerData.NG.Blocks;
                 Nodes = SerData.NG.Nodes;
@@ -329,17 +344,18 @@ namespace NavGraphTools
     internal struct NGSerialiseTemplate
     {
         [JsonInclude]
-        public Dictionary<int, NavNode>? Nodes { get; set; }
+        public Dictionary<int, NavNode>? Nodes { get; set; } = null;
         [JsonInclude]
-        public Dictionary<string, (int Max, int Min)>? Blocks { get; set; }
+        public Dictionary<string, (int, int)>? Blocks { get; set; } = null;
 
         [JsonInclude]
-        public NavGraph? NG { get; set; }
+        public NavGraph? NG { get; set; } = null;
 
         public NGSerialiseTemplate()
         {
-            Nodes = null;
-            Blocks = null;
+            Nodes = new Dictionary<int, NavNode>();
+            Blocks = new Dictionary<string, (int, int)>();
+            NG = new NavGraph();
         }
     }
 }
