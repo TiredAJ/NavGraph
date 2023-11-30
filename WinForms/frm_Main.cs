@@ -186,7 +186,7 @@ namespace WinForms
                 case ".zip":
                 { ImportFromZipped(OFD.OpenFile()); break; }
                 default:
-                { MessageBox.Show("IDKHOW, but that's not the right file?"); break; }
+                { MessageBox.Show("IDKHOW, but that ain't the right file."); break; }
             }
         }
 
