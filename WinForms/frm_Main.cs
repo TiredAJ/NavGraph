@@ -1,6 +1,7 @@
 // Ignore Spelling: frm
 
 using NavGraphTools;
+using WinForms.Tools;
 
 namespace WinForms
 {
@@ -131,24 +132,13 @@ namespace WinForms
             switch (ExportOptions)
             {
                 case ExportType.FARap:
-                { ExportToAdmin(FileSaveS); break; }
+                { Filer.ExportToAdmin(FileSaveS, NG); break; }
+                case ExportType.Zipped:
+                { Filer.ExportToZipped(FileSaveS, NG); break; }
                 default:
                 case ExportType.FARa:
-                { ExportToApp(FileSaveS); break; }
-                case ExportType.Zipped:
-                { ExportToZipped(FileSaveS); break; }
+                { Filer.ExportToApp(FileSaveS, NG); break; }
             }
-        }
-
-        private void ExportToApp(Stream _DataStream)
-        { NG.Serialise(_DataStream, NGSerialiseOptions.SerialiseForApp); }
-
-        private void ExportToAdmin(Stream _DataStream)
-        { NG.Serialise(_DataStream, NGSerialiseOptions.IncludeMetadata); }
-
-        private void ExportToZipped(Stream _DataStream)
-        {
-            //maybe use 7zip?
         }
 
         private void btn_Import_Click(object sender, EventArgs e)
@@ -182,34 +172,22 @@ namespace WinForms
             switch (Path.GetExtension(OFD.FileName))
             {
                 case ".apjson":
-                { ImportFromAdmin(OFD.OpenFile()); break; }
-                case ".zip":
-                { ImportFromZipped(OFD.OpenFile()); break; }
-                default:
-                { MessageBox.Show("IDKHOW, but that ain't the right file."); break; }
-            }
-        }
-
-        private void ImportFromAdmin(Stream _File)
-        {
-            NG.Deserialise(_File);
-
-            RefreshNodesTree();
-        }
-
-        private void ImportFromZipped(Stream _File)
-        {
-            using (FileStream F = _File as FileStream)
-            {
-                if (!F.Name.Contains(".ajson.zip"))
                 {
-                    MessageBox.Show("Wrong kinda zip file buddy");
-                    return;
+                    Filer.ImportFromAdmin(OFD.OpenFile(), NG);
+                    RefreshNodesTree(); break;
                 }
+                case ".zip":
+                {
+                    Filer.ImportFromZipped(OFD.OpenFile(), NG);
+                    RefreshNodesTree(); break;
+                }
+                default:
+                { MessageBox.Show("IDKHOW, but that ain't the right file."); return; }
             }
-
-            //ImportFromAdmin();
         }
+
+        private void frm_Main_FormClosing(object sender, FormClosingEventArgs e)
+        { Filer.CloseLocalFolders(); }
     }
 
     public enum ExportType : int
@@ -218,5 +196,4 @@ namespace WinForms
         FARa = 1,
         Zipped = 2
     }
-
 }
