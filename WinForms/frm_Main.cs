@@ -98,7 +98,7 @@ namespace WinForms
                 case ExportType.FARa:
                 {
                     SFD.DefaultExt = "ajson";
-                    SFD.FileName = "A-NavGraph";
+                    SFD.FileName = "App-NavGraph";
                     SFD.Filter = "Application NavGraph JSON file (*.ajson)|*.ajson";
                     break;
                 }
@@ -113,7 +113,7 @@ namespace WinForms
                 default:
                 {
                     SFD.DefaultExt = "apjson";
-                    SFD.FileName = "AP-NavGraph";
+                    SFD.FileName = "Admin-NavGraph";
                     SFD.Filter = "Admin Panel NavGraph JSON file (*.apjson)|*.apjson";
                     break;
                 }
@@ -172,18 +172,15 @@ namespace WinForms
             switch (Path.GetExtension(OFD.FileName))
             {
                 case ".apjson":
-                {
-                    Filer.ImportFromAdmin(OFD.OpenFile(), NG);
-                    RefreshNodesTree(); break;
-                }
+                { Filer.ImportFromAdmin(OFD.OpenFile(), NG); break; }
                 case ".zip":
-                {
-                    Filer.ImportFromZipped(OFD.OpenFile(), NG);
-                    RefreshNodesTree(); break;
-                }
+                { Filer.ImportFromZipped(OFD.OpenFile(), NG); break; }
                 default:
                 { MessageBox.Show("IDKHOW, but that ain't the right file."); return; }
             }
+
+            RefreshNodesTree();
+            RefreshBlocksList();
         }
 
         private void frm_Main_FormClosing(object sender, FormClosingEventArgs e)

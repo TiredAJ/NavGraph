@@ -290,6 +290,9 @@ namespace NavGraphTools
                     case NGSerialiseOptions.IncludeMetadata:
                     {//include blocks dictionary
                         SerData.NG = this;
+                        SerData.Blocks = Blocks;
+                        SerData.Nodes = null;
+
                         break;
                     }
                     case NGSerialiseOptions.SerialiseForApp:
@@ -353,9 +356,9 @@ namespace NavGraphTools
 
         public NGSerialiseTemplate()
         {
-            Nodes = new Dictionary<int, NavNode>();
-            Blocks = new Dictionary<string, (int, int)>();
-            NG = new NavGraph();
+            Nodes = null;
+            Blocks = null;
+            NG = null;
         }
     }
 }

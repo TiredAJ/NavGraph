@@ -1,4 +1,5 @@
 ﻿using NavGraphTools;
+using System.IO.Compression;
 
 namespace WinForms.Tools
 {
@@ -14,17 +15,29 @@ namespace WinForms.Tools
 
         public static void ExportToZipped(Stream _DataStream, NavGraph _NG)
         {
-            //maybe use 7zip?
+            string? NewDir = CreateLocalFolder();
+
+            if (NewDir == null)
+            { throw new ArgumentNullException("NewDir was null!"); }
+
+            using (FileStream FS = new FileStream(Path.Combine(NewDir, "AdminNavGraph.apjson"), FileMode.CreateNew))
+            { ExportToAdmin(FS, _NG); }
+
+            using (FileStream FS = new FileStream(Path.Combine(NewDir, "AppNavGraph.ajson"), FileMode.CreateNew))
+            { ExportToApp(FS, _NG); }
+
+            using (_DataStream)
+            { ZipFile.CreateFromDirectory(NewDir, _DataStream); }
+
+            CloseLocalFolder(NewDir);
         }
 
-        public static void ImportFromAdmin(Stream _File, NavGraph _NG)
-        {
-            _NG.Deserialise(_File);
-        }
+        public static void ImportFromAdmin(Stream _DataStream, NavGraph _NG)
+        { _NG.Deserialise(_DataStream); }
 
-        public static void ImportFromZipped(Stream _File, NavGraph _NG)
+        public static void ImportFromZipped(Stream _DataStream, NavGraph _NG)
         {
-            using (FileStream F = _File as FileStream)
+            using (FileStream F = _DataStream as FileStream)
             {
                 if (F == null || !F.Name.Contains(".ajson.zip"))
                 {
@@ -32,15 +45,25 @@ namespace WinForms.Tools
                     return;
                 }
 
+                string? NewDir = CreateLocalFolder();
 
+                if (NewDir == null)
+                { throw new ArgumentNullException("NewDir was null!"); }
+
+                ZipFile.ExtractToDirectory(F.Name, NewDir);
+
+                var T = Directory.GetFiles(NewDir, "*.apjson");
+
+                if (T != null)
+                { ImportFromAdmin(new FileStream(T.First(), FileMode.Open), _NG); }
+                //think about an else using potential combination
             }
-
-            //ImportFromAdmin();
         }
 
         private static string? CreateLocalFolder()
         {
-            string NewDir = Path.Combine(Environment.CurrentDirectory, "Temp");
+            string NewDir = Path.Combine
+                (Environment.CurrentDirectory, $"Temp {DateTime.Now.ToString("HH-mm-ss")}");
 
             var T = Directory.CreateDirectory(NewDir);
 
@@ -55,9 +78,9 @@ namespace WinForms.Tools
         }
 
         public static void CloseLocalFolders()
-        {
-            foreach (var Dir in TempDirectories)
-            { Directory.Delete(Dir, true); }
-        }
+        { TempDirectories.Clear(); }
+
+        private static void CloseLocalFolder(string _Folder)
+        { TempDirectories.Remove(_Folder); }
     }
 }
