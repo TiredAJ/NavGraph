@@ -5,14 +5,33 @@ namespace WinForms.Tools
 {
     public static class Filer
     {
+        /// <summary>
+        /// Holds the filepaths of all temporary directories
+        /// </summary>
         static List<string> TempDirectories = new List<string>();
 
+        #region Exporting
+        /// <summary>
+        /// For exporting a NavGraph suitable for final app
+        /// </summary>
+        /// <param name="_DataStream">Stream to save the file to</param>
+        /// <param name="_NG">NavGraph object to extract data from</param>
         public static void ExportToApp(Stream _DataStream, NavGraph _NG)
         { _NG.Serialise(_DataStream, NGSerialiseOptions.SerialiseForApp); }
 
+        /// <summary>
+        /// For exporting a NavGraph with admin-level data
+        /// </summary>
+        /// <param name="_DataStream">Stream to save the file to</param>
+        /// <param name="_NG">NavGraph object to extract data from</param>
         public static void ExportToAdmin(Stream _DataStream, NavGraph _NG)
         { _NG.Serialise(_DataStream, NGSerialiseOptions.IncludeMetadata); }
 
+        /// <summary>
+        /// For exporting a NavGraph into both forms, zipped
+        /// </summary>
+        /// <param name="_DataStream">Stream where the ZIP'll go</param>
+        /// <param name="_NG">NavGraph object to extract data from</param>
         public static void ExportToZipped(Stream _DataStream, NavGraph _NG)
         {
             string? NewDir = CreateLocalFolder();
@@ -31,10 +50,22 @@ namespace WinForms.Tools
 
             CloseLocalFolder(NewDir);
         }
+        #endregion
 
+        #region Import
+        /// <summary>
+        /// Converts file to data
+        /// </summary>
+        /// <param name="_DataStream">.apjson file</param>
+        /// <param name="_NG">NavGraph to write into</param>
         public static void ImportFromAdmin(Stream _DataStream, NavGraph _NG)
         { _NG.Deserialise(_DataStream); }
 
+        /// <summary>
+        /// Extracts zip file and saves data from files inside
+        /// </summary>
+        /// <param name="_DataStream">.apjson.zip file</param>
+        /// <param name="_NG">NavGraph to write into</param>
         public static void ImportFromZipped(Stream _DataStream, NavGraph _NG)
         {
             using (FileStream F = _DataStream as FileStream)
@@ -59,7 +90,13 @@ namespace WinForms.Tools
                 //think about an else using potential combination
             }
         }
+        #endregion
 
+        #region Misc
+        /// <summary>
+        /// Creates a temporary local folder
+        /// </summary>
+        /// <returns>File-path to folder, or null if it fails</returns>
         private static string? CreateLocalFolder()
         {
             string NewDir = Path.Combine
@@ -77,10 +114,26 @@ namespace WinForms.Tools
             return DirInfo.FullName;
         }
 
+        /// <summary>
+        /// Closes all local folders
+        /// </summary>
         public static void CloseLocalFolders()
-        { TempDirectories.Clear(); }
+        {
+            foreach (var Dir in TempDirectories)
+            { Directory.Delete(Dir); }
 
+            TempDirectories.Clear();
+        }
+
+        /// <summary>
+        /// Closes a space
+        /// </summary>
+        /// <param name="_Folder"></param>
         private static void CloseLocalFolder(string _Folder)
-        { TempDirectories.Remove(_Folder); }
+        {
+            Directory.Delete(_Folder, true);
+            TempDirectories.Remove(_Folder);
+        }
+        #endregion
     }
 }
