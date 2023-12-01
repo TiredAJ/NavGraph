@@ -419,28 +419,6 @@ namespace NavGraphTools
     #endregion
 
     #region Misc
-    public static class Helpers
-    {
-        public static NodeDirection ToDirection(this string _Str)
-        {
-            switch (_Str.ToLower())
-            {
-                default:
-                case "north":
-                { return NodeDirection.North; }
-                case "east":
-                { return NodeDirection.East; }
-                case "south":
-                { return NodeDirection.South; }
-                case "west":
-                { return NodeDirection.West; }
-                case "up":
-                { return NodeDirection.Up; }
-                case "down":
-                { return NodeDirection.Down; }
-            }
-        }
-    }
     #endregion
 
     public enum NodeDirection

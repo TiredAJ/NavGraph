@@ -22,7 +22,7 @@ namespace NavGraphTools
 
         #region Getting Nodes
         /// <summary>
-        /// Attempts to retreive the node
+        /// Attempts to retrieve the node
         /// </summary>
         /// <param name="_UID">Unique ID of the node to get</param>
         /// <returns>Returns the node with the UID or null if it doesn't exist</returns>
@@ -34,6 +34,28 @@ namespace NavGraphTools
             else
             { return default; } //null equivalent for generic methods??            
         }
+
+        /// <summary>
+        /// Attempts to retrieve the node
+        /// </summary>
+        /// <param name="_UID">Unique ID of the node to get</param>
+        /// <returns>Returns the node with the UID or null if it doesn't exist</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public bool TryGetNode(int _UID, out T? _Node)
+        {
+            if (DoesNodeExist(_UID))
+            {
+                _Node = Nodes[_UID];
+                return true;
+            }
+            else
+            {
+                _Node = default;
+                return false;
+            }
+        }
+
+
 
         /// <summary>
         /// Gets all the nodes in the graph with their UID

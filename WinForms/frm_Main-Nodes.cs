@@ -67,7 +67,7 @@ namespace WinForms
                 foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
                 {
                     if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-                    { NG.ConnectNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+                    { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
                 }
             }
             else if (TempNode is GatewayNode GN)
@@ -173,26 +173,69 @@ namespace WinForms
 
         private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            NavNode Temp;
-            CurNodeUID = trvw_Nodes.SelectedNode.Text.SplitNodeID();
+            NavNode? Temp;
 
-            //if (trvw_Nodes.SelectedNode.Text.Contains(':'))
-            //{  }
-            //else
-            //{ CurNodeUID = SplitNodeID(trvw_Nodes.SelectedNode.Text); }
+            if (e.Node == null || e.Node.Level > 0)
+            { return; }
+
+            CurNodeUID = e.Node.Text.SplitNodeID();
 
             Temp = NG.TryGetNode(CurNodeUID);
 
+            if (Temp == null)
+            {
+                MessageBox.Show("Node returned null!");
+                return;
+            }
+
             txt_InternalName.Text = Temp.InternalName;
 
-            if (Temp is CorridorNode)
-            { cmbx_NodeType.SelectedItem = "Corridor"; }
-            else if (Temp is RoomNode)
-            { cmbx_NodeType.SelectedItem = "Room"; }
-            else if (Temp is ElevationNode)
-            { cmbx_NodeType.SelectedItem = "Elevation"; }
-            else if (Temp is GatewayNode)
-            { cmbx_NodeType.SelectedItem = "Gateway"; }
+            if (Temp is GatewayNode GN)
+            {
+                cmbx_NodeType.SelectedItem = "Gateway";
+
+                pnl_GW.BringToFront();
+                pnl_GW.Visible = true;
+
+                cmbx_GW_AvailableNodes.Text = GN.GetConnectedNodes().First().Value.ToString();
+                cmbx_GW_Direction.Text = GN.GetConnectedNodes().First().Key.ToString();
+
+                dgv_GatewayConnections.Rows.Clear();
+
+                foreach (var KVP in GN.GetConnectedGateways())
+                { dgv_GatewayConnections.Rows.Add(KVP.Key); }
+            }
+            else
+            {
+                pnl_NormalNodes.BringToFront();
+                pnl_GW.Visible = false;
+            }
+
+            if (Temp is ElevationNode EN)
+            {
+                cmbx_NodeType.SelectedItem = "Elevation";
+
+                foreach (var KVP in EN.GetConnectedNodes())
+                { dgv_NodeConnections.Rows.Add(KVP.Key, KVP.Value); }
+            }
+            else
+            {
+                if (Temp is CorridorNode)
+                { cmbx_NodeType.SelectedItem = "Corridor"; }
+                else if (Temp is RoomNode RN)
+                {
+                    cmbx_NodeType.SelectedItem = "Room";
+                    txt_PublicName.Text = RN.RoomName;
+                    txt_Node_Tags.Text = RN.Tags.ElementString();
+                }
+
+                //fix this \/
+
+                foreach (var KVP in Temp.GetConnectedNodes())
+                { dgv_NodeConnections.Rows.Add(KVP.Key, new DataGridViewComboBoxCell().Items.Add(KVP.Value)); }
+
+                dgv_NodeConnections.Refresh();
+            }
 
             gbx_Node.Text = $"Create/Edit Node: {CurNodeUID}";
 
@@ -448,15 +491,5 @@ namespace WinForms
             trvw_Nodes.Nodes.Clear();
             FillNodesTree();
         }
-    }
-
-    public static class Extensions
-    {
-        /// <summary>
-        /// Takes a string and extracts the UID from it
-        /// </summary>
-        /// <returns>int extracted from input</returns>
-        public static int SplitNodeID(this string _In)
-        { return int.Parse(_In.Split(new[] { ' ', ':' }).First()); }
     }
 }

@@ -228,7 +228,18 @@ namespace NavGraphTools
         public void RemoveNode(int _UID)
         {
             if (DoesNodeExist(_UID))
-            { Nodes.Remove(_UID); }
+            {
+                NavNode Temp = Nodes[_UID];
+
+                foreach (var KVP in Temp.GetConnectedNodes())
+                {
+                    NavNode? IntTemp = null;
+
+                    if (TryGetNode(KVP.Value, out IntTemp) && IntTemp != null)
+                    { IntTemp.RemoveConnectedNode((NodeDirection)((int)KVP.Key * -1)); }
+                }
+                Nodes.Remove(_UID);
+            }
         }
         #endregion
 
