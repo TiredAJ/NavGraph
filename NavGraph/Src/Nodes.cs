@@ -30,8 +30,6 @@ namespace NavGraphTools
 
         [JsonInclude]
         public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>(4);
-        public NodeDirection? ElvNodeDirection { get; set; }
-        public NodeDirection? GatewayNodeDirection { get; set; }
         #endregion
 
         #region Altering Connections
@@ -161,6 +159,11 @@ namespace NavGraphTools
             {NodeDirection.South, 0 },
             {NodeDirection.West, 0 }
         };
+
+        [JsonInclude]
+        public NodeDirection? ElvNodeDirection { get; set; }
+        [JsonInclude]
+        public NodeDirection? GatewayNodeDirection { get; set; }
     }
 
     [JsonSerializable(typeof(RoomNode))]
@@ -206,7 +209,6 @@ namespace NavGraphTools
             {NodeDirection.Up, 0 },
             {NodeDirection.Down, 0 },
         };
-        public new NodeDirection? ElvNodeDirection { get => null; }
         #endregion
 
         #region Connections
@@ -282,7 +284,6 @@ namespace NavGraphTools
         public Dictionary<int, string> Connections = new Dictionary<int, string>();
         //                      ^Block name?
         //                 ^gateway UID?
-        public new NodeDirection? GatewayNodeDirection { get => null; }
         #endregion
 
         #region Overrides
