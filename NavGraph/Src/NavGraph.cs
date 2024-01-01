@@ -44,8 +44,6 @@ namespace NavGraphTools
             IncludeFields = true,
             WriteIndented = true,
             PropertyNameCaseInsensitive = true,
-            PreferredObjectCreationHandling = JsonObjectCreationHandling.Replace,
-
         };
         #endregion
 

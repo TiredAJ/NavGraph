@@ -2,7 +2,7 @@
 
 namespace NavGraphTools
 {
-    public class Navigator
+    /*public class Navigator
     {
         #region Variables
         private NavNode? Origin { get; set; }
@@ -44,10 +44,10 @@ namespace NavGraphTools
         {
             List<int> Path = new List<int>();
 
-            if (typeof(T) == typeof(ElevationNode) && CurrentLocation.ElvNodeDirection != null)
-            { return ElvFlowFollower(ref _NG); }
-            else if (typeof(T) == typeof(GatewayNode) && CurrentLocation.GatewayNodeDirection != null)
-            { return GateFlowFollower(ref _NG); }
+            //if (typeof(T) == typeof(ElevationNode) && CurrentLocation.ElvNodeDirection != null)
+            //{ return ElvFlowFollower(ref _NG); }
+            //else if (typeof(T) == typeof(GatewayNode) && CurrentLocation.GatewayNodeDirection != null)
+            //{ return GateFlowFollower(ref _NG); }
 
             return new List<int>();
         }
@@ -86,5 +86,5 @@ namespace NavGraphTools
         {
 
         }
-    }
+    }*/
 }
