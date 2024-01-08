@@ -492,4 +492,28 @@ namespace WinForms
             FillNodesTree();
         }
     }
+
+    public class TempNode
+    {
+        public static int? UID, Floor;
+        //Both used by all nodes
+
+        public static string?
+            PublicName = "", InternalName = "", BlockName = "";
+        //   ^Room nodes                         ^used by all nodes
+        //                    ^Used by all nodes
+
+        public static Dictionary<NodeDirection, int>? NodeConnections = new();
+        //Used by all nodes (with slight differences)
+
+        public static Dictionary<int, string>? GatewayConnections = new();
+        //Gateway nodes
+
+        public static List<string>? Tags = new();
+        //Room nodes
+
+        public NodeDirection? ElvNodeDirection, GWNodeDirection;
+        //All nodes bar GW and Elv for obvious reasons
+
+    }
 }
