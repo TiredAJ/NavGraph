@@ -29,6 +29,8 @@ namespace NavGraphTools
         /// <exception cref="NotImplementedException"></exception>
         public T? TryGetNode(int _UID)
         {
+            _UID = Math.Abs(_UID);
+
             if (DoesNodeExist(_UID))
             { return Nodes[_UID]; }
             else

@@ -140,16 +140,25 @@ namespace NavGraphTools
         #endregion
     }
 
-    /// <summary>
-    /// DO NOT USE. It's just so I can use a where constraint on Elv & Gateway
-    /// </summary>
     public interface ISpecialNodes
     { }
+
+    public interface IGatewayFlow
+    {
+        [JsonInclude]
+        public NodeDirection? GatewayFlowDirection { get; set; }
+    }
+
+    public interface IElevationFlow
+    {
+        [JsonInclude]
+        public NodeDirection? ElvFlowDirection { get; set; }
+    }
     #endregion
 
     #region Derived nodes
     [JsonSerializable(typeof(CorridorNode))]
-    public class CorridorNode : NavNode
+    public class CorridorNode : NavNode, IGatewayFlow, IElevationFlow
     {
         [JsonInclude]
         public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>()
@@ -161,9 +170,9 @@ namespace NavGraphTools
         };
 
         [JsonInclude]
-        public NodeDirection? ElvNodeDirection { get; set; }
+        public NodeDirection? ElvFlowDirection { get; set; }
         [JsonInclude]
-        public NodeDirection? GatewayNodeDirection { get; set; }
+        public NodeDirection? GatewayFlowDirection { get; set; }
     }
 
     [JsonSerializable(typeof(RoomNode))]
@@ -194,7 +203,7 @@ namespace NavGraphTools
     }
 
     [JsonSerializable(typeof(ElevationNode))]
-    public class ElevationNode : NavNode, ISpecialNodes
+    public class ElevationNode : NavNode, ISpecialNodes, IGatewayFlow
     {
         #region Member Variables
         public override string InternalName { get; set; } = "Default Elevation";
@@ -209,6 +218,9 @@ namespace NavGraphTools
             {NodeDirection.Up, 0 },
             {NodeDirection.Down, 0 },
         };
+
+        [JsonInclude]
+        public NodeDirection? GatewayFlowDirection { get; set; }
         #endregion
 
         #region Connections
@@ -255,7 +267,7 @@ namespace NavGraphTools
     }
 
     [JsonSerializable(typeof(GatewayNode))]
-    public class GatewayNode : NavNode, ISpecialNodes
+    public class GatewayNode : NavNode, ISpecialNodes, IElevationFlow
     {
         #region Member Variables
         [JsonInclude]
@@ -282,8 +294,11 @@ namespace NavGraphTools
 
         [JsonInclude]
         public Dictionary<int, string> Connections = new Dictionary<int, string>();
-        //                      ^Block name?
-        //                 ^gateway UID?
+        //                      ^Block name
+        //                 ^gateway UID
+
+        [JsonInclude]
+        public NodeDirection? ElvFlowDirection { get; set; }
         #endregion
 
         #region Overrides

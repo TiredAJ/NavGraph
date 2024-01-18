@@ -111,6 +111,8 @@ namespace NavGraphTools
         /// <returns><see langword="true"/> if successful, <see langword="false"/> otherwise</returns>
         public bool SetNode(int _UID, NavNode _NewNode)
         {
+            _UID = Math.Abs(_UID);
+
             if (Nodes.ContainsKey(_UID))
             {
                 Nodes[_UID] = _NewNode;
@@ -131,6 +133,9 @@ namespace NavGraphTools
         /// <param name="_IsOneWay">Whether the connection only goes from A to B</param>
         public void ConnectNodes(int _AUID, int _BUID, NodeDirection _Direction, bool _IsOneWay)
         {
+            _AUID = Math.Abs(_AUID);
+            _BUID = Math.Abs(_BUID);
+
             //checks if both nodes exists
             if ((!DoesNodeExist(_AUID) && !DoesNodeExist(_BUID)))
             { throw new Exception("One or both nodes don't exist!"); }
@@ -158,6 +163,9 @@ namespace NavGraphTools
         /// <param name="Up">Whether B connects atop A [true] or beneath [false]</param>
         public void ConnectElevationNodes(int _AUID, int _BUID, NodeDirection _Direction)
         {
+            _AUID = Math.Abs(_AUID);
+            _BUID = Math.Abs(_BUID);
+
             NavNode? TempA;
             NavNode? TempB;
 
@@ -180,6 +188,9 @@ namespace NavGraphTools
         /// <param name="_BUID">UID of second node</param>
         public void ConnectGatewayNodes(int _AUID, int _BUID)
         {
+            _AUID = Math.Abs(_AUID);
+            _BUID = Math.Abs(_BUID);
+
             NavNode? A, B;
 
             if (!Nodes.TryGetValue(_AUID, out A) || !Nodes.TryGetValue(_BUID, out B))
@@ -225,6 +236,8 @@ namespace NavGraphTools
         /// <param name="_UID">Unique ID of the node to remove</param>
         public void RemoveNode(int _UID)
         {
+            _UID = Math.Abs(_UID);
+
             if (DoesNodeExist(_UID))
             {
                 NavNode Temp = Nodes[_UID];
