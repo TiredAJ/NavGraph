@@ -50,6 +50,20 @@ namespace WinForms.Tools
 
             CloseLocalFolder(NewDir);
         }
+
+        public static void SaveBackup(NavGraph _NG)
+        {
+            string CurrentLoc = Path.Combine(Environment.CurrentDirectory, ".Backup");
+
+            if (File.Exists(CurrentLoc))
+            { File.Delete(CurrentLoc); }
+
+            using (Stream SW = new StreamWriter(CurrentLoc).BaseStream)
+            {
+
+                _NG.Serialise(SW, NGSerialiseOptions.IncludeMetadata);
+            }
+        }
         #endregion
 
         #region Import
@@ -90,6 +104,20 @@ namespace WinForms.Tools
                 //think about an else using potential combination
             }
         }
+
+        public static void LoadBackup(NavGraph _NG)
+        {
+            string CurrentLoc = Path.Combine(Environment.CurrentDirectory, ".Backup");
+
+            if (File.Exists(CurrentLoc))
+            {
+                using (Stream SR = new StreamReader(CurrentLoc).BaseStream)
+                { _NG.Deserialise(SR); }
+            }
+        }
+
+        public static bool CheckBackup()
+        { return File.Exists(Path.Combine(Environment.CurrentDirectory, ".Backup")); }
         #endregion
 
         #region Misc
@@ -133,6 +161,12 @@ namespace WinForms.Tools
         {
             Directory.Delete(_Folder, true);
             TempDirectories.Remove(_Folder);
+        }
+
+        public static void DeleteBackup()
+        {
+            if (File.Exists(Path.Combine(Environment.CurrentDirectory, ".Backup")))
+            { File.Delete(Path.Combine(Environment.CurrentDirectory, ".Backup")); }
         }
         #endregion
     }

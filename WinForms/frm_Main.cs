@@ -187,6 +187,36 @@ namespace WinForms
 
         private void frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         { Filer.CloseLocalFolders(); }
+
+        private void frm_Main_Load(object sender, EventArgs e)
+        {
+            if (Filer.CheckBackup())
+            {
+                var R = MessageBox.Show
+                    ("Would you like to load the backup?", "Backup found!", MessageBoxButtons.YesNo);
+
+                switch (R)
+                {
+                    case DialogResult.None:
+                    case DialogResult.Cancel:
+                    case DialogResult.Abort:
+                    case DialogResult.Ignore:
+                    case DialogResult.No:
+                    return;
+                    case DialogResult.OK:
+                    case DialogResult.Yes:
+                    case DialogResult.Continue:
+                    default:
+                    {
+                        Filer.LoadBackup(NG);
+
+                        RefreshNodesTree();
+
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public enum ExportType : int

@@ -1,5 +1,6 @@
 ﻿using NavGraphTools;
 using System.Diagnostics;
+using WinForms.Tools;
 
 namespace WinForms;
 
@@ -25,6 +26,8 @@ public partial class frm_Main : Form
         CurNodeUID = 0;
 
         ResetNC_DGV();
+
+        Filer.SaveBackup(NG);
     }
 
     private void btn_Node_Delete_Click(object sender, EventArgs e)

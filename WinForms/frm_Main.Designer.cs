@@ -917,6 +917,7 @@
             Name = "frm_Main";
             Text = "Main";
             FormClosing += frm_Main_FormClosing;
+            Load += frm_Main_Load;
             tbctrl_MainTabs.ResumeLayout(false);
             tbpg_Nodes.ResumeLayout(false);
             gbx_Node.ResumeLayout(false);
