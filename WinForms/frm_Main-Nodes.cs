@@ -27,6 +27,7 @@ public partial class frm_Main : Form
 
         RefreshNodesTree();
         ClearBox(gbx_Node);
+        ClearBox(pnl_GW);
 
         CurNodeUID = 0;
 
@@ -39,12 +40,15 @@ public partial class frm_Main : Form
 
     private void btn_Node_Delete_Click(object sender, EventArgs e)
     {
-        if (trvw_Nodes.SelectedNode.Level == 1)
+        if (trvw_Nodes.SelectedNode.Level == 0)
+        {
+            foreach (TreeNode T in trvw_Nodes.SelectedNode.Nodes)
+            { DeleteFloor(T.Name, trvw_Nodes.SelectedNode.Name); }
+        }
+        else if (trvw_Nodes.SelectedNode.Level == 1)
         {//delete all nodes in floor
-
-            foreach (TreeNode TN in trvw_Nodes.SelectedNode.Nodes)
-            { DeleteNode(TN.Text.SplitNodeID()); }
-
+            DeleteFloor(trvw_Nodes.SelectedNode.Name,
+                trvw_Nodes.SelectedNode.Parent.Name);
         }
         else if (trvw_Nodes.SelectedNode.Level == 2)
         {
@@ -58,6 +62,17 @@ public partial class frm_Main : Form
         }
 
         RefreshNodesTree();
+    }
+
+    private void DeleteFloor(string _Key, string _ParentKey)
+    {
+        TreeNode T = trvw_Nodes.Nodes[_ParentKey].Nodes[_Key];
+
+        if (T != null)
+        {
+            foreach (TreeNode TN in T.Nodes)
+            { DeleteNode(TN.Text.SplitNodeID()); }
+        }
     }
 
     private void DeleteNode(int _UID)
@@ -329,39 +344,6 @@ public partial class frm_Main : Form
     {
         Stopwatch SW = new Stopwatch();
 
-        /*
-        Task.Run(() =>
-        {
-            //Filters through all nodes to find ones that aren't connected on the
-            //selected direction (and isn't the current GN)
-            var AvailableNodes = NG.GetAllNodes()
-                .Where
-                 (
-                    X => X.Value.BlockName == CurBlock
-                    && X.Value.Floor == CurFloor
-                 )
-                .Where
-                 (
-                    X => X.Key != CurNodeUID &&
-                    X.Value.IsAvailable(CurDir)
-                 )
-                .Select(X => (object)X.Key)
-                .ToArray();
-
-            lstbx_AvailableNodes.Invoke(() =>
-            {
-                lstbx_AvailableNodes.Items.Clear();
-                lstbx_AvailableNodes.Items.AddRange(AvailableNodes);
-                lstbx_AvailableNodes.Refresh();
-
-                if (NodeEditMode)
-                { lstbx_AvailableNodes.SelectedItem = NG.TryGetNode(CurNodeUID).Nodes[CurDir]; }
-            });
-        });
-         */
-
-        //int SelectedIndex = dgv_NodeConnections.SelectedRows[0].Index;
-
         if (e.RowIndex < 0)
         { return; }
 
@@ -370,21 +352,23 @@ public partial class frm_Main : Form
 
         if (e.ColumnIndex == 1)
         {
-            SW.Start();
+            //SW.Start();
 
-            Task.Run(() =>
+            bool IsRoomNode;
+
+            if (cmbx_NodeType.Text == "Room")
+            { IsRoomNode = true; }
+            else
+            { IsRoomNode = false; }
+
+            Task.Run(async () =>
             {
-                var AvailableNodes = NG.GetAllNodes()
-                    .AsParallel()
-                    .Where(X => X.Key != CurNodeUID)
-                    .Where
-                    (
-                        X => X.Value.BlockName == CurBlock
-                        && X.Value.Floor == CurFloor
-                        && X.Value.IsAvailable((NodeDirection)((int)CurDir * -1))
-                    )
-                    .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
-                    .ToArray();
+                string[] AvailableNodes;
+
+                if (IsRoomNode)
+                { AvailableNodes = await GetAvailableCorridors(CurBlock, CurFloor, CurDir); }
+                else
+                { AvailableNodes = await GetAvailableNodes(CurNodeUID, CurBlock, CurFloor, CurDir); }
 
                 dgv_NodeConnections.Invoke(() =>
                 {
@@ -402,8 +386,8 @@ public partial class frm_Main : Form
                 });
             });
 
-            SW.Stop();
-            Debug.WriteLine($"Retrieving Nodes took {SW.ElapsedMilliseconds}ms");
+            //SW.Stop();
+            //Debug.WriteLine($"Retrieving Nodes took {SW.ElapsedMilliseconds}ms");
         }
     }
 
@@ -476,7 +460,12 @@ public partial class frm_Main : Form
         foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
         {
             if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-            { NG.ConnectElevationNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag); }
+            {
+                if ((NodeDirection)Row.Tag == NodeDirection.Up || (NodeDirection)Row.Tag == NodeDirection.Down)
+                { NG.ConnectElevationNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag); }
+                else
+                { NG.ConnectElevationNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
+            }
         }
 
         return 0;
@@ -587,6 +576,7 @@ public partial class frm_Main : Form
     {
         trvw_Nodes.Nodes.Clear();
         FillNodesTree();
+        FillBlocksControls();
     }
 
     private void DGV_ElvDelete()
@@ -648,6 +638,67 @@ public partial class frm_Main : Form
         }
 
         txt_InternalName.Text = Layouter.GetName();
+    }
+
+    private async void cmbx_GW_AvailableNodes_MouseEnter(object sender, EventArgs e)
+    {
+        if (cmbx_GW_Direction.SelectedItem != null)
+        { CurDir = (NodeDirection)cmbx_GW_Direction.SelectedItem.ToDirection(); }
+
+        await Task.Run(async () =>
+        {
+            var AvailableNodes = await GetAvailableNodes(CurNodeUID, CurBlock, CurFloor, CurDir);
+
+            cmbx_GW_AvailableNodes.Invoke(() =>
+            {
+                cmbx_GW_AvailableNodes.Items.Clear();
+                cmbx_GW_AvailableNodes.Items.AddRange(AvailableNodes);
+
+                cmbx_GW_AvailableNodes.Refresh();
+            });
+        });
+    }
+
+    private async Task<string[]> GetAvailableNodes(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir)
+    {
+        return await Task.Run(() =>
+        {
+            return NG.GetAllNodes()
+                    .AsParallel()
+                    .Where(X => X.Key != _CurUID)
+                    .Where
+                    (
+                        X => X.Value.BlockName == _CurBlock
+                        && X.Value.Floor == _CurFloor
+                        && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1))
+                    )
+                    .OrderByDescending(X => X.Key)
+                    .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                    .ToArray();
+        });
+    }
+
+    private async Task<string[]> GetAvailableCorridors(string _CurBlock, int _CurFloor, NodeDirection _CurDir)
+    {
+        return await Task.Run(() =>
+        {
+            return NG.GetAllNodes()
+                    .AsParallel()
+                    .Where
+                    (
+                        X => X.Value.BlockName == _CurBlock
+                        && X.Value.Floor == _CurFloor
+                        && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1))
+                    )
+                    .OrderByDescending(X => X.Key)
+                    .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                    .ToArray();
+        });
+    }
+
+    private void SelectNodeView(object _Sender, EventArgs e)
+    {
+
     }
 }
 

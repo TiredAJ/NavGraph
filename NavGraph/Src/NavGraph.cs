@@ -166,7 +166,7 @@ namespace NavGraphTools
                 (Nodes[_AUID] is GatewayNode || Nodes[_BUID] is GatewayNode))
             { throw new Exception("Please do not connect Elevation or Gateway nodes with this function"); }
             else if (_Direction == NodeDirection.Up || _Direction == NodeDirection.Down)
-            { throw new Exception("_Direction is not valid for this node type"); }
+            { throw new Exception("_ND is not valid for this node type"); }
 
             //connects node B to node A
             Nodes[_AUID].ConnectNode(_BUID, _Direction);
@@ -194,13 +194,43 @@ namespace NavGraphTools
             //checks that both nodes exist in the dictionary and grabs the object
             if (!Nodes.TryGetValue(_AUID, out TempA) || !Nodes.TryGetValue(_BUID, out TempB))
             { throw new Exception("Node does not exist!"); }
-            else if (TempA is ElevationNode TA && TempB is ElevationNode TB)
+            else if ((TempA is ElevationNode TA && TempB is ElevationNode TB) && TA.Floor != TB.Floor)
             {
                 TA.ConnectNode(_BUID, _Direction);
                 TB.ConnectNode(_AUID, _Direction);
             }
             else
-            { throw new Exception("One or both nodes weren't elevation nodes!"); }
+            { throw new Exception("One or both nodes aren't elevation nodes!"); }
+        }
+
+        /// <summary>
+        /// Connects an elevation node to a non-elevation node
+        /// </summary>
+        /// <param name="_ElvUID">The UID of the Elevation Node</param>
+        /// <param name="_NUID">The UID of the non-Elevation Node</param>
+        /// <param name="Up">Whether B connects atop A [true] or beneath [false]</param>
+        public void ConnectElevationNodes(int _ElvUID, int _NUID, NodeDirection _ND, bool _IsOneWay)
+        {
+            _ElvUID = Math.Abs(_ElvUID);
+            _NUID = Math.Abs(_NUID);
+
+            NavNode? A, B;
+
+            //checks that both nodes exist in the dictionary and grabs the object
+            if (
+                    !Nodes.TryGetValue(_ElvUID, out A) ||
+                    !Nodes.TryGetValue(_NUID, out B) ||
+                    Math.Abs((int)_ND) > 2
+                )
+            { throw new Exception("Node(s) does not exist!"); }
+
+            if ((A is ElevationNode && B is not ElevationNode))
+            {
+                A.ConnectNode(_NUID, _ND);
+                B.ConnectNode(_ElvUID, (NodeDirection)((int)_ND * -1));
+            }
+            else
+            { throw new Exception("One or both nodes aren't elevation nodes!"); }
         }
 
         /// <summary>

@@ -18,6 +18,9 @@ namespace WinForms
 
         }
 
+        public static NodeDirection? ToDirection(this object? _Obj)
+        { return _Obj.ToString().ToDirection(); }
+
         public static NodeDirection? ToDirection(this string? _Str)
         {
             if (_Str == null)
@@ -49,6 +52,27 @@ namespace WinForms
             { SB.Append($"{E}, "); }
 
             return SB.ToString();
+        }
+
+        public static string ToArrow(this NodeDirection? _ND)
+        {
+            switch (_ND)
+            {
+                case NodeDirection.North:
+                { return "↑"; }
+                case NodeDirection.East:
+                { return "→"; }
+                case NodeDirection.South:
+                { return "↓"; }
+                case NodeDirection.West:
+                { return "←"; }
+                case NodeDirection.Up:
+                { return "▲"; }
+                case NodeDirection.Down:
+                { return "▼"; }
+                default:
+                { return ""; }
+            }
         }
 
         public static string NodeTypeShort(this Type _Type)
@@ -165,9 +189,9 @@ namespace WinForms
                 case "Room":
                 { return NodeIdentifiers["RN"]; }
                 case "Elevation":
-                { return NodeIdentifiers["EN"]; }
+                { return NodeIdentifiers["ES"]; }
                 case "Gateway":
-                { return NodeIdentifiers["GN"]; }
+                { return NodeIdentifiers["GW"]; }
                 default:
                 { return "Not a node"; }
             }

@@ -1,4 +1,6 @@
 ﻿using NavGraphTools;
+using System.Text;
+using WinForms.Tools;
 
 namespace WinForms;
 
@@ -7,7 +9,7 @@ public partial class frm_Main : Form
     private void btn_CreateBlock_Click(object sender, EventArgs e)
     {
         if (NG.Blocks.ContainsKey(txt_New_BlockName.Text))
-        { MessageBox.Show("Block wasn't saved, name exists"); }
+        { MessageBox.Show("Block wasn't saved, name already exists"); }
         else
         {
             NG.Blocks.Add
@@ -19,6 +21,8 @@ public partial class frm_Main : Form
         }
 
         RefreshNodesTree();
+
+        Filer.SaveBackup(NG);
     }
 
     private void RefreshBlocksList()
@@ -30,9 +34,11 @@ public partial class frm_Main : Form
 
     private void FillBlocksControls()
     {
+        lst_Blocks.Items.Clear();
         lst_Blocks.Items.AddRange(NG.Blocks.Keys.ToArray());
         lst_Blocks.Refresh();
 
+        cmbx_BlockSelect.Items.Clear();
         cmbx_BlockSelect.Items.AddRange(NG.Blocks.Keys.ToArray());
         cmbx_BlockSelect.Refresh();
     }
@@ -66,15 +72,25 @@ public partial class frm_Main : Form
 
                 foreach (var N in NG.GetNodes(KVP.Key, i))
                 {
+                    StringBuilder SB_Name = new($"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"  [");
+
+                    if (N.Value is IElevationFlow NE)
+                    { SB_Name.Append($"E:{NE.ElvFlowDirection.ToArrow()}"); }
+
+                    if (N.Value is IGatewayFlow NG)
+                    { SB_Name.Append($"G:{NG.GatewayFlowDirection.ToArrow()}"); }
+
+                    SB_Name.Append("]");
+
                     TN_Node = TN_Floor.Nodes
-                        .Add($"{N.Key}", $"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"");
+                        .Add($"{N.Key}", SB_Name.ToString());
 
                     if (N.Value is GatewayNode GN)
                     {
                         foreach (var CN in GN.GetConnectedNodes())
                         {
                             TN_Node.Nodes.Add
-                            ($"{CN.Key}:".PadRight(6) + $" {CN.Value}");
+                            ($"{CN.Key}:".PadRight(6) + $" {CN.Value}]");
                         }
                         foreach (var CN in GN.GetConnectedGateways())
                         { TN_Node.Nodes.Add($"{CN.Key} -> {CN.Value}"); }
@@ -94,12 +110,7 @@ public partial class frm_Main : Form
         trvw_Nodes.Refresh();
 
         foreach (TreeNode TN in trvw_Nodes.Nodes)
-        {
-            TN.Expand();
-
-            foreach (TreeNode TN2 in TN.Nodes)
-            { TN2.Expand(); }
-        }
+        { TN.Expand(); }
     }
 
     private void btn_SaveBlock_Click(object sender, EventArgs e)
@@ -135,14 +146,19 @@ public partial class frm_Main : Form
 
         RefreshBlocksList();
         ClearBox(gbx_EditBlock);
+
+        RefreshNodesTree();
     }
 
     private void lst_Blocks_SelectedIndexChanged(object sender, EventArgs e)
     {
-        SelectedBlock = (string)lst_Blocks.SelectedItem;
+        if (lst_Blocks.SelectedIndex > -1)
+        {
+            SelectedBlock = (string)lst_Blocks.SelectedItem;
 
-        txt_Edit_BlockName.Text = SelectedBlock;
-        nud_Edit_HighestFloor.Value = NG.Blocks[SelectedBlock].Max;
-        nud_Edit_LowestFloor.Value = NG.Blocks[SelectedBlock].Min;
+            txt_Edit_BlockName.Text = SelectedBlock;
+            nud_Edit_HighestFloor.Value = NG.Blocks[SelectedBlock].Max;
+            nud_Edit_LowestFloor.Value = NG.Blocks[SelectedBlock].Min;
+        }
     }
 }
