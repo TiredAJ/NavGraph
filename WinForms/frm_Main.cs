@@ -28,20 +28,22 @@ public partial class frm_Main : Form
     {
         InitializeComponent();
 
-        dgv_NodeConnections.Rows.Add("North", null, false);
-        dgv_NodeConnections.Rows.Add("East", null, false);
-        dgv_NodeConnections.Rows.Add("South", null, false);
-        dgv_NodeConnections.Rows.Add("West", null, false);
-
-        dgv_NodeConnections.Rows[0].Tag = NodeDirection.North;
-        dgv_NodeConnections.Rows[1].Tag = NodeDirection.East;
-        dgv_NodeConnections.Rows[2].Tag = NodeDirection.South;
-        dgv_NodeConnections.Rows[3].Tag = NodeDirection.West;
-
-        dgv_NodeConnections.ClearSelection();
-
         NG.Blocks.Add("Johnstone", (4, 0));
         RefreshBlocksList();
+
+        pnl_conn_Down.Tag = NodeDirection.Down;
+        pnl_conn_Up.Tag = NodeDirection.Up;
+        pnl_conn_North.Tag = NodeDirection.North;
+        pnl_conn_East.Tag = NodeDirection.East;
+        pnl_conn_South.Tag = NodeDirection.South;
+        pnl_conn_West.Tag = NodeDirection.West;
+
+        cmbx_conn_Down.Tag = NodeDirection.Down;
+        cmbx_conn_Up.Tag = NodeDirection.Up;
+        cmbx_conn_North.Tag = NodeDirection.North;
+        cmbx_conn_East.Tag = NodeDirection.East;
+        cmbx_conn_South.Tag = NodeDirection.South;
+        cmbx_conn_West.Tag = NodeDirection.West;
 
         //dgv_GatewayConnections.Rows.Add();
 

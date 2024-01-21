@@ -28,11 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -55,9 +52,33 @@
             cmbx_BlockSelect = new ComboBox();
             label1 = new Label();
             pnl_NormalNodes = new Panel();
-            dgv_NodeConnections = new DataGridView();
+            label20 = new Label();
+            label19 = new Label();
+            label18 = new Label();
+            pnl_conn_North = new Panel();
+            ckbx_conn_North = new CheckBox();
+            cmbx_conn_North = new ComboBox();
+            label17 = new Label();
             label7 = new Label();
             txt_Node_Tags = new TextBox();
+            pnl_conn_East = new Panel();
+            ckbx_conn_East = new CheckBox();
+            cmbx_conn_East = new ComboBox();
+            label21 = new Label();
+            pnl_conn_South = new Panel();
+            ckbx_conn_South = new CheckBox();
+            cmbx_conn_South = new ComboBox();
+            label22 = new Label();
+            pnl_conn_West = new Panel();
+            ckbx_conn_West = new CheckBox();
+            cmbx_conn_West = new ComboBox();
+            label23 = new Label();
+            pnl_conn_Up = new Panel();
+            cmbx_conn_Up = new ComboBox();
+            label24 = new Label();
+            pnl_conn_Down = new Panel();
+            cmbx_conn_Down = new ComboBox();
+            label25 = new Label();
             pnl_GW = new Panel();
             label8 = new Label();
             cmbx_GW_AvailableNodes = new ComboBox();
@@ -117,16 +138,17 @@
             txt_set_Separator = new TextBox();
             label11 = new Label();
             lbl_NameTemplate = new Label();
-            clm_NodeDirection = new DataGridViewTextBoxColumn();
-            clm_AvailNodes = new DataGridViewComboBoxColumn();
-            clm_SelectNode = new DataGridViewButtonColumn();
-            clm_OneWay = new DataGridViewCheckBoxColumn();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).BeginInit();
             pnl_NormalNodes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_NodeConnections).BeginInit();
+            pnl_conn_North.SuspendLayout();
+            pnl_conn_East.SuspendLayout();
+            pnl_conn_South.SuspendLayout();
+            pnl_conn_West.SuspendLayout();
+            pnl_conn_Up.SuspendLayout();
+            pnl_conn_Down.SuspendLayout();
             pnl_GW.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).BeginInit();
             tbpg_Blocks.SuspendLayout();
@@ -221,7 +243,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(198, 158);
+            label10.Location = new Point(198, 153);
             label10.Name = "label10";
             label10.Size = new Size(128, 25);
             label10.TabIndex = 18;
@@ -229,9 +251,11 @@
             // 
             // cmbx_GWFlow
             // 
+            cmbx_GWFlow.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbx_GWFlow.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_GWFlow.FormattingEnabled = true;
             cmbx_GWFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
-            cmbx_GWFlow.Location = new Point(197, 186);
+            cmbx_GWFlow.Location = new Point(195, 181);
             cmbx_GWFlow.Name = "cmbx_GWFlow";
             cmbx_GWFlow.Size = new Size(187, 33);
             cmbx_GWFlow.TabIndex = 17;
@@ -239,7 +263,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(9, 158);
+            label9.Location = new Point(9, 153);
             label9.Name = "label9";
             label9.Size = new Size(124, 25);
             label9.TabIndex = 16;
@@ -247,9 +271,11 @@
             // 
             // cmbx_ElvFlow
             // 
+            cmbx_ElvFlow.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbx_ElvFlow.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_ElvFlow.FormattingEnabled = true;
             cmbx_ElvFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
-            cmbx_ElvFlow.Location = new Point(8, 186);
+            cmbx_ElvFlow.Location = new Point(6, 181);
             cmbx_ElvFlow.Name = "cmbx_ElvFlow";
             cmbx_ElvFlow.Size = new Size(183, 33);
             cmbx_ElvFlow.TabIndex = 15;
@@ -287,7 +313,7 @@
             // 
             // txt_InternalName
             // 
-            txt_InternalName.Location = new Point(197, 122);
+            txt_InternalName.Location = new Point(197, 117);
             txt_InternalName.Name = "txt_InternalName";
             txt_InternalName.Size = new Size(185, 33);
             txt_InternalName.TabIndex = 4;
@@ -295,7 +321,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(200, 94);
+            label5.Location = new Point(200, 89);
             label5.Name = "label5";
             label5.Size = new Size(132, 25);
             label5.TabIndex = 7;
@@ -303,7 +329,7 @@
             // 
             // txt_PublicName
             // 
-            txt_PublicName.Location = new Point(6, 122);
+            txt_PublicName.Location = new Point(6, 117);
             txt_PublicName.Name = "txt_PublicName";
             txt_PublicName.Size = new Size(185, 33);
             txt_PublicName.TabIndex = 3;
@@ -313,7 +339,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(9, 94);
+            label4.Location = new Point(9, 89);
             label4.Name = "label4";
             label4.Size = new Size(119, 25);
             label4.TabIndex = 5;
@@ -380,43 +406,96 @@
             // pnl_NormalNodes
             // 
             pnl_NormalNodes.BackColor = SystemColors.ControlLight;
-            pnl_NormalNodes.Controls.Add(dgv_NodeConnections);
+            pnl_NormalNodes.Controls.Add(label20);
+            pnl_NormalNodes.Controls.Add(label19);
+            pnl_NormalNodes.Controls.Add(label18);
+            pnl_NormalNodes.Controls.Add(pnl_conn_North);
             pnl_NormalNodes.Controls.Add(label7);
             pnl_NormalNodes.Controls.Add(txt_Node_Tags);
-            pnl_NormalNodes.Location = new Point(2, 230);
+            pnl_NormalNodes.Controls.Add(pnl_conn_East);
+            pnl_NormalNodes.Controls.Add(pnl_conn_South);
+            pnl_NormalNodes.Controls.Add(pnl_conn_West);
+            pnl_NormalNodes.Controls.Add(pnl_conn_Up);
+            pnl_NormalNodes.Controls.Add(pnl_conn_Down);
+            pnl_NormalNodes.Location = new Point(2, 221);
             pnl_NormalNodes.Margin = new Padding(3, 4, 3, 4);
             pnl_NormalNodes.Name = "pnl_NormalNodes";
-            pnl_NormalNodes.Size = new Size(546, 301);
+            pnl_NormalNodes.Size = new Size(546, 310);
             pnl_NormalNodes.TabIndex = 1;
             // 
-            // dgv_NodeConnections
+            // label20
             // 
-            dgv_NodeConnections.AllowUserToAddRows = false;
-            dgv_NodeConnections.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgv_NodeConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_NodeConnections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_SelectNode, clm_OneWay });
-            dgv_NodeConnections.Dock = DockStyle.Top;
-            dgv_NodeConnections.Location = new Point(0, 0);
-            dgv_NodeConnections.Name = "dgv_NodeConnections";
-            dgv_NodeConnections.RowHeadersWidth = 51;
-            dgv_NodeConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_NodeConnections.Size = new Size(546, 207);
-            dgv_NodeConnections.TabIndex = 5;
-            dgv_NodeConnections.TabStop = false;
-            dgv_NodeConnections.CellMouseEnter += dgv_NodeConnections_CellClick;
+            label20.AutoSize = true;
+            label20.Location = new Point(447, 1);
+            label20.Name = "label20";
+            label20.Size = new Size(95, 25);
+            label20.TabIndex = 16;
+            label20.Text = "Is oneway";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(105, 1);
+            label19.Name = "label19";
+            label19.Size = new Size(148, 25);
+            label19.TabIndex = 15;
+            label19.Text = "Available Nodes";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(3, 1);
+            label18.Name = "label18";
+            label18.Size = new Size(89, 25);
+            label18.TabIndex = 14;
+            label18.Text = "Direction";
+            // 
+            // pnl_conn_North
+            // 
+            pnl_conn_North.Controls.Add(ckbx_conn_North);
+            pnl_conn_North.Controls.Add(cmbx_conn_North);
+            pnl_conn_North.Controls.Add(label17);
+            pnl_conn_North.Location = new Point(0, 29);
+            pnl_conn_North.Name = "pnl_conn_North";
+            pnl_conn_North.Size = new Size(553, 32);
+            pnl_conn_North.TabIndex = 13;
+            // 
+            // ckbx_conn_North
+            // 
+            ckbx_conn_North.AutoSize = true;
+            ckbx_conn_North.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ckbx_conn_North.Location = new Point(490, 8);
+            ckbx_conn_North.Name = "ckbx_conn_North";
+            ckbx_conn_North.Size = new Size(15, 14);
+            ckbx_conn_North.TabIndex = 3;
+            ckbx_conn_North.UseVisualStyleBackColor = true;
+            // 
+            // cmbx_conn_North
+            // 
+            cmbx_conn_North.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_North.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_conn_North.FormattingEnabled = true;
+            cmbx_conn_North.Location = new Point(105, -1);
+            cmbx_conn_North.Name = "cmbx_conn_North";
+            cmbx_conn_North.Size = new Size(338, 33);
+            cmbx_conn_North.TabIndex = 1;
+            cmbx_conn_North.Leave += cbmx_conn_ContentsCheck;
+            cmbx_conn_North.MouseEnter += cmbx_conn_GetNodes;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(4, 2);
+            label17.Margin = new Padding(3);
+            label17.Name = "label17";
+            label17.Size = new Size(61, 25);
+            label17.TabIndex = 0;
+            label17.Text = "North";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(7, 209);
+            label7.Location = new Point(6, 224);
             label7.Name = "label7";
             label7.Size = new Size(216, 25);
             label7.TabIndex = 12;
@@ -425,11 +504,201 @@
             // txt_Node_Tags
             // 
             txt_Node_Tags.Enabled = false;
-            txt_Node_Tags.Location = new Point(6, 229);
+            txt_Node_Tags.Location = new Point(6, 252);
             txt_Node_Tags.Multiline = true;
             txt_Node_Tags.Name = "txt_Node_Tags";
             txt_Node_Tags.Size = new Size(537, 53);
             txt_Node_Tags.TabIndex = 6;
+            // 
+            // pnl_conn_East
+            // 
+            pnl_conn_East.Controls.Add(ckbx_conn_East);
+            pnl_conn_East.Controls.Add(cmbx_conn_East);
+            pnl_conn_East.Controls.Add(label21);
+            pnl_conn_East.Location = new Point(0, 60);
+            pnl_conn_East.Name = "pnl_conn_East";
+            pnl_conn_East.Size = new Size(553, 32);
+            pnl_conn_East.TabIndex = 14;
+            // 
+            // ckbx_conn_East
+            // 
+            ckbx_conn_East.AutoSize = true;
+            ckbx_conn_East.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ckbx_conn_East.Location = new Point(490, 8);
+            ckbx_conn_East.Name = "ckbx_conn_East";
+            ckbx_conn_East.Size = new Size(15, 14);
+            ckbx_conn_East.TabIndex = 3;
+            ckbx_conn_East.UseVisualStyleBackColor = true;
+            // 
+            // cmbx_conn_East
+            // 
+            cmbx_conn_East.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_East.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_conn_East.FormattingEnabled = true;
+            cmbx_conn_East.Location = new Point(105, -1);
+            cmbx_conn_East.Name = "cmbx_conn_East";
+            cmbx_conn_East.Size = new Size(338, 33);
+            cmbx_conn_East.TabIndex = 1;
+            cmbx_conn_East.Leave += cbmx_conn_ContentsCheck;
+            cmbx_conn_East.MouseEnter += cmbx_conn_GetNodes;
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(4, 2);
+            label21.Margin = new Padding(3);
+            label21.Name = "label21";
+            label21.Size = new Size(46, 25);
+            label21.TabIndex = 0;
+            label21.Text = "East";
+            // 
+            // pnl_conn_South
+            // 
+            pnl_conn_South.Controls.Add(ckbx_conn_South);
+            pnl_conn_South.Controls.Add(cmbx_conn_South);
+            pnl_conn_South.Controls.Add(label22);
+            pnl_conn_South.Location = new Point(0, 90);
+            pnl_conn_South.Name = "pnl_conn_South";
+            pnl_conn_South.Size = new Size(553, 32);
+            pnl_conn_South.TabIndex = 17;
+            // 
+            // ckbx_conn_South
+            // 
+            ckbx_conn_South.AutoSize = true;
+            ckbx_conn_South.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ckbx_conn_South.Location = new Point(490, 8);
+            ckbx_conn_South.Name = "ckbx_conn_South";
+            ckbx_conn_South.Size = new Size(15, 14);
+            ckbx_conn_South.TabIndex = 3;
+            ckbx_conn_South.UseVisualStyleBackColor = true;
+            // 
+            // cmbx_conn_South
+            // 
+            cmbx_conn_South.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_South.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_conn_South.FormattingEnabled = true;
+            cmbx_conn_South.Location = new Point(105, -1);
+            cmbx_conn_South.Name = "cmbx_conn_South";
+            cmbx_conn_South.Size = new Size(338, 33);
+            cmbx_conn_South.TabIndex = 1;
+            cmbx_conn_South.Leave += cbmx_conn_ContentsCheck;
+            cmbx_conn_South.MouseEnter += cmbx_conn_GetNodes;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(4, 2);
+            label22.Margin = new Padding(3);
+            label22.Name = "label22";
+            label22.Size = new Size(61, 25);
+            label22.TabIndex = 0;
+            label22.Text = "South";
+            // 
+            // pnl_conn_West
+            // 
+            pnl_conn_West.Controls.Add(ckbx_conn_West);
+            pnl_conn_West.Controls.Add(cmbx_conn_West);
+            pnl_conn_West.Controls.Add(label23);
+            pnl_conn_West.Location = new Point(0, 121);
+            pnl_conn_West.Name = "pnl_conn_West";
+            pnl_conn_West.Size = new Size(553, 32);
+            pnl_conn_West.TabIndex = 18;
+            // 
+            // ckbx_conn_West
+            // 
+            ckbx_conn_West.AutoSize = true;
+            ckbx_conn_West.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ckbx_conn_West.Location = new Point(490, 8);
+            ckbx_conn_West.Name = "ckbx_conn_West";
+            ckbx_conn_West.Size = new Size(15, 14);
+            ckbx_conn_West.TabIndex = 3;
+            ckbx_conn_West.UseVisualStyleBackColor = true;
+            // 
+            // cmbx_conn_West
+            // 
+            cmbx_conn_West.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_West.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_conn_West.FormattingEnabled = true;
+            cmbx_conn_West.Location = new Point(105, -1);
+            cmbx_conn_West.Name = "cmbx_conn_West";
+            cmbx_conn_West.Size = new Size(338, 33);
+            cmbx_conn_West.TabIndex = 1;
+            cmbx_conn_West.Leave += cbmx_conn_ContentsCheck;
+            cmbx_conn_West.MouseEnter += cmbx_conn_GetNodes;
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(4, 2);
+            label23.Margin = new Padding(3);
+            label23.Name = "label23";
+            label23.Size = new Size(53, 25);
+            label23.TabIndex = 0;
+            label23.Text = "West";
+            // 
+            // pnl_conn_Up
+            // 
+            pnl_conn_Up.Controls.Add(cmbx_conn_Up);
+            pnl_conn_Up.Controls.Add(label24);
+            pnl_conn_Up.Enabled = false;
+            pnl_conn_Up.Location = new Point(0, 152);
+            pnl_conn_Up.Name = "pnl_conn_Up";
+            pnl_conn_Up.Size = new Size(553, 32);
+            pnl_conn_Up.TabIndex = 19;
+            // 
+            // cmbx_conn_Up
+            // 
+            cmbx_conn_Up.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_Up.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_conn_Up.FormattingEnabled = true;
+            cmbx_conn_Up.Location = new Point(105, -1);
+            cmbx_conn_Up.Name = "cmbx_conn_Up";
+            cmbx_conn_Up.Size = new Size(338, 33);
+            cmbx_conn_Up.TabIndex = 1;
+            cmbx_conn_Up.Leave += cbmx_conn_ContentsCheck;
+            cmbx_conn_Up.MouseEnter += cmbx_conn_GetNodes;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(4, 2);
+            label24.Margin = new Padding(3);
+            label24.Name = "label24";
+            label24.Size = new Size(36, 25);
+            label24.TabIndex = 0;
+            label24.Text = "Up";
+            // 
+            // pnl_conn_Down
+            // 
+            pnl_conn_Down.Controls.Add(cmbx_conn_Down);
+            pnl_conn_Down.Controls.Add(label25);
+            pnl_conn_Down.Enabled = false;
+            pnl_conn_Down.Location = new Point(0, 183);
+            pnl_conn_Down.Name = "pnl_conn_Down";
+            pnl_conn_Down.Size = new Size(553, 32);
+            pnl_conn_Down.TabIndex = 19;
+            // 
+            // cmbx_conn_Down
+            // 
+            cmbx_conn_Down.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_Down.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_conn_Down.FormattingEnabled = true;
+            cmbx_conn_Down.Location = new Point(105, -1);
+            cmbx_conn_Down.Name = "cmbx_conn_Down";
+            cmbx_conn_Down.Size = new Size(338, 33);
+            cmbx_conn_Down.TabIndex = 1;
+            cmbx_conn_Down.Leave += cbmx_conn_ContentsCheck;
+            cmbx_conn_Down.MouseEnter += cmbx_conn_GetNodes;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(4, 2);
+            label25.Margin = new Padding(3);
+            label25.Name = "label25";
+            label25.Size = new Size(61, 25);
+            label25.TabIndex = 0;
+            label25.Text = "Down";
             // 
             // pnl_GW
             // 
@@ -492,14 +761,14 @@
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dgvcmbx_GW_AvailableNodes, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.Dock = DockStyle.Bottom;
@@ -516,8 +785,8 @@
             // 
             // dgvcmbx_GW_AvailableNodes
             // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle4;
             dgvcmbx_GW_AvailableNodes.Frozen = true;
             dgvcmbx_GW_AvailableNodes.HeaderText = "Available Nodes";
             dgvcmbx_GW_AvailableNodes.MinimumWidth = 250;
@@ -1085,48 +1354,6 @@
             lbl_NameTemplate.TabIndex = 1;
             lbl_NameTemplate.Text = "Node internal name layout";
             // 
-            // clm_NodeDirection
-            // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle2;
-            clm_NodeDirection.Frozen = true;
-            clm_NodeDirection.HeaderText = "Direction";
-            clm_NodeDirection.MinimumWidth = 6;
-            clm_NodeDirection.Name = "clm_NodeDirection";
-            clm_NodeDirection.ReadOnly = true;
-            clm_NodeDirection.Width = 90;
-            // 
-            // clm_AvailNodes
-            // 
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle3;
-            clm_AvailNodes.Frozen = true;
-            clm_AvailNodes.HeaderText = "Available Nodes";
-            clm_AvailNodes.MaxDropDownItems = 20;
-            clm_AvailNodes.MinimumWidth = 200;
-            clm_AvailNodes.Name = "clm_AvailNodes";
-            clm_AvailNodes.Resizable = DataGridViewTriState.True;
-            clm_AvailNodes.Width = 200;
-            // 
-            // clm_SelectNode
-            // 
-            clm_SelectNode.Frozen = true;
-            clm_SelectNode.HeaderText = "Select Node";
-            clm_SelectNode.Name = "clm_SelectNode";
-            clm_SelectNode.ReadOnly = true;
-            clm_SelectNode.Resizable = DataGridViewTriState.True;
-            clm_SelectNode.SortMode = DataGridViewColumnSortMode.Automatic;
-            clm_SelectNode.Text = "Select a node...";
-            // 
-            // clm_OneWay
-            // 
-            clm_OneWay.Frozen = true;
-            clm_OneWay.HeaderText = "Is one way?";
-            clm_OneWay.MinimumWidth = 6;
-            clm_OneWay.Name = "clm_OneWay";
-            clm_OneWay.Resizable = DataGridViewTriState.True;
-            clm_OneWay.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
             // frm_Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1147,7 +1374,18 @@
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).EndInit();
             pnl_NormalNodes.ResumeLayout(false);
             pnl_NormalNodes.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_NodeConnections).EndInit();
+            pnl_conn_North.ResumeLayout(false);
+            pnl_conn_North.PerformLayout();
+            pnl_conn_East.ResumeLayout(false);
+            pnl_conn_East.PerformLayout();
+            pnl_conn_South.ResumeLayout(false);
+            pnl_conn_South.PerformLayout();
+            pnl_conn_West.ResumeLayout(false);
+            pnl_conn_West.PerformLayout();
+            pnl_conn_Up.ResumeLayout(false);
+            pnl_conn_Up.PerformLayout();
+            pnl_conn_Down.ResumeLayout(false);
+            pnl_conn_Down.PerformLayout();
             pnl_GW.ResumeLayout(false);
             pnl_GW.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).EndInit();
@@ -1217,7 +1455,6 @@
         private TextBox textBox1;
         private GroupBox gbx_Node;
         private Panel pnl_NormalNodes;
-        private DataGridView dgv_NodeConnections;
         private Label label7;
         private TextBox txt_Node_Tags;
         private Button btn_Node_Delete;
@@ -1265,9 +1502,30 @@
         private TextBox txt_set_Prefix;
         private DataGridViewComboBoxColumn dgvcmbx_GW_AvailableNodes;
         private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private DataGridViewTextBoxColumn clm_NodeDirection;
-        private DataGridViewComboBoxColumn clm_AvailNodes;
-        private DataGridViewButtonColumn clm_SelectNode;
-        private DataGridViewCheckBoxColumn clm_OneWay;
+        private Panel pnl_conn_North;
+        private ComboBox cmbx_conn_North;
+        private Label label17;
+        private Label label18;
+        private CheckBox ckbx_conn_North;
+        private Label label19;
+        private Label label20;
+        private Panel pnl_conn_East;
+        private CheckBox ckbx_conn_East;
+        private ComboBox cmbx_conn_East;
+        private Label label21;
+        private Panel pnl_conn_South;
+        private CheckBox ckbx_conn_South;
+        private ComboBox cmbx_conn_South;
+        private Label label22;
+        private Panel pnl_conn_West;
+        private CheckBox ckbx_conn_West;
+        private ComboBox cmbx_conn_West;
+        private Label label23;
+        private Panel pnl_conn_Up;
+        private Panel pnl_conn_Down;
+        private ComboBox cmbx_conn_Down;
+        private Label label25;
+        private ComboBox cmbx_conn_Up;
+        private Label label24;
     }
 }
