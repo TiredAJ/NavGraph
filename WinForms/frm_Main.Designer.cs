@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -105,6 +105,8 @@
             txt_set_Layout = new TextBox();
             btn_set_SaveSettings = new Button();
             panel4 = new Panel();
+            label16 = new Label();
+            txt_set_Prefix = new TextBox();
             groupBox1 = new GroupBox();
             txt_set_id_Corridor = new TextBox();
             label15 = new Label();
@@ -118,8 +120,6 @@
             txt_set_Separator = new TextBox();
             label11 = new Label();
             lbl_NameTemplate = new Label();
-            label16 = new Label();
-            txt_set_Prefix = new TextBox();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
@@ -269,14 +269,14 @@
             // 
             dgv_NodeConnections.AllowUserToAddRows = false;
             dgv_NodeConnections.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = SystemColors.Control;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv_NodeConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv_NodeConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_NodeConnections.Columns.AddRange(new DataGridViewColumn[] { clm_NodeDirection, clm_AvailNodes, clm_OneWay });
             dgv_NodeConnections.Dock = DockStyle.Top;
@@ -291,8 +291,8 @@
             // 
             // clm_NodeDirection
             // 
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_NodeDirection.DefaultCellStyle = dataGridViewCellStyle2;
             clm_NodeDirection.Frozen = true;
             clm_NodeDirection.HeaderText = "Direction";
             clm_NodeDirection.MinimumWidth = 6;
@@ -302,8 +302,8 @@
             // 
             // clm_AvailNodes
             // 
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            clm_AvailNodes.DefaultCellStyle = dataGridViewCellStyle3;
             clm_AvailNodes.Frozen = true;
             clm_AvailNodes.HeaderText = "Available Nodes";
             clm_AvailNodes.MinimumWidth = 6;
@@ -516,14 +516,14 @@
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = SystemColors.Control;
-            dataGridViewCellStyle9.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dgvcmbx_GW_AvailableNodes, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.Dock = DockStyle.Bottom;
@@ -540,8 +540,8 @@
             // 
             // dgvcmbx_GW_AvailableNodes
             // 
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle5;
             dgvcmbx_GW_AvailableNodes.Frozen = true;
             dgvcmbx_GW_AvailableNodes.HeaderText = "Available Nodes";
             dgvcmbx_GW_AvailableNodes.MinimumWidth = 6;
@@ -565,7 +565,7 @@
             trvw_Nodes.Font = new Font("Cascadia Mono", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             trvw_Nodes.FullRowSelect = true;
             trvw_Nodes.HideSelection = false;
-            trvw_Nodes.Indent = 7;
+            trvw_Nodes.Indent = 10;
             trvw_Nodes.Location = new Point(3, 3);
             trvw_Nodes.Name = "trvw_Nodes";
             trvw_Nodes.Size = new Size(347, 576);
@@ -709,7 +709,7 @@
             btn_CreateBlock.TabIndex = 4;
             btn_CreateBlock.Text = "Create";
             btn_CreateBlock.UseVisualStyleBackColor = true;
-            btn_CreateBlock.Click += btn_CreateBlock_Click;
+            btn_CreateBlock.Click += this.btn_CreateBlock_Click;
             // 
             // nud_New_HighestFloor
             // 
@@ -956,6 +956,27 @@
             panel4.Size = new Size(384, 180);
             panel4.TabIndex = 3;
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Location = new Point(104, 7);
+            label16.Name = "label16";
+            label16.Size = new Size(60, 25);
+            label16.TabIndex = 4;
+            label16.Text = "Prefix";
+            // 
+            // txt_set_Prefix
+            // 
+            txt_set_Prefix.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txt_set_Prefix.Location = new Point(103, 34);
+            txt_set_Prefix.MaxLength = 4;
+            txt_set_Prefix.Name = "txt_set_Prefix";
+            txt_set_Prefix.Size = new Size(94, 35);
+            txt_set_Prefix.TabIndex = 3;
+            txt_set_Prefix.Text = "TR";
+            txt_set_Prefix.TextAlign = HorizontalAlignment.Center;
+            // 
             // groupBox1
             // 
             groupBox1.Controls.Add(txt_set_id_Corridor);
@@ -1087,27 +1108,6 @@
             lbl_NameTemplate.Size = new Size(261, 30);
             lbl_NameTemplate.TabIndex = 1;
             lbl_NameTemplate.Text = "Node internal name layout";
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(104, 7);
-            label16.Name = "label16";
-            label16.Size = new Size(60, 25);
-            label16.TabIndex = 4;
-            label16.Text = "Prefix";
-            // 
-            // txt_set_Prefix
-            // 
-            txt_set_Prefix.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_set_Prefix.Location = new Point(103, 34);
-            txt_set_Prefix.MaxLength = 4;
-            txt_set_Prefix.Name = "txt_set_Prefix";
-            txt_set_Prefix.Size = new Size(94, 35);
-            txt_set_Prefix.TabIndex = 3;
-            txt_set_Prefix.Text = "TR";
-            txt_set_Prefix.TextAlign = HorizontalAlignment.Center;
             // 
             // frm_Main
             // 

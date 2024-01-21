@@ -17,6 +17,8 @@ public partial class frm_Main : Form
             RefreshBlocksList();
             ClearBox(gbx_NewBlock);
         }
+
+        RefreshNodesTree();
     }
 
     private void RefreshBlocksList()
@@ -122,6 +124,8 @@ public partial class frm_Main : Form
 
         lst_Blocks.SelectedIndex = 1;
         SelectedBlock = lst_Blocks.SelectedItem.ToString();
+
+        RefreshNodesTree();
     }
 
     private void btn_Delete_Click(object sender, EventArgs e)

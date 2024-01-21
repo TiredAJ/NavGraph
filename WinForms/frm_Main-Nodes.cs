@@ -33,6 +33,8 @@ public partial class frm_Main : Form
         ResetNC_DGV();
 
         Filer.SaveBackup(NG);
+
+        GenerateInternalName();
     }
 
     private void btn_Node_Delete_Click(object sender, EventArgs e)
@@ -130,7 +132,10 @@ public partial class frm_Main : Form
     }
 
     private void nud_Node_Floor_ValueChanged(object sender, EventArgs e)
-    { CurFloor = (int)nud_Node_Floor.Value; }
+    {
+        CurFloor = (int)nud_Node_Floor.Value;
+        GenerateInternalName();
+    }
 
     private void cmbx_BlockSelect_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -635,8 +640,8 @@ public partial class frm_Main : Form
         }
         else
         {
-            Layouter._Blockname = cmbx_BlockSelect.Items[0] as string;
-            Layouter._Floor = (int)nud_Node_Floor.Value;
+            Layouter._Blockname = cmbx_BlockSelect.Items[0].ToString();
+            Layouter._Floor = 0;
             Layouter._Type = cmbx_NodeType.Items[0] as string;
             Layouter._Separator = txt_set_Separator.Text.First();
             Layouter._Prefix = txt_set_Prefix.Text;
