@@ -51,18 +51,19 @@ namespace WinForms.Tools
             CloseLocalFolder(NewDir);
         }
 
+        /// <summary>
+        /// Saves a backup copy of a NavGraph
+        /// </summary>
+        /// <param name="_NG">the NavGraph to save</param>
         public static void SaveBackup(NavGraph _NG)
         {
             string CurrentLoc = Path.Combine(Environment.CurrentDirectory, ".Backup");
 
             if (File.Exists(CurrentLoc))
-            { File.Delete(CurrentLoc); }
+            { DeleteBackup(); }
 
             using (Stream SW = new StreamWriter(CurrentLoc).BaseStream)
-            {
-
-                _NG.Serialise(SW, NGSerialiseOptions.IncludeMetadata);
-            }
+            { _NG.Serialise(SW, NGSerialiseOptions.IncludeMetadata); }
         }
         #endregion
 

@@ -11,14 +11,19 @@ public partial class frm_Main : Form
 
     private void btn_Node_Create_Click(object sender, EventArgs e)
     {
+        int Result = -1;
+
         if (cmbx_NodeType.SelectedItem.ToString() == "Elevation")
-        { Create_Elevation(); }
+        { Result = Create_Elevation(); }
         else if (cmbx_NodeType.SelectedItem.ToString() == "Room")
-        { Create_Room(); }
+        { Result = Create_Room(); }
         else if (cmbx_NodeType.SelectedItem.ToString() == "Corridor")
-        { Create_Corridor(); }
+        { Result = Create_Corridor(); }
         else if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
-        { Create_Gateway(); }
+        { Result = Create_Gateway(); }
+
+        if (Result == -1)
+        { return; }
 
         RefreshNodesTree();
         ClearBox(gbx_Node);
@@ -32,21 +37,36 @@ public partial class frm_Main : Form
 
     private void btn_Node_Delete_Click(object sender, EventArgs e)
     {
-        //null node UID check
-        if (CurNodeUID == 0)
-        { return; }
+        if (trvw_Nodes.SelectedNode.Level == 1)
+        {//delete all nodes in floor
 
-        NG.RemoveNode(CurNodeUID);
-        trvw_Nodes.Nodes.Remove(trvw_Nodes.SelectedNode);
+            foreach (TreeNode TN in trvw_Nodes.SelectedNode.Nodes)
+            { DeleteNode(TN.Text.SplitNodeID()); }
 
-        //trvw_Nodes.Refresh();
+        }
+        else if (trvw_Nodes.SelectedNode.Level == 2)
+        {
+            //null node UID check
+            if (CurNodeUID == 0)
+            { return; }
+
+            DeleteNode(CurNodeUID);
+
+            CurNodeUID = 0;
+        }
+
         RefreshNodesTree();
+    }
+
+    private void DeleteNode(int _UID)
+    {
+        NG.RemoveNode(_UID);
+        trvw_Nodes.Nodes.RemoveByKey(_UID.ToString());
+
         btn_Node_Save.Enabled = false;
         btn_Node_Delete.Enabled = false;
 
         dgv_NodeConnections.ClearSelection();
-
-        CurNodeUID = 0;
     }
 
     private void btn_Node_Save_Click(object sender, EventArgs e)
@@ -120,6 +140,8 @@ public partial class frm_Main : Form
         nud_Node_Floor.Minimum = Floor.Min;
 
         CurBlock = cmbx_BlockSelect.SelectedItem.ToString();
+
+        GenerateInternalName();
     }
 
     private void cmbx_NodeType_SelectedIndexChanged(object sender, EventArgs e)
@@ -193,13 +215,15 @@ public partial class frm_Main : Form
             pnl_NormalNodes.BringToFront();
             pnl_GW.Visible = false;
         }
+
+        GenerateInternalName();
     }
 
     private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
     {
         NavNode? Temp;
 
-        if (e.Node == null || e.Node.Level > 0)
+        if (e.Node == null || e.Node.Level != 2)
         { return; }
 
         CurNodeUID = e.Node.Text.SplitNodeID();
@@ -209,7 +233,7 @@ public partial class frm_Main : Form
         //Temp = NG.TryGetNode(CurNodeUID);
 
         //if (Temp == null)
-        //{
+        //{s
         //    MessageBox.Show("Node returned null!");
         //    return;
         //}
@@ -433,7 +457,7 @@ public partial class frm_Main : Form
         }
     }
 
-    private void Create_Elevation()
+    private int Create_Elevation()
     {
         ElevationNode EN = new ElevationNode();
 
@@ -449,9 +473,11 @@ public partial class frm_Main : Form
             if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
             { NG.ConnectElevationNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag); }
         }
+
+        return 0;
     }
 
-    private void Create_Room()
+    private int Create_Room()
     {
         RoomNode RN = new RoomNode();
 
@@ -469,11 +495,10 @@ public partial class frm_Main : Form
             { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
         }
 
-        //foreach (var CNN in TempNodeConnections)
-        //{ NG.ConnectNodes(CurNodeUID, CNN.Value.UID, CNN.Key, CNN.Value.Oneway); }
+        return 0;
     }
 
-    private void Create_Corridor()
+    private int Create_Corridor()
     {
         CorridorNode CN = new CorridorNode();
 
@@ -490,10 +515,19 @@ public partial class frm_Main : Form
             if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
             { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
         }
+
+        return 0;
     }
 
-    private void Create_Gateway()
+    private int Create_Gateway()
     {
+        if (cmbx_GW_Direction.SelectedItem == null ||
+            cmbx_GW_AvailableNodes.SelectedItem == null)
+        {
+            MessageBox.Show("Please select a gateway direction/connecting node", "Issue!");
+            return -1;
+        }
+
         GatewayNode GN = new GatewayNode();
 
         GN.BlockName = cmbx_BlockSelect.Text;
@@ -504,14 +538,15 @@ public partial class frm_Main : Form
         CurNodeUID = NG.AddNode(GN);
 
         if (cmbx_GW_AvailableNodes.Text != string.Empty)
-        { NG.ConnectGatewayNode(CurNodeUID, cmbx_GW_AvailableNodes.Text.SplitNodeID(), cmbx_GW_Direction.Text.ToDirection()); }
-
+        { NG.ConnectGatewayNode(CurNodeUID, cmbx_GW_AvailableNodes.Text.SplitNodeID(), (NodeDirection)cmbx_GW_Direction.Text.ToDirection()); }
 
         foreach (DataGridViewRow Row in dgv_GatewayConnections.Rows)
         {
             if (Row.Cells[0] is DataGridViewComboBoxCell DGVCBX && DGVCBX.Value != null)
             { NG.ConnectGatewayNodes(CurNodeUID, (Row.Cells[0] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID()); }
         }
+
+        return 0;
     }
 
     private string GetNodeName(int _UID)
@@ -583,6 +618,31 @@ public partial class frm_Main : Form
             MessageBox.Show(EXC.Message, "Error!");
             throw;
         }
+    }
+
+    private void btn_SaveBackup_Click(object sender, EventArgs e)
+    { Filer.SaveBackup(NG); }
+
+    private void GenerateInternalName()
+    {
+        if (cmbx_NodeType.Text != "" && cmbx_BlockSelect.Text != "")
+        {
+            Layouter._Blockname = cmbx_BlockSelect.Text;
+            Layouter._Floor = (int)nud_Node_Floor.Value;
+            Layouter._Type = cmbx_NodeType.Text;
+            Layouter._Separator = txt_set_Separator.Text.First();
+            Layouter._Prefix = txt_set_Prefix.Text;
+        }
+        else
+        {
+            Layouter._Blockname = cmbx_BlockSelect.Items[0] as string;
+            Layouter._Floor = (int)nud_Node_Floor.Value;
+            Layouter._Type = cmbx_NodeType.Items[0] as string;
+            Layouter._Separator = txt_set_Separator.Text.First();
+            Layouter._Prefix = txt_set_Prefix.Text;
+        }
+
+        txt_InternalName.Text = Layouter.GetName();
     }
 }
 

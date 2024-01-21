@@ -65,7 +65,7 @@ namespace NavGraphTools
         }
 
         /// <summary>
-        /// FOR DESERIALISATION ONLY. DO NOT USE.
+        /// For deserialisation
         /// </summary>
         public NavGraph()
         {
@@ -121,6 +121,28 @@ namespace NavGraphTools
             else
             { return false; }
         }
+        #endregion
+
+        #region Get
+        public Dictionary<int, NavNode> GetNodes(string _Block)
+        {
+            return GetAllNodes()
+                    .Where(X => X.Value.BlockName == _Block)
+                    .ToDictionary(X => X.Key, Y => Y.Value);
+
+
+        }
+
+        public Dictionary<int, NavNode> GetNodes(string _Block, int _Floor)
+        {
+            return GetAllNodes()
+                    .Where(X => X.Value.BlockName == _Block)
+                    .Where(X => X.Value.Floor == _Floor)
+                    .ToDictionary(X => X.Key, Y => Y.Value);
+        }
+
+        public int GetFloorNodeCount(string _Block, int _Floor)
+        { return GetNodes(_Block, _Floor).Count(); }
         #endregion
 
         #region Connecting Nodes

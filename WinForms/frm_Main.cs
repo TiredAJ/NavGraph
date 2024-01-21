@@ -44,6 +44,11 @@ namespace WinForms
             RefreshBlocksList();
 
             dgv_GatewayConnections.Rows.Add();
+
+            Layouter = new();
+
+            cmbx_BlockSelect.SelectedIndex = 0;
+            cmbx_NodeType.SelectedIndex = 0;
         }
 
         private void ClearBox(GroupBox _GBX)
@@ -202,7 +207,10 @@ namespace WinForms
                     case DialogResult.Abort:
                     case DialogResult.Ignore:
                     case DialogResult.No:
-                    return;
+                    {
+                        Filer.DeleteBackup();
+                        return;
+                    }
                     case DialogResult.OK:
                     case DialogResult.Yes:
                     case DialogResult.Continue:
