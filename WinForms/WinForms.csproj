@@ -6,7 +6,6 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	<StartupObject>WinForms.Program</StartupObject>
 	<AssemblyName>$(MSBuildProjectName)</AssemblyName>
 	<SignAssembly>False</SignAssembly>

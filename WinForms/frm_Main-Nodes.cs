@@ -180,6 +180,8 @@ public partial class frm_Main : Form
             cmbx_ElvFlow.Enabled = false;
 
             txt_PublicName.Enabled = false;
+
+            ckbx_IsElevator.Enabled = true;
         }
 
         if (cmbx_NodeType.SelectedItem.ToString() == "Room")
@@ -366,7 +368,7 @@ public partial class frm_Main : Form
             if (C is Panel PNL)
             {
                 ComboBox CMBX = PNL.Controls.OfType<ComboBox>().First();
-                CheckBox CKBX = PNL.Controls.OfType<CheckBox>().First();
+                CheckBox? CKBX = PNL.Controls.OfType<CheckBox>().FirstOrDefault();
 
                 if (CMBX.Text == string.Empty)
                 { continue; }
@@ -377,6 +379,8 @@ public partial class frm_Main : Form
                 { NG.ConnectElevationNodes(CurNodeUID, CMBX.SelectedItem.ToString().SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked); }
             }
         }
+
+        EN.IsElevator = ckbx_IsElevator.Checked;
 
         //foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
         //{
@@ -592,9 +596,9 @@ public partial class frm_Main : Form
         });
     }
 
-    private async Task<string[]> GetAvailable<T>(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir) where T : NavNode
+    private Task<string[]> GetAvailable<T>(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir) where T : NavNode
     {
-        return await Task.Run(() =>
+        return Task.Run(() =>
         {
             return NG.GetAllNodes()
                     .AsParallel()
@@ -606,6 +610,41 @@ public partial class frm_Main : Form
                         && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1))
                     )
                     .Where(X => X.Value is T)
+                    .OrderByDescending(X => X.Key)
+                    .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                    .ToArray();
+        });
+    }
+
+    private Task<string[]> GetAvailableElevation(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir)
+    {
+        return Task.Run(() =>
+        {
+            int Offset = 0;
+
+            if (_CurDir == NodeDirection.Down)
+            { Offset = -1; }
+            else if (CurDir == NodeDirection.Up)
+            { Offset = 1; }
+            else
+            { throw new Exception("Don't use this to find nodes for up/down direction!"); }
+
+            (int Max, int Min) = NG.Blocks[_CurBlock];
+
+            if (!((_CurFloor + Offset) <= Max && (_CurFloor + Offset) >= Min))
+            { return new string[0]; }
+
+            return NG.GetAllNodes()
+                    .AsParallel()
+                    .Where(X => X.Key != _CurUID)
+                    .Where
+                    (
+                        X => X.Value.BlockName == _CurBlock
+                        && X.Value.Floor == _CurFloor
+                        && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1))
+                    )
+                    .Where(X => X.Value is ElevationNode)
+                    .Where(X => X.Value.Floor == _CurFloor + Offset)
                     .OrderByDescending(X => X.Key)
                     .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
                     .ToArray();
@@ -630,8 +669,10 @@ public partial class frm_Main : Form
 
             switch (Required)
             {
-                case "Elevation":
+                case "Elevation" when Math.Abs((int)CurDir) > 3:
                 { AvailableNodes = await GetAvailable<ElevationNode>(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
+                case "Elevation":
+                { AvailableNodes = await GetAvailableElevation(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
                 case "Room":
                 { AvailableNodes = await GetAvailable<CorridorNode>(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
                 default:

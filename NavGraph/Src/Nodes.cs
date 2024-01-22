@@ -221,6 +221,9 @@ namespace NavGraphTools
 
         [JsonInclude]
         public NodeDirection? GatewayFlowDirection { get; set; }
+
+        [JsonInclude]
+        public bool IsElevator { get; set; }
         #endregion
 
         #region Connections
