@@ -40,7 +40,7 @@ namespace NavGraphTools
             return Path;
         }
 
-        public List<int> Nearest<T>(ref NavGraph _NG) where T : ISpecialNodes
+        public List<int> Nearest<T>(ref NavGraph _NG) where T : ISpecialNode
         {
             List<int> Path = new List<int>();
 

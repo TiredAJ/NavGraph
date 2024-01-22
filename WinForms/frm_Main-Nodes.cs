@@ -166,6 +166,7 @@ public partial class frm_Main : Form
     {
         cmbx_ElvFlow.Enabled = true;
         cmbx_GWFlow.Enabled = true;
+        ckbx_IsElevator.Enabled = false;
 
         if (cmbx_NodeType.SelectedIndex >= 0)
         { pnl_NormalNodes.Enabled = true; }
@@ -413,7 +414,7 @@ public partial class frm_Main : Form
             if (C is Panel PNL)
             {
                 ComboBox CMBX = PNL.Controls.OfType<ComboBox>().First();
-                CheckBox CKBX = PNL.Controls.OfType<CheckBox>().First();
+                CheckBox? CKBX = PNL.Controls.OfType<CheckBox>().FirstOrDefault();
 
                 if (CMBX.Text == string.Empty)
                 { continue; }
@@ -449,7 +450,7 @@ public partial class frm_Main : Form
             if (C is Panel PNL)
             {
                 ComboBox CMBX = PNL.Controls.OfType<ComboBox>().First();
-                CheckBox CKBX = PNL.Controls.OfType<CheckBox>().First();
+                CheckBox? CKBX = PNL.Controls.OfType<CheckBox>().FirstOrDefault();
 
                 if (CMBX.Text == string.Empty)
                 { continue; }
@@ -640,7 +641,6 @@ public partial class frm_Main : Form
                     .Where
                     (
                         X => X.Value.BlockName == _CurBlock
-                        && X.Value.Floor == _CurFloor
                         && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1))
                     )
                     .Where(X => X.Value is ElevationNode)
@@ -669,7 +669,7 @@ public partial class frm_Main : Form
 
             switch (Required)
             {
-                case "Elevation" when Math.Abs((int)CurDir) > 3:
+                case "Elevation" when Math.Abs((int)CurDir) < 3:
                 { AvailableNodes = await GetAvailable<ElevationNode>(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
                 case "Elevation":
                 { AvailableNodes = await GetAvailableElevation(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
