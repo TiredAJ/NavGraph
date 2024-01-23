@@ -183,6 +183,16 @@ public partial class frm_Main : Form
             txt_PublicName.Enabled = false;
 
             ckbx_IsElevator.Enabled = true;
+
+            cmbx_GWFlow.Items.AddRange(new string[] { "Up", "Down" });
+            cmbx_ElvFlow.Items.AddRange(new string[] { "Up", "Down" });
+        }
+        else
+        {
+            cmbx_ElvFlow.Items.Remove("Up");
+            cmbx_ElvFlow.Items.Remove("Down");
+            cmbx_GWFlow.Items.Remove("Up");
+            cmbx_GWFlow.Items.Remove("Down");
         }
 
         if (cmbx_NodeType.SelectedItem.ToString() == "Room")
@@ -672,7 +682,7 @@ public partial class frm_Main : Form
             switch (Required)
             {
                 case "Elevation" when Math.Abs((int)CurDir) < 3:
-                { AvailableNodes = await GetAvailable<ElevationNode>(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
+                { AvailableNodes = await GetAvailableNodes(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
                 case "Elevation":
                 { AvailableNodes = await GetAvailableElevation(CurNodeUID, CurBlock, CurFloor, CurDir, IsEE); break; }
                 case "Room":

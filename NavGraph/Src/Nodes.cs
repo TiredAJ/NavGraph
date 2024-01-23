@@ -104,11 +104,13 @@ public abstract class NavNode
     /// <returns><see langword="true"/> if available, <see langword="false"/> otherwise</returns>
     public virtual bool IsAvailable(NodeDirection _Dir)
     {
-        if (!(_Dir == NodeDirection.Up || _Dir == NodeDirection.Down)
-            && !Nodes.ContainsKey(_Dir))
+        if (_Dir == NodeDirection.Up || _Dir == NodeDirection.Down)
+        { return false; }
+
+        if (!Nodes.ContainsKey(_Dir))
         { return true; }
 
-        return Math.Abs(Nodes[_Dir]) > NavGraph.MINIMUM_UID;
+        return Math.Abs(Nodes[_Dir]) < NavGraph.MINIMUM_UID;
     }
     #endregion
 
@@ -254,7 +256,7 @@ public class ElevationNode : NavNode, ISpecialNode, IGatewayFlow
         if (!Nodes.ContainsKey(_Dir))
         { return true; }
 
-        return Math.Abs(Nodes[_Dir]) > NavGraph.MINIMUM_UID;
+        return Math.Abs(Nodes[_Dir]) < NavGraph.MINIMUM_UID;
     }
 
     internal override void ConnectNode(int _UID, NodeDirection _Dir)

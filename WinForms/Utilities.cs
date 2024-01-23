@@ -71,7 +71,7 @@ public static class Extensions
             case NodeDirection.Down:
             { return "▼"; }
             default:
-            { return ""; }
+            { return "#"; }
         }
     }
 
