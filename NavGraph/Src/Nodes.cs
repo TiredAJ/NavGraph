@@ -1,6 +1,6 @@
 ﻿// Ignore Spelling: Nav UID Elv
 
-using NavGraph.Src.Utilities;
+using NavGraphTools.Src.Utilities;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -34,7 +34,7 @@ public abstract class NavNode
     #region Altering Connections
     internal virtual void ConnectNode(int _UID, NodeDirection _Dir)
     {
-        if (_Dir == NodeDirection.Up || _Dir == NodeDirection.Down)
+        if (_Dir == NodeDirection.Up || _Dir == NodeDirection.Down || _UID == 0)
         { return; }
 
         if (!Nodes.ContainsKey(_Dir))

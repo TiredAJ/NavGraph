@@ -163,12 +163,13 @@ public partial class frm_Main : Form
             Multiselect = false,
             OkRequiresInteraction = true,
             CheckPathExists = true,
+            AddToRecent = true
         };
 
-        if (DefaultFileLoc == null)
-        { OFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
-        else
-        { OFD.InitialDirectory = DefaultFileLoc; }
+        //if (DefaultFileLoc == null)
+        //{ OFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
+        //else
+        //{ OFD.InitialDirectory = DefaultFileLoc; }
 
         switch (OFD.ShowDialog())
         {
@@ -235,6 +236,18 @@ public partial class frm_Main : Form
 
             foreach (TreeNode TN2 in TN.Nodes)
             { TN2.Expand(); }
+        }
+    }
+
+    private void tbctrl_MainTabs_Selected(object sender, TabControlEventArgs e)
+    {
+        if (e.TabPage == tbpg_Settings)
+        {
+            txt_set_id_ElvES.Text = LayoutHelper.NodeIdentifiers["EN0"];
+            txt_set_id_ElvEE.Text = LayoutHelper.NodeIdentifiers["EN1"];
+            txt_set_id_Corridor.Text = LayoutHelper.NodeIdentifiers["CN"];
+            txt_set_id_GW.Text = LayoutHelper.NodeIdentifiers["GW"];
+            txt_set_id_Room.Text = LayoutHelper.NodeIdentifiers["RN"];
         }
     }
 }

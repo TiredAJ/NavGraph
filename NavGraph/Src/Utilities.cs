@@ -1,7 +1,6 @@
-﻿using NavGraphTools;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace NavGraph.Src.Utilities;
+namespace NavGraphTools.Src.Utilities;
 
 public static class Extensions
 {

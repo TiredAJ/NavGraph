@@ -81,7 +81,7 @@ public partial class frm_Main : Form
         trvw_Nodes.Nodes.RemoveByKey(_UID.ToString());
 
         btn_Node_Save.Enabled = false;
-        btn_Node_Delete.Enabled = false;
+        //btn_Node_Delete.Enabled = false;
     }
 
     private void btn_Node_Save_Click(object sender, EventArgs e)
@@ -212,16 +212,15 @@ public partial class frm_Main : Form
         GenerateInternalName();
     }
 
-    private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
+    private void trvw_Nodes_AfterSelect(object sender, EventArgs e)
     {
         NavNode? Temp;
+        TreeNode TN = trvw_Nodes.SelectedNode;
 
-        if (e.Node == null || e.Node.Level != 2)
+        if (TN == null || TN.Level != 2)
         { return; }
 
-        CurNodeUID = e.Node.Text.SplitNodeID();
-
-        btn_Delete.Enabled = true;
+        CurNodeUID = TN.Text.SplitNodeID();
 
         //Temp = NG.TryGetNode(CurNodeUID);
 
@@ -556,6 +555,8 @@ public partial class frm_Main : Form
             Layouter._Prefix = txt_set_Prefix.Text;
         }
 
+        Layouter.IsElevator = ckbx_IsElevator.Checked;
+
         txt_InternalName.Text = Layouter.GetName();
     }
 
@@ -617,7 +618,7 @@ public partial class frm_Main : Form
         });
     }
 
-    private Task<string[]> GetAvailableElevation(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir)
+    private Task<string[]> GetAvailableElevation(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir, bool _IsEE)
     {
         return Task.Run(() =>
         {
@@ -638,13 +639,14 @@ public partial class frm_Main : Form
             return NG.GetAllNodes()
                     .AsParallel()
                     .Where(X => X.Key != _CurUID)
+                    .Where(X => X.Value is ElevationNode)
                     .Where
                     (
                         X => X.Value.BlockName == _CurBlock
-                        && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1))
+                        && X.Value.IsAvailable((NodeDirection)((int)_CurDir * -1)) &&
+                        X.Value.Floor == _CurFloor + Offset &&
+                        (X.Value as ElevationNode).IsElevator == _IsEE
                     )
-                    .Where(X => X.Value is ElevationNode)
-                    .Where(X => X.Value.Floor == _CurFloor + Offset)
                     .OrderByDescending(X => X.Key)
                     .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
                     .ToArray();
@@ -661,7 +663,7 @@ public partial class frm_Main : Form
         CurDir = (NodeDirection)CMBX.Tag;
 
         string Required = cmbx_NodeType.Text;
-
+        bool IsEE = ckbx_IsElevator.Checked;
 
         Task.Run(async () =>
         {
@@ -672,7 +674,7 @@ public partial class frm_Main : Form
                 case "Elevation" when Math.Abs((int)CurDir) < 3:
                 { AvailableNodes = await GetAvailable<ElevationNode>(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
                 case "Elevation":
-                { AvailableNodes = await GetAvailableElevation(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
+                { AvailableNodes = await GetAvailableElevation(CurNodeUID, CurBlock, CurFloor, CurDir, IsEE); break; }
                 case "Room":
                 { AvailableNodes = await GetAvailable<CorridorNode>(CurNodeUID, CurBlock, CurFloor, CurDir); break; }
                 default:
@@ -704,6 +706,9 @@ public partial class frm_Main : Form
             CMBX.Refresh();
         }
     }
+
+    private void ckbx_IsElevator_CheckedChanged(object sender, EventArgs e)
+    { GenerateInternalName(); }
 }
 
 public class TempNode
