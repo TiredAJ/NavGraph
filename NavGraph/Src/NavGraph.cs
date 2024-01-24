@@ -1,5 +1,6 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
+using NavGraphTools.Src.Utilities;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -23,7 +24,7 @@ public class NavGraph : Graph<NavNode>
     //                         ^No floors
     //                  ^Block name
 
-    [JsonInclude]
+    [JsonIgnore]
     public Dictionary<string, int> Tags = new();
     //                         ^ how many nodes use this tag
     //                  ^Tag
@@ -394,6 +395,8 @@ public class NavGraph : Graph<NavNode>
         { return; }
         else
         { Tags.Add(_Tag, 1); }
+
+        OrderTags();
     }
 
     /// <summary>
@@ -406,6 +409,8 @@ public class NavGraph : Graph<NavNode>
         { Tags[_Tag]++; }
         else
         { Tags.Add(_Tag, 1); }
+
+        OrderTags();
     }
 
     /// <summary>
@@ -421,6 +426,8 @@ public class NavGraph : Graph<NavNode>
             else
             { Tags.Remove(_Tag); }
         }
+
+        OrderTags();
     }
 
     /// <summary>
@@ -446,8 +453,15 @@ public class NavGraph : Graph<NavNode>
         foreach (var N in Nodes.Values.Where(X => X is RoomNode).Cast<RoomNode>())
         {
             foreach (var T in N.Tags)
-            { AddOrIncrementTag(T); }
+            { AddOrIncrementTag(T.TrimAndCase()); }
         }
+    }
+
+    private void OrderTags()
+    {
+        Tags = Tags
+            .OrderBy(X => X.Key)
+            .ToDictionary(X => X.Key, Y => Y.Value);
     }
     #endregion
 

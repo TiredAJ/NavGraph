@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace NavGraphTools.Src.Utilities;
 
@@ -22,6 +23,13 @@ public static class Extensions
             case NodeDirection.Down:
             return "D";
         }
+    }
+
+    public static string TrimAndCase(this string _S)
+    {
+        _S = _S.Trim();
+
+        return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(_S.ToLower());
     }
 }
 

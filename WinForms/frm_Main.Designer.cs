@@ -47,6 +47,9 @@ namespace WinForms
             cmbx_NodeType = new ComboBox();
             cmbx_BlockSelect = new ComboBox();
             pnl_NormalNodes = new Panel();
+            btn_Clear = new Button();
+            btn_tag_AddTag = new Button();
+            cmbx_tag_Tags = new ComboBox();
             label20 = new Label();
             label19 = new Label();
             label18 = new Label();
@@ -54,7 +57,7 @@ namespace WinForms
             ckbx_conn_North = new CheckBox();
             cmbx_conn_North = new ComboBox();
             label17 = new Label();
-            txt_Node_Tags = new TextBox();
+            txt_tag_Tags = new TextBox();
             pnl_conn_East = new Panel();
             ckbx_conn_East = new CheckBox();
             cmbx_conn_East = new ComboBox();
@@ -74,6 +77,8 @@ namespace WinForms
             cmbx_conn_Down = new ComboBox();
             label25 = new Label();
             label7 = new Label();
+            label27 = new Label();
+            btn_tag_AddNewTag = new Button();
             pnl_GW = new Panel();
             label8 = new Label();
             cmbx_GW_AvailableNodes = new ComboBox();
@@ -89,7 +94,11 @@ namespace WinForms
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            pnl_Tree = new Panel();
             trvw_Nodes = new TreeView();
+            pnl_Search = new Panel();
+            txt_tree_SearchBox = new TextBox();
+            btn_tree_Search = new Button();
             tbpg_Blocks = new TabPage();
             pnl_Right_Blocks = new Panel();
             gbx_EditBlock = new GroupBox();
@@ -155,6 +164,8 @@ namespace WinForms
             pnl_conn_Down.SuspendLayout();
             pnl_GW.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).BeginInit();
+            pnl_Tree.SuspendLayout();
+            pnl_Search.SuspendLayout();
             tbpg_Blocks.SuspendLayout();
             pnl_Right_Blocks.SuspendLayout();
             gbx_EditBlock.SuspendLayout();
@@ -195,7 +206,7 @@ namespace WinForms
             // tbpg_Nodes
             // 
             tbpg_Nodes.Controls.Add(gbx_Node);
-            tbpg_Nodes.Controls.Add(trvw_Nodes);
+            tbpg_Nodes.Controls.Add(pnl_Tree);
             tbpg_Nodes.Location = new Point(4, 34);
             tbpg_Nodes.Name = "tbpg_Nodes";
             tbpg_Nodes.Padding = new Padding(3);
@@ -376,22 +387,59 @@ namespace WinForms
             // pnl_NormalNodes
             // 
             pnl_NormalNodes.BackColor = SystemColors.ControlLight;
+            pnl_NormalNodes.Controls.Add(btn_Clear);
+            pnl_NormalNodes.Controls.Add(btn_tag_AddTag);
+            pnl_NormalNodes.Controls.Add(cmbx_tag_Tags);
             pnl_NormalNodes.Controls.Add(label20);
             pnl_NormalNodes.Controls.Add(label19);
             pnl_NormalNodes.Controls.Add(label18);
             pnl_NormalNodes.Controls.Add(pnl_conn_North);
-            pnl_NormalNodes.Controls.Add(txt_Node_Tags);
+            pnl_NormalNodes.Controls.Add(txt_tag_Tags);
             pnl_NormalNodes.Controls.Add(pnl_conn_East);
             pnl_NormalNodes.Controls.Add(pnl_conn_South);
             pnl_NormalNodes.Controls.Add(pnl_conn_West);
             pnl_NormalNodes.Controls.Add(pnl_conn_Up);
             pnl_NormalNodes.Controls.Add(pnl_conn_Down);
             pnl_NormalNodes.Controls.Add(label7);
+            pnl_NormalNodes.Controls.Add(label27);
+            pnl_NormalNodes.Controls.Add(btn_tag_AddNewTag);
             pnl_NormalNodes.Location = new Point(2, 221);
             pnl_NormalNodes.Margin = new Padding(3, 4, 3, 4);
             pnl_NormalNodes.Name = "pnl_NormalNodes";
             pnl_NormalNodes.Size = new Size(546, 353);
             pnl_NormalNodes.TabIndex = 1;
+            // 
+            // btn_Clear
+            // 
+            btn_Clear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_Clear.Location = new Point(292, 263);
+            btn_Clear.Name = "btn_Clear";
+            btn_Clear.Size = new Size(72, 31);
+            btn_Clear.TabIndex = 24;
+            btn_Clear.Text = "Clear";
+            btn_Clear.UseVisualStyleBackColor = true;
+            btn_Clear.Click += btn_Clear_Click;
+            // 
+            // btn_tag_AddTag
+            // 
+            btn_tag_AddTag.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_tag_AddTag.Location = new Point(371, 322);
+            btn_tag_AddTag.Name = "btn_tag_AddTag";
+            btn_tag_AddTag.Size = new Size(72, 31);
+            btn_tag_AddTag.TabIndex = 22;
+            btn_tag_AddTag.Text = "Add";
+            btn_tag_AddTag.UseVisualStyleBackColor = true;
+            btn_tag_AddTag.Click += btn_tag_AddTag_Click;
+            // 
+            // cmbx_tag_Tags
+            // 
+            cmbx_tag_Tags.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbx_tag_Tags.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_tag_Tags.FormattingEnabled = true;
+            cmbx_tag_Tags.Location = new Point(371, 283);
+            cmbx_tag_Tags.Name = "cmbx_tag_Tags";
+            cmbx_tag_Tags.Size = new Size(172, 33);
+            cmbx_tag_Tags.TabIndex = 20;
             // 
             // label20
             // 
@@ -462,15 +510,15 @@ namespace WinForms
             label17.TabIndex = 0;
             label17.Text = "North";
             // 
-            // txt_Node_Tags
+            // txt_tag_Tags
             // 
-            txt_Node_Tags.Dock = DockStyle.Bottom;
-            txt_Node_Tags.Enabled = false;
-            txt_Node_Tags.Location = new Point(0, 300);
-            txt_Node_Tags.Multiline = true;
-            txt_Node_Tags.Name = "txt_Node_Tags";
-            txt_Node_Tags.Size = new Size(546, 53);
-            txt_Node_Tags.TabIndex = 6;
+            txt_tag_Tags.Enabled = false;
+            txt_tag_Tags.Location = new Point(0, 300);
+            txt_tag_Tags.Multiline = true;
+            txt_tag_Tags.Name = "txt_tag_Tags";
+            txt_tag_Tags.ReadOnly = true;
+            txt_tag_Tags.Size = new Size(364, 53);
+            txt_tag_Tags.TabIndex = 6;
             // 
             // pnl_conn_East
             // 
@@ -667,9 +715,29 @@ namespace WinForms
             label7.AutoSize = true;
             label7.Location = new Point(3, 268);
             label7.Name = "label7";
-            label7.Size = new Size(216, 25);
+            label7.Size = new Size(49, 25);
             label7.TabIndex = 12;
-            label7.Text = "Tags (comma separated)";
+            label7.Text = "Tags";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(371, 256);
+            label27.Name = "label27";
+            label27.Size = new Size(123, 25);
+            label27.TabIndex = 21;
+            label27.Text = "Tag Selection";
+            // 
+            // btn_tag_AddNewTag
+            // 
+            btn_tag_AddNewTag.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_tag_AddNewTag.Location = new Point(447, 322);
+            btn_tag_AddNewTag.Name = "btn_tag_AddNewTag";
+            btn_tag_AddNewTag.Size = new Size(95, 31);
+            btn_tag_AddNewTag.TabIndex = 23;
+            btn_tag_AddNewTag.Text = "Add New";
+            btn_tag_AddNewTag.UseVisualStyleBackColor = true;
+            btn_tag_AddNewTag.Click += btn_tag_AddNewTag_Click;
             // 
             // pnl_GW
             // 
@@ -838,19 +906,60 @@ namespace WinForms
             label1.TabIndex = 0;
             label1.Text = "Block";
             // 
+            // pnl_Tree
+            // 
+            pnl_Tree.Controls.Add(trvw_Nodes);
+            pnl_Tree.Controls.Add(pnl_Search);
+            pnl_Tree.Dock = DockStyle.Left;
+            pnl_Tree.Location = new Point(3, 3);
+            pnl_Tree.Name = "pnl_Tree";
+            pnl_Tree.Size = new Size(457, 635);
+            pnl_Tree.TabIndex = 21;
+            // 
             // trvw_Nodes
             // 
-            trvw_Nodes.Dock = DockStyle.Left;
+            trvw_Nodes.Dock = DockStyle.Fill;
             trvw_Nodes.Font = new Font("Cascadia Mono", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             trvw_Nodes.FullRowSelect = true;
             trvw_Nodes.HideSelection = false;
             trvw_Nodes.Indent = 10;
-            trvw_Nodes.Location = new Point(3, 3);
+            trvw_Nodes.Location = new Point(0, 34);
             trvw_Nodes.Name = "trvw_Nodes";
-            trvw_Nodes.Size = new Size(457, 635);
+            trvw_Nodes.Size = new Size(457, 601);
             trvw_Nodes.TabIndex = 200;
             trvw_Nodes.AfterSelect += trvw_Nodes_AfterSelect;
             trvw_Nodes.Click += trvw_Nodes_Click;
+            // 
+            // pnl_Search
+            // 
+            pnl_Search.Controls.Add(txt_tree_SearchBox);
+            pnl_Search.Controls.Add(btn_tree_Search);
+            pnl_Search.Dock = DockStyle.Top;
+            pnl_Search.Location = new Point(0, 0);
+            pnl_Search.Name = "pnl_Search";
+            pnl_Search.Size = new Size(457, 34);
+            pnl_Search.TabIndex = 202;
+            // 
+            // txt_tree_SearchBox
+            // 
+            txt_tree_SearchBox.BorderStyle = BorderStyle.FixedSingle;
+            txt_tree_SearchBox.Dock = DockStyle.Fill;
+            txt_tree_SearchBox.Location = new Point(0, 0);
+            txt_tree_SearchBox.Name = "txt_tree_SearchBox";
+            txt_tree_SearchBox.Size = new Size(359, 33);
+            txt_tree_SearchBox.TabIndex = 201;
+            txt_tree_SearchBox.TextChanged += txt_tree_SearchBox_TextChanged;
+            // 
+            // btn_tree_Search
+            // 
+            btn_tree_Search.Dock = DockStyle.Right;
+            btn_tree_Search.Location = new Point(359, 0);
+            btn_tree_Search.Name = "btn_tree_Search";
+            btn_tree_Search.Size = new Size(98, 34);
+            btn_tree_Search.TabIndex = 202;
+            btn_tree_Search.Text = "Search";
+            btn_tree_Search.UseVisualStyleBackColor = true;
+            btn_tree_Search.Click += btn_tree_Search_Click;
             // 
             // tbpg_Blocks
             // 
@@ -1447,6 +1556,9 @@ namespace WinForms
             pnl_GW.ResumeLayout(false);
             pnl_GW.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).EndInit();
+            pnl_Tree.ResumeLayout(false);
+            pnl_Search.ResumeLayout(false);
+            pnl_Search.PerformLayout();
             tbpg_Blocks.ResumeLayout(false);
             pnl_Right_Blocks.ResumeLayout(false);
             gbx_EditBlock.ResumeLayout(false);
@@ -1514,7 +1626,7 @@ namespace WinForms
         private GroupBox gbx_Node;
         private Panel pnl_NormalNodes;
         private Label label7;
-        private TextBox txt_Node_Tags;
+        private TextBox txt_tag_Tags;
         private Button btn_Node_Delete;
         private Button btn_Node_Save;
         private Button btn_Node_Create;
@@ -1588,5 +1700,14 @@ namespace WinForms
         private CheckBox ckbx_IsElevator;
         private TextBox txt_set_id_ElvEE;
         private Label label26;
+        private Button btn_tag_AddTag;
+        private ComboBox cmbx_tag_Tags;
+        private Label label27;
+        private Button btn_tag_AddNewTag;
+        private Panel pnl_Tree;
+        private Panel pnl_Search;
+        private TextBox txt_tree_SearchBox;
+        private Button btn_tree_Search;
+        private Button btn_Clear;
     }
 }

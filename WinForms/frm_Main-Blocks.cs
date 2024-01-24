@@ -76,7 +76,7 @@ public partial class frm_Main : Form
 
                     if (N.Value is IElevationFlow || N.Value is IGatewayFlow)
                     {
-                        SB_Name.Append("[");
+                        SB_Name.Append(" [");
 
                         if (N.Value is IElevationFlow NE)
                         { SB_Name.Append($"E:{NE.ElvFlowDirection.ToArrow()}"); }

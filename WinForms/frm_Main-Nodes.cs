@@ -29,6 +29,9 @@ public partial class frm_Main : Form
         ClearBox(gbx_Node);
         ClearBox(pnl_GW);
 
+        txt_tag_Tags.Clear();
+        cmbx_tag_Tags.Text = string.Empty;
+
         CurNodeUID = 0;
 
         ResetConnPnl();
@@ -109,7 +112,7 @@ public partial class frm_Main : Form
         //else if (TempNode is RoomNode RN)
         //{
         //    RN.RoomName = txt_PublicName.Text.Trim();
-        //    RN.Tags = txt_Node_Tags.Text.Split(new[] { ',' }).ToList();
+        //    RN.Tags = txt_tag_Tags.Text.Split(new[] { ',' }).ToList();
 
         //    foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
         //    {
@@ -200,14 +203,14 @@ public partial class frm_Main : Form
 
         if (cmbx_NodeType.SelectedItem.ToString() == "Room")
         {
-            txt_Node_Tags.Enabled = true;
+            txt_tag_Tags.Enabled = true;
             txt_PublicName.Enabled = true;
             cmbx_GWFlow.Enabled = false;
             cmbx_ElvFlow.Enabled = false;
         }
         else
         {
-            txt_Node_Tags.Enabled = false;
+            txt_tag_Tags.Enabled = false;
             txt_PublicName.Enabled = false;
         }
 
@@ -335,7 +338,10 @@ public partial class frm_Main : Form
         RN.Floor = (int)nud_Node_Floor.Value;
         RN.InternalName = txt_InternalName.Text.Trim();
         RN.RoomName = txt_PublicName.Text.Trim();
-        RN.Tags = txt_Node_Tags.Text.Split(new[] { ',' }).ToList();
+        RN.Tags = txt_tag_Tags.Text
+                        .Split(new[] { ',' })
+                        .Select(X => X.Trim())
+                        .ToList();
 
         CurNodeUID = NG.AddNode(RN);
 
@@ -640,6 +646,85 @@ public partial class frm_Main : Form
 
     private void ckbx_IsElevator_CheckedChanged(object sender, EventArgs e)
     { GenerateInternalName(); }
+
+    private void btn_tag_AddTag_Click(object sender, EventArgs e)
+    { txt_tag_Tags.AppendText($"{cmbx_tag_Tags.Text}, "); }
+
+    private void btn_tag_AddNewTag_Click(object sender, EventArgs e)
+    {
+        if (cmbx_tag_Tags.Text == string.Empty)
+        { return; }
+
+        string NewTag = cmbx_tag_Tags.Text;
+
+        if (NG.GetTags().Contains(NewTag))
+        { txt_tag_Tags.AppendText($"{cmbx_tag_Tags.Text}, "); }
+
+        cmbx_tag_Tags.Text = string.Empty;
+
+        txt_tag_Tags.AppendText($"{NewTag}, ");
+        cmbx_tag_Tags.Items.Add(NewTag);
+
+        cmbx_tag_Tags.Refresh();
+    }
+
+    private void btn_tree_Search_Click(object sender, EventArgs e)
+    {
+        SearchNodes();
+        //trvw_Nodes.Focus();
+    }
+
+    private void txt_tree_SearchBox_TextChanged(object sender, EventArgs e)
+    {
+        SearchNodes();
+        txt_tree_SearchBox.Focus();
+    }
+
+    private void SearchNodes()
+    {
+        trvw_Nodes.SelectedNode = null;
+
+        if (txt_tree_SearchBox.Text == string.Empty)
+        { return; }
+
+        string SearchQ = txt_tree_SearchBox.Text.ToLower();
+
+        foreach (TreeNode TN in trvw_Nodes.Nodes)
+        {
+            if (TN.Text.ToLower().Contains(SearchQ))
+            { trvw_Nodes.SelectedNode = TN; break; }
+            else
+            {
+                foreach (TreeNode TN2 in TN.Nodes)
+                {
+                    if (TN2.Text.ToLower().Contains(SearchQ))
+                    { trvw_Nodes.SelectedNode = TN2; break; }
+                    else
+                    {
+                        foreach (TreeNode TN3 in TN2.Nodes)
+                        {
+                            if (TN3.Text.ToLower().Contains(SearchQ))
+                            { trvw_Nodes.SelectedNode = TN3; break; }
+                        }
+
+                        if (trvw_Nodes.SelectedNode != null)
+                        { break; }
+                    }
+                }
+                if (trvw_Nodes.SelectedNode != null)
+                { break; }
+            }
+        }
+
+        if (trvw_Nodes.SelectedNode != null)
+        {
+            trvw_Nodes.SelectedNode.EnsureVisible();
+            trvw_Nodes.Focus();
+        }
+    }
+
+    private void btn_Clear_Click(object sender, EventArgs e)
+    { txt_tag_Tags.Text = string.Empty; }
 }
 
 public class TempNode

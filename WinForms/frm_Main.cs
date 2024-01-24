@@ -237,6 +237,8 @@ public partial class frm_Main : Form
             foreach (TreeNode TN2 in TN.Nodes)
             { TN2.Expand(); }
         }
+
+        cmbx_tag_Tags.Items.AddRange(NG.GetTags().ToArray());
     }
 
     private void tbctrl_MainTabs_Selected(object sender, TabControlEventArgs e)
