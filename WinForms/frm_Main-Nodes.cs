@@ -83,69 +83,12 @@ public partial class frm_Main : Form
         NG.RemoveNode(_UID);
         trvw_Nodes.Nodes.RemoveByKey(_UID.ToString());
 
-        btn_Node_Save.Enabled = false;
+        btn_node_Edit.Enabled = false;
         //btn_Node_Delete.Enabled = false;
     }
 
     private void btn_Node_Save_Click(object sender, EventArgs e)
-    {
-        NavNode? TempNode = NG.TryGetNode(CurNodeUID);
-
-        if (TempNode == null)
-        { MessageBox.Show("There was an error getting the object to edit"); }
-
-        TempNode.InternalName = txt_InternalName.Text.Trim();
-
-        if (cmbx_BlockSelect.SelectedItem != null)
-        { TempNode.BlockName = cmbx_BlockSelect.SelectedItem.ToString(); }
-
-        TempNode.Floor = (int)nud_Node_Floor.Value;
-
-        //if (TempNode is CorridorNode CN)
-        //{
-        //    foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //    {
-        //        if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //        { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
-        //    }
-        //}
-        //else if (TempNode is RoomNode RN)
-        //{
-        //    RN.RoomName = txt_PublicName.Text.Trim();
-        //    RN.Tags = txt_tag_Tags.Text.Split(new[] { ',' }).ToList();
-
-        //    foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //    {
-        //        if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //        { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
-        //    }
-        //}
-        //else if (TempNode is GatewayNode GN)
-        //{
-        //    //do later, am eeeepy
-        //    //wtf was I supposed to do?
-        //    foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //    {
-        //        if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //        { NG.ConnectGatewayNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString())); }
-        //    }
-        //}
-        //else if (TempNode is ElevationNode EN)
-        //{
-        //    foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //    {
-        //        if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //        { NG.ConnectElevationNodes(CurNodeUID, int.Parse((Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString()), (NodeDirection)Row.Tag); }
-        //    }
-        //}
-
-        NG.SetNode(CurNodeUID, TempNode);
-
-        btn_Node_Save.Enabled = false;
-        btn_Node_Delete.Enabled = false;
-
-        RefreshNodesTree();
-    }
+    { tbctrl_MainTabs.SelectTab(tbpg_EditNode); }
 
     private void nud_Node_Floor_ValueChanged(object sender, EventArgs e)
     {

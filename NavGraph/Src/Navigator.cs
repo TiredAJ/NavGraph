@@ -14,7 +14,5 @@ namespace NavGraphTools
         private bool IsSBlock = false;
         private bool IsSGFloor = false;
         #endregion
-
-
     }
 }
