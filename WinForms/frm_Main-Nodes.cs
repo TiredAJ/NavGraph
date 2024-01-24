@@ -173,7 +173,7 @@ public partial class frm_Main : Form
         else
         { pnl_NormalNodes.Enabled = false; }
 
-        if (cmbx_NodeType.SelectedItem.ToString() == "Elevation")
+        if (cmbx_NodeType.Text == "Elevation")
         {
             pnl_conn_Down.Enabled = true;
             pnl_conn_Up.Enabled = true;
@@ -193,6 +193,9 @@ public partial class frm_Main : Form
             cmbx_ElvFlow.Items.Remove("Down");
             cmbx_GWFlow.Items.Remove("Up");
             cmbx_GWFlow.Items.Remove("Down");
+
+            pnl_conn_Down.Enabled = false;
+            pnl_conn_Up.Enabled = false;
         }
 
         if (cmbx_NodeType.SelectedItem.ToString() == "Room")
@@ -346,7 +349,7 @@ public partial class frm_Main : Form
                 if (CMBX.Text == string.Empty)
                 { continue; }
 
-                NG.ConnectNodes(CurNodeUID, CMBX.SelectedItem.ToString().SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked);
+                NG.ConnectNodes(CurNodeUID, CMBX.Text.SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked);
             }
         }
 

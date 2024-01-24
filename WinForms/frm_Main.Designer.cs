@@ -442,7 +442,7 @@ namespace WinForms
             // 
             // cmbx_conn_North
             // 
-            cmbx_conn_North.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_North.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_conn_North.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_conn_North.FormattingEnabled = true;
             cmbx_conn_North.Location = new Point(105, -1);
@@ -494,7 +494,7 @@ namespace WinForms
             // 
             // cmbx_conn_East
             // 
-            cmbx_conn_East.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_East.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_conn_East.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_conn_East.FormattingEnabled = true;
             cmbx_conn_East.Location = new Point(105, -1);
@@ -536,7 +536,7 @@ namespace WinForms
             // 
             // cmbx_conn_South
             // 
-            cmbx_conn_South.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_South.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_conn_South.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_conn_South.FormattingEnabled = true;
             cmbx_conn_South.Location = new Point(105, -1);
@@ -578,7 +578,7 @@ namespace WinForms
             // 
             // cmbx_conn_West
             // 
-            cmbx_conn_West.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_West.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_conn_West.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_conn_West.FormattingEnabled = true;
             cmbx_conn_West.Location = new Point(105, -1);
@@ -610,7 +610,7 @@ namespace WinForms
             // 
             // cmbx_conn_Up
             // 
-            cmbx_conn_Up.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_Up.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_conn_Up.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_conn_Up.FormattingEnabled = true;
             cmbx_conn_Up.Location = new Point(105, -1);
@@ -642,7 +642,7 @@ namespace WinForms
             // 
             // cmbx_conn_Down
             // 
-            cmbx_conn_Down.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbx_conn_Down.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_conn_Down.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_conn_Down.FormattingEnabled = true;
             cmbx_conn_Down.Location = new Point(105, -1);

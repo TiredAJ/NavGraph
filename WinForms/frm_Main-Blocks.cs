@@ -72,15 +72,20 @@ public partial class frm_Main : Form
 
                 foreach (var N in NG.GetNodes(KVP.Key, i))
                 {
-                    StringBuilder SB_Name = new($"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"  [");
+                    StringBuilder SB_Name = new($"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"");
 
-                    if (N.Value is IElevationFlow NE)
-                    { SB_Name.Append($"E:{NE.ElvFlowDirection.ToArrow()}"); }
+                    if (N.Value is IElevationFlow || N.Value is IGatewayFlow)
+                    {
+                        SB_Name.Append("[");
 
-                    if (N.Value is IGatewayFlow NG)
-                    { SB_Name.Append($"G:{NG.GatewayFlowDirection.ToArrow()}"); }
+                        if (N.Value is IElevationFlow NE)
+                        { SB_Name.Append($"E:{NE.ElvFlowDirection.ToArrow()}"); }
 
-                    SB_Name.Append("]");
+                        if (N.Value is IGatewayFlow NG)
+                        { SB_Name.Append($"G:{NG.GatewayFlowDirection.ToArrow()}"); }
+
+                        SB_Name.Append("]");
+                    }
 
                     TN_Node = TN_Floor.Nodes
                         .Add($"{N.Key}", SB_Name.ToString());

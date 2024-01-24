@@ -23,6 +23,11 @@ public class NavGraph : Graph<NavNode>
     //                         ^No floors
     //                  ^Block name
 
+    [JsonInclude]
+    public Dictionary<string, int> Tags = new();
+    //                         ^ how many nodes use this tag
+    //                  ^Tag
+
     //The next assignable UID
     [JsonInclude]
     private int _AvailableUID;
@@ -88,6 +93,12 @@ public class NavGraph : Graph<NavNode>
 
         //adds the node to the Dictionary
         Nodes.Add(TempUID, _NewNode);
+
+        if (_NewNode is RoomNode RN)
+        {
+            foreach (var T in RN.Tags)
+            { AddOrIncrementTag(T); }
+        }
 
         //returns the assigned UID
         return TempUID;
@@ -288,6 +299,12 @@ public class NavGraph : Graph<NavNode>
         {
             NavNode Temp = Nodes[_UID];
 
+            if (Temp is RoomNode RN)
+            {
+                foreach (var T in RN.Tags)
+                { RemoveOrDecrementTag(T); }
+            }
+
             foreach (var KVP in Temp.GetConnectedNodes())
             {
                 NavNode? IntTemp = null;
@@ -358,6 +375,82 @@ public class NavGraph : Graph<NavNode>
 
     #endregion
 
+    #region Tags
+
+    /// <summary>
+    /// Returns all tags in the Tags dict
+    /// </summary>
+    /// <returns>A list of all tags</returns>
+    public List<string> GetTags()
+    { return Tags.Keys.ToList(); }
+
+    /// <summary>
+    /// Adds a tag to the dict
+    /// </summary>
+    /// <param name="_Tag">Tag to add</param>
+    public void AddTag(string _Tag)
+    {
+        if (Tags.ContainsKey(_Tag))
+        { return; }
+        else
+        { Tags.Add(_Tag, 1); }
+    }
+
+    /// <summary>
+    /// Either adds the tag to the dict, or increments it's quantity if it exists
+    /// </summary>
+    /// <param name="_Tag">Tag to add or increment</param>
+    public void AddOrIncrementTag(string _Tag)
+    {
+        if (Tags.ContainsKey(_Tag))
+        { Tags[_Tag]++; }
+        else
+        { Tags.Add(_Tag, 1); }
+    }
+
+    /// <summary>
+    /// Either reduces the quantity of a tag, or removes it if it's 0
+    /// </summary>
+    /// <param name="_Tag">Tag to reduce/remove</param>
+    public void RemoveOrDecrementTag(string _Tag)
+    {
+        if (Tags.ContainsKey(_Tag))
+        {
+            if (Tags[_Tag] > 1)
+            { Tags[_Tag]--; }
+            else
+            { Tags.Remove(_Tag); }
+        }
+    }
+
+    /// <summary>
+    /// Deletes the tag from the dict and iterates through all nodes to remove the tag
+    /// </summary>
+    /// <param name="_Tag">Tag to remove</param>
+    public void DeleteTagAndReferences(string _Tag)
+    {
+        foreach (var N in Nodes.Values.Where(X => X is RoomNode).Cast<RoomNode>())
+        {
+            if (N.Tags.Contains(_Tag))
+            { N.Tags.Remove(_Tag); }
+        }
+
+        Tags.Remove(_Tag);
+    }
+
+    /// <summary>
+    /// Iterates through all nodes to ensure Tags is up to date
+    /// </summary>
+    public void UpdateAllTags()
+    {
+        foreach (var N in Nodes.Values.Where(X => X is RoomNode).Cast<RoomNode>())
+        {
+            foreach (var T in N.Tags)
+            { AddOrIncrementTag(T); }
+        }
+    }
+    #endregion
+
     #region Serialising stuff
     /// <summary>
     /// Takes an input stream and writes data to it
@@ -389,6 +482,7 @@ public class NavGraph : Graph<NavNode>
         }
 
         CleanNodes();
+        UpdateAllTags();
     }
 
     /// <summary>
