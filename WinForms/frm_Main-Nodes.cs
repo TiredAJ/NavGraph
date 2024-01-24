@@ -222,104 +222,22 @@ public partial class frm_Main : Form
         GenerateInternalName();
     }
 
-    private void trvw_Nodes_AfterSelect(object sender, EventArgs e)
+    private void trvw_Nodes_Click(object sender, EventArgs e)
     {
-        NavNode? Temp;
         TreeNode TN = trvw_Nodes.SelectedNode;
 
         if (TN == null || TN.Level != 2)
         { return; }
 
         CurNodeUID = TN.Text.SplitNodeID();
+    }
 
-        //Temp = NG.TryGetNode(CurNodeUID);
+    private void trvw_Nodes_AfterSelect(object sender, TreeViewEventArgs e)
+    {
+        if (e.Node == null || e.Node.Level != 2)
+        { return; }
 
-        //if (Temp == null)
-        //{s
-        //    MessageBox.Show("Node returned null!");
-        //    return;
-        //}
-
-        //txt_InternalName.Text = Temp.InternalName;
-
-        //if (Temp is GatewayNode GN)
-        //{
-        //    cmbx_NodeType.SelectedItem = "Gateway";
-
-        //    pnl_GW.BringToFront();
-        //    pnl_GW.Visible = true;
-
-        //    cmbx_GW_AvailableNodes.Text = GN.GetConnectedNodes().First().Value.ToString();
-        //    cmbx_GW_Direction.Text = GN.GetConnectedNodes().First().Key.ToString();
-
-        //    dgv_GatewayConnections.Rows.Clear();
-
-        //    foreach (var KVP in GN.GetConnectedGateways())
-        //    { dgv_GatewayConnections.Rows.Add(KVP.Key); }
-        //}
-        //else
-        //{
-        //    pnl_NormalNodes.BringToFront();
-        //    pnl_GW.Visible = false;
-        //}
-
-        //if (Temp is ElevationNode EN)
-        //{
-        //    cmbx_NodeType.SelectedItem = "Elevation";
-
-        //    foreach (var KVP in EN.GetConnectedNodes())
-        //    { dgv_NodeConnections.Rows.Add(KVP.Key, KVP.Value); }
-        //}
-        //else
-        //{
-        //    if (Temp is CorridorNode)
-        //    { cmbx_NodeType.SelectedItem = "Corridor"; }
-        //    else if (Temp is RoomNode RN)
-        //    {
-        //        cmbx_NodeType.SelectedItem = "Room";
-        //        txt_PublicName.Text = RN.RoomName;
-        //        txt_Node_Tags.Text = RN.Tags.ElementString();
-        //    }
-
-        //    //fix this \/
-        //    //still on todo
-
-        //    var NodeConnections = Temp.GetConnectedNodes();
-
-        //    foreach (DataGridViewRow? R in dgv_NodeConnections.Rows)
-        //    {
-        //        if (R == null)
-        //        { continue; }
-
-        //        NodeDirection CellDirection = (NodeDirection)R.Cells[0].Value;
-
-        //        if (NodeConnections.ContainsKey(CellDirection))
-        //        {
-        //            var DGVCMBX = R.Cells[1] as DataGridViewComboBoxCell;
-
-
-
-        //            R.Cells[1].Value = NodeConnections[CellDirection];
-
-        //            if (NodeConnections[CellDirection] < 1)
-        //            {
-        //                R.Cells[2].Value =
-        //            }
-
-        //        }
-        //    }
-
-
-        //    foreach (var KVP in Temp.GetConnectedNodes())
-        //    { dgv_NodeConnections.Rows.Add(KVP.Key, new DataGridViewComboBoxCell().Items.Add(KVP.Value)); }
-
-        //    dgv_NodeConnections.Refresh();
-        //}
-
-        //gbx_Node.Text = $"Create/Edit Node: {CurNodeUID}";
-
-        //btn_Node_Save.Enabled = true;
-        //btn_Node_Delete.Enabled = true;
+        CurNodeUID = e.Node.Text.SplitNodeID();
     }
 
     private void ResetConnPnl()

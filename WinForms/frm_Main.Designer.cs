@@ -849,7 +849,8 @@ namespace WinForms
             trvw_Nodes.Name = "trvw_Nodes";
             trvw_Nodes.Size = new Size(457, 635);
             trvw_Nodes.TabIndex = 200;
-            trvw_Nodes.Click += trvw_Nodes_AfterSelect;
+            trvw_Nodes.AfterSelect += trvw_Nodes_AfterSelect;
+            trvw_Nodes.Click += trvw_Nodes_Click;
             // 
             // tbpg_Blocks
             // 
@@ -1130,11 +1131,13 @@ namespace WinForms
             // radioButton2
             // 
             radioButton2.AutoSize = true;
+            radioButton2.Checked = true;
             radioButton2.Font = new Font("Segoe UI", 18F);
             radioButton2.Location = new Point(9, 53);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(209, 36);
             radioButton2.TabIndex = 6;
+            radioButton2.TabStop = true;
             radioButton2.Tag = "0";
             radioButton2.Text = "Export for FARap";
             radioButton2.UseVisualStyleBackColor = true;
