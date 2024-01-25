@@ -37,6 +37,7 @@ public abstract class Graph<T>
         { return default; } //null equivalent for generic methods??            
     }
 
+
     /// <summary>
     /// Attempts to retrieve the node
     /// </summary>
@@ -58,13 +59,29 @@ public abstract class Graph<T>
     }
 
 
-
     /// <summary>
     /// Gets all the nodes in the graph with their UID
     /// </summary>
     /// <returns>a list of all nodes int the Graph</returns>
     public Dictionary<int, T> GetAllNodes()
     { return Nodes; }
+
+
+    /// <summary>
+    /// Gets the node with the inputted UID, if it doesn't exit, returns null
+    /// </summary>
+    /// <param name="_UID">UID of node to return</param>
+    /// <returns>Either the node or <see langword="null"/>if it doesn't exist</returns>
+    public T? this[int _UID]
+    {
+        get
+        {
+            if (DoesNodeExist(_UID))
+            { return Nodes[_UID]; }
+            else
+            { return default; }
+        }
+    }
 
     #endregion
 

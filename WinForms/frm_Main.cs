@@ -252,6 +252,14 @@ public partial class frm_Main : Form
             txt_set_id_Room.Text = LayoutHelper.NodeIdentifiers["RN"];
         }
     }
+
+    private void tbctrl_MainTabs_Selecting(object sender, TabControlCancelEventArgs e)
+    {
+        if (e.TabPage == tbpg_EditNode && CurNodeUID == 0)
+        { e.Cancel = true; }
+        else
+        { EditLoad(CurNodeUID); }
+    }
 }
 
 public enum ExportType : int
