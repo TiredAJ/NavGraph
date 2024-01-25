@@ -29,10 +29,10 @@ namespace WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -101,6 +101,66 @@ namespace WinForms
             pnl_Search = new Panel();
             txt_tree_SearchBox = new TextBox();
             btn_tree_Search = new Button();
+            tbpg_EditNode = new TabPage();
+            panel13 = new Panel();
+            panel5 = new Panel();
+            button1 = new Button();
+            button2 = new Button();
+            comboBox5 = new ComboBox();
+            label28 = new Label();
+            label29 = new Label();
+            label30 = new Label();
+            panel6 = new Panel();
+            checkBox2 = new CheckBox();
+            comboBox6 = new ComboBox();
+            label49 = new Label();
+            label31 = new Label();
+            textBox4 = new TextBox();
+            panel7 = new Panel();
+            checkBox3 = new CheckBox();
+            comboBox7 = new ComboBox();
+            label50 = new Label();
+            label32 = new Label();
+            panel8 = new Panel();
+            checkBox4 = new CheckBox();
+            comboBox8 = new ComboBox();
+            label51 = new Label();
+            panel9 = new Panel();
+            checkBox5 = new CheckBox();
+            comboBox9 = new ComboBox();
+            label33 = new Label();
+            panel10 = new Panel();
+            comboBox10 = new ComboBox();
+            label35 = new Label();
+            panel11 = new Panel();
+            comboBox11 = new ComboBox();
+            label36 = new Label();
+            label37 = new Label();
+            label38 = new Label();
+            button3 = new Button();
+            panel12 = new Panel();
+            label39 = new Label();
+            comboBox12 = new ComboBox();
+            label40 = new Label();
+            comboBox13 = new ComboBox();
+            dataGridView1 = new DataGridView();
+            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
+            dataGridViewCheckBoxColumn2 = new DataGridViewCheckBoxColumn();
+            label47 = new Label();
+            label46 = new Label();
+            checkBox1 = new CheckBox();
+            label45 = new Label();
+            comboBox1 = new ComboBox();
+            label44 = new Label();
+            comboBox2 = new ComboBox();
+            label43 = new Label();
+            textBox2 = new TextBox();
+            label42 = new Label();
+            textBox3 = new TextBox();
+            label41 = new Label();
+            numericUpDown1 = new NumericUpDown();
+            comboBox4 = new ComboBox();
+            comboBox3 = new ComboBox();
             tbpg_Blocks = new TabPage();
             pnl_Right_Blocks = new Panel();
             gbx_EditBlock = new GroupBox();
@@ -151,66 +211,6 @@ namespace WinForms
             txt_set_Separator = new TextBox();
             label11 = new Label();
             lbl_NameTemplate = new Label();
-            tbpg_EditNode = new TabPage();
-            label47 = new Label();
-            checkBox1 = new CheckBox();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            numericUpDown1 = new NumericUpDown();
-            comboBox3 = new ComboBox();
-            comboBox4 = new ComboBox();
-            panel5 = new Panel();
-            button1 = new Button();
-            button2 = new Button();
-            comboBox5 = new ComboBox();
-            label28 = new Label();
-            label29 = new Label();
-            label30 = new Label();
-            panel6 = new Panel();
-            checkBox2 = new CheckBox();
-            comboBox6 = new ComboBox();
-            label31 = new Label();
-            textBox4 = new TextBox();
-            panel7 = new Panel();
-            checkBox3 = new CheckBox();
-            comboBox7 = new ComboBox();
-            label32 = new Label();
-            panel8 = new Panel();
-            checkBox4 = new CheckBox();
-            comboBox8 = new ComboBox();
-            panel9 = new Panel();
-            checkBox5 = new CheckBox();
-            comboBox9 = new ComboBox();
-            panel10 = new Panel();
-            comboBox10 = new ComboBox();
-            label35 = new Label();
-            panel11 = new Panel();
-            comboBox11 = new ComboBox();
-            label36 = new Label();
-            label37 = new Label();
-            label38 = new Label();
-            button3 = new Button();
-            panel12 = new Panel();
-            label39 = new Label();
-            comboBox12 = new ComboBox();
-            label40 = new Label();
-            comboBox13 = new ComboBox();
-            dataGridView1 = new DataGridView();
-            label41 = new Label();
-            label42 = new Label();
-            label43 = new Label();
-            label44 = new Label();
-            label45 = new Label();
-            label46 = new Label();
-            panel13 = new Panel();
-            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
-            dataGridViewCheckBoxColumn2 = new DataGridViewCheckBoxColumn();
-            label49 = new Label();
-            label50 = new Label();
-            label51 = new Label();
-            label33 = new Label();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
@@ -226,6 +226,18 @@ namespace WinForms
             ((System.ComponentModel.ISupportInitialize)dgv_GatewayConnections).BeginInit();
             pnl_Tree.SuspendLayout();
             pnl_Search.SuspendLayout();
+            tbpg_EditNode.SuspendLayout();
+            panel13.SuspendLayout();
+            panel5.SuspendLayout();
+            panel6.SuspendLayout();
+            panel7.SuspendLayout();
+            panel8.SuspendLayout();
+            panel9.SuspendLayout();
+            panel10.SuspendLayout();
+            panel11.SuspendLayout();
+            panel12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             tbpg_Blocks.SuspendLayout();
             pnl_Right_Blocks.SuspendLayout();
             gbx_EditBlock.SuspendLayout();
@@ -241,18 +253,6 @@ namespace WinForms
             tbpg_Settings.SuspendLayout();
             panel4.SuspendLayout();
             groupBox1.SuspendLayout();
-            tbpg_EditNode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            panel5.SuspendLayout();
-            panel6.SuspendLayout();
-            panel7.SuspendLayout();
-            panel8.SuspendLayout();
-            panel9.SuspendLayout();
-            panel10.SuspendLayout();
-            panel11.SuspendLayout();
-            panel12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            panel13.SuspendLayout();
             SuspendLayout();
             // 
             // tbctrl_MainTabs
@@ -866,14 +866,14 @@ namespace WinForms
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = SystemColors.Control;
-            dataGridViewCellStyle9.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dgvcmbx_GW_AvailableNodes, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.Dock = DockStyle.Bottom;
@@ -890,8 +890,8 @@ namespace WinForms
             // 
             // dgvcmbx_GW_AvailableNodes
             // 
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle2;
             dgvcmbx_GW_AvailableNodes.Frozen = true;
             dgvcmbx_GW_AvailableNodes.HeaderText = "Available Nodes";
             dgvcmbx_GW_AvailableNodes.MinimumWidth = 250;
@@ -1026,6 +1026,651 @@ namespace WinForms
             btn_tree_Search.Text = "Search";
             btn_tree_Search.UseVisualStyleBackColor = true;
             btn_tree_Search.Click += btn_tree_Search_Click;
+            // 
+            // tbpg_EditNode
+            // 
+            tbpg_EditNode.Controls.Add(panel13);
+            tbpg_EditNode.Location = new Point(4, 34);
+            tbpg_EditNode.Name = "tbpg_EditNode";
+            tbpg_EditNode.Size = new Size(1061, 641);
+            tbpg_EditNode.TabIndex = 5;
+            tbpg_EditNode.Text = "Edit Node";
+            tbpg_EditNode.UseVisualStyleBackColor = true;
+            // 
+            // panel13
+            // 
+            panel13.Controls.Add(panel5);
+            panel13.Controls.Add(panel12);
+            panel13.Controls.Add(label47);
+            panel13.Controls.Add(label46);
+            panel13.Controls.Add(checkBox1);
+            panel13.Controls.Add(label45);
+            panel13.Controls.Add(comboBox1);
+            panel13.Controls.Add(label44);
+            panel13.Controls.Add(comboBox2);
+            panel13.Controls.Add(label43);
+            panel13.Controls.Add(textBox2);
+            panel13.Controls.Add(label42);
+            panel13.Controls.Add(textBox3);
+            panel13.Controls.Add(label41);
+            panel13.Controls.Add(numericUpDown1);
+            panel13.Controls.Add(comboBox4);
+            panel13.Controls.Add(comboBox3);
+            panel13.Dock = DockStyle.Fill;
+            panel13.Location = new Point(0, 0);
+            panel13.Name = "panel13";
+            panel13.Size = new Size(1061, 641);
+            panel13.TabIndex = 39;
+            // 
+            // panel5
+            // 
+            panel5.BackColor = SystemColors.ControlLight;
+            panel5.Controls.Add(button1);
+            panel5.Controls.Add(button2);
+            panel5.Controls.Add(comboBox5);
+            panel5.Controls.Add(label28);
+            panel5.Controls.Add(label29);
+            panel5.Controls.Add(label30);
+            panel5.Controls.Add(panel6);
+            panel5.Controls.Add(textBox4);
+            panel5.Controls.Add(panel7);
+            panel5.Controls.Add(panel8);
+            panel5.Controls.Add(panel9);
+            panel5.Controls.Add(panel10);
+            panel5.Controls.Add(panel11);
+            panel5.Controls.Add(label37);
+            panel5.Controls.Add(label38);
+            panel5.Controls.Add(button3);
+            panel5.Location = new Point(0, 256);
+            panel5.Margin = new Padding(3, 4, 3, 4);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(1061, 385);
+            panel5.TabIndex = 23;
+            // 
+            // button1
+            // 
+            button1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.Location = new Point(486, 290);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 75);
+            button1.TabIndex = 24;
+            button1.Text = "Clear";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button2.Location = new Point(566, 334);
+            button2.Name = "button2";
+            button2.Size = new Size(89, 31);
+            button2.TabIndex = 22;
+            button2.Text = "Add";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // comboBox5
+            // 
+            comboBox5.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox5.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox5.FormattingEnabled = true;
+            comboBox5.Location = new Point(567, 290);
+            comboBox5.Name = "comboBox5";
+            comboBox5.Size = new Size(219, 33);
+            comboBox5.TabIndex = 20;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(671, 1);
+            label28.Name = "label28";
+            label28.Size = new Size(95, 25);
+            label28.TabIndex = 16;
+            label28.Text = "Is oneway";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(105, 1);
+            label29.Name = "label29";
+            label29.Size = new Size(148, 25);
+            label29.TabIndex = 15;
+            label29.Text = "Available Nodes";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(3, 1);
+            label30.Name = "label30";
+            label30.Size = new Size(89, 25);
+            label30.TabIndex = 14;
+            label30.Text = "Direction";
+            // 
+            // panel6
+            // 
+            panel6.Controls.Add(checkBox2);
+            panel6.Controls.Add(comboBox6);
+            panel6.Controls.Add(label49);
+            panel6.Controls.Add(label31);
+            panel6.Location = new Point(0, 32);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(786, 41);
+            panel6.TabIndex = 13;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox2.Location = new Point(714, 8);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(15, 14);
+            checkBox2.TabIndex = 3;
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // comboBox6
+            // 
+            comboBox6.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox6.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox6.FormattingEnabled = true;
+            comboBox6.Location = new Point(155, -1);
+            comboBox6.Name = "comboBox6";
+            comboBox6.Size = new Size(481, 33);
+            comboBox6.TabIndex = 1;
+            // 
+            // label49
+            // 
+            label49.AutoSize = true;
+            label49.Location = new Point(34, 9);
+            label49.Margin = new Padding(3);
+            label49.Name = "label49";
+            label49.Size = new Size(61, 25);
+            label49.TabIndex = 0;
+            label49.Text = "North";
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(34, 3);
+            label31.Margin = new Padding(3);
+            label31.Name = "label31";
+            label31.Size = new Size(61, 25);
+            label31.TabIndex = 0;
+            label31.Text = "North";
+            // 
+            // textBox4
+            // 
+            textBox4.Enabled = false;
+            textBox4.Location = new Point(8, 290);
+            textBox4.Multiline = true;
+            textBox4.Name = "textBox4";
+            textBox4.ReadOnly = true;
+            textBox4.Size = new Size(472, 75);
+            textBox4.TabIndex = 6;
+            // 
+            // panel7
+            // 
+            panel7.Controls.Add(checkBox3);
+            panel7.Controls.Add(comboBox7);
+            panel7.Controls.Add(label50);
+            panel7.Controls.Add(label32);
+            panel7.Location = new Point(0, 69);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(786, 41);
+            panel7.TabIndex = 14;
+            // 
+            // checkBox3
+            // 
+            checkBox3.AutoSize = true;
+            checkBox3.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox3.Location = new Point(714, 8);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new Size(15, 14);
+            checkBox3.TabIndex = 3;
+            checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // comboBox7
+            // 
+            comboBox7.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox7.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox7.FormattingEnabled = true;
+            comboBox7.Location = new Point(155, -1);
+            comboBox7.Name = "comboBox7";
+            comboBox7.Size = new Size(481, 33);
+            comboBox7.TabIndex = 1;
+            // 
+            // label50
+            // 
+            label50.AutoSize = true;
+            label50.Location = new Point(34, 7);
+            label50.Margin = new Padding(3);
+            label50.Name = "label50";
+            label50.Size = new Size(46, 25);
+            label50.TabIndex = 0;
+            label50.Text = "East";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(34, 6);
+            label32.Margin = new Padding(3);
+            label32.Name = "label32";
+            label32.Size = new Size(46, 25);
+            label32.TabIndex = 0;
+            label32.Text = "East";
+            // 
+            // panel8
+            // 
+            panel8.Controls.Add(checkBox4);
+            panel8.Controls.Add(comboBox8);
+            panel8.Controls.Add(label51);
+            panel8.Location = new Point(0, 107);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(786, 41);
+            panel8.TabIndex = 17;
+            // 
+            // checkBox4
+            // 
+            checkBox4.AutoSize = true;
+            checkBox4.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox4.Location = new Point(714, 8);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new Size(15, 14);
+            checkBox4.TabIndex = 3;
+            checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // comboBox8
+            // 
+            comboBox8.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox8.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox8.FormattingEnabled = true;
+            comboBox8.Location = new Point(155, -1);
+            comboBox8.Name = "comboBox8";
+            comboBox8.Size = new Size(481, 33);
+            comboBox8.TabIndex = 1;
+            // 
+            // label51
+            // 
+            label51.AutoSize = true;
+            label51.Location = new Point(34, 7);
+            label51.Margin = new Padding(3);
+            label51.Name = "label51";
+            label51.Size = new Size(61, 25);
+            label51.TabIndex = 0;
+            label51.Text = "South";
+            // 
+            // panel9
+            // 
+            panel9.Controls.Add(checkBox5);
+            panel9.Controls.Add(comboBox9);
+            panel9.Controls.Add(label33);
+            panel9.Location = new Point(0, 144);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(786, 41);
+            panel9.TabIndex = 18;
+            // 
+            // checkBox5
+            // 
+            checkBox5.AutoSize = true;
+            checkBox5.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox5.Location = new Point(714, 8);
+            checkBox5.Name = "checkBox5";
+            checkBox5.Size = new Size(15, 14);
+            checkBox5.TabIndex = 3;
+            checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // comboBox9
+            // 
+            comboBox9.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox9.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox9.FormattingEnabled = true;
+            comboBox9.Location = new Point(155, -1);
+            comboBox9.Name = "comboBox9";
+            comboBox9.Size = new Size(481, 33);
+            comboBox9.TabIndex = 1;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(34, 8);
+            label33.Margin = new Padding(3);
+            label33.Name = "label33";
+            label33.Size = new Size(53, 25);
+            label33.TabIndex = 0;
+            label33.Text = "West";
+            // 
+            // panel10
+            // 
+            panel10.Controls.Add(comboBox10);
+            panel10.Controls.Add(label35);
+            panel10.Enabled = false;
+            panel10.Location = new Point(0, 180);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(786, 41);
+            panel10.TabIndex = 19;
+            // 
+            // comboBox10
+            // 
+            comboBox10.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox10.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox10.FormattingEnabled = true;
+            comboBox10.Location = new Point(155, -1);
+            comboBox10.Name = "comboBox10";
+            comboBox10.Size = new Size(481, 33);
+            comboBox10.TabIndex = 1;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(34, 7);
+            label35.Margin = new Padding(3);
+            label35.Name = "label35";
+            label35.Size = new Size(36, 25);
+            label35.TabIndex = 0;
+            label35.Text = "Up";
+            // 
+            // panel11
+            // 
+            panel11.Controls.Add(comboBox11);
+            panel11.Controls.Add(label36);
+            panel11.Enabled = false;
+            panel11.Location = new Point(0, 219);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(786, 41);
+            panel11.TabIndex = 19;
+            // 
+            // comboBox11
+            // 
+            comboBox11.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox11.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox11.FormattingEnabled = true;
+            comboBox11.Location = new Point(155, -1);
+            comboBox11.Name = "comboBox11";
+            comboBox11.Size = new Size(481, 33);
+            comboBox11.TabIndex = 1;
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(34, 7);
+            label36.Margin = new Padding(3);
+            label36.Name = "label36";
+            label36.Size = new Size(61, 25);
+            label36.TabIndex = 0;
+            label36.Text = "Down";
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(8, 263);
+            label37.Name = "label37";
+            label37.Size = new Size(49, 25);
+            label37.TabIndex = 12;
+            label37.Text = "Tags";
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Location = new Point(567, 263);
+            label38.Name = "label38";
+            label38.Size = new Size(123, 25);
+            label38.TabIndex = 21;
+            label38.Text = "Tag Selection";
+            // 
+            // button3
+            // 
+            button3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button3.Location = new Point(683, 334);
+            button3.Name = "button3";
+            button3.Size = new Size(103, 31);
+            button3.TabIndex = 23;
+            button3.Text = "Add New";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // panel12
+            // 
+            panel12.BackColor = SystemColors.ControlLight;
+            panel12.Controls.Add(label39);
+            panel12.Controls.Add(comboBox12);
+            panel12.Controls.Add(label40);
+            panel12.Controls.Add(comboBox13);
+            panel12.Controls.Add(dataGridView1);
+            panel12.Location = new Point(0, 256);
+            panel12.Margin = new Padding(3, 4, 3, 4);
+            panel12.Name = "panel12";
+            panel12.Size = new Size(1061, 385);
+            panel12.TabIndex = 31;
+            panel12.Visible = false;
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Location = new Point(155, 1);
+            label39.Name = "label39";
+            label39.Size = new Size(148, 25);
+            label39.TabIndex = 17;
+            label39.Text = "Available Nodes";
+            // 
+            // comboBox12
+            // 
+            comboBox12.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox12.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox12.FormattingEnabled = true;
+            comboBox12.Location = new Point(155, 29);
+            comboBox12.Margin = new Padding(3, 4, 3, 4);
+            comboBox12.Name = "comboBox12";
+            comboBox12.Size = new Size(231, 33);
+            comboBox12.TabIndex = 16;
+            comboBox12.TabStop = false;
+            comboBox12.Tag = "ClearMe";
+            // 
+            // label40
+            // 
+            label40.AutoSize = true;
+            label40.Location = new Point(3, 1);
+            label40.Name = "label40";
+            label40.Size = new Size(89, 25);
+            label40.TabIndex = 15;
+            label40.Text = "Direction";
+            // 
+            // comboBox13
+            // 
+            comboBox13.FormattingEnabled = true;
+            comboBox13.Items.AddRange(new object[] { "North", "South", "East", "West" });
+            comboBox13.Location = new Point(3, 29);
+            comboBox13.Margin = new Padding(3, 4, 3, 4);
+            comboBox13.Name = "comboBox13";
+            comboBox13.Size = new Size(138, 33);
+            comboBox13.TabIndex = 14;
+            comboBox13.TabStop = false;
+            comboBox13.Tag = "ClearMe";
+            // 
+            // dataGridView1
+            // 
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn2 });
+            dataGridView1.Dock = DockStyle.Bottom;
+            dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
+            dataGridView1.Location = new Point(0, 76);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(1061, 309);
+            dataGridView1.TabIndex = 13;
+            dataGridView1.TabStop = false;
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewComboBoxColumn1.Frozen = true;
+            dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
+            dataGridViewComboBoxColumn1.MinimumWidth = 250;
+            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
+            dataGridViewComboBoxColumn1.Width = 250;
+            // 
+            // dataGridViewCheckBoxColumn2
+            // 
+            dataGridViewCheckBoxColumn2.Frozen = true;
+            dataGridViewCheckBoxColumn2.HeaderText = "Is one way?";
+            dataGridViewCheckBoxColumn2.MinimumWidth = 6;
+            dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
+            dataGridViewCheckBoxColumn2.Resizable = DataGridViewTriState.True;
+            dataGridViewCheckBoxColumn2.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // label47
+            // 
+            label47.AutoSize = true;
+            label47.Location = new Point(200, 3);
+            label47.Name = "label47";
+            label47.Size = new Size(57, 25);
+            label47.TabIndex = 37;
+            label47.Text = "Block";
+            // 
+            // label46
+            // 
+            label46.AutoSize = true;
+            label46.Location = new Point(8, 3);
+            label46.Margin = new Padding(3);
+            label46.Name = "label46";
+            label46.Size = new Size(102, 25);
+            label46.TabIndex = 25;
+            label46.Text = "Node Type";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            checkBox1.Location = new Point(398, 95);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(117, 29);
+            checkBox1.TabIndex = 36;
+            checkBox1.Text = "Is Elevator";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label45
+            // 
+            label45.AutoSize = true;
+            label45.Location = new Point(395, 3);
+            label45.Name = "label45";
+            label45.Size = new Size(55, 25);
+            label45.TabIndex = 27;
+            label45.Text = "Floor";
+            // 
+            // comboBox1
+            // 
+            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox1.Font = new Font("Segoe UI", 12F);
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "North", "East", "South", "West" });
+            comboBox1.Location = new Point(200, 159);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(187, 29);
+            comboBox1.TabIndex = 34;
+            // 
+            // label44
+            // 
+            label44.AutoSize = true;
+            label44.Location = new Point(9, 67);
+            label44.Name = "label44";
+            label44.Size = new Size(119, 25);
+            label44.TabIndex = 29;
+            label44.Text = "Public Name";
+            // 
+            // comboBox2
+            // 
+            comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox2.Font = new Font("Segoe UI", 12F);
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "North", "East", "South", "West" });
+            comboBox2.Location = new Point(11, 159);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(183, 29);
+            comboBox2.TabIndex = 32;
+            // 
+            // label43
+            // 
+            label43.AutoSize = true;
+            label43.Location = new Point(200, 67);
+            label43.Name = "label43";
+            label43.Size = new Size(132, 25);
+            label43.TabIndex = 30;
+            label43.Text = "Internal Name";
+            // 
+            // textBox2
+            // 
+            textBox2.Font = new Font("Segoe UI", 12F);
+            textBox2.Location = new Point(202, 95);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(185, 29);
+            textBox2.TabIndex = 28;
+            // 
+            // label42
+            // 
+            label42.AutoSize = true;
+            label42.Location = new Point(9, 131);
+            label42.Name = "label42";
+            label42.Size = new Size(124, 25);
+            label42.TabIndex = 33;
+            label42.Text = "Elevator Flow";
+            // 
+            // textBox3
+            // 
+            textBox3.Font = new Font("Segoe UI", 12F);
+            textBox3.Location = new Point(11, 95);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(185, 29);
+            textBox3.TabIndex = 26;
+            textBox3.Tag = "ClearMe";
+            // 
+            // label41
+            // 
+            label41.AutoSize = true;
+            label41.Location = new Point(200, 131);
+            label41.Name = "label41";
+            label41.Size = new Size(128, 25);
+            label41.TabIndex = 35;
+            label41.Text = "Gateway Flow";
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Font = new Font("Segoe UI", 12F);
+            numericUpDown1.Location = new Point(395, 31);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(138, 29);
+            numericUpDown1.TabIndex = 24;
+            // 
+            // comboBox4
+            // 
+            comboBox4.AutoCompleteMode = AutoCompleteMode.Append;
+            comboBox4.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox4.Font = new Font("Segoe UI", 12F);
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Location = new Point(202, 31);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(185, 29);
+            comboBox4.TabIndex = 22;
+            // 
+            // comboBox3
+            // 
+            comboBox3.AutoCompleteMode = AutoCompleteMode.Append;
+            comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox3.Font = new Font("Segoe UI", 12F);
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Items.AddRange(new object[] { "Corridor", "Room", "Elevation", "Gateway" });
+            comboBox3.Location = new Point(11, 31);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(185, 29);
+            comboBox3.TabIndex = 21;
             // 
             // tbpg_Blocks
             // 
@@ -1566,651 +2211,6 @@ namespace WinForms
             lbl_NameTemplate.TabIndex = 1;
             lbl_NameTemplate.Text = "Node internal name layout";
             // 
-            // tbpg_EditNode
-            // 
-            tbpg_EditNode.Controls.Add(panel13);
-            tbpg_EditNode.Location = new Point(4, 34);
-            tbpg_EditNode.Name = "tbpg_EditNode";
-            tbpg_EditNode.Size = new Size(1061, 641);
-            tbpg_EditNode.TabIndex = 5;
-            tbpg_EditNode.Text = "Edit Node";
-            tbpg_EditNode.UseVisualStyleBackColor = true;
-            // 
-            // label47
-            // 
-            label47.AutoSize = true;
-            label47.Location = new Point(200, 3);
-            label47.Name = "label47";
-            label47.Size = new Size(57, 25);
-            label47.TabIndex = 37;
-            label47.Text = "Block";
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBox1.Location = new Point(398, 95);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(117, 29);
-            checkBox1.TabIndex = 36;
-            checkBox1.Text = "Is Elevator";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox1.Font = new Font("Segoe UI", 12F);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "North", "East", "South", "West" });
-            comboBox1.Location = new Point(200, 159);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(187, 29);
-            comboBox1.TabIndex = 34;
-            // 
-            // comboBox2
-            // 
-            comboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox2.Font = new Font("Segoe UI", 12F);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "North", "East", "South", "West" });
-            comboBox2.Location = new Point(11, 159);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(183, 29);
-            comboBox2.TabIndex = 32;
-            // 
-            // textBox2
-            // 
-            textBox2.Font = new Font("Segoe UI", 12F);
-            textBox2.Location = new Point(202, 95);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(185, 29);
-            textBox2.TabIndex = 28;
-            // 
-            // textBox3
-            // 
-            textBox3.Font = new Font("Segoe UI", 12F);
-            textBox3.Location = new Point(11, 95);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(185, 29);
-            textBox3.TabIndex = 26;
-            textBox3.Tag = "ClearMe";
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Font = new Font("Segoe UI", 12F);
-            numericUpDown1.Location = new Point(395, 31);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(138, 29);
-            numericUpDown1.TabIndex = 24;
-            // 
-            // comboBox3
-            // 
-            comboBox3.AutoCompleteMode = AutoCompleteMode.Append;
-            comboBox3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox3.Font = new Font("Segoe UI", 12F);
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "Corridor", "Room", "Elevation", "Gateway" });
-            comboBox3.Location = new Point(11, 31);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(185, 29);
-            comboBox3.TabIndex = 21;
-            // 
-            // comboBox4
-            // 
-            comboBox4.AutoCompleteMode = AutoCompleteMode.Append;
-            comboBox4.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox4.Font = new Font("Segoe UI", 12F);
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(202, 31);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(185, 29);
-            comboBox4.TabIndex = 22;
-            // 
-            // panel5
-            // 
-            panel5.BackColor = SystemColors.ControlLight;
-            panel5.Controls.Add(button1);
-            panel5.Controls.Add(button2);
-            panel5.Controls.Add(comboBox5);
-            panel5.Controls.Add(label28);
-            panel5.Controls.Add(label29);
-            panel5.Controls.Add(label30);
-            panel5.Controls.Add(panel6);
-            panel5.Controls.Add(textBox4);
-            panel5.Controls.Add(panel7);
-            panel5.Controls.Add(panel8);
-            panel5.Controls.Add(panel9);
-            panel5.Controls.Add(panel10);
-            panel5.Controls.Add(panel11);
-            panel5.Controls.Add(label37);
-            panel5.Controls.Add(label38);
-            panel5.Controls.Add(button3);
-            panel5.Location = new Point(0, 256);
-            panel5.Margin = new Padding(3, 4, 3, 4);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(1061, 385);
-            panel5.TabIndex = 23;
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(486, 290);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 75);
-            button1.TabIndex = 24;
-            button1.Text = "Clear";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.Location = new Point(566, 334);
-            button2.Name = "button2";
-            button2.Size = new Size(89, 31);
-            button2.TabIndex = 22;
-            button2.Text = "Add";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // comboBox5
-            // 
-            comboBox5.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox5.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(567, 290);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(219, 33);
-            comboBox5.TabIndex = 20;
-            // 
-            // label28
-            // 
-            label28.AutoSize = true;
-            label28.Location = new Point(671, 1);
-            label28.Name = "label28";
-            label28.Size = new Size(95, 25);
-            label28.TabIndex = 16;
-            label28.Text = "Is oneway";
-            // 
-            // label29
-            // 
-            label29.AutoSize = true;
-            label29.Location = new Point(105, 1);
-            label29.Name = "label29";
-            label29.Size = new Size(148, 25);
-            label29.TabIndex = 15;
-            label29.Text = "Available Nodes";
-            // 
-            // label30
-            // 
-            label30.AutoSize = true;
-            label30.Location = new Point(3, 1);
-            label30.Name = "label30";
-            label30.Size = new Size(89, 25);
-            label30.TabIndex = 14;
-            label30.Text = "Direction";
-            // 
-            // panel6
-            // 
-            panel6.Controls.Add(checkBox2);
-            panel6.Controls.Add(comboBox6);
-            panel6.Controls.Add(label49);
-            panel6.Controls.Add(label31);
-            panel6.Location = new Point(0, 32);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(786, 41);
-            panel6.TabIndex = 13;
-            // 
-            // checkBox2
-            // 
-            checkBox2.AutoSize = true;
-            checkBox2.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBox2.Location = new Point(714, 8);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(15, 14);
-            checkBox2.TabIndex = 3;
-            checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // comboBox6
-            // 
-            comboBox6.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox6.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox6.FormattingEnabled = true;
-            comboBox6.Location = new Point(155, -1);
-            comboBox6.Name = "comboBox6";
-            comboBox6.Size = new Size(481, 33);
-            comboBox6.TabIndex = 1;
-            // 
-            // label31
-            // 
-            label31.AutoSize = true;
-            label31.Location = new Point(34, 3);
-            label31.Margin = new Padding(3);
-            label31.Name = "label31";
-            label31.Size = new Size(61, 25);
-            label31.TabIndex = 0;
-            label31.Text = "North";
-            // 
-            // textBox4
-            // 
-            textBox4.Enabled = false;
-            textBox4.Location = new Point(8, 290);
-            textBox4.Multiline = true;
-            textBox4.Name = "textBox4";
-            textBox4.ReadOnly = true;
-            textBox4.Size = new Size(472, 75);
-            textBox4.TabIndex = 6;
-            // 
-            // panel7
-            // 
-            panel7.Controls.Add(checkBox3);
-            panel7.Controls.Add(comboBox7);
-            panel7.Controls.Add(label50);
-            panel7.Controls.Add(label32);
-            panel7.Location = new Point(0, 69);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(786, 41);
-            panel7.TabIndex = 14;
-            // 
-            // checkBox3
-            // 
-            checkBox3.AutoSize = true;
-            checkBox3.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBox3.Location = new Point(714, 8);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(15, 14);
-            checkBox3.TabIndex = 3;
-            checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // comboBox7
-            // 
-            comboBox7.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox7.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox7.FormattingEnabled = true;
-            comboBox7.Location = new Point(155, -1);
-            comboBox7.Name = "comboBox7";
-            comboBox7.Size = new Size(481, 33);
-            comboBox7.TabIndex = 1;
-            // 
-            // label32
-            // 
-            label32.AutoSize = true;
-            label32.Location = new Point(34, 6);
-            label32.Margin = new Padding(3);
-            label32.Name = "label32";
-            label32.Size = new Size(46, 25);
-            label32.TabIndex = 0;
-            label32.Text = "East";
-            // 
-            // panel8
-            // 
-            panel8.Controls.Add(checkBox4);
-            panel8.Controls.Add(comboBox8);
-            panel8.Controls.Add(label51);
-            panel8.Location = new Point(0, 107);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(786, 41);
-            panel8.TabIndex = 17;
-            // 
-            // checkBox4
-            // 
-            checkBox4.AutoSize = true;
-            checkBox4.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBox4.Location = new Point(714, 8);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(15, 14);
-            checkBox4.TabIndex = 3;
-            checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // comboBox8
-            // 
-            comboBox8.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox8.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox8.FormattingEnabled = true;
-            comboBox8.Location = new Point(155, -1);
-            comboBox8.Name = "comboBox8";
-            comboBox8.Size = new Size(481, 33);
-            comboBox8.TabIndex = 1;
-            // 
-            // panel9
-            // 
-            panel9.Controls.Add(checkBox5);
-            panel9.Controls.Add(comboBox9);
-            panel9.Controls.Add(label33);
-            panel9.Location = new Point(0, 144);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(786, 41);
-            panel9.TabIndex = 18;
-            // 
-            // checkBox5
-            // 
-            checkBox5.AutoSize = true;
-            checkBox5.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBox5.Location = new Point(714, 8);
-            checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(15, 14);
-            checkBox5.TabIndex = 3;
-            checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // comboBox9
-            // 
-            comboBox9.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox9.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox9.FormattingEnabled = true;
-            comboBox9.Location = new Point(155, -1);
-            comboBox9.Name = "comboBox9";
-            comboBox9.Size = new Size(481, 33);
-            comboBox9.TabIndex = 1;
-            // 
-            // panel10
-            // 
-            panel10.Controls.Add(comboBox10);
-            panel10.Controls.Add(label35);
-            panel10.Enabled = false;
-            panel10.Location = new Point(0, 180);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(786, 41);
-            panel10.TabIndex = 19;
-            // 
-            // comboBox10
-            // 
-            comboBox10.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox10.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox10.FormattingEnabled = true;
-            comboBox10.Location = new Point(155, -1);
-            comboBox10.Name = "comboBox10";
-            comboBox10.Size = new Size(481, 33);
-            comboBox10.TabIndex = 1;
-            // 
-            // label35
-            // 
-            label35.AutoSize = true;
-            label35.Location = new Point(34, 7);
-            label35.Margin = new Padding(3);
-            label35.Name = "label35";
-            label35.Size = new Size(36, 25);
-            label35.TabIndex = 0;
-            label35.Text = "Up";
-            // 
-            // panel11
-            // 
-            panel11.Controls.Add(comboBox11);
-            panel11.Controls.Add(label36);
-            panel11.Enabled = false;
-            panel11.Location = new Point(0, 219);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(786, 41);
-            panel11.TabIndex = 19;
-            // 
-            // comboBox11
-            // 
-            comboBox11.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox11.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox11.FormattingEnabled = true;
-            comboBox11.Location = new Point(155, -1);
-            comboBox11.Name = "comboBox11";
-            comboBox11.Size = new Size(481, 33);
-            comboBox11.TabIndex = 1;
-            // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.Location = new Point(34, 7);
-            label36.Margin = new Padding(3);
-            label36.Name = "label36";
-            label36.Size = new Size(61, 25);
-            label36.TabIndex = 0;
-            label36.Text = "Down";
-            // 
-            // label37
-            // 
-            label37.AutoSize = true;
-            label37.Location = new Point(8, 263);
-            label37.Name = "label37";
-            label37.Size = new Size(49, 25);
-            label37.TabIndex = 12;
-            label37.Text = "Tags";
-            // 
-            // label38
-            // 
-            label38.AutoSize = true;
-            label38.Location = new Point(567, 263);
-            label38.Name = "label38";
-            label38.Size = new Size(123, 25);
-            label38.TabIndex = 21;
-            label38.Text = "Tag Selection";
-            // 
-            // button3
-            // 
-            button3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button3.Location = new Point(683, 334);
-            button3.Name = "button3";
-            button3.Size = new Size(103, 31);
-            button3.TabIndex = 23;
-            button3.Text = "Add New";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // panel12
-            // 
-            panel12.BackColor = SystemColors.ControlLight;
-            panel12.Controls.Add(label39);
-            panel12.Controls.Add(comboBox12);
-            panel12.Controls.Add(label40);
-            panel12.Controls.Add(comboBox13);
-            panel12.Controls.Add(dataGridView1);
-            panel12.Location = new Point(0, 256);
-            panel12.Margin = new Padding(3, 4, 3, 4);
-            panel12.Name = "panel12";
-            panel12.Size = new Size(1061, 385);
-            panel12.TabIndex = 31;
-            panel12.Visible = false;
-            // 
-            // label39
-            // 
-            label39.AutoSize = true;
-            label39.Location = new Point(155, 1);
-            label39.Name = "label39";
-            label39.Size = new Size(148, 25);
-            label39.TabIndex = 17;
-            label39.Text = "Available Nodes";
-            // 
-            // comboBox12
-            // 
-            comboBox12.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox12.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox12.FormattingEnabled = true;
-            comboBox12.Location = new Point(155, 29);
-            comboBox12.Margin = new Padding(3, 4, 3, 4);
-            comboBox12.Name = "comboBox12";
-            comboBox12.Size = new Size(231, 33);
-            comboBox12.TabIndex = 16;
-            comboBox12.TabStop = false;
-            comboBox12.Tag = "ClearMe";
-            // 
-            // label40
-            // 
-            label40.AutoSize = true;
-            label40.Location = new Point(3, 1);
-            label40.Name = "label40";
-            label40.Size = new Size(89, 25);
-            label40.TabIndex = 15;
-            label40.Text = "Direction";
-            // 
-            // comboBox13
-            // 
-            comboBox13.FormattingEnabled = true;
-            comboBox13.Items.AddRange(new object[] { "North", "South", "East", "West" });
-            comboBox13.Location = new Point(3, 29);
-            comboBox13.Margin = new Padding(3, 4, 3, 4);
-            comboBox13.Name = "comboBox13";
-            comboBox13.Size = new Size(138, 33);
-            comboBox13.TabIndex = 14;
-            comboBox13.TabStop = false;
-            comboBox13.Tag = "ClearMe";
-            // 
-            // dataGridView1
-            // 
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = SystemColors.Control;
-            dataGridViewCellStyle11.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewComboBoxColumn1, dataGridViewCheckBoxColumn2 });
-            dataGridView1.Dock = DockStyle.Bottom;
-            dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
-            dataGridView1.Location = new Point(0, 76);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1061, 309);
-            dataGridView1.TabIndex = 13;
-            dataGridView1.TabStop = false;
-            // 
-            // label41
-            // 
-            label41.AutoSize = true;
-            label41.Location = new Point(200, 131);
-            label41.Name = "label41";
-            label41.Size = new Size(128, 25);
-            label41.TabIndex = 35;
-            label41.Text = "Gateway Flow";
-            // 
-            // label42
-            // 
-            label42.AutoSize = true;
-            label42.Location = new Point(9, 131);
-            label42.Name = "label42";
-            label42.Size = new Size(124, 25);
-            label42.TabIndex = 33;
-            label42.Text = "Elevator Flow";
-            // 
-            // label43
-            // 
-            label43.AutoSize = true;
-            label43.Location = new Point(200, 67);
-            label43.Name = "label43";
-            label43.Size = new Size(132, 25);
-            label43.TabIndex = 30;
-            label43.Text = "Internal Name";
-            // 
-            // label44
-            // 
-            label44.AutoSize = true;
-            label44.Location = new Point(9, 67);
-            label44.Name = "label44";
-            label44.Size = new Size(119, 25);
-            label44.TabIndex = 29;
-            label44.Text = "Public Name";
-            // 
-            // label45
-            // 
-            label45.AutoSize = true;
-            label45.Location = new Point(395, 3);
-            label45.Name = "label45";
-            label45.Size = new Size(55, 25);
-            label45.TabIndex = 27;
-            label45.Text = "Floor";
-            // 
-            // label46
-            // 
-            label46.AutoSize = true;
-            label46.Location = new Point(8, 3);
-            label46.Margin = new Padding(3);
-            label46.Name = "label46";
-            label46.Size = new Size(102, 25);
-            label46.TabIndex = 25;
-            label46.Text = "Node Type";
-            // 
-            // panel13
-            // 
-            panel13.Controls.Add(panel5);
-            panel13.Controls.Add(panel12);
-            panel13.Controls.Add(label47);
-            panel13.Controls.Add(label46);
-            panel13.Controls.Add(checkBox1);
-            panel13.Controls.Add(label45);
-            panel13.Controls.Add(comboBox1);
-            panel13.Controls.Add(label44);
-            panel13.Controls.Add(comboBox2);
-            panel13.Controls.Add(label43);
-            panel13.Controls.Add(textBox2);
-            panel13.Controls.Add(label42);
-            panel13.Controls.Add(textBox3);
-            panel13.Controls.Add(label41);
-            panel13.Controls.Add(numericUpDown1);
-            panel13.Controls.Add(comboBox4);
-            panel13.Controls.Add(comboBox3);
-            panel13.Dock = DockStyle.Fill;
-            panel13.Location = new Point(0, 0);
-            panel13.Name = "panel13";
-            panel13.Size = new Size(1061, 641);
-            panel13.TabIndex = 39;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle12;
-            dataGridViewComboBoxColumn1.Frozen = true;
-            dataGridViewComboBoxColumn1.HeaderText = "Available Nodes";
-            dataGridViewComboBoxColumn1.MinimumWidth = 250;
-            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
-            dataGridViewComboBoxColumn1.Width = 250;
-            // 
-            // dataGridViewCheckBoxColumn2
-            // 
-            dataGridViewCheckBoxColumn2.Frozen = true;
-            dataGridViewCheckBoxColumn2.HeaderText = "Is one way?";
-            dataGridViewCheckBoxColumn2.MinimumWidth = 6;
-            dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
-            dataGridViewCheckBoxColumn2.Resizable = DataGridViewTriState.True;
-            dataGridViewCheckBoxColumn2.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
-            // label49
-            // 
-            label49.AutoSize = true;
-            label49.Location = new Point(34, 9);
-            label49.Margin = new Padding(3);
-            label49.Name = "label49";
-            label49.Size = new Size(61, 25);
-            label49.TabIndex = 0;
-            label49.Text = "North";
-            // 
-            // label50
-            // 
-            label50.AutoSize = true;
-            label50.Location = new Point(34, 7);
-            label50.Margin = new Padding(3);
-            label50.Name = "label50";
-            label50.Size = new Size(46, 25);
-            label50.TabIndex = 0;
-            label50.Text = "East";
-            // 
-            // label51
-            // 
-            label51.AutoSize = true;
-            label51.Location = new Point(34, 7);
-            label51.Margin = new Padding(3);
-            label51.Name = "label51";
-            label51.Size = new Size(61, 25);
-            label51.TabIndex = 0;
-            label51.Text = "South";
-            // 
-            // label33
-            // 
-            label33.AutoSize = true;
-            label33.Location = new Point(34, 8);
-            label33.Margin = new Padding(3);
-            label33.Name = "label33";
-            label33.Size = new Size(53, 25);
-            label33.TabIndex = 0;
-            label33.Text = "West";
-            // 
             // frm_Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -2249,6 +2249,27 @@ namespace WinForms
             pnl_Tree.ResumeLayout(false);
             pnl_Search.ResumeLayout(false);
             pnl_Search.PerformLayout();
+            tbpg_EditNode.ResumeLayout(false);
+            panel13.ResumeLayout(false);
+            panel13.PerformLayout();
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
+            panel7.ResumeLayout(false);
+            panel7.PerformLayout();
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
+            panel9.ResumeLayout(false);
+            panel9.PerformLayout();
+            panel10.ResumeLayout(false);
+            panel10.PerformLayout();
+            panel11.ResumeLayout(false);
+            panel11.PerformLayout();
+            panel12.ResumeLayout(false);
+            panel12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             tbpg_Blocks.ResumeLayout(false);
             pnl_Right_Blocks.ResumeLayout(false);
             gbx_EditBlock.ResumeLayout(false);
@@ -2270,27 +2291,6 @@ namespace WinForms
             panel4.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            tbpg_EditNode.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
-            panel7.ResumeLayout(false);
-            panel7.PerformLayout();
-            panel8.ResumeLayout(false);
-            panel8.PerformLayout();
-            panel9.ResumeLayout(false);
-            panel9.PerformLayout();
-            panel10.ResumeLayout(false);
-            panel10.PerformLayout();
-            panel11.ResumeLayout(false);
-            panel11.PerformLayout();
-            panel12.ResumeLayout(false);
-            panel12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            panel13.ResumeLayout(false);
-            panel13.PerformLayout();
             ResumeLayout(false);
         }
 

@@ -527,6 +527,10 @@ public class NavGraph : Graph<NavNode>
                         PropertyNameCaseInsensitive = true,
                     };
 
+                    //uses the stream writer to write the string output of the JSON Serialiser
+                    Writer.Write
+                    (JsonSerializer.Serialize(SerData, JSO).ToCharArray());
+
                     break;
                 }
                 case NGSerialiseOptions.SerialiseForApp:
@@ -542,13 +546,15 @@ public class NavGraph : Graph<NavNode>
                         PropertyNameCaseInsensitive = true,
                     };
 
+                    //uses the stream writer to write the string output of the JSON Serialiser
+                    Writer.Write
+                    (JsonSerializer.Serialize(SerData.Nodes, JSO).ToCharArray());
+
                     break;
                 }
             }
 
-            //uses the stream writer to write the string output of the JSON Serialiser
-            Writer.Write
-            (JsonSerializer.Serialize(SerData, JSO).ToCharArray());
+
         }
     }
     #endregion

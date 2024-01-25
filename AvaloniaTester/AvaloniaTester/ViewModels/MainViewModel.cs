@@ -1,6 +1,7 @@
-﻿using Microsoft.Maui.Storage;
+﻿using Avalonia.Platform;
 using NavGraphTools;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -26,10 +27,11 @@ public class MainViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _LoopCount, value);
     }
 
-    public long ElapsedTime
+    public string ElapsedTime
     {
-        get => _ElapsedTime;
-        set => this.RaiseAndSetIfChanged(ref _ElapsedTime, value);
+        get => $"{_ElapsedTime:n2}ms";
+        set => this.RaiseAndSetIfChanged
+            (ref _ElapsedTime, long.Parse(value));
     }
 
     public string ButtonContent
@@ -82,16 +84,21 @@ public class MainViewModel : ViewModelBase
 
             SW.Restart();
 
-            using (var Stm = await FileSystem.OpenAppPackageFileAsync("Johnstone.ajson"))
+            Uri T = new Uri("avares://AvaloniaTester/Assets/Johnstone.ajson");
+
+            if (AssetLoader.Exists(T))
             {
-                if (Stm != null)
-                { NG.Deserialise(Stm); }
+                using (var Stm = AssetLoader.Open(T))
+                {
+                    if (Stm != null)
+                    { NG.Deserialise(Stm); }
+                }
             }
 
             SW.Stop();
 
             Times.Add(SW.ElapsedMilliseconds);
-            ElapsedTime = SW.ElapsedMilliseconds;
+            ElapsedTime = SW.ElapsedMilliseconds.ToString();
 
             LoopCount += 1;
 
