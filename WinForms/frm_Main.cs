@@ -45,6 +45,13 @@ public partial class frm_Main : Form
         cmbx_conn_South.Tag = NodeDirection.South;
         cmbx_conn_West.Tag = NodeDirection.West;
 
+        pnl_edit_conn_Down.Tag = NodeDirection.Down;
+        pnl_edit_conn_Up.Tag = NodeDirection.Up;
+        pnl_edit_conn_North.Tag = NodeDirection.North;
+        pnl_edit_conn_East.Tag = NodeDirection.East;
+        pnl_edit_conn_South.Tag = NodeDirection.South;
+        pnl_edit_conn_West.Tag = NodeDirection.West;
+
         //dgv_GatewayConnections.Rows.Add();
 
         Layouter = new();
@@ -257,8 +264,8 @@ public partial class frm_Main : Form
     {
         if (e.TabPage == tbpg_EditNode && CurNodeUID == 0)
         { e.Cancel = true; }
-        else
-        { EditLoad(CurNodeUID); }
+        else if (e.TabPage == tbpg_EditNode)
+        { EditLoad(); }
     }
 }
 

@@ -44,6 +44,27 @@ public static class Extensions
         }
     }
 
+    public static string ToStr(this NodeDirection? _ND)
+    {
+        switch (_ND)
+        {
+            case NodeDirection.North:
+            return "North";
+            case NodeDirection.East:
+            return "East";
+            case NodeDirection.South:
+            return "South";
+            case NodeDirection.West:
+            return "West";
+            case NodeDirection.Up:
+            return "Up";
+            case NodeDirection.Down:
+            return "Down";
+            default:
+            return "N/A";
+        }
+    }
+
     public static string ElementString(this List<string> _LStr)
     {
         StringBuilder SB = new StringBuilder();
@@ -94,6 +115,25 @@ public static class Extensions
         }
     }
 
+    public static string NodeTypeLong(this Type _Type)
+    {
+        switch (_Type.Name)
+        {
+            case "CorridorNode":
+            { return "Corridor"; }
+            case "RoomNode":
+            { return "Room"; }
+            case "ElevationNode":
+            { return "Elevation"; }
+            case "GatewayNode":
+            { return "Gateway"; }
+            case "NavNode":
+            { return "NavNode"; }
+            default:
+            { return "Not a node"; }
+        }
+    }
+
     public static string IDToName(this string _ID)
     {
         switch (_ID)
@@ -114,6 +154,26 @@ public static class Extensions
             { return "Not a node"; }
         }
 
+    }
+
+    public static string unTagList(this List<string> _StrLst)
+    {
+        StringBuilder SB = new StringBuilder();
+
+        foreach (var S in _StrLst)
+        { SB.Append($"{S},"); }
+
+        return SB.ToString();
+    }
+
+    public static List<string> TagList(this string _Str)
+    {
+        List<string> L = new();
+
+        foreach (var S in _Str.Split(','))
+        { L.Add(S.Trim()); }
+
+        return L;
     }
 }
 
