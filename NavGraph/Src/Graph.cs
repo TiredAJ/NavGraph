@@ -37,6 +37,22 @@ public abstract class Graph<T>
         { return default; } //null equivalent for generic methods??            
     }
 
+    /// <summary>
+    /// Attempts to retrieve a node of a specific kind
+    /// </summary>
+    /// <typeparam name="D"></typeparam>
+    /// <param name="_UID"></param>
+    /// <returns></returns>
+    public D? TryGetNode<D>(int _UID) where D : class
+    {
+        _UID = Math.Abs(_UID);
+
+        if (DoesNodeExist(_UID) && Nodes[_UID] is D)
+        { return Nodes[_UID] as D; }
+        else
+        { return default; }
+    }
+
 
     /// <summary>
     /// Attempts to retrieve the node

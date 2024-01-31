@@ -10,10 +10,10 @@ namespace NavGraphTools;
 #region JSON attributes
 [JsonSerializable(typeof(NavNode))]
 //[JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
-[JsonDerivedType(typeof(RoomNode), typeDiscriminator: "Room")]
-[JsonDerivedType(typeof(ElevationNode), typeDiscriminator: "Elevation")]
-[JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "Corridor")]
-[JsonDerivedType(typeof(GatewayNode), typeDiscriminator: "Gateway")]
+[JsonDerivedType(typeof(RoomNode), typeDiscriminator: "RN")]
+[JsonDerivedType(typeof(ElevationNode), typeDiscriminator: "EN")]
+[JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "CN")]
+[JsonDerivedType(typeof(GatewayNode), typeDiscriminator: "GW")]
 #endregion
 public abstract class NavNode
 {
