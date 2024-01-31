@@ -29,10 +29,10 @@ namespace WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -124,11 +124,20 @@ namespace WinForms
             label41 = new Label();
             label42 = new Label();
             pnl_edit_GWNodeConnections = new Panel();
+            btn_edit_gw_DGVDelete = new Button();
+            btn_edit_gw_AddConn = new Button();
+            cmbx_edit_gw_ConnNode = new ComboBox();
+            cmbx_edit_gw_ConnBlock = new ComboBox();
+            gbx_edit_gw_HC = new GroupBox();
             cmbx_edit_HardNodeNode = new ComboBox();
             cmbx_edit_HardNodeDir = new ComboBox();
-            dgv_edit_gw_Connections = new DataGridView();
-            label39 = new Label();
             label40 = new Label();
+            label39 = new Label();
+            dgv_edit_gw_Connections = new DataGridView();
+            dataGridViewCheckBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewComboBoxColumn1 = new DataGridViewTextBoxColumn();
+            label34 = new Label();
+            label48 = new Label();
             pnl_edit_Nodes = new Panel();
             pnl_edit_NodeConns = new Panel();
             label28 = new Label();
@@ -215,15 +224,6 @@ namespace WinForms
             txt_set_Separator = new TextBox();
             label11 = new Label();
             lbl_NameTemplate = new Label();
-            gbx_edit_gw_HC = new GroupBox();
-            dataGridViewCheckBoxColumn2 = new DataGridViewComboBoxColumn();
-            dataGridViewComboBoxColumn1 = new DataGridViewComboBoxColumn();
-            cmbx_edit_gw_ConnNode = new ComboBox();
-            cmbx_edit_gw_ConnBlock = new ComboBox();
-            label34 = new Label();
-            label48 = new Label();
-            btn_edit_gw_AddConn = new Button();
-            btn_edit_gw_DGVDelete = new Button();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
@@ -245,6 +245,7 @@ namespace WinForms
             panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nud_edit_Floor).BeginInit();
             pnl_edit_GWNodeConnections.SuspendLayout();
+            gbx_edit_gw_HC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_edit_gw_Connections).BeginInit();
             pnl_edit_Nodes.SuspendLayout();
             pnl_edit_NodeConns.SuspendLayout();
@@ -269,7 +270,6 @@ namespace WinForms
             tbpg_Settings.SuspendLayout();
             panel4.SuspendLayout();
             groupBox1.SuspendLayout();
-            gbx_edit_gw_HC.SuspendLayout();
             SuspendLayout();
             // 
             // tbctrl_MainTabs
@@ -296,10 +296,10 @@ namespace WinForms
             // 
             tbpg_Nodes.Controls.Add(gbx_Node);
             tbpg_Nodes.Controls.Add(pnl_Tree);
-            tbpg_Nodes.Location = new Point(4, 34);
+            tbpg_Nodes.Location = new Point(4, 41);
             tbpg_Nodes.Name = "tbpg_Nodes";
             tbpg_Nodes.Padding = new Padding(3);
-            tbpg_Nodes.Size = new Size(1061, 641);
+            tbpg_Nodes.Size = new Size(1061, 634);
             tbpg_Nodes.TabIndex = 0;
             tbpg_Nodes.Text = "Nodes";
             tbpg_Nodes.UseVisualStyleBackColor = true;
@@ -331,7 +331,7 @@ namespace WinForms
             gbx_Node.Location = new Point(460, 3);
             gbx_Node.Name = "gbx_Node";
             gbx_Node.Padding = new Padding(5);
-            gbx_Node.Size = new Size(598, 635);
+            gbx_Node.Size = new Size(598, 628);
             gbx_Node.TabIndex = 0;
             gbx_Node.TabStop = false;
             gbx_Node.Text = "Node";
@@ -342,7 +342,7 @@ namespace WinForms
             ckbx_IsElevator.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_IsElevator.Location = new Point(414, 120);
             ckbx_IsElevator.Name = "ckbx_IsElevator";
-            ckbx_IsElevator.Size = new Size(100, 25);
+            ckbx_IsElevator.Size = new Size(123, 32);
             ckbx_IsElevator.TabIndex = 20;
             ckbx_IsElevator.Text = "Is Elevator";
             ckbx_IsElevator.UseVisualStyleBackColor = true;
@@ -368,7 +368,7 @@ namespace WinForms
             cmbx_GWFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
             cmbx_GWFlow.Location = new Point(195, 181);
             cmbx_GWFlow.Name = "cmbx_GWFlow";
-            cmbx_GWFlow.Size = new Size(187, 29);
+            cmbx_GWFlow.Size = new Size(187, 36);
             cmbx_GWFlow.TabIndex = 17;
             // 
             // cmbx_ElvFlow
@@ -380,7 +380,7 @@ namespace WinForms
             cmbx_ElvFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
             cmbx_ElvFlow.Location = new Point(6, 181);
             cmbx_ElvFlow.Name = "cmbx_ElvFlow";
-            cmbx_ElvFlow.Size = new Size(183, 29);
+            cmbx_ElvFlow.Size = new Size(183, 36);
             cmbx_ElvFlow.TabIndex = 15;
             // 
             // btn_Node_Delete
@@ -421,7 +421,7 @@ namespace WinForms
             txt_InternalName.Font = new Font("Segoe UI", 12F);
             txt_InternalName.Location = new Point(197, 117);
             txt_InternalName.Name = "txt_InternalName";
-            txt_InternalName.Size = new Size(185, 29);
+            txt_InternalName.Size = new Size(185, 34);
             txt_InternalName.TabIndex = 4;
             // 
             // txt_PublicName
@@ -429,7 +429,7 @@ namespace WinForms
             txt_PublicName.Font = new Font("Segoe UI", 12F);
             txt_PublicName.Location = new Point(6, 117);
             txt_PublicName.Name = "txt_PublicName";
-            txt_PublicName.Size = new Size(185, 29);
+            txt_PublicName.Size = new Size(185, 34);
             txt_PublicName.TabIndex = 3;
             txt_PublicName.Tag = "ClearMe";
             txt_PublicName.TextChanged += txt_PublicName_TextChanged;
@@ -439,7 +439,7 @@ namespace WinForms
             nud_Node_Floor.Font = new Font("Segoe UI", 12F);
             nud_Node_Floor.Location = new Point(390, 53);
             nud_Node_Floor.Name = "nud_Node_Floor";
-            nud_Node_Floor.Size = new Size(138, 29);
+            nud_Node_Floor.Size = new Size(138, 34);
             nud_Node_Floor.TabIndex = 2;
             nud_Node_Floor.ValueChanged += nud_Node_Floor_ValueChanged;
             // 
@@ -452,7 +452,7 @@ namespace WinForms
             cmbx_NodeType.Items.AddRange(new object[] { "Corridor", "Room", "Elevation", "Gateway" });
             cmbx_NodeType.Location = new Point(6, 53);
             cmbx_NodeType.Name = "cmbx_NodeType";
-            cmbx_NodeType.Size = new Size(185, 29);
+            cmbx_NodeType.Size = new Size(185, 36);
             cmbx_NodeType.TabIndex = 0;
             cmbx_NodeType.SelectedIndexChanged += cmbx_NodeType_SelectedIndexChanged;
             // 
@@ -464,7 +464,7 @@ namespace WinForms
             cmbx_BlockSelect.FormattingEnabled = true;
             cmbx_BlockSelect.Location = new Point(197, 53);
             cmbx_BlockSelect.Name = "cmbx_BlockSelect";
-            cmbx_BlockSelect.Size = new Size(185, 29);
+            cmbx_BlockSelect.Size = new Size(185, 36);
             cmbx_BlockSelect.TabIndex = 1;
             cmbx_BlockSelect.SelectedIndexChanged += cmbx_BlockSelect_SelectedIndexChanged;
             // 
@@ -522,7 +522,7 @@ namespace WinForms
             cmbx_tag_Tags.FormattingEnabled = true;
             cmbx_tag_Tags.Location = new Point(371, 283);
             cmbx_tag_Tags.Name = "cmbx_tag_Tags";
-            cmbx_tag_Tags.Size = new Size(172, 33);
+            cmbx_tag_Tags.Size = new Size(172, 40);
             cmbx_tag_Tags.TabIndex = 20;
             // 
             // label20
@@ -530,7 +530,7 @@ namespace WinForms
             label20.AutoSize = true;
             label20.Location = new Point(447, 1);
             label20.Name = "label20";
-            label20.Size = new Size(95, 25);
+            label20.Size = new Size(119, 32);
             label20.TabIndex = 16;
             label20.Text = "Is oneway";
             // 
@@ -539,7 +539,7 @@ namespace WinForms
             label19.AutoSize = true;
             label19.Location = new Point(105, 1);
             label19.Name = "label19";
-            label19.Size = new Size(148, 25);
+            label19.Size = new Size(186, 32);
             label19.TabIndex = 15;
             label19.Text = "Available Nodes";
             // 
@@ -548,7 +548,7 @@ namespace WinForms
             label18.AutoSize = true;
             label18.Location = new Point(3, 1);
             label18.Name = "label18";
-            label18.Size = new Size(89, 25);
+            label18.Size = new Size(111, 32);
             label18.TabIndex = 14;
             label18.Text = "Direction";
             // 
@@ -568,7 +568,7 @@ namespace WinForms
             ckbx_conn_North.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_conn_North.Location = new Point(490, 8);
             ckbx_conn_North.Name = "ckbx_conn_North";
-            ckbx_conn_North.Size = new Size(15, 14);
+            ckbx_conn_North.Size = new Size(18, 17);
             ckbx_conn_North.TabIndex = 3;
             ckbx_conn_North.UseVisualStyleBackColor = true;
             // 
@@ -579,7 +579,7 @@ namespace WinForms
             cmbx_conn_North.FormattingEnabled = true;
             cmbx_conn_North.Location = new Point(105, -1);
             cmbx_conn_North.Name = "cmbx_conn_North";
-            cmbx_conn_North.Size = new Size(338, 33);
+            cmbx_conn_North.Size = new Size(338, 40);
             cmbx_conn_North.TabIndex = 1;
             cmbx_conn_North.Leave += cbmx_conn_ContentsCheck;
             cmbx_conn_North.MouseEnter += cmbx_conn_GetNodes;
@@ -590,7 +590,7 @@ namespace WinForms
             label17.Location = new Point(5, 3);
             label17.Margin = new Padding(3);
             label17.Name = "label17";
-            label17.Size = new Size(61, 25);
+            label17.Size = new Size(76, 32);
             label17.TabIndex = 0;
             label17.Text = "North";
             // 
@@ -620,7 +620,7 @@ namespace WinForms
             ckbx_conn_East.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_conn_East.Location = new Point(490, 8);
             ckbx_conn_East.Name = "ckbx_conn_East";
-            ckbx_conn_East.Size = new Size(15, 14);
+            ckbx_conn_East.Size = new Size(18, 17);
             ckbx_conn_East.TabIndex = 3;
             ckbx_conn_East.UseVisualStyleBackColor = true;
             // 
@@ -631,7 +631,7 @@ namespace WinForms
             cmbx_conn_East.FormattingEnabled = true;
             cmbx_conn_East.Location = new Point(105, -1);
             cmbx_conn_East.Name = "cmbx_conn_East";
-            cmbx_conn_East.Size = new Size(338, 33);
+            cmbx_conn_East.Size = new Size(338, 40);
             cmbx_conn_East.TabIndex = 1;
             cmbx_conn_East.Leave += cbmx_conn_ContentsCheck;
             cmbx_conn_East.MouseEnter += cmbx_conn_GetNodes;
@@ -642,7 +642,7 @@ namespace WinForms
             label21.Location = new Point(5, 3);
             label21.Margin = new Padding(3);
             label21.Name = "label21";
-            label21.Size = new Size(46, 25);
+            label21.Size = new Size(56, 32);
             label21.TabIndex = 0;
             label21.Text = "East";
             // 
@@ -662,7 +662,7 @@ namespace WinForms
             ckbx_conn_South.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_conn_South.Location = new Point(490, 8);
             ckbx_conn_South.Name = "ckbx_conn_South";
-            ckbx_conn_South.Size = new Size(15, 14);
+            ckbx_conn_South.Size = new Size(18, 17);
             ckbx_conn_South.TabIndex = 3;
             ckbx_conn_South.UseVisualStyleBackColor = true;
             // 
@@ -673,7 +673,7 @@ namespace WinForms
             cmbx_conn_South.FormattingEnabled = true;
             cmbx_conn_South.Location = new Point(105, -1);
             cmbx_conn_South.Name = "cmbx_conn_South";
-            cmbx_conn_South.Size = new Size(338, 33);
+            cmbx_conn_South.Size = new Size(338, 40);
             cmbx_conn_South.TabIndex = 1;
             cmbx_conn_South.Leave += cbmx_conn_ContentsCheck;
             cmbx_conn_South.MouseEnter += cmbx_conn_GetNodes;
@@ -684,7 +684,7 @@ namespace WinForms
             label22.Location = new Point(5, 3);
             label22.Margin = new Padding(3);
             label22.Name = "label22";
-            label22.Size = new Size(61, 25);
+            label22.Size = new Size(77, 32);
             label22.TabIndex = 0;
             label22.Text = "South";
             // 
@@ -704,7 +704,7 @@ namespace WinForms
             ckbx_conn_West.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_conn_West.Location = new Point(490, 8);
             ckbx_conn_West.Name = "ckbx_conn_West";
-            ckbx_conn_West.Size = new Size(15, 14);
+            ckbx_conn_West.Size = new Size(18, 17);
             ckbx_conn_West.TabIndex = 3;
             ckbx_conn_West.UseVisualStyleBackColor = true;
             // 
@@ -715,7 +715,7 @@ namespace WinForms
             cmbx_conn_West.FormattingEnabled = true;
             cmbx_conn_West.Location = new Point(105, -1);
             cmbx_conn_West.Name = "cmbx_conn_West";
-            cmbx_conn_West.Size = new Size(338, 33);
+            cmbx_conn_West.Size = new Size(338, 40);
             cmbx_conn_West.TabIndex = 1;
             cmbx_conn_West.Leave += cbmx_conn_ContentsCheck;
             cmbx_conn_West.MouseEnter += cmbx_conn_GetNodes;
@@ -726,7 +726,7 @@ namespace WinForms
             label23.Location = new Point(5, 3);
             label23.Margin = new Padding(3);
             label23.Name = "label23";
-            label23.Size = new Size(53, 25);
+            label23.Size = new Size(66, 32);
             label23.TabIndex = 0;
             label23.Text = "West";
             // 
@@ -747,7 +747,7 @@ namespace WinForms
             cmbx_conn_Up.FormattingEnabled = true;
             cmbx_conn_Up.Location = new Point(105, -1);
             cmbx_conn_Up.Name = "cmbx_conn_Up";
-            cmbx_conn_Up.Size = new Size(338, 33);
+            cmbx_conn_Up.Size = new Size(338, 40);
             cmbx_conn_Up.TabIndex = 1;
             cmbx_conn_Up.Leave += cbmx_conn_ContentsCheck;
             cmbx_conn_Up.MouseEnter += cmbx_conn_GetNodes;
@@ -758,7 +758,7 @@ namespace WinForms
             label24.Location = new Point(5, 3);
             label24.Margin = new Padding(3);
             label24.Name = "label24";
-            label24.Size = new Size(36, 25);
+            label24.Size = new Size(44, 32);
             label24.TabIndex = 0;
             label24.Text = "Up";
             // 
@@ -779,7 +779,7 @@ namespace WinForms
             cmbx_conn_Down.FormattingEnabled = true;
             cmbx_conn_Down.Location = new Point(105, -1);
             cmbx_conn_Down.Name = "cmbx_conn_Down";
-            cmbx_conn_Down.Size = new Size(338, 33);
+            cmbx_conn_Down.Size = new Size(338, 40);
             cmbx_conn_Down.TabIndex = 1;
             cmbx_conn_Down.Leave += cbmx_conn_ContentsCheck;
             cmbx_conn_Down.MouseEnter += cmbx_conn_GetNodes;
@@ -790,7 +790,7 @@ namespace WinForms
             label25.Location = new Point(5, 3);
             label25.Margin = new Padding(3);
             label25.Name = "label25";
-            label25.Size = new Size(61, 25);
+            label25.Size = new Size(76, 32);
             label25.TabIndex = 0;
             label25.Text = "Down";
             // 
@@ -799,7 +799,7 @@ namespace WinForms
             label7.AutoSize = true;
             label7.Location = new Point(3, 268);
             label7.Name = "label7";
-            label7.Size = new Size(49, 25);
+            label7.Size = new Size(60, 32);
             label7.TabIndex = 12;
             label7.Text = "Tags";
             // 
@@ -808,7 +808,7 @@ namespace WinForms
             label27.AutoSize = true;
             label27.Location = new Point(371, 256);
             label27.Name = "label27";
-            label27.Size = new Size(123, 25);
+            label27.Size = new Size(155, 32);
             label27.TabIndex = 21;
             label27.Text = "Tag Selection";
             // 
@@ -843,7 +843,7 @@ namespace WinForms
             label8.AutoSize = true;
             label8.Location = new Point(159, 9);
             label8.Name = "label8";
-            label8.Size = new Size(148, 25);
+            label8.Size = new Size(186, 32);
             label8.TabIndex = 17;
             label8.Text = "Available Nodes";
             // 
@@ -855,7 +855,7 @@ namespace WinForms
             cmbx_GW_AvailableNodes.Location = new Point(159, 37);
             cmbx_GW_AvailableNodes.Margin = new Padding(3, 4, 3, 4);
             cmbx_GW_AvailableNodes.Name = "cmbx_GW_AvailableNodes";
-            cmbx_GW_AvailableNodes.Size = new Size(231, 33);
+            cmbx_GW_AvailableNodes.Size = new Size(231, 40);
             cmbx_GW_AvailableNodes.TabIndex = 16;
             cmbx_GW_AvailableNodes.TabStop = false;
             cmbx_GW_AvailableNodes.Tag = "ClearMe";
@@ -866,7 +866,7 @@ namespace WinForms
             label6.AutoSize = true;
             label6.Location = new Point(7, 9);
             label6.Name = "label6";
-            label6.Size = new Size(89, 25);
+            label6.Size = new Size(111, 32);
             label6.TabIndex = 15;
             label6.Text = "Direction";
             // 
@@ -877,21 +877,21 @@ namespace WinForms
             cmbx_GW_Direction.Location = new Point(7, 37);
             cmbx_GW_Direction.Margin = new Padding(3, 4, 3, 4);
             cmbx_GW_Direction.Name = "cmbx_GW_Direction";
-            cmbx_GW_Direction.Size = new Size(138, 33);
+            cmbx_GW_Direction.Size = new Size(138, 40);
             cmbx_GW_Direction.TabIndex = 14;
             cmbx_GW_Direction.TabStop = false;
             cmbx_GW_Direction.Tag = "ClearMe";
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = SystemColors.Control;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dgvcmbx_GW_AvailableNodes, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.Dock = DockStyle.Bottom;
@@ -908,8 +908,8 @@ namespace WinForms
             // 
             // dgvcmbx_GW_AvailableNodes
             // 
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle2;
             dgvcmbx_GW_AvailableNodes.Frozen = true;
             dgvcmbx_GW_AvailableNodes.HeaderText = "Available Nodes";
             dgvcmbx_GW_AvailableNodes.MinimumWidth = 250;
@@ -932,7 +932,7 @@ namespace WinForms
             label10.AutoSize = true;
             label10.Location = new Point(198, 153);
             label10.Name = "label10";
-            label10.Size = new Size(128, 25);
+            label10.Size = new Size(160, 32);
             label10.TabIndex = 18;
             label10.Text = "Gateway Flow";
             // 
@@ -941,7 +941,7 @@ namespace WinForms
             label9.AutoSize = true;
             label9.Location = new Point(9, 153);
             label9.Name = "label9";
-            label9.Size = new Size(124, 25);
+            label9.Size = new Size(155, 32);
             label9.TabIndex = 16;
             label9.Text = "Elevator Flow";
             // 
@@ -950,7 +950,7 @@ namespace WinForms
             label5.AutoSize = true;
             label5.Location = new Point(200, 89);
             label5.Name = "label5";
-            label5.Size = new Size(132, 25);
+            label5.Size = new Size(166, 32);
             label5.TabIndex = 7;
             label5.Text = "Internal Name";
             // 
@@ -959,7 +959,7 @@ namespace WinForms
             label4.AutoSize = true;
             label4.Location = new Point(9, 89);
             label4.Name = "label4";
-            label4.Size = new Size(119, 25);
+            label4.Size = new Size(149, 32);
             label4.TabIndex = 5;
             label4.Text = "Public Name";
             // 
@@ -968,7 +968,7 @@ namespace WinForms
             label3.AutoSize = true;
             label3.Location = new Point(390, 24);
             label3.Name = "label3";
-            label3.Size = new Size(55, 25);
+            label3.Size = new Size(68, 32);
             label3.TabIndex = 3;
             label3.Text = "Floor";
             // 
@@ -977,7 +977,7 @@ namespace WinForms
             label2.AutoSize = true;
             label2.Location = new Point(8, 25);
             label2.Name = "label2";
-            label2.Size = new Size(102, 25);
+            label2.Size = new Size(131, 32);
             label2.TabIndex = 2;
             label2.Text = "Node Type";
             // 
@@ -986,7 +986,7 @@ namespace WinForms
             label1.AutoSize = true;
             label1.Location = new Point(199, 23);
             label1.Name = "label1";
-            label1.Size = new Size(57, 25);
+            label1.Size = new Size(71, 32);
             label1.TabIndex = 0;
             label1.Text = "Block";
             // 
@@ -997,7 +997,7 @@ namespace WinForms
             pnl_Tree.Dock = DockStyle.Left;
             pnl_Tree.Location = new Point(3, 3);
             pnl_Tree.Name = "pnl_Tree";
-            pnl_Tree.Size = new Size(457, 635);
+            pnl_Tree.Size = new Size(457, 628);
             pnl_Tree.TabIndex = 21;
             // 
             // trvw_Nodes
@@ -1009,7 +1009,7 @@ namespace WinForms
             trvw_Nodes.Indent = 10;
             trvw_Nodes.Location = new Point(0, 34);
             trvw_Nodes.Name = "trvw_Nodes";
-            trvw_Nodes.Size = new Size(457, 601);
+            trvw_Nodes.Size = new Size(457, 594);
             trvw_Nodes.TabIndex = 200;
             trvw_Nodes.AfterSelect += trvw_Nodes_AfterSelect;
             trvw_Nodes.Click += trvw_Nodes_Click;
@@ -1030,7 +1030,7 @@ namespace WinForms
             txt_tree_SearchBox.Dock = DockStyle.Fill;
             txt_tree_SearchBox.Location = new Point(0, 0);
             txt_tree_SearchBox.Name = "txt_tree_SearchBox";
-            txt_tree_SearchBox.Size = new Size(359, 33);
+            txt_tree_SearchBox.Size = new Size(359, 39);
             txt_tree_SearchBox.TabIndex = 201;
             txt_tree_SearchBox.TextChanged += txt_tree_SearchBox_TextChanged;
             // 
@@ -1048,9 +1048,9 @@ namespace WinForms
             // tbpg_EditNode
             // 
             tbpg_EditNode.Controls.Add(pnl_edit_Main);
-            tbpg_EditNode.Location = new Point(4, 34);
+            tbpg_EditNode.Location = new Point(4, 41);
             tbpg_EditNode.Name = "tbpg_EditNode";
-            tbpg_EditNode.Size = new Size(1061, 641);
+            tbpg_EditNode.Size = new Size(1061, 634);
             tbpg_EditNode.TabIndex = 5;
             tbpg_EditNode.Text = "Edit Node";
             tbpg_EditNode.UseVisualStyleBackColor = true;
@@ -1066,7 +1066,7 @@ namespace WinForms
             pnl_edit_Main.Dock = DockStyle.Fill;
             pnl_edit_Main.Location = new Point(0, 0);
             pnl_edit_Main.Name = "pnl_edit_Main";
-            pnl_edit_Main.Size = new Size(1061, 641);
+            pnl_edit_Main.Size = new Size(1061, 634);
             pnl_edit_Main.TabIndex = 39;
             // 
             // pbx_Decor
@@ -1118,9 +1118,9 @@ namespace WinForms
             panel14.Controls.Add(txt_edit_Block);
             panel14.Controls.Add(label41);
             panel14.Controls.Add(label42);
-            panel14.Location = new Point(523, 3);
+            panel14.Location = new Point(508, 3);
             panel14.Name = "panel14";
-            panel14.Size = new Size(535, 254);
+            panel14.Size = new Size(550, 251);
             panel14.TabIndex = 40;
             // 
             // txt_edit_Floor
@@ -1129,7 +1129,7 @@ namespace WinForms
             txt_edit_Floor.Location = new Point(390, 31);
             txt_edit_Floor.Name = "txt_edit_Floor";
             txt_edit_Floor.ReadOnly = true;
-            txt_edit_Floor.Size = new Size(138, 29);
+            txt_edit_Floor.Size = new Size(138, 34);
             txt_edit_Floor.TabIndex = 40;
             // 
             // label46
@@ -1138,7 +1138,7 @@ namespace WinForms
             label46.Location = new Point(3, 3);
             label46.Margin = new Padding(3);
             label46.Name = "label46";
-            label46.Size = new Size(102, 25);
+            label46.Size = new Size(131, 32);
             label46.TabIndex = 25;
             label46.Text = "Node Type";
             // 
@@ -1147,7 +1147,7 @@ namespace WinForms
             nud_edit_Floor.Font = new Font("Segoe UI", 12F);
             nud_edit_Floor.Location = new Point(390, 31);
             nud_edit_Floor.Name = "nud_edit_Floor";
-            nud_edit_Floor.Size = new Size(138, 29);
+            nud_edit_Floor.Size = new Size(138, 34);
             nud_edit_Floor.TabIndex = 24;
             // 
             // label47
@@ -1155,7 +1155,7 @@ namespace WinForms
             label47.AutoSize = true;
             label47.Location = new Point(195, 3);
             label47.Name = "label47";
-            label47.Size = new Size(57, 25);
+            label47.Size = new Size(71, 32);
             label47.TabIndex = 37;
             label47.Text = "Block";
             // 
@@ -1164,7 +1164,7 @@ namespace WinForms
             txt_edit_PubName.Font = new Font("Segoe UI", 12F);
             txt_edit_PubName.Location = new Point(6, 95);
             txt_edit_PubName.Name = "txt_edit_PubName";
-            txt_edit_PubName.Size = new Size(185, 29);
+            txt_edit_PubName.Size = new Size(185, 34);
             txt_edit_PubName.TabIndex = 26;
             txt_edit_PubName.Tag = "ClearMe";
             // 
@@ -1174,7 +1174,7 @@ namespace WinForms
             ckbx_edit_IsElevator.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_edit_IsElevator.Location = new Point(393, 95);
             ckbx_edit_IsElevator.Name = "ckbx_edit_IsElevator";
-            ckbx_edit_IsElevator.Size = new Size(117, 29);
+            ckbx_edit_IsElevator.Size = new Size(144, 36);
             ckbx_edit_IsElevator.TabIndex = 36;
             ckbx_edit_IsElevator.Tag = "ClearMe";
             ckbx_edit_IsElevator.Text = "Is Elevator";
@@ -1185,7 +1185,7 @@ namespace WinForms
             txt_edit_IntName.Font = new Font("Segoe UI", 12F);
             txt_edit_IntName.Location = new Point(197, 95);
             txt_edit_IntName.Name = "txt_edit_IntName";
-            txt_edit_IntName.Size = new Size(185, 29);
+            txt_edit_IntName.Size = new Size(185, 34);
             txt_edit_IntName.TabIndex = 28;
             // 
             // label45
@@ -1193,7 +1193,7 @@ namespace WinForms
             label45.AutoSize = true;
             label45.Location = new Point(390, 3);
             label45.Name = "label45";
-            label45.Size = new Size(55, 25);
+            label45.Size = new Size(68, 32);
             label45.TabIndex = 27;
             label45.Text = "Floor";
             // 
@@ -1202,7 +1202,7 @@ namespace WinForms
             label43.AutoSize = true;
             label43.Location = new Point(195, 67);
             label43.Name = "label43";
-            label43.Size = new Size(132, 25);
+            label43.Size = new Size(166, 32);
             label43.TabIndex = 30;
             label43.Text = "Internal Name";
             // 
@@ -1215,7 +1215,7 @@ namespace WinForms
             cmbx_edit_GWFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
             cmbx_edit_GWFlow.Location = new Point(195, 159);
             cmbx_edit_GWFlow.Name = "cmbx_edit_GWFlow";
-            cmbx_edit_GWFlow.Size = new Size(187, 29);
+            cmbx_edit_GWFlow.Size = new Size(187, 36);
             cmbx_edit_GWFlow.TabIndex = 34;
             cmbx_edit_GWFlow.Tag = "ClearMe";
             // 
@@ -1228,7 +1228,7 @@ namespace WinForms
             cmbx_edit_ElvFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
             cmbx_edit_ElvFlow.Location = new Point(6, 159);
             cmbx_edit_ElvFlow.Name = "cmbx_edit_ElvFlow";
-            cmbx_edit_ElvFlow.Size = new Size(183, 29);
+            cmbx_edit_ElvFlow.Size = new Size(183, 36);
             cmbx_edit_ElvFlow.TabIndex = 32;
             cmbx_edit_ElvFlow.Tag = "ClearMe";
             // 
@@ -1237,7 +1237,7 @@ namespace WinForms
             label44.AutoSize = true;
             label44.Location = new Point(4, 67);
             label44.Name = "label44";
-            label44.Size = new Size(119, 25);
+            label44.Size = new Size(149, 32);
             label44.TabIndex = 29;
             label44.Text = "Public Name";
             // 
@@ -1247,7 +1247,7 @@ namespace WinForms
             txt_edit_NodeType.Location = new Point(6, 30);
             txt_edit_NodeType.Name = "txt_edit_NodeType";
             txt_edit_NodeType.ReadOnly = true;
-            txt_edit_NodeType.Size = new Size(186, 29);
+            txt_edit_NodeType.Size = new Size(186, 34);
             txt_edit_NodeType.TabIndex = 38;
             // 
             // txt_edit_Block
@@ -1256,7 +1256,7 @@ namespace WinForms
             txt_edit_Block.Location = new Point(198, 30);
             txt_edit_Block.Name = "txt_edit_Block";
             txt_edit_Block.ReadOnly = true;
-            txt_edit_Block.Size = new Size(186, 29);
+            txt_edit_Block.Size = new Size(186, 34);
             txt_edit_Block.TabIndex = 39;
             // 
             // label41
@@ -1264,7 +1264,7 @@ namespace WinForms
             label41.AutoSize = true;
             label41.Location = new Point(195, 131);
             label41.Name = "label41";
-            label41.Size = new Size(128, 25);
+            label41.Size = new Size(160, 32);
             label41.TabIndex = 35;
             label41.Text = "Gateway Flow";
             // 
@@ -1273,7 +1273,7 @@ namespace WinForms
             label42.AutoSize = true;
             label42.Location = new Point(4, 131);
             label42.Name = "label42";
-            label42.Size = new Size(124, 25);
+            label42.Size = new Size(155, 32);
             label42.TabIndex = 33;
             label42.Text = "Elevator Flow";
             // 
@@ -1283,17 +1283,75 @@ namespace WinForms
             pnl_edit_GWNodeConnections.BackColor = SystemColors.ControlLight;
             pnl_edit_GWNodeConnections.Controls.Add(btn_edit_gw_DGVDelete);
             pnl_edit_GWNodeConnections.Controls.Add(btn_edit_gw_AddConn);
-            pnl_edit_GWNodeConnections.Controls.Add(label34);
-            pnl_edit_GWNodeConnections.Controls.Add(label48);
             pnl_edit_GWNodeConnections.Controls.Add(cmbx_edit_gw_ConnNode);
             pnl_edit_GWNodeConnections.Controls.Add(cmbx_edit_gw_ConnBlock);
             pnl_edit_GWNodeConnections.Controls.Add(gbx_edit_gw_HC);
             pnl_edit_GWNodeConnections.Controls.Add(dgv_edit_gw_Connections);
-            pnl_edit_GWNodeConnections.Location = new Point(0, 256);
+            pnl_edit_GWNodeConnections.Controls.Add(label34);
+            pnl_edit_GWNodeConnections.Controls.Add(label48);
+            pnl_edit_GWNodeConnections.Location = new Point(0, 253);
             pnl_edit_GWNodeConnections.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_GWNodeConnections.Name = "pnl_edit_GWNodeConnections";
             pnl_edit_GWNodeConnections.Size = new Size(1061, 385);
             pnl_edit_GWNodeConnections.TabIndex = 31;
+            // 
+            // btn_edit_gw_DGVDelete
+            // 
+            btn_edit_gw_DGVDelete.Location = new Point(836, 334);
+            btn_edit_gw_DGVDelete.Name = "btn_edit_gw_DGVDelete";
+            btn_edit_gw_DGVDelete.Size = new Size(215, 41);
+            btn_edit_gw_DGVDelete.TabIndex = 24;
+            btn_edit_gw_DGVDelete.Text = "Delete";
+            btn_edit_gw_DGVDelete.UseVisualStyleBackColor = true;
+            // 
+            // btn_edit_gw_AddConn
+            // 
+            btn_edit_gw_AddConn.Location = new Point(306, 225);
+            btn_edit_gw_AddConn.Name = "btn_edit_gw_AddConn";
+            btn_edit_gw_AddConn.Size = new Size(187, 41);
+            btn_edit_gw_AddConn.TabIndex = 23;
+            btn_edit_gw_AddConn.Text = "Add Connection";
+            btn_edit_gw_AddConn.UseVisualStyleBackColor = true;
+            btn_edit_gw_AddConn.Click += btn_edit_gw_AddConn_Click;
+            // 
+            // cmbx_edit_gw_ConnNode
+            // 
+            cmbx_edit_gw_ConnNode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbx_edit_gw_ConnNode.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_edit_gw_ConnNode.FormattingEnabled = true;
+            cmbx_edit_gw_ConnNode.Location = new Point(168, 185);
+            cmbx_edit_gw_ConnNode.Margin = new Padding(3, 4, 3, 4);
+            cmbx_edit_gw_ConnNode.Name = "cmbx_edit_gw_ConnNode";
+            cmbx_edit_gw_ConnNode.Size = new Size(325, 40);
+            cmbx_edit_gw_ConnNode.TabIndex = 20;
+            cmbx_edit_gw_ConnNode.TabStop = false;
+            cmbx_edit_gw_ConnNode.Tag = "ClearMe";
+            cmbx_edit_gw_ConnNode.SelectionChangeCommitted += cmbx_edit_gw_ConnNode_SelectionChangeCommitted;
+            cmbx_edit_gw_ConnNode.MouseEnter += cmbx_edit_gw_ConnNode_MouseEnter;
+            // 
+            // cmbx_edit_gw_ConnBlock
+            // 
+            cmbx_edit_gw_ConnBlock.FormattingEnabled = true;
+            cmbx_edit_gw_ConnBlock.Location = new Point(16, 185);
+            cmbx_edit_gw_ConnBlock.Margin = new Padding(3, 4, 3, 4);
+            cmbx_edit_gw_ConnBlock.Name = "cmbx_edit_gw_ConnBlock";
+            cmbx_edit_gw_ConnBlock.Size = new Size(138, 40);
+            cmbx_edit_gw_ConnBlock.TabIndex = 19;
+            cmbx_edit_gw_ConnBlock.TabStop = false;
+            cmbx_edit_gw_ConnBlock.Tag = "ClearMe";
+            // 
+            // gbx_edit_gw_HC
+            // 
+            gbx_edit_gw_HC.Controls.Add(cmbx_edit_HardNodeNode);
+            gbx_edit_gw_HC.Controls.Add(cmbx_edit_HardNodeDir);
+            gbx_edit_gw_HC.Controls.Add(label40);
+            gbx_edit_gw_HC.Controls.Add(label39);
+            gbx_edit_gw_HC.Location = new Point(8, 4);
+            gbx_edit_gw_HC.Name = "gbx_edit_gw_HC";
+            gbx_edit_gw_HC.Size = new Size(494, 100);
+            gbx_edit_gw_HC.TabIndex = 18;
+            gbx_edit_gw_HC.TabStop = false;
+            gbx_edit_gw_HC.Text = "Hard Connection";
             // 
             // cmbx_edit_HardNodeNode
             // 
@@ -1303,7 +1361,7 @@ namespace WinForms
             cmbx_edit_HardNodeNode.Location = new Point(160, 57);
             cmbx_edit_HardNodeNode.Margin = new Padding(3, 4, 3, 4);
             cmbx_edit_HardNodeNode.Name = "cmbx_edit_HardNodeNode";
-            cmbx_edit_HardNodeNode.Size = new Size(325, 33);
+            cmbx_edit_HardNodeNode.Size = new Size(325, 40);
             cmbx_edit_HardNodeNode.TabIndex = 16;
             cmbx_edit_HardNodeNode.TabStop = false;
             cmbx_edit_HardNodeNode.Tag = "ClearMe";
@@ -1315,22 +1373,41 @@ namespace WinForms
             cmbx_edit_HardNodeDir.Location = new Point(8, 57);
             cmbx_edit_HardNodeDir.Margin = new Padding(3, 4, 3, 4);
             cmbx_edit_HardNodeDir.Name = "cmbx_edit_HardNodeDir";
-            cmbx_edit_HardNodeDir.Size = new Size(138, 33);
+            cmbx_edit_HardNodeDir.Size = new Size(138, 40);
             cmbx_edit_HardNodeDir.TabIndex = 14;
             cmbx_edit_HardNodeDir.TabStop = false;
             cmbx_edit_HardNodeDir.Tag = "ClearMe";
             // 
+            // label40
+            // 
+            label40.AutoSize = true;
+            label40.Location = new Point(8, 29);
+            label40.Name = "label40";
+            label40.Size = new Size(111, 32);
+            label40.TabIndex = 15;
+            label40.Text = "Direction";
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Location = new Point(160, 29);
+            label39.Name = "label39";
+            label39.Size = new Size(206, 32);
+            label39.TabIndex = 17;
+            label39.Text = "Connected Nodes";
+            // 
             // dgv_edit_gw_Connections
             // 
             dgv_edit_gw_Connections.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgv_edit_gw_Connections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dgv_edit_gw_Connections.AllowUserToResizeRows = false;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgv_edit_gw_Connections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgv_edit_gw_Connections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_edit_gw_Connections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewCheckBoxColumn2, dataGridViewComboBoxColumn1 });
             dgv_edit_gw_Connections.EditMode = DataGridViewEditMode.EditOnEnter;
@@ -1338,32 +1415,54 @@ namespace WinForms
             dgv_edit_gw_Connections.MultiSelect = false;
             dgv_edit_gw_Connections.Name = "dgv_edit_gw_Connections";
             dgv_edit_gw_Connections.ReadOnly = true;
-            dgv_edit_gw_Connections.RowHeadersWidth = 51;
+            dgv_edit_gw_Connections.RowHeadersWidth = 5;
             dgv_edit_gw_Connections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_edit_gw_Connections.Size = new Size(553, 321);
             dgv_edit_gw_Connections.TabIndex = 13;
             dgv_edit_gw_Connections.TabStop = false;
-            dgv_edit_gw_Connections.CellMouseEnter += dgv_edit_gw_Connections_CellMouseEnter;
-            dgv_edit_gw_Connections.DataError += dgv_edit_gw_Connections_DataError;
-            dgv_edit_gw_Connections.RowsAdded += dgv_edit_gw_Connections_RowsAdded;
+            dgv_edit_gw_Connections.CellContentClick += dgv_edit_gw_Connections_CellContentClick;
+            dgv_edit_gw_Connections.UserDeletedRow += dgv_edit_gw_Connections_UserDeletedRow;
             // 
-            // label39
+            // dataGridViewCheckBoxColumn2
             // 
-            label39.AutoSize = true;
-            label39.Location = new Point(160, 29);
-            label39.Name = "label39";
-            label39.Size = new Size(162, 25);
-            label39.TabIndex = 17;
-            label39.Text = "Connected Nodes";
+            dataGridViewCheckBoxColumn2.Frozen = true;
+            dataGridViewCheckBoxColumn2.HeaderText = "Block";
+            dataGridViewCheckBoxColumn2.MinimumWidth = 6;
+            dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
+            dataGridViewCheckBoxColumn2.ReadOnly = true;
+            dataGridViewCheckBoxColumn2.Resizable = DataGridViewTriState.True;
+            dataGridViewCheckBoxColumn2.Width = 175;
             // 
-            // label40
+            // dataGridViewComboBoxColumn1
             // 
-            label40.AutoSize = true;
-            label40.Location = new Point(8, 29);
-            label40.Name = "label40";
-            label40.Size = new Size(89, 25);
-            label40.TabIndex = 15;
-            label40.Text = "Direction";
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewComboBoxColumn1.Frozen = true;
+            dataGridViewComboBoxColumn1.HeaderText = "Connected Nodes";
+            dataGridViewComboBoxColumn1.MinimumWidth = 250;
+            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            dataGridViewComboBoxColumn1.ReadOnly = true;
+            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
+            dataGridViewComboBoxColumn1.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridViewComboBoxColumn1.Width = 325;
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(16, 156);
+            label34.Name = "label34";
+            label34.Size = new Size(71, 32);
+            label34.TabIndex = 21;
+            label34.Text = "Block";
+            // 
+            // label48
+            // 
+            label48.AutoSize = true;
+            label48.Location = new Point(168, 156);
+            label48.Name = "label48";
+            label48.Size = new Size(206, 32);
+            label48.TabIndex = 22;
+            label48.Text = "Connected Nodes";
             // 
             // pnl_edit_Nodes
             // 
@@ -1377,7 +1476,7 @@ namespace WinForms
             pnl_edit_Nodes.Controls.Add(label37);
             pnl_edit_Nodes.Controls.Add(label38);
             pnl_edit_Nodes.Controls.Add(btn_edit_tags_AddNew);
-            pnl_edit_Nodes.Location = new Point(0, 256);
+            pnl_edit_Nodes.Location = new Point(0, 253);
             pnl_edit_Nodes.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_Nodes.Name = "pnl_edit_Nodes";
             pnl_edit_Nodes.Size = new Size(1061, 385);
@@ -1404,7 +1503,7 @@ namespace WinForms
             label28.AutoSize = true;
             label28.Location = new Point(671, 3);
             label28.Name = "label28";
-            label28.Size = new Size(95, 25);
+            label28.Size = new Size(119, 32);
             label28.TabIndex = 16;
             label28.Text = "Is oneway";
             // 
@@ -1413,7 +1512,7 @@ namespace WinForms
             label30.AutoSize = true;
             label30.Location = new Point(38, 3);
             label30.Name = "label30";
-            label30.Size = new Size(89, 25);
+            label30.Size = new Size(111, 32);
             label30.TabIndex = 14;
             label30.Text = "Direction";
             // 
@@ -1434,7 +1533,7 @@ namespace WinForms
             cmbx_edit_nodes_Down.FormattingEnabled = true;
             cmbx_edit_nodes_Down.Location = new Point(155, -1);
             cmbx_edit_nodes_Down.Name = "cmbx_edit_nodes_Down";
-            cmbx_edit_nodes_Down.Size = new Size(481, 33);
+            cmbx_edit_nodes_Down.Size = new Size(481, 40);
             cmbx_edit_nodes_Down.TabIndex = 1;
             cmbx_edit_nodes_Down.Tag = "ClearMe";
             // 
@@ -1444,7 +1543,7 @@ namespace WinForms
             label36.Location = new Point(34, 7);
             label36.Margin = new Padding(3);
             label36.Name = "label36";
-            label36.Size = new Size(61, 25);
+            label36.Size = new Size(76, 32);
             label36.TabIndex = 0;
             label36.Text = "Down";
             // 
@@ -1465,7 +1564,7 @@ namespace WinForms
             cmbx_edit_nodes_Up.FormattingEnabled = true;
             cmbx_edit_nodes_Up.Location = new Point(155, -1);
             cmbx_edit_nodes_Up.Name = "cmbx_edit_nodes_Up";
-            cmbx_edit_nodes_Up.Size = new Size(481, 33);
+            cmbx_edit_nodes_Up.Size = new Size(481, 40);
             cmbx_edit_nodes_Up.TabIndex = 1;
             cmbx_edit_nodes_Up.Tag = "ClearMe";
             // 
@@ -1475,7 +1574,7 @@ namespace WinForms
             label35.Location = new Point(34, 7);
             label35.Margin = new Padding(3);
             label35.Name = "label35";
-            label35.Size = new Size(36, 25);
+            label35.Size = new Size(44, 32);
             label35.TabIndex = 0;
             label35.Text = "Up";
             // 
@@ -1495,7 +1594,7 @@ namespace WinForms
             ckbx_edit_nodes_West.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_edit_nodes_West.Location = new Point(714, 8);
             ckbx_edit_nodes_West.Name = "ckbx_edit_nodes_West";
-            ckbx_edit_nodes_West.Size = new Size(15, 14);
+            ckbx_edit_nodes_West.Size = new Size(18, 17);
             ckbx_edit_nodes_West.TabIndex = 3;
             ckbx_edit_nodes_West.Tag = "ClearMe";
             ckbx_edit_nodes_West.UseVisualStyleBackColor = true;
@@ -1507,7 +1606,7 @@ namespace WinForms
             cmbx_edit_nodes_West.FormattingEnabled = true;
             cmbx_edit_nodes_West.Location = new Point(155, -1);
             cmbx_edit_nodes_West.Name = "cmbx_edit_nodes_West";
-            cmbx_edit_nodes_West.Size = new Size(481, 33);
+            cmbx_edit_nodes_West.Size = new Size(481, 40);
             cmbx_edit_nodes_West.TabIndex = 1;
             cmbx_edit_nodes_West.Tag = "ClearMe";
             // 
@@ -1517,7 +1616,7 @@ namespace WinForms
             label33.Location = new Point(34, 8);
             label33.Margin = new Padding(3);
             label33.Name = "label33";
-            label33.Size = new Size(53, 25);
+            label33.Size = new Size(66, 32);
             label33.TabIndex = 0;
             label33.Text = "West";
             // 
@@ -1537,7 +1636,7 @@ namespace WinForms
             ckbx_edit_nodes_South.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_edit_nodes_South.Location = new Point(714, 8);
             ckbx_edit_nodes_South.Name = "ckbx_edit_nodes_South";
-            ckbx_edit_nodes_South.Size = new Size(15, 14);
+            ckbx_edit_nodes_South.Size = new Size(18, 17);
             ckbx_edit_nodes_South.TabIndex = 3;
             ckbx_edit_nodes_South.Tag = "ClearMe";
             ckbx_edit_nodes_South.UseVisualStyleBackColor = true;
@@ -1549,7 +1648,7 @@ namespace WinForms
             cmbx_edit_nodes_South.FormattingEnabled = true;
             cmbx_edit_nodes_South.Location = new Point(155, -1);
             cmbx_edit_nodes_South.Name = "cmbx_edit_nodes_South";
-            cmbx_edit_nodes_South.Size = new Size(481, 33);
+            cmbx_edit_nodes_South.Size = new Size(481, 40);
             cmbx_edit_nodes_South.TabIndex = 1;
             cmbx_edit_nodes_South.Tag = "ClearMe";
             // 
@@ -1559,7 +1658,7 @@ namespace WinForms
             label51.Location = new Point(34, 7);
             label51.Margin = new Padding(3);
             label51.Name = "label51";
-            label51.Size = new Size(61, 25);
+            label51.Size = new Size(77, 32);
             label51.TabIndex = 0;
             label51.Text = "South";
             // 
@@ -1568,7 +1667,7 @@ namespace WinForms
             label29.AutoSize = true;
             label29.Location = new Point(322, 3);
             label29.Name = "label29";
-            label29.Size = new Size(148, 25);
+            label29.Size = new Size(186, 32);
             label29.TabIndex = 15;
             label29.Text = "Available Nodes";
             // 
@@ -1589,7 +1688,7 @@ namespace WinForms
             ckbx_edit_nodes_East.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_edit_nodes_East.Location = new Point(714, 8);
             ckbx_edit_nodes_East.Name = "ckbx_edit_nodes_East";
-            ckbx_edit_nodes_East.Size = new Size(15, 14);
+            ckbx_edit_nodes_East.Size = new Size(18, 17);
             ckbx_edit_nodes_East.TabIndex = 3;
             ckbx_edit_nodes_East.Tag = "ClearMe";
             ckbx_edit_nodes_East.UseVisualStyleBackColor = true;
@@ -1601,7 +1700,7 @@ namespace WinForms
             cmbx_edit_nodes_East.FormattingEnabled = true;
             cmbx_edit_nodes_East.Location = new Point(155, -1);
             cmbx_edit_nodes_East.Name = "cmbx_edit_nodes_East";
-            cmbx_edit_nodes_East.Size = new Size(481, 33);
+            cmbx_edit_nodes_East.Size = new Size(481, 40);
             cmbx_edit_nodes_East.TabIndex = 1;
             cmbx_edit_nodes_East.Tag = "ClearMe";
             // 
@@ -1611,7 +1710,7 @@ namespace WinForms
             label50.Location = new Point(34, 7);
             label50.Margin = new Padding(3);
             label50.Name = "label50";
-            label50.Size = new Size(46, 25);
+            label50.Size = new Size(56, 32);
             label50.TabIndex = 0;
             label50.Text = "East";
             // 
@@ -1621,7 +1720,7 @@ namespace WinForms
             label32.Location = new Point(34, 6);
             label32.Margin = new Padding(3);
             label32.Name = "label32";
-            label32.Size = new Size(46, 25);
+            label32.Size = new Size(56, 32);
             label32.TabIndex = 0;
             label32.Text = "East";
             // 
@@ -1642,7 +1741,7 @@ namespace WinForms
             ckbx_edit_nodes_North.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ckbx_edit_nodes_North.Location = new Point(714, 8);
             ckbx_edit_nodes_North.Name = "ckbx_edit_nodes_North";
-            ckbx_edit_nodes_North.Size = new Size(15, 14);
+            ckbx_edit_nodes_North.Size = new Size(18, 17);
             ckbx_edit_nodes_North.TabIndex = 3;
             ckbx_edit_nodes_North.Tag = "ClearMe";
             ckbx_edit_nodes_North.UseVisualStyleBackColor = true;
@@ -1654,7 +1753,7 @@ namespace WinForms
             cmbx_edit_nodes_North.FormattingEnabled = true;
             cmbx_edit_nodes_North.Location = new Point(155, -1);
             cmbx_edit_nodes_North.Name = "cmbx_edit_nodes_North";
-            cmbx_edit_nodes_North.Size = new Size(481, 33);
+            cmbx_edit_nodes_North.Size = new Size(481, 40);
             cmbx_edit_nodes_North.TabIndex = 1;
             cmbx_edit_nodes_North.Tag = "ClearMe";
             // 
@@ -1664,7 +1763,7 @@ namespace WinForms
             label49.Location = new Point(34, 9);
             label49.Margin = new Padding(3);
             label49.Name = "label49";
-            label49.Size = new Size(61, 25);
+            label49.Size = new Size(76, 32);
             label49.TabIndex = 0;
             label49.Text = "North";
             // 
@@ -1674,7 +1773,7 @@ namespace WinForms
             label31.Location = new Point(34, 3);
             label31.Margin = new Padding(3);
             label31.Name = "label31";
-            label31.Size = new Size(61, 25);
+            label31.Size = new Size(76, 32);
             label31.TabIndex = 0;
             label31.Text = "North";
             // 
@@ -1705,7 +1804,7 @@ namespace WinForms
             cmbx_edit_tags_TagSelect.FormattingEnabled = true;
             cmbx_edit_tags_TagSelect.Location = new Point(567, 290);
             cmbx_edit_tags_TagSelect.Name = "cmbx_edit_tags_TagSelect";
-            cmbx_edit_tags_TagSelect.Size = new Size(219, 33);
+            cmbx_edit_tags_TagSelect.Size = new Size(219, 40);
             cmbx_edit_tags_TagSelect.TabIndex = 20;
             cmbx_edit_tags_TagSelect.Tag = "ClearMe";
             // 
@@ -1725,7 +1824,7 @@ namespace WinForms
             label37.AutoSize = true;
             label37.Location = new Point(8, 263);
             label37.Name = "label37";
-            label37.Size = new Size(49, 25);
+            label37.Size = new Size(60, 32);
             label37.TabIndex = 12;
             label37.Text = "Tags";
             // 
@@ -1734,7 +1833,7 @@ namespace WinForms
             label38.AutoSize = true;
             label38.Location = new Point(567, 263);
             label38.Name = "label38";
-            label38.Size = new Size(123, 25);
+            label38.Size = new Size(155, 32);
             label38.TabIndex = 21;
             label38.Text = "Tag Selection";
             // 
@@ -1752,10 +1851,10 @@ namespace WinForms
             // 
             tbpg_Blocks.Controls.Add(pnl_Right_Blocks);
             tbpg_Blocks.Controls.Add(lst_Blocks);
-            tbpg_Blocks.Location = new Point(4, 34);
+            tbpg_Blocks.Location = new Point(4, 41);
             tbpg_Blocks.Name = "tbpg_Blocks";
             tbpg_Blocks.Padding = new Padding(3);
-            tbpg_Blocks.Size = new Size(1061, 641);
+            tbpg_Blocks.Size = new Size(1061, 634);
             tbpg_Blocks.TabIndex = 1;
             tbpg_Blocks.Text = "Blocks";
             tbpg_Blocks.UseVisualStyleBackColor = true;
@@ -1768,7 +1867,7 @@ namespace WinForms
             pnl_Right_Blocks.Location = new Point(292, 3);
             pnl_Right_Blocks.Name = "pnl_Right_Blocks";
             pnl_Right_Blocks.Padding = new Padding(5);
-            pnl_Right_Blocks.Size = new Size(766, 635);
+            pnl_Right_Blocks.Size = new Size(766, 628);
             pnl_Right_Blocks.TabIndex = 5;
             // 
             // gbx_EditBlock
@@ -1784,7 +1883,7 @@ namespace WinForms
             gbx_EditBlock.Dock = DockStyle.Fill;
             gbx_EditBlock.Location = new Point(5, 268);
             gbx_EditBlock.Name = "gbx_EditBlock";
-            gbx_EditBlock.Size = new Size(756, 362);
+            gbx_EditBlock.Size = new Size(756, 355);
             gbx_EditBlock.TabIndex = 3;
             gbx_EditBlock.TabStop = false;
             gbx_EditBlock.Text = "Edit Block";
@@ -1793,7 +1892,7 @@ namespace WinForms
             // 
             nud_Edit_HighestFloor.Location = new Point(125, 145);
             nud_Edit_HighestFloor.Name = "nud_Edit_HighestFloor";
-            nud_Edit_HighestFloor.Size = new Size(98, 33);
+            nud_Edit_HighestFloor.Size = new Size(98, 39);
             nud_Edit_HighestFloor.TabIndex = 7;
             // 
             // btn_Delete
@@ -1811,7 +1910,7 @@ namespace WinForms
             lbl_Edit_HighestFloor.AutoSize = true;
             lbl_Edit_HighestFloor.Location = new Point(120, 109);
             lbl_Edit_HighestFloor.Name = "lbl_Edit_HighestFloor";
-            lbl_Edit_HighestFloor.Size = new Size(124, 25);
+            lbl_Edit_HighestFloor.Size = new Size(157, 32);
             lbl_Edit_HighestFloor.TabIndex = 12;
             lbl_Edit_HighestFloor.Text = "Highest Floor";
             // 
@@ -1831,7 +1930,7 @@ namespace WinForms
             nud_Edit_LowestFloor.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
             nud_Edit_LowestFloor.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             nud_Edit_LowestFloor.Name = "nud_Edit_LowestFloor";
-            nud_Edit_LowestFloor.Size = new Size(89, 33);
+            nud_Edit_LowestFloor.Size = new Size(89, 39);
             nud_Edit_LowestFloor.TabIndex = 6;
             // 
             // lbl_Edit_BlockName
@@ -1839,7 +1938,7 @@ namespace WinForms
             lbl_Edit_BlockName.AutoSize = true;
             lbl_Edit_BlockName.Location = new Point(6, 39);
             lbl_Edit_BlockName.Name = "lbl_Edit_BlockName";
-            lbl_Edit_BlockName.Size = new Size(112, 25);
+            lbl_Edit_BlockName.Size = new Size(142, 32);
             lbl_Edit_BlockName.TabIndex = 9;
             lbl_Edit_BlockName.Text = "Block Name";
             // 
@@ -1848,7 +1947,7 @@ namespace WinForms
             lbl_Edit_LowestFloor.AutoSize = true;
             lbl_Edit_LowestFloor.Location = new Point(6, 109);
             lbl_Edit_LowestFloor.Name = "lbl_Edit_LowestFloor";
-            lbl_Edit_LowestFloor.Size = new Size(118, 25);
+            lbl_Edit_LowestFloor.Size = new Size(148, 32);
             lbl_Edit_LowestFloor.TabIndex = 10;
             lbl_Edit_LowestFloor.Text = "Lowest Floor";
             // 
@@ -1857,7 +1956,7 @@ namespace WinForms
             txt_Edit_BlockName.Font = new Font("Segoe UI", 12F);
             txt_Edit_BlockName.Location = new Point(6, 61);
             txt_Edit_BlockName.Name = "txt_Edit_BlockName";
-            txt_Edit_BlockName.Size = new Size(212, 29);
+            txt_Edit_BlockName.Size = new Size(212, 34);
             txt_Edit_BlockName.TabIndex = 5;
             // 
             // gbx_NewBlock
@@ -1891,7 +1990,7 @@ namespace WinForms
             // 
             nud_New_HighestFloor.Location = new Point(143, 149);
             nud_New_HighestFloor.Name = "nud_New_HighestFloor";
-            nud_New_HighestFloor.Size = new Size(98, 33);
+            nud_New_HighestFloor.Size = new Size(98, 39);
             nud_New_HighestFloor.TabIndex = 3;
             // 
             // lbl_New_HighestFloor
@@ -1899,7 +1998,7 @@ namespace WinForms
             lbl_New_HighestFloor.AutoSize = true;
             lbl_New_HighestFloor.Location = new Point(143, 113);
             lbl_New_HighestFloor.Name = "lbl_New_HighestFloor";
-            lbl_New_HighestFloor.Size = new Size(124, 25);
+            lbl_New_HighestFloor.Size = new Size(157, 32);
             lbl_New_HighestFloor.TabIndex = 6;
             lbl_New_HighestFloor.Text = "Highest Floor";
             // 
@@ -1909,7 +2008,7 @@ namespace WinForms
             nud_New_LowestFloor.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
             nud_New_LowestFloor.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             nud_New_LowestFloor.Name = "nud_New_LowestFloor";
-            nud_New_LowestFloor.Size = new Size(89, 33);
+            nud_New_LowestFloor.Size = new Size(89, 39);
             nud_New_LowestFloor.TabIndex = 2;
             // 
             // lbl_New_LowestFloor
@@ -1917,7 +2016,7 @@ namespace WinForms
             lbl_New_LowestFloor.AutoSize = true;
             lbl_New_LowestFloor.Location = new Point(7, 113);
             lbl_New_LowestFloor.Name = "lbl_New_LowestFloor";
-            lbl_New_LowestFloor.Size = new Size(118, 25);
+            lbl_New_LowestFloor.Size = new Size(148, 32);
             lbl_New_LowestFloor.TabIndex = 4;
             lbl_New_LowestFloor.Text = "Lowest Floor";
             // 
@@ -1926,7 +2025,7 @@ namespace WinForms
             txt_New_BlockName.Font = new Font("Segoe UI", 12F);
             txt_New_BlockName.Location = new Point(7, 72);
             txt_New_BlockName.Name = "txt_New_BlockName";
-            txt_New_BlockName.Size = new Size(212, 29);
+            txt_New_BlockName.Size = new Size(212, 34);
             txt_New_BlockName.TabIndex = 1;
             // 
             // lbl_New_BlockName
@@ -1934,7 +2033,7 @@ namespace WinForms
             lbl_New_BlockName.AutoSize = true;
             lbl_New_BlockName.Location = new Point(10, 36);
             lbl_New_BlockName.Name = "lbl_New_BlockName";
-            lbl_New_BlockName.Size = new Size(112, 25);
+            lbl_New_BlockName.Size = new Size(142, 32);
             lbl_New_BlockName.TabIndex = 2;
             lbl_New_BlockName.Text = "Block Name";
             // 
@@ -1942,10 +2041,10 @@ namespace WinForms
             // 
             lst_Blocks.Dock = DockStyle.Left;
             lst_Blocks.FormattingEnabled = true;
-            lst_Blocks.ItemHeight = 25;
+            lst_Blocks.ItemHeight = 32;
             lst_Blocks.Location = new Point(3, 3);
             lst_Blocks.Name = "lst_Blocks";
-            lst_Blocks.Size = new Size(289, 635);
+            lst_Blocks.Size = new Size(289, 628);
             lst_Blocks.TabIndex = 200;
             lst_Blocks.SelectedIndexChanged += lst_Blocks_SelectedIndexChanged;
             // 
@@ -1953,10 +2052,10 @@ namespace WinForms
             // 
             tbpg_Export.Controls.Add(panel2);
             tbpg_Export.Controls.Add(panel1);
-            tbpg_Export.Location = new Point(4, 34);
+            tbpg_Export.Location = new Point(4, 41);
             tbpg_Export.Name = "tbpg_Export";
             tbpg_Export.Padding = new Padding(6, 5, 6, 5);
-            tbpg_Export.Size = new Size(1061, 641);
+            tbpg_Export.Size = new Size(1061, 634);
             tbpg_Export.TabIndex = 2;
             tbpg_Export.Text = "Export/Import";
             tbpg_Export.UseVisualStyleBackColor = true;
@@ -1967,7 +2066,7 @@ namespace WinForms
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Controls.Add(btn_Import);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(6, 487);
+            panel2.Location = new Point(6, 480);
             panel2.Margin = new Padding(9);
             panel2.Name = "panel2";
             panel2.Size = new Size(1049, 149);
@@ -2017,7 +2116,7 @@ namespace WinForms
             rbtn_Export_FARapp.Font = new Font("Segoe UI", 18F);
             rbtn_Export_FARapp.Location = new Point(9, 3);
             rbtn_Export_FARapp.Name = "rbtn_Export_FARapp";
-            rbtn_Export_FARapp.Size = new Size(195, 36);
+            rbtn_Export_FARapp.Size = new Size(242, 45);
             rbtn_Export_FARapp.TabIndex = 5;
             rbtn_Export_FARapp.Tag = "1";
             rbtn_Export_FARapp.Text = "Export for FARa";
@@ -2031,7 +2130,7 @@ namespace WinForms
             radioButton2.Font = new Font("Segoe UI", 18F);
             radioButton2.Location = new Point(9, 53);
             radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(209, 36);
+            radioButton2.Size = new Size(260, 45);
             radioButton2.TabIndex = 6;
             radioButton2.TabStop = true;
             radioButton2.Tag = "0";
@@ -2045,7 +2144,7 @@ namespace WinForms
             rbtn_Export_Both.Font = new Font("Segoe UI", 18F);
             rbtn_Export_Both.Location = new Point(9, 105);
             rbtn_Export_Both.Name = "rbtn_Export_Both";
-            rbtn_Export_Both.Size = new Size(178, 36);
+            rbtn_Export_Both.Size = new Size(221, 45);
             rbtn_Export_Both.TabIndex = 7;
             rbtn_Export_Both.Tag = "2";
             rbtn_Export_Both.Text = "Both (Zipped)";
@@ -2073,9 +2172,9 @@ namespace WinForms
             tbpg_Settings.Controls.Add(panel4);
             tbpg_Settings.Controls.Add(label11);
             tbpg_Settings.Controls.Add(lbl_NameTemplate);
-            tbpg_Settings.Location = new Point(4, 34);
+            tbpg_Settings.Location = new Point(4, 41);
             tbpg_Settings.Name = "tbpg_Settings";
-            tbpg_Settings.Size = new Size(1061, 641);
+            tbpg_Settings.Size = new Size(1061, 634);
             tbpg_Settings.TabIndex = 4;
             tbpg_Settings.Text = "Settings";
             tbpg_Settings.UseVisualStyleBackColor = true;
@@ -2086,7 +2185,7 @@ namespace WinForms
             txt_set_Layout.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_set_Layout.Location = new Point(3, 51);
             txt_set_Layout.Name = "txt_set_Layout";
-            txt_set_Layout.Size = new Size(307, 35);
+            txt_set_Layout.Size = new Size(307, 42);
             txt_set_Layout.TabIndex = 5;
             txt_set_Layout.Text = "{P}{b}{-}{F}{-}{I}{-}";
             txt_set_Layout.KeyDown += txt_set_Layout_KeyDown;
@@ -2120,7 +2219,7 @@ namespace WinForms
             label16.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label16.Location = new Point(104, 7);
             label16.Name = "label16";
-            label16.Size = new Size(60, 25);
+            label16.Size = new Size(73, 32);
             label16.TabIndex = 4;
             label16.Text = "Prefix";
             // 
@@ -2130,7 +2229,7 @@ namespace WinForms
             txt_set_Prefix.Location = new Point(103, 35);
             txt_set_Prefix.MaxLength = 4;
             txt_set_Prefix.Name = "txt_set_Prefix";
-            txt_set_Prefix.Size = new Size(94, 35);
+            txt_set_Prefix.Size = new Size(94, 42);
             txt_set_Prefix.TabIndex = 3;
             txt_set_Prefix.Text = "TR";
             txt_set_Prefix.TextAlign = HorizontalAlignment.Center;
@@ -2161,7 +2260,7 @@ namespace WinForms
             txt_set_id_ElvEE.Location = new Point(104, 58);
             txt_set_id_ElvEE.MaxLength = 3;
             txt_set_id_ElvEE.Name = "txt_set_id_ElvEE";
-            txt_set_id_ElvEE.Size = new Size(89, 33);
+            txt_set_id_ElvEE.Size = new Size(89, 39);
             txt_set_id_ElvEE.TabIndex = 9;
             // 
             // label26
@@ -2170,7 +2269,7 @@ namespace WinForms
             label26.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label26.Location = new Point(104, 29);
             label26.Name = "label26";
-            label26.Size = new Size(80, 25);
+            label26.Size = new Size(99, 32);
             label26.TabIndex = 8;
             label26.Text = "Elevator";
             // 
@@ -2179,7 +2278,7 @@ namespace WinForms
             txt_set_id_Corridor.Location = new Point(389, 58);
             txt_set_id_Corridor.MaxLength = 3;
             txt_set_id_Corridor.Name = "txt_set_id_Corridor";
-            txt_set_id_Corridor.Size = new Size(89, 33);
+            txt_set_id_Corridor.Size = new Size(89, 39);
             txt_set_id_Corridor.TabIndex = 7;
             // 
             // txt_set_id_Room
@@ -2187,7 +2286,7 @@ namespace WinForms
             txt_set_id_Room.Location = new Point(294, 58);
             txt_set_id_Room.MaxLength = 3;
             txt_set_id_Room.Name = "txt_set_id_Room";
-            txt_set_id_Room.Size = new Size(89, 33);
+            txt_set_id_Room.Size = new Size(89, 39);
             txt_set_id_Room.TabIndex = 5;
             // 
             // txt_set_id_GW
@@ -2195,7 +2294,7 @@ namespace WinForms
             txt_set_id_GW.Location = new Point(199, 58);
             txt_set_id_GW.MaxLength = 3;
             txt_set_id_GW.Name = "txt_set_id_GW";
-            txt_set_id_GW.Size = new Size(89, 33);
+            txt_set_id_GW.Size = new Size(89, 39);
             txt_set_id_GW.TabIndex = 3;
             // 
             // txt_set_id_ElvES
@@ -2203,7 +2302,7 @@ namespace WinForms
             txt_set_id_ElvES.Location = new Point(4, 58);
             txt_set_id_ElvES.MaxLength = 3;
             txt_set_id_ElvES.Name = "txt_set_id_ElvES";
-            txt_set_id_ElvES.Size = new Size(89, 33);
+            txt_set_id_ElvES.Size = new Size(89, 39);
             txt_set_id_ElvES.TabIndex = 1;
             // 
             // label15
@@ -2212,7 +2311,7 @@ namespace WinForms
             label15.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label15.Location = new Point(388, 29);
             label15.Name = "label15";
-            label15.Size = new Size(83, 25);
+            label15.Size = new Size(101, 32);
             label15.TabIndex = 6;
             label15.Text = "Corridor";
             // 
@@ -2222,7 +2321,7 @@ namespace WinForms
             label14.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label14.Location = new Point(294, 29);
             label14.Name = "label14";
-            label14.Size = new Size(60, 25);
+            label14.Size = new Size(76, 32);
             label14.TabIndex = 4;
             label14.Text = "Room";
             // 
@@ -2232,7 +2331,7 @@ namespace WinForms
             label13.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label13.Location = new Point(199, 29);
             label13.Name = "label13";
-            label13.Size = new Size(84, 25);
+            label13.Size = new Size(104, 32);
             label13.TabIndex = 2;
             label13.Text = "Gateway";
             // 
@@ -2242,7 +2341,7 @@ namespace WinForms
             lbl_set_id_Elv.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_set_id_Elv.Location = new Point(4, 29);
             lbl_set_id_Elv.Name = "lbl_set_id_Elv";
-            lbl_set_id_Elv.Size = new Size(57, 25);
+            lbl_set_id_Elv.Size = new Size(70, 32);
             lbl_set_id_Elv.TabIndex = 0;
             lbl_set_id_Elv.Text = "Stairs";
             // 
@@ -2252,7 +2351,7 @@ namespace WinForms
             label12.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label12.Location = new Point(5, 7);
             label12.Name = "label12";
-            label12.Size = new Size(94, 25);
+            label12.Size = new Size(116, 32);
             label12.TabIndex = 1;
             label12.Text = "Separator";
             // 
@@ -2262,7 +2361,7 @@ namespace WinForms
             txt_set_Separator.Location = new Point(3, 35);
             txt_set_Separator.MaxLength = 1;
             txt_set_Separator.Name = "txt_set_Separator";
-            txt_set_Separator.Size = new Size(94, 39);
+            txt_set_Separator.Size = new Size(94, 47);
             txt_set_Separator.TabIndex = 0;
             txt_set_Separator.Text = "-";
             txt_set_Separator.TextAlign = HorizontalAlignment.Center;
@@ -2273,7 +2372,7 @@ namespace WinForms
             label11.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.Location = new Point(8, 100);
             label11.Name = "label11";
-            label11.Size = new Size(296, 150);
+            label11.Size = new Size(374, 192);
             label11.TabIndex = 2;
             label11.Text = "{B} - Block name\r\n{b} - First character of block name\r\n{F} - Floor number\r\n{-} - Separator\r\n{I} - Node Identifier\r\n{P} - Prefix";
             // 
@@ -2283,106 +2382,9 @@ namespace WinForms
             lbl_NameTemplate.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_NameTemplate.Location = new Point(3, 9);
             lbl_NameTemplate.Name = "lbl_NameTemplate";
-            lbl_NameTemplate.Size = new Size(261, 30);
+            lbl_NameTemplate.Size = new Size(334, 37);
             lbl_NameTemplate.TabIndex = 1;
             lbl_NameTemplate.Text = "Node internal name layout";
-            // 
-            // gbx_edit_gw_HC
-            // 
-            gbx_edit_gw_HC.Controls.Add(label40);
-            gbx_edit_gw_HC.Controls.Add(cmbx_edit_HardNodeNode);
-            gbx_edit_gw_HC.Controls.Add(label39);
-            gbx_edit_gw_HC.Controls.Add(cmbx_edit_HardNodeDir);
-            gbx_edit_gw_HC.Location = new Point(8, 4);
-            gbx_edit_gw_HC.Name = "gbx_edit_gw_HC";
-            gbx_edit_gw_HC.Size = new Size(494, 100);
-            gbx_edit_gw_HC.TabIndex = 18;
-            gbx_edit_gw_HC.TabStop = false;
-            gbx_edit_gw_HC.Text = "Hard Connection";
-            // 
-            // dataGridViewCheckBoxColumn2
-            // 
-            dataGridViewCheckBoxColumn2.Frozen = true;
-            dataGridViewCheckBoxColumn2.HeaderText = "Block";
-            dataGridViewCheckBoxColumn2.MinimumWidth = 6;
-            dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
-            dataGridViewCheckBoxColumn2.ReadOnly = true;
-            dataGridViewCheckBoxColumn2.Resizable = DataGridViewTriState.True;
-            dataGridViewCheckBoxColumn2.SortMode = DataGridViewColumnSortMode.Automatic;
-            dataGridViewCheckBoxColumn2.Width = 200;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle6;
-            dataGridViewComboBoxColumn1.Frozen = true;
-            dataGridViewComboBoxColumn1.HeaderText = "Connected Nodes";
-            dataGridViewComboBoxColumn1.MinimumWidth = 250;
-            dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            dataGridViewComboBoxColumn1.ReadOnly = true;
-            dataGridViewComboBoxColumn1.Resizable = DataGridViewTriState.True;
-            dataGridViewComboBoxColumn1.Width = 250;
-            // 
-            // cmbx_edit_gw_ConnNode
-            // 
-            cmbx_edit_gw_ConnNode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbx_edit_gw_ConnNode.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbx_edit_gw_ConnNode.FormattingEnabled = true;
-            cmbx_edit_gw_ConnNode.Location = new Point(168, 152);
-            cmbx_edit_gw_ConnNode.Margin = new Padding(3, 4, 3, 4);
-            cmbx_edit_gw_ConnNode.Name = "cmbx_edit_gw_ConnNode";
-            cmbx_edit_gw_ConnNode.Size = new Size(325, 33);
-            cmbx_edit_gw_ConnNode.TabIndex = 20;
-            cmbx_edit_gw_ConnNode.TabStop = false;
-            cmbx_edit_gw_ConnNode.Tag = "ClearMe";
-            // 
-            // cmbx_edit_gw_ConnBlock
-            // 
-            cmbx_edit_gw_ConnBlock.FormattingEnabled = true;
-            cmbx_edit_gw_ConnBlock.Items.AddRange(new object[] { "North", "South", "East", "West" });
-            cmbx_edit_gw_ConnBlock.Location = new Point(16, 152);
-            cmbx_edit_gw_ConnBlock.Margin = new Padding(3, 4, 3, 4);
-            cmbx_edit_gw_ConnBlock.Name = "cmbx_edit_gw_ConnBlock";
-            cmbx_edit_gw_ConnBlock.Size = new Size(138, 33);
-            cmbx_edit_gw_ConnBlock.TabIndex = 19;
-            cmbx_edit_gw_ConnBlock.TabStop = false;
-            cmbx_edit_gw_ConnBlock.Tag = "ClearMe";
-            // 
-            // label34
-            // 
-            label34.AutoSize = true;
-            label34.Location = new Point(16, 123);
-            label34.Name = "label34";
-            label34.Size = new Size(57, 25);
-            label34.TabIndex = 21;
-            label34.Text = "Block";
-            // 
-            // label48
-            // 
-            label48.AutoSize = true;
-            label48.Location = new Point(168, 123);
-            label48.Name = "label48";
-            label48.Size = new Size(162, 25);
-            label48.TabIndex = 22;
-            label48.Text = "Connected Nodes";
-            // 
-            // btn_edit_gw_AddConn
-            // 
-            btn_edit_gw_AddConn.Location = new Point(306, 192);
-            btn_edit_gw_AddConn.Name = "btn_edit_gw_AddConn";
-            btn_edit_gw_AddConn.Size = new Size(187, 41);
-            btn_edit_gw_AddConn.TabIndex = 23;
-            btn_edit_gw_AddConn.Text = "Add Connection";
-            btn_edit_gw_AddConn.UseVisualStyleBackColor = true;
-            // 
-            // btn_edit_gw_DGVDelete
-            // 
-            btn_edit_gw_DGVDelete.Location = new Point(836, 334);
-            btn_edit_gw_DGVDelete.Name = "btn_edit_gw_DGVDelete";
-            btn_edit_gw_DGVDelete.Size = new Size(215, 41);
-            btn_edit_gw_DGVDelete.TabIndex = 24;
-            btn_edit_gw_DGVDelete.Text = "Delete";
-            btn_edit_gw_DGVDelete.UseVisualStyleBackColor = true;
             // 
             // frm_Main
             // 
@@ -2430,6 +2432,8 @@ namespace WinForms
             ((System.ComponentModel.ISupportInitialize)nud_edit_Floor).EndInit();
             pnl_edit_GWNodeConnections.ResumeLayout(false);
             pnl_edit_GWNodeConnections.PerformLayout();
+            gbx_edit_gw_HC.ResumeLayout(false);
+            gbx_edit_gw_HC.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_edit_gw_Connections).EndInit();
             pnl_edit_Nodes.ResumeLayout(false);
             pnl_edit_Nodes.PerformLayout();
@@ -2468,8 +2472,6 @@ namespace WinForms
             panel4.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            gbx_edit_gw_HC.ResumeLayout(false);
-            gbx_edit_gw_HC.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -2665,9 +2667,9 @@ namespace WinForms
         private ComboBox cmbx_edit_gw_ConnNode;
         private ComboBox cmbx_edit_gw_ConnBlock;
         private GroupBox gbx_edit_gw_HC;
-        private DataGridViewComboBoxColumn dataGridViewCheckBoxColumn2;
-        private DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
         private Button btn_edit_gw_DGVDelete;
         private Button btn_edit_gw_AddConn;
+        private DataGridViewTextBoxColumn dataGridViewCheckBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewComboBoxColumn1;
     }
 }

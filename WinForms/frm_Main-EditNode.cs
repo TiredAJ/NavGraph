@@ -6,6 +6,8 @@ namespace WinForms;
 
 public partial class frm_Main
 {
+    List<int> edit_GWTempNodes = new List<int>();
+
     public void EditLoad()
     {
         Task.Run(() =>
@@ -28,12 +30,15 @@ public partial class frm_Main
             return;
         }
 
+        cmbx_edit_gw_ConnBlock.Items.Clear();
+        cmbx_edit_gw_ConnBlock.Items.AddRange(NG.Blocks.Keys.ToArray());
+
         txt_edit_Block.Text = T.BlockName;
         txt_edit_NodeType.Text = T.GetType().NodeTypeLong();
         txt_edit_Floor.Text = T.Floor.ToString();
         txt_edit_IntName.Text = T.InternalName;
 
-        //SDD.WriteLine(pnl_edit_GWNodeConnections.)
+        txt_edit_PubName.Enabled = false;
 
         if (T is GatewayNode GN)
         {
@@ -104,8 +109,6 @@ public partial class frm_Main
                 txt_edit_PubName.Text = RN.RoomName;
                 txt_edit_tags_Tags.Text = RN.Tags.unTagList();
             }
-            else
-            { txt_edit_PubName.Enabled = false; }
         }
 
         if (T is IGatewayFlow GWF)
@@ -184,12 +187,6 @@ public partial class frm_Main
         ClearBox(pnl_edit_Main);
     }
 
-    private void dgv_edit_gw_Connections_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-    {
-        if (e.ColumnIndex == 1 && e.RowIndex >= 0)
-        { dgv_edit_AvailableNodes(e.RowIndex); }
-    }
-
     private void dgv_edit_BlockList(int _Row)
     {
         var DGVCMBX =
@@ -200,39 +197,72 @@ public partial class frm_Main
         DGVCMBX.Value = DGVCMBX.Items[0];
     }
 
-    private void dgv_edit_AvailableNodes(int _Row)
+    private void dgv_edit_gw_Connections_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (dgv_edit_gw_Connections.Rows[_Row].Cells[0].Value == null)
+        cmbx_edit_gw_ConnBlock.Text = string.Empty;
+
+        if (e.RowIndex <= -1 || e.ColumnIndex <= -1)
         { return; }
 
-        string Block = dgv_edit_gw_Connections.Rows[_Row].Cells[0].Value.ToString();
-        string IntName = txt_edit_IntName.Text;
-        int UID = CurNodeUID;
-        List<int> UIDs = new();
+        DataGridViewRow DGVR = dgv_edit_gw_Connections.Rows[e.RowIndex];
 
-        foreach (DataGridViewRow DGVR in dgv_edit_gw_Connections.Rows)
+        if (DGVR.Cells[0].Value != null && DGVR.Cells[1].Value != null)
         {
-            if ((DGVR.Cells[1] as DataGridViewComboBoxCell).Value is not null)
-            { UIDs.Add(((DGVR.Cells[1] as DataGridViewComboBoxCell).Value as string).SplitNodeID()); }
+            cmbx_edit_gw_ConnBlock.Text = DGVR.Cells[0].Value.ToString();
+            cmbx_edit_gw_ConnNode.Text = DGVR.Cells[1].Value.ToString();
         }
 
-        Task.Run(() =>
+        btn_edit_gw_AddConn.Enabled = false;
+    }
+
+    private void btn_edit_gw_AddConn_Click(object sender, EventArgs e)
+    {
+        if (cmbx_edit_gw_ConnBlock.Text == string.Empty ||
+            cmbx_edit_gw_ConnNode.Text == string.Empty)
         {
-            dgv_edit_gw_Connections.Invoke(() =>
+            MessageBox.Show("Please don't leave comboboxes empty");
+            return;
+        }
+
+        dgv_edit_gw_Connections.Rows.Add
+        (
+            cmbx_edit_gw_ConnBlock.Text,
+            cmbx_edit_gw_ConnNode.Text
+        );
+
+        edit_GWTempNodes.Add(cmbx_edit_gw_ConnNode.Text.SplitNodeID());
+
+        cmbx_edit_gw_ConnNode.Text = string.Empty;
+
+        cmbx_edit_gw_ConnNode_Load();
+    }
+
+    private void cmbx_edit_gw_ConnNode_MouseEnter(object sender, EventArgs e)
+    { cmbx_edit_gw_ConnNode_Load(); }
+
+    private async Task cmbx_edit_gw_ConnNode_Load()
+    {
+        if (cmbx_edit_gw_ConnBlock.SelectedIndex < 0)
+        { return; }
+
+        string Block = cmbx_edit_gw_ConnBlock.Text;
+        string IntName = txt_edit_IntName.Text;
+        int UID = CurNodeUID;
+
+        await Task.Run(() =>
+        {
+            cmbx_edit_gw_ConnNode.Invoke(() =>
             {
-                var DGVCMBX =
-                    (dgv_edit_gw_Connections.Rows[_Row].Cells[1] as DataGridViewComboBoxCell);
+                cmbx_edit_gw_ConnNode.Items.Clear();
 
-                DGVCMBX.Items.Clear();
-
-                DGVCMBX.Items.AddRange
+                cmbx_edit_gw_ConnNode.Items.AddRange
                 (
                 NG.GetAllNodes()
                         .AsParallel()
                         .Select(X => X.Value)
                         .Select(X => X as GatewayNode)
                         .Where(X => X != null)
-                        .Where(X => !UIDs.Contains(X.UID))
+                        .Where(X => !edit_GWTempNodes.Contains(X.UID))
                         .Where(X => X.BlockName == Block)
                         .Where(X => X.InternalName != IntName)
                         .Where(X => !X.IsConnected(UID))
@@ -243,6 +273,18 @@ public partial class frm_Main
         });
     }
 
-    private void dgv_edit_gw_Connections_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-    { dgv_edit_BlockList(e.RowIndex); }
+    private void dgv_edit_gw_Connections_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+    {
+        int? UID = e.Row.Cells[1].Value.ToString().SplitNodeID();
+
+        if (UID != null)
+        { edit_GWTempNodes.Remove((int)UID); }
+
+        cmbx_edit_gw_ConnNode.Text = string.Empty;
+
+        cmbx_edit_gw_ConnNode_Load();
+    }
+
+    private void cmbx_edit_gw_ConnNode_SelectionChangeCommitted(object sender, EventArgs e)
+    { btn_edit_gw_AddConn.Enabled = true; }
 }

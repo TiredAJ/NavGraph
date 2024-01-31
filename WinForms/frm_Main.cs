@@ -267,9 +267,6 @@ public partial class frm_Main : Form
         else if (e.TabPage == tbpg_EditNode)
         { EditLoad(); }
     }
-
-    private void dgv_edit_gw_Connections_DataError(object sender, DataGridViewDataErrorEventArgs e)
-    { MessageBox.Show($"R:{e.RowIndex}, C:{e.ColumnIndex}"); }
 }
 
 public enum ExportType : int
