@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.7.34024.191
+VisualStudioVersion = 17.9.34518.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForms", "..\WinForms\WinForms.csproj", "{C37F09D7-2724-442A-B511-BE8827519B13}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{D644DD8D-7322-4705-9E0D-A56A1D61C1E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavGraph", "NavGraph.csproj", "{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,22 +13,19 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Debug|x64.Build.0 = Debug|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Release|x64.ActiveCfg = Release|Any CPU
-		{C37F09D7-2724-442A-B511-BE8827519B13}.Release|x64.Build.0 = Release|Any CPU
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Debug|x64.ActiveCfg = Debug|x64
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Debug|x64.Build.0 = Debug|x64
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Release|x64.ActiveCfg = Release|x64
+		{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C37F09D7-2724-442A-B511-BE8827519B13} = {D644DD8D-7322-4705-9E0D-A56A1D61C1E4}
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6EBEB97C-E0C7-4591-AC3E-09C72D43E80D}
+		SolutionGuid = {A83E5E71-453E-4E57-BA28-E40FBDC838CA}
 	EndGlobalSection
 EndGlobal
