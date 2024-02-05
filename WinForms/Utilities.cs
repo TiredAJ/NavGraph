@@ -13,6 +13,8 @@ public static class Extensions
     {
         if (_In.Length > 0 && _In[2] == ':')
         { return int.Parse(_In.Split(new[] { ' ', ':' })[1]); }
+        else if (_In.Contains(" - "))
+        { return int.Parse(_In.Split(" - ")[1]); }
         else
         { return int.Parse(_In.Split(new[] { ' ', ':' })[0]); }
 
@@ -90,6 +92,27 @@ public static class Extensions
             case NodeDirection.Up:
             { return "▲"; }
             case NodeDirection.Down:
+            { return "▼"; }
+            default:
+            { return "#"; }
+        }
+    }
+
+    public static string ToArrow(this string _ND)
+    {
+        switch (_ND)
+        {
+            case "North":
+            { return "↑"; }
+            case "East":
+            { return "→"; }
+            case "South":
+            { return "↓"; }
+            case "West":
+            { return "←"; }
+            case "Up":
+            { return "▲"; }
+            case "Down":
             { return "▼"; }
             default:
             { return "#"; }

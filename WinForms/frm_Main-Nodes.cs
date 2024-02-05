@@ -236,7 +236,13 @@ public partial class frm_Main : Form
         EN.BlockName = cmbx_BlockSelect.Text;
         EN.Floor = (int)nud_Node_Floor.Value;
         EN.InternalName = txt_InternalName.Text;
-        EN.GatewayFlowDirection = (cmbx_GWFlow.SelectedItem as string).ToDirection();
+
+        foreach (string S in lst_node_GW.Items)
+        {
+            var T = S.Split(" - ");
+
+            EN.GateFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
+        }
 
         CurNodeUID = NG.AddNode(EN);
 
@@ -319,8 +325,20 @@ public partial class frm_Main : Form
         CN.BlockName = cmbx_BlockSelect.Text;
         CN.Floor = (int)nud_Node_Floor.Value;
         CN.InternalName = txt_InternalName.Text.Trim();
-        CN.GatewayFlowDirection = (cmbx_GWFlow.SelectedItem as string).ToDirection();
-        CN.ElvFlowDirection = (cmbx_ElvFlow.SelectedItem as string).ToDirection();
+
+        foreach (string S in lst_node_Elevation.Items)
+        {
+            var T = S.Split(" - ");
+
+            CN.ElvFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
+        }
+
+        foreach (string S in lst_node_GW.Items)
+        {
+            var T = S.Split(" - ");
+
+            CN.GateFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
+        }
 
         CurNodeUID = NG.AddNode(CN);
 
@@ -361,7 +379,13 @@ public partial class frm_Main : Form
         GN.BlockName = cmbx_BlockSelect.Text;
         GN.Floor = (int)nud_Node_Floor.Value;
         GN.InternalName = txt_InternalName.Text.Trim();
-        GN.ElvFlowDirection = (cmbx_ElvFlow.SelectedItem as string).ToDirection();
+
+        foreach (string S in lst_node_Elevation.Items)
+        {
+            var T = S.Split(" - ");
+
+            GN.ElvFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
+        }
 
         CurNodeUID = NG.AddNode(GN);
 
@@ -668,6 +692,36 @@ public partial class frm_Main : Form
 
     private void btn_Clear_Click(object sender, EventArgs e)
     { txt_tag_Tags.Text = string.Empty; }
+
+    private void lst_node_ElvGW_DeleteKey(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Delete && sender is ListBox LST && LST.SelectedIndex >= 0)
+        {
+            LST.Items.RemoveAt(LST.SelectedIndex);
+            LST.SelectedIndex = -1;
+            LST.Refresh();
+        }
+    }
+
+    private void btn_node_ElvGWAddConn_Click(object sender, EventArgs e)
+    {
+        var BTN = sender as Button;
+
+        if (BTN.Tag.ToString() == "E")
+        {
+            //(cmbx_GWFlow.SelectedItem as string).ToDirection();
+
+            lst_node_Elevation.Items.Add
+                ($"{cmbx_node_ElvDir.SelectedItem.ToString().ToArrow()} - " +
+                $"{cmbx_node_ElevationNode.SelectedItem.ToString().SplitNodeID()}");
+        }
+        else if (BTN.Tag.ToString() == "G")
+        {
+            lst_node_GW.Items.Add
+                ($"{cmbx_node_GWDir.SelectedItem.ToString().ToArrow()} - " +
+                $"{cmbx_node_GWNode.SelectedItem.ToString().SplitNodeID()}");
+        }
+    }
 }
 
 public class TempNode

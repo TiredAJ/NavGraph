@@ -58,6 +58,12 @@ public partial class frm_Main : Form
 
         cmbx_BlockSelect.SelectedIndex = 0;
         cmbx_NodeType.SelectedIndex = 0;
+
+        cmbx_node_ElvDir.Items.AddRange(new object[]
+        { "North", "East", "South", "West",});
+
+        cmbx_node_GWDir.Items.AddRange(new object[]
+        { "North", "East", "South", "West",});
     }
 
     private void ClearBox(Control _BX)
@@ -69,7 +75,7 @@ public partial class frm_Main : Form
 
         foreach (Control C in _BX.Controls)
         {
-            if (C.Tag != null && C.Tag.ToString() == "ClearMe")
+            if (C.Tag != null && C.Tag.ToString().Contains("ClearMe"))
             {
                 if (C is TextBox TXT)
                 { TXT.Text = ""; }
@@ -266,6 +272,52 @@ public partial class frm_Main : Form
         { e.Cancel = true; }
         else if (e.TabPage == tbpg_EditNode)
         { EditLoad(); }
+    }
+
+    private void cmbx_node_ElvGWNode_MouseEnter(object sender, EventArgs e)
+    {
+        var CMBX = sender as ComboBox;
+        List<int> CurrentConnections;
+
+        CMBX.Items.Clear();
+
+        if (CMBX.Tag.ToString().Contains("E"))
+        {
+            CurrentConnections = lst_node_Elevation.Items
+                .Cast<string>()
+                .Select(X => X.SplitNodeID())
+                .ToList();
+
+            CMBX.Items.AddRange(GetAvailableElvGW<ElevationNode>
+                (CurBlock, CurFloor, CurrentConnections).Result);
+        }
+        else if (CMBX.Tag.ToString().Contains("G"))
+        {
+            CurrentConnections = lst_node_Elevation.Items
+                .Cast<string>()
+                .Select(X => X.SplitNodeID())
+                .ToList();
+            CMBX.Items.AddRange(GetAvailableElvGW<GatewayNode>
+                (CurBlock, CurFloor, CurrentConnections).Result);
+        }
+    }
+
+    private Task<string[]> GetAvailableElvGW<T>(string _CurBlock, int _CurFloor, List<int> _CurrentConn) where T : ISpecialNode
+    {
+        return Task.Run(() =>
+        {
+            return NG.GetAllNodes()
+                    .AsParallel()
+                    .Where
+                    (
+                        X => X.Value.BlockName == _CurBlock
+                        && X.Value.Floor == _CurFloor
+                    )
+                    .Where(X => X.Value is T)
+                    .OrderByDescending(X => X.Key)
+                    .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                    .ToArray();
+        });
     }
 }
 

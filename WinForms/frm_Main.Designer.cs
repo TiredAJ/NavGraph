@@ -36,6 +36,20 @@ namespace WinForms
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
+            groupBox2 = new GroupBox();
+            label54 = new Label();
+            btn_node_GWAddConn = new Button();
+            cmbx_node_GWNode = new ComboBox();
+            cmbx_node_GWDir = new ComboBox();
+            lst_node_GW = new ListBox();
+            label55 = new Label();
+            gbx_node_Elevation = new GroupBox();
+            label53 = new Label();
+            btn_node_ElevationAddConn = new Button();
+            cmbx_node_ElevationNode = new ComboBox();
+            cmbx_node_ElvDir = new ComboBox();
+            lst_node_Elevation = new ListBox();
+            label52 = new Label();
             ckbx_IsElevator = new CheckBox();
             btn_SaveBackup = new Button();
             cmbx_GWFlow = new ComboBox();
@@ -227,6 +241,8 @@ namespace WinForms
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
+            groupBox2.SuspendLayout();
+            gbx_node_Elevation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).BeginInit();
             pnl_NormalNodes.SuspendLayout();
             pnl_conn_North.SuspendLayout();
@@ -286,7 +302,7 @@ namespace WinForms
             tbctrl_MainTabs.Multiline = true;
             tbctrl_MainTabs.Name = "tbctrl_MainTabs";
             tbctrl_MainTabs.SelectedIndex = 0;
-            tbctrl_MainTabs.Size = new Size(1069, 679);
+            tbctrl_MainTabs.Size = new Size(1549, 679);
             tbctrl_MainTabs.TabIndex = 0;
             tbctrl_MainTabs.TabStop = false;
             tbctrl_MainTabs.Selecting += tbctrl_MainTabs_Selecting;
@@ -299,13 +315,15 @@ namespace WinForms
             tbpg_Nodes.Location = new Point(4, 41);
             tbpg_Nodes.Name = "tbpg_Nodes";
             tbpg_Nodes.Padding = new Padding(3);
-            tbpg_Nodes.Size = new Size(1061, 634);
+            tbpg_Nodes.Size = new Size(1541, 634);
             tbpg_Nodes.TabIndex = 0;
             tbpg_Nodes.Text = "Nodes";
             tbpg_Nodes.UseVisualStyleBackColor = true;
             // 
             // gbx_Node
             // 
+            gbx_Node.Controls.Add(groupBox2);
+            gbx_Node.Controls.Add(gbx_node_Elevation);
             gbx_Node.Controls.Add(ckbx_IsElevator);
             gbx_Node.Controls.Add(btn_SaveBackup);
             gbx_Node.Controls.Add(cmbx_GWFlow);
@@ -331,10 +349,160 @@ namespace WinForms
             gbx_Node.Location = new Point(460, 3);
             gbx_Node.Name = "gbx_Node";
             gbx_Node.Padding = new Padding(5);
-            gbx_Node.Size = new Size(598, 628);
+            gbx_Node.Size = new Size(1078, 628);
             gbx_Node.TabIndex = 0;
             gbx_Node.TabStop = false;
             gbx_Node.Text = "Node";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(label54);
+            groupBox2.Controls.Add(btn_node_GWAddConn);
+            groupBox2.Controls.Add(cmbx_node_GWNode);
+            groupBox2.Controls.Add(cmbx_node_GWDir);
+            groupBox2.Controls.Add(lst_node_GW);
+            groupBox2.Controls.Add(label55);
+            groupBox2.Location = new Point(554, 307);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(521, 271);
+            groupBox2.TabIndex = 27;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Gateway";
+            // 
+            // label54
+            // 
+            label54.AutoSize = true;
+            label54.Location = new Point(7, 117);
+            label54.Name = "label54";
+            label54.Size = new Size(73, 32);
+            label54.TabIndex = 26;
+            label54.Text = "Node";
+            // 
+            // btn_node_GWAddConn
+            // 
+            btn_node_GWAddConn.Location = new Point(7, 215);
+            btn_node_GWAddConn.Name = "btn_node_GWAddConn";
+            btn_node_GWAddConn.Size = new Size(257, 41);
+            btn_node_GWAddConn.TabIndex = 24;
+            btn_node_GWAddConn.Tag = "G";
+            btn_node_GWAddConn.Text = "Add Connection";
+            btn_node_GWAddConn.UseVisualStyleBackColor = true;
+            // 
+            // cmbx_node_GWNode
+            // 
+            cmbx_node_GWNode.FormattingEnabled = true;
+            cmbx_node_GWNode.Location = new Point(6, 152);
+            cmbx_node_GWNode.Name = "cmbx_node_GWNode";
+            cmbx_node_GWNode.Size = new Size(258, 40);
+            cmbx_node_GWNode.TabIndex = 23;
+            cmbx_node_GWNode.Tag = "CleanMe G";
+            // 
+            // cmbx_node_GWDir
+            // 
+            cmbx_node_GWDir.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbx_node_GWDir.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_node_GWDir.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbx_node_GWDir.FormattingEnabled = true;
+            cmbx_node_GWDir.Location = new Point(6, 66);
+            cmbx_node_GWDir.Name = "cmbx_node_GWDir";
+            cmbx_node_GWDir.Size = new Size(258, 40);
+            cmbx_node_GWDir.TabIndex = 22;
+            // 
+            // lst_node_GW
+            // 
+            lst_node_GW.FormattingEnabled = true;
+            lst_node_GW.ItemHeight = 32;
+            lst_node_GW.Location = new Point(270, 28);
+            lst_node_GW.Name = "lst_node_GW";
+            lst_node_GW.Size = new Size(245, 228);
+            lst_node_GW.TabIndex = 21;
+            lst_node_GW.Tag = "CleanMe G";
+            lst_node_GW.KeyUp += lst_node_ElvGW_DeleteKey;
+            // 
+            // label55
+            // 
+            label55.AutoSize = true;
+            label55.Location = new Point(7, 29);
+            label55.Name = "label55";
+            label55.Size = new Size(111, 32);
+            label55.TabIndex = 25;
+            label55.Text = "Direction";
+            // 
+            // gbx_node_Elevation
+            // 
+            gbx_node_Elevation.Controls.Add(label53);
+            gbx_node_Elevation.Controls.Add(btn_node_ElevationAddConn);
+            gbx_node_Elevation.Controls.Add(cmbx_node_ElevationNode);
+            gbx_node_Elevation.Controls.Add(cmbx_node_ElvDir);
+            gbx_node_Elevation.Controls.Add(lst_node_Elevation);
+            gbx_node_Elevation.Controls.Add(label52);
+            gbx_node_Elevation.Location = new Point(554, 23);
+            gbx_node_Elevation.Name = "gbx_node_Elevation";
+            gbx_node_Elevation.Size = new Size(521, 271);
+            gbx_node_Elevation.TabIndex = 22;
+            gbx_node_Elevation.TabStop = false;
+            gbx_node_Elevation.Text = "Elevation";
+            // 
+            // label53
+            // 
+            label53.AutoSize = true;
+            label53.Location = new Point(7, 117);
+            label53.Name = "label53";
+            label53.Size = new Size(73, 32);
+            label53.TabIndex = 26;
+            label53.Text = "Node";
+            // 
+            // btn_node_ElevationAddConn
+            // 
+            btn_node_ElevationAddConn.Location = new Point(7, 215);
+            btn_node_ElevationAddConn.Name = "btn_node_ElevationAddConn";
+            btn_node_ElevationAddConn.Size = new Size(257, 41);
+            btn_node_ElevationAddConn.TabIndex = 24;
+            btn_node_ElevationAddConn.Tag = "E";
+            btn_node_ElevationAddConn.Text = "Add Connection";
+            btn_node_ElevationAddConn.UseVisualStyleBackColor = true;
+            btn_node_ElevationAddConn.Click += btn_node_ElvGWAddConn_Click;
+            // 
+            // cmbx_node_ElevationNode
+            // 
+            cmbx_node_ElevationNode.FormattingEnabled = true;
+            cmbx_node_ElevationNode.Location = new Point(6, 152);
+            cmbx_node_ElevationNode.Name = "cmbx_node_ElevationNode";
+            cmbx_node_ElevationNode.Size = new Size(258, 40);
+            cmbx_node_ElevationNode.TabIndex = 23;
+            cmbx_node_ElevationNode.Tag = "CleanMe E";
+            cmbx_node_ElevationNode.MouseEnter += cmbx_node_ElvGWNode_MouseEnter;
+            // 
+            // cmbx_node_ElvDir
+            // 
+            cmbx_node_ElvDir.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbx_node_ElvDir.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbx_node_ElvDir.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbx_node_ElvDir.FormattingEnabled = true;
+            cmbx_node_ElvDir.Location = new Point(6, 66);
+            cmbx_node_ElvDir.Name = "cmbx_node_ElvDir";
+            cmbx_node_ElvDir.Size = new Size(258, 40);
+            cmbx_node_ElvDir.TabIndex = 22;
+            // 
+            // lst_node_Elevation
+            // 
+            lst_node_Elevation.FormattingEnabled = true;
+            lst_node_Elevation.ItemHeight = 32;
+            lst_node_Elevation.Location = new Point(270, 28);
+            lst_node_Elevation.Name = "lst_node_Elevation";
+            lst_node_Elevation.Size = new Size(245, 228);
+            lst_node_Elevation.TabIndex = 21;
+            lst_node_Elevation.Tag = "CleanMe E";
+            lst_node_Elevation.KeyUp += lst_node_ElvGW_DeleteKey;
+            // 
+            // label52
+            // 
+            label52.AutoSize = true;
+            label52.Location = new Point(7, 29);
+            label52.Name = "label52";
+            label52.Size = new Size(111, 32);
+            label52.TabIndex = 25;
+            label52.Text = "Direction";
             // 
             // ckbx_IsElevator
             // 
@@ -528,7 +696,7 @@ namespace WinForms
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(447, 1);
+            label20.Location = new Point(430, 0);
             label20.Name = "label20";
             label20.Size = new Size(119, 32);
             label20.TabIndex = 16;
@@ -1050,7 +1218,7 @@ namespace WinForms
             tbpg_EditNode.Controls.Add(pnl_edit_Main);
             tbpg_EditNode.Location = new Point(4, 41);
             tbpg_EditNode.Name = "tbpg_EditNode";
-            tbpg_EditNode.Size = new Size(1061, 634);
+            tbpg_EditNode.Size = new Size(1541, 634);
             tbpg_EditNode.TabIndex = 5;
             tbpg_EditNode.Text = "Edit Node";
             tbpg_EditNode.UseVisualStyleBackColor = true;
@@ -1066,7 +1234,7 @@ namespace WinForms
             pnl_edit_Main.Dock = DockStyle.Fill;
             pnl_edit_Main.Location = new Point(0, 0);
             pnl_edit_Main.Name = "pnl_edit_Main";
-            pnl_edit_Main.Size = new Size(1061, 634);
+            pnl_edit_Main.Size = new Size(1541, 634);
             pnl_edit_Main.TabIndex = 39;
             // 
             // pbx_Decor
@@ -1289,7 +1457,7 @@ namespace WinForms
             pnl_edit_GWNodeConnections.Controls.Add(dgv_edit_gw_Connections);
             pnl_edit_GWNodeConnections.Controls.Add(label34);
             pnl_edit_GWNodeConnections.Controls.Add(label48);
-            pnl_edit_GWNodeConnections.Location = new Point(0, 253);
+            pnl_edit_GWNodeConnections.Location = new Point(240, 253);
             pnl_edit_GWNodeConnections.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_GWNodeConnections.Name = "pnl_edit_GWNodeConnections";
             pnl_edit_GWNodeConnections.Size = new Size(1061, 385);
@@ -1476,7 +1644,7 @@ namespace WinForms
             pnl_edit_Nodes.Controls.Add(label37);
             pnl_edit_Nodes.Controls.Add(label38);
             pnl_edit_Nodes.Controls.Add(btn_edit_tags_AddNew);
-            pnl_edit_Nodes.Location = new Point(0, 253);
+            pnl_edit_Nodes.Location = new Point(240, 253);
             pnl_edit_Nodes.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_Nodes.Name = "pnl_edit_Nodes";
             pnl_edit_Nodes.Size = new Size(1061, 385);
@@ -1854,7 +2022,7 @@ namespace WinForms
             tbpg_Blocks.Location = new Point(4, 41);
             tbpg_Blocks.Name = "tbpg_Blocks";
             tbpg_Blocks.Padding = new Padding(3);
-            tbpg_Blocks.Size = new Size(1061, 634);
+            tbpg_Blocks.Size = new Size(1541, 634);
             tbpg_Blocks.TabIndex = 1;
             tbpg_Blocks.Text = "Blocks";
             tbpg_Blocks.UseVisualStyleBackColor = true;
@@ -1867,7 +2035,7 @@ namespace WinForms
             pnl_Right_Blocks.Location = new Point(292, 3);
             pnl_Right_Blocks.Name = "pnl_Right_Blocks";
             pnl_Right_Blocks.Padding = new Padding(5);
-            pnl_Right_Blocks.Size = new Size(766, 628);
+            pnl_Right_Blocks.Size = new Size(1246, 628);
             pnl_Right_Blocks.TabIndex = 5;
             // 
             // gbx_EditBlock
@@ -1883,7 +2051,7 @@ namespace WinForms
             gbx_EditBlock.Dock = DockStyle.Fill;
             gbx_EditBlock.Location = new Point(5, 268);
             gbx_EditBlock.Name = "gbx_EditBlock";
-            gbx_EditBlock.Size = new Size(756, 355);
+            gbx_EditBlock.Size = new Size(1236, 355);
             gbx_EditBlock.TabIndex = 3;
             gbx_EditBlock.TabStop = false;
             gbx_EditBlock.Text = "Edit Block";
@@ -1971,7 +2139,7 @@ namespace WinForms
             gbx_NewBlock.Dock = DockStyle.Top;
             gbx_NewBlock.Location = new Point(5, 5);
             gbx_NewBlock.Name = "gbx_NewBlock";
-            gbx_NewBlock.Size = new Size(756, 263);
+            gbx_NewBlock.Size = new Size(1236, 263);
             gbx_NewBlock.TabIndex = 2;
             gbx_NewBlock.TabStop = false;
             gbx_NewBlock.Text = "New Block";
@@ -2055,7 +2223,7 @@ namespace WinForms
             tbpg_Export.Location = new Point(4, 41);
             tbpg_Export.Name = "tbpg_Export";
             tbpg_Export.Padding = new Padding(6, 5, 6, 5);
-            tbpg_Export.Size = new Size(1061, 634);
+            tbpg_Export.Size = new Size(1541, 634);
             tbpg_Export.TabIndex = 2;
             tbpg_Export.Text = "Export/Import";
             tbpg_Export.UseVisualStyleBackColor = true;
@@ -2069,7 +2237,7 @@ namespace WinForms
             panel2.Location = new Point(6, 480);
             panel2.Margin = new Padding(9);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1049, 149);
+            panel2.Size = new Size(1529, 149);
             panel2.TabIndex = 12;
             // 
             // btn_Import
@@ -2079,7 +2247,7 @@ namespace WinForms
             btn_Import.Location = new Point(0, 64);
             btn_Import.Margin = new Padding(0, 3, 0, 3);
             btn_Import.Name = "btn_Import";
-            btn_Import.Size = new Size(1047, 83);
+            btn_Import.Size = new Size(1527, 83);
             btn_Import.TabIndex = 9;
             btn_Import.Text = "Import";
             btn_Import.UseVisualStyleBackColor = true;
@@ -2095,7 +2263,7 @@ namespace WinForms
             panel1.Location = new Point(6, 5);
             panel1.Margin = new Padding(9);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1049, 293);
+            panel1.Size = new Size(1529, 293);
             panel1.TabIndex = 11;
             // 
             // panel3
@@ -2107,7 +2275,7 @@ namespace WinForms
             panel3.Location = new Point(0, 0);
             panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1047, 189);
+            panel3.Size = new Size(1527, 189);
             panel3.TabIndex = 10;
             // 
             // rbtn_Export_FARapp
@@ -2159,7 +2327,7 @@ namespace WinForms
             btn_Export.Location = new Point(0, 208);
             btn_Export.Margin = new Padding(0, 3, 0, 3);
             btn_Export.Name = "btn_Export";
-            btn_Export.Size = new Size(1047, 83);
+            btn_Export.Size = new Size(1527, 83);
             btn_Export.TabIndex = 9;
             btn_Export.Text = "Export";
             btn_Export.UseVisualStyleBackColor = true;
@@ -2174,7 +2342,7 @@ namespace WinForms
             tbpg_Settings.Controls.Add(lbl_NameTemplate);
             tbpg_Settings.Location = new Point(4, 41);
             tbpg_Settings.Name = "tbpg_Settings";
-            tbpg_Settings.Size = new Size(1061, 634);
+            tbpg_Settings.Size = new Size(1541, 634);
             tbpg_Settings.TabIndex = 4;
             tbpg_Settings.Text = "Settings";
             tbpg_Settings.UseVisualStyleBackColor = true;
@@ -2390,7 +2558,7 @@ namespace WinForms
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1069, 679);
+            ClientSize = new Size(1549, 679);
             Controls.Add(tbctrl_MainTabs);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -2403,6 +2571,10 @@ namespace WinForms
             tbpg_Nodes.ResumeLayout(false);
             gbx_Node.ResumeLayout(false);
             gbx_Node.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            gbx_node_Elevation.ResumeLayout(false);
+            gbx_node_Elevation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nud_Node_Floor).EndInit();
             pnl_NormalNodes.ResumeLayout(false);
             pnl_NormalNodes.PerformLayout();
@@ -2671,5 +2843,19 @@ namespace WinForms
         private Button btn_edit_gw_AddConn;
         private DataGridViewTextBoxColumn dataGridViewCheckBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewComboBoxColumn1;
+        private ListBox lst_node_Elevation;
+        private GroupBox gbx_node_Elevation;
+        private ComboBox cmbx_node_ElevationNode;
+        private ComboBox cmbx_node_ElvDir;
+        private Button btn_node_ElevationAddConn;
+        private Label label52;
+        private Label label53;
+        private GroupBox groupBox2;
+        private Label label54;
+        private Button btn_node_GWAddConn;
+        private ComboBox cmbx_node_GWNode;
+        private ComboBox cmbx_node_GWDir;
+        private ListBox lst_node_GW;
+        private Label label55;
     }
 }
