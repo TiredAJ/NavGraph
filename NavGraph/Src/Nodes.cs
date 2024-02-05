@@ -159,6 +159,18 @@ public interface IElevationFlow
     [JsonInclude]
     public NodeDirection? ElvFlowDirection { get; set; }
 }
+
+public interface IGateFlow
+{
+    [JsonInclude]
+    public List<(NodeDirection Flow, List<string> Blocks)?> GateFlow { get; set; }
+}
+
+public interface IElvFlow
+{
+    [JsonInclude]
+    public List<(NodeDirection Flow, int MinFloor, int MaxFloor)?> ElvFlow { get; set; }
+}
 #endregion
 
 
