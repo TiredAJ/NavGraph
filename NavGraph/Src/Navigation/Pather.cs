@@ -1,12 +1,33 @@
-﻿using System.Diagnostics;
+﻿using NavGraphTools.Utilities;
+using System.Diagnostics;
 
 namespace NavGraphTools.Navigation;
 
 public class Pather
 {
     #region Variables
-    private NavNode? Origin { get; set; } = null;
-    private NavNode? Destination { get; set; } = null;
+    private NavNode? _Origin = null, _Destination = null;
+
+    private NavNode? Origin
+    {
+        get => _Origin;
+        set
+        {
+            _Origin = value;
+
+            Initialised = IsInitialised();
+        }
+    }
+    private NavNode? Destination
+    {
+        get => _Destination;
+        set
+        {
+            _Destination = value;
+
+            Initialised = IsInitialised();
+        }
+    }
     private NavNode? CurrentLocation = null;
     private ReadonlyNavGraph NG;
     private bool Initialised = false;
@@ -20,10 +41,32 @@ public class Pather
     public Pather
         (ref ReadonlyNavGraph _NG, NavNode _D, NavNode _O)
     {
-        NG = NG;
+        NG = _NG;
         Destination = _D;
         Origin = _O;
+
+        Initialised = true;
     }
+
+    public Pather
+        (ref ReadonlyNavGraph _NG, int _D, int _O)
+    {
+        NG = _NG;
+
+        if (!NG.TryGetNode(_D, out _Destination))
+        { throw new NullReferenceException("Node was null!"); }
+
+        if (!NG.TryGetNode(_O, out _Origin))
+        { throw new NullReferenceException("Node was null!"); }
+
+        Destination = NG.TryGetNode(_D);
+        Origin = NG.TryGetNode(_O);
+
+        Initialised = true;
+    }
+
+    public Pather(ref ReadonlyNavGraph _NG)
+    { NG = _NG; }
 
     public NavigatorErrors Start()
     {
@@ -36,8 +79,14 @@ public class Pather
         { NavigateToGateway(Origin); }
         else if (Origin.Floor != Destination.Floor)
         { NavigateToElevation(Origin); }
+        else
+        {
 
-        throw new NotImplementedException();
+        }
+
+        return NavigatorErrors.None;
+
+        //throw new NotImplementedException();
     }
 
     private bool NavigateToGateway(NavNode _SubOrigin)
@@ -54,10 +103,33 @@ public class Pather
     {
         if (_SubOrigin is IElevationFlow IEF && IEF.ElvFlowDirection == null)
         { /*check neighbours*/ }
-        else if (_SubOrigin is IElevationFlow)
-        { SlideUntil(X => X is GatewayNode, _SubOrigin, false, 10000); }
+        else if (_SubOrigin is RoomNode)
+        {
+            var SB_Conn = _SubOrigin
+                .GetConnectedNodes();
 
-        throw new NotImplementedException();
+            int SB_UID = SB_Conn.First().Value;
+
+            if (!NG.TryGetNode((int)SB_UID, out _SubOrigin)
+                && _SubOrigin == null && _SubOrigin is not CorridorNode)
+            { throw new NullReferenceException("Node was null?"); }
+
+            SlideUntil(X => X is ElevationNode, _SubOrigin, true, 10000);
+        }
+        else if (_SubOrigin is IElevationFlow)
+        { SlideUntil(X => X is ElevationNode, _SubOrigin, true, 10000); }
+
+        return true;
+
+        //throw new NotImplementedException();
+    }
+
+    public bool IsInitialised()
+    {
+        if (_Origin != null && _Destination != null)
+        { return true; }
+        else
+        { return false; }
     }
 
     /// <summary>
@@ -68,7 +140,7 @@ public class Pather
     /// <param name="_ElvFlow">Whether to follow Elevation flow (true) or Gateway flow (false)</param>
     /// <param name="_MillisecondTimeout">NOT IMPLEMENTED - how long until it just gives up</param>
     /// <returns></returns>
-    private List<int> SlideUntil
+    public List<int> SlideUntil
         (Predicate<NavNode> Predicate, NavNode _SubOrigin,
         bool _ElvFlow, long _MillisecondTimeout)
     {
@@ -78,12 +150,16 @@ public class Pather
         int PosUID = 0;
         bool Reached = false;
 
-        while (SW.ElapsedMilliseconds < _MillisecondTimeout && !Reached)
+        while (/*SW.ElapsedMilliseconds < _MillisecondTimeout &&*/ !Reached)
         {
             if (_ElvFlow && Position is IElevationFlow IEF && IEF.ElvFlowDirection != null)
             { PosUID = Position.GetNode((NodeDirection)IEF.ElvFlowDirection); }
             else if (!_ElvFlow && Position is IGatewayFlow IGF && IGF.GatewayFlowDirection != null)
             { PosUID = Position.GetNode((NodeDirection)IGF.GatewayFlowDirection); }
+
+#if DEBUG
+            Console.WriteLine($"{Position.InternalName} {(Position as IElevationFlow).ElvFlowDirection.ToArrow()}");
+#endif
 
             if (Predicate(NG.TryGetNode(PosUID)))
             {

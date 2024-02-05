@@ -1,6 +1,6 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
-using NavGraphTools.Src.Utilities;
+using NavGraphTools.Utilities;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

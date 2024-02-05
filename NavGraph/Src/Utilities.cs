@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace NavGraphTools.Src.Utilities;
+namespace NavGraphTools.Utilities;
 
 public static class Extensions
 {
@@ -30,6 +30,27 @@ public static class Extensions
         _S = _S.Trim();
 
         return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(_S.ToLower());
+    }
+
+    public static string ToArrow(this NodeDirection? _ND)
+    {
+        switch (_ND)
+        {
+            case NodeDirection.North:
+            { return "↑"; }
+            case NodeDirection.East:
+            { return "→"; }
+            case NodeDirection.South:
+            { return "↓"; }
+            case NodeDirection.West:
+            { return "←"; }
+            case NodeDirection.Up:
+            { return "▲"; }
+            case NodeDirection.Down:
+            { return "▼"; }
+            default:
+            { return "#"; }
+        }
     }
 }
 
