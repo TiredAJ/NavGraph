@@ -9,7 +9,6 @@ namespace NavGraphTools;
 #region Abstract & Interface
 #region JSON attributes
 [JsonSerializable(typeof(NavNode))]
-//[JsonDerivedType(typeof(NavNode), typeDiscriminator: "base")]
 [JsonDerivedType(typeof(RoomNode), typeDiscriminator: "RN")]
 [JsonDerivedType(typeof(ElevationNode), typeDiscriminator: "EN")]
 [JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "CN")]
