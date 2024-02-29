@@ -163,14 +163,22 @@ public interface IGateFlow
 {
     [JsonInclude]
     public Dictionary<int, NodeDirection> GateFlow { get; set; }
-    //public List<(NodeDirection Flow, int UID)?> GateFlow { get; set; }
+    //public Dictionary<NodeDirection, (int, int)> GateFlow { get; set; }
 }
 
 public interface IElvFlow
 {
     [JsonInclude]
     public Dictionary<int, NodeDirection> ElvFlow { get; set; }
-    //public List<(NodeDirection Flow, int UID)?> ElvFlow { get; set; }
+    //public Dictionary<NodeDirection, (int, int)> GateFlow { get; set; }
+}
+
+public interface ISpecialFlow
+{
+    [JsonInclude]
+    public Dictionary<NodeDirection, (int, int)>?[2] Flow { get; set; }
+    //first element is the dict for EN, 2nd is for GW
+    //Check if one is null, if so, no flow for that ISN
 }
 #endregion
 
