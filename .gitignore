@@ -397,4 +397,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-NavGraph/workload-install.ps1
+*/workload-install.ps1
