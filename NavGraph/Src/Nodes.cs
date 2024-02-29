@@ -147,36 +147,10 @@ public abstract class NavNode
 public interface ISpecialNode
 { }
 
-public interface IGatewayFlow
-{
-    [JsonInclude]
-    public NodeDirection? GatewayFlowDirection { get; set; }
-}
-
-public interface IElevationFlow
-{
-    [JsonInclude]
-    public NodeDirection? ElvFlowDirection { get; set; }
-}
-
-public interface IGateFlow
-{
-    [JsonInclude]
-    public Dictionary<int, NodeDirection> GateFlow { get; set; }
-    //public Dictionary<NodeDirection, (int, int)> GateFlow { get; set; }
-}
-
-public interface IElvFlow
-{
-    [JsonInclude]
-    public Dictionary<int, NodeDirection> ElvFlow { get; set; }
-    //public Dictionary<NodeDirection, (int, int)> GateFlow { get; set; }
-}
-
 public interface ISpecialFlow
 {
-    [JsonInclude]
-    public Dictionary<NodeDirection, (int, int)>?[2] Flow { get; set; }
+    [JsonIgnore]
+    public Dictionary<NodeDirection, (int, int)>?[] Flow { get; set; }
     //first element is the dict for EN, 2nd is for GW
     //Check if one is null, if so, no flow for that ISN
 }
@@ -185,30 +159,26 @@ public interface ISpecialFlow
 
 #region Derived nodes
 [JsonSerializable(typeof(CorridorNode))]
-public class CorridorNode : NavNode, /*IGatewayFlow, IElevationFlow,*/ IGateFlow, IElvFlow
+public class CorridorNode : NavNode, ISpecialFlow
 {
     public CorridorNode() : base()
     {
-        GateFlow = new();
-        ElvFlow = new();
-
-        GateFlow.Add(111111, NodeDirection.North);
-        ElvFlow.Add(111111, NodeDirection.North);
+        Flow =
+        [
+            new Dictionary<NodeDirection, (int, int)>(),
+            new Dictionary<NodeDirection, (int, int)>()
+        ];
     }
 
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
-
-    //[JsonInclude]
-    //public NodeDirection? ElvFlowDirection { get; set; }
-    //[JsonInclude]
-    //public NodeDirection? GatewayFlowDirection { get; set; }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     [JsonInclude]
-    public Dictionary<int, NodeDirection> GateFlow { get; set; }
-    [JsonInclude]
-    public Dictionary<int, NodeDirection> ElvFlow { get; set; }
+    public Dictionary<NodeDirection, (int, int)>?[] Flow { get; set; }
 }
 
 
@@ -245,19 +215,13 @@ public class RoomNode : NavNode
 
 
 [JsonSerializable(typeof(ElevationNode))]
-public class ElevationNode : NavNode, ISpecialNode, /*IGatewayFlow,*/ IGateFlow
+public class ElevationNode : NavNode, ISpecialNode
 {
     #region Member Variables
     public override string InternalName { get; set; } = "Default Elevation";
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
-
-    //[JsonInclude]
-    //public NodeDirection? GatewayFlowDirection { get; set; }
-
-    [JsonInclude]
-    public Dictionary<int, NodeDirection> GateFlow { get; set; }
 
     [JsonInclude]
     public bool IsElevator { get; set; }
@@ -316,7 +280,7 @@ public class ElevationNode : NavNode, ISpecialNode, /*IGatewayFlow,*/ IGateFlow
 
 
 [JsonSerializable(typeof(GatewayNode))]
-public class GatewayNode : NavNode, ISpecialNode, /*IElevationFlow,*/ IElvFlow
+public class GatewayNode : NavNode, ISpecialNode
 {
     #region Member Variables
     [JsonInclude]
@@ -344,11 +308,6 @@ public class GatewayNode : NavNode, ISpecialNode, /*IElevationFlow,*/ IElvFlow
     public Dictionary<int, string> Connections = new Dictionary<int, string>();
     //                      ^Block name
     //                 ^gateway UID
-
-    //[JsonInclude]
-    //public NodeDirection? ElvFlowDirection { get; set; }
-    [JsonInclude]
-    public Dictionary<int, NodeDirection> ElvFlow { get; set; }
     #endregion
 
     #region Overrides
