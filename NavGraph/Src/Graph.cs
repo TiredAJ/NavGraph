@@ -6,7 +6,7 @@ namespace NavGraphTools;
 
 public abstract class Graph<T>
 {
-    //InternalNode so *Navigator* has access to it but nothing outside this assembly does        
+    //InternalNode so *Navigator* has access to it but nothing outside this assembly does
     [JsonInclude]
     internal Dictionary<int, T> Nodes = new Dictionary<int, T>();
 

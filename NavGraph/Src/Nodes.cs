@@ -225,6 +225,9 @@ public class ElevationNode : NavNode, ISpecialNode
 
     [JsonInclude]
     public bool IsElevator { get; set; }
+
+    [JsonInclude]
+    public int ENGroupID = 0;
     #endregion
 
     #region Connections

@@ -1,6 +1,7 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
 using NavGraphTools.Utilities;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -28,6 +29,10 @@ public class NavGraph : Graph<NavNode>
     public Dictionary<string, int> Tags = new();
     //                         ^ how many nodes use this tag
     //                  ^Tag
+
+    [JsonInclude]
+    public Dictionary<int, (string Block, int MaxFloor, int MinFloor)> ENGroups =
+        new Dictionary<int, (string Block, int MaxFloor, int MinFloor)>();
 
     //The next assignable UID
     [JsonInclude]
@@ -82,6 +87,13 @@ public class NavGraph : Graph<NavNode>
     /// <returns>UID if succesful, 0 if it fails</returns>
     public int AddNode(NavNode _NewNode)
     {
+        //checks if the ENGroupID of EN exists
+        if (_NewNode is ElevationNode EN && !ENGroups.Keys.Contains(EN.ENGroupID))
+        {
+            Debug.WriteLine("EN Group ID doesn't exist in ENGroups");
+            return 0;
+        }
+
         //auto increments
         int TempUID = AvailableUID;
 
