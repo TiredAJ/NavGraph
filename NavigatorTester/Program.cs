@@ -8,7 +8,7 @@ class Program
     private static string MapPath =
         "E:\\GitHub\\_Individual Project\\Notes\\AdminPanel\\Maps\\Johnstone2.ajson";
     private static ReadonlyNavGraph NG;
-    private static Pather P;
+    //private static Pather P;
 
     static void Main(string[] args)
     {
@@ -22,9 +22,7 @@ class Program
 
         Console.WriteLine(NG.CountNodes());
 
-        P = new Pather(ref NG, 49844, 49890);
-
-        P.Start();
+        
 
         //NavNode N = NG.TryGetNode(49890);
         //

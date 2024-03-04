@@ -1,6 +1,98 @@
-void Main()
+//
+// As
+//
+
+//Origin = lowest index, Destination highest
+List<int> Path;
+
+//Keeps a unique list of visited nodes
+HashSet<int> VisitedNodes;
+
+Node Destination, Origin, CurrentNode;
+
+void Main(int DestinationUID, int OriginUID)
+{
+    //gets the nodes for the destination and the user's starting position
+    Destination = Map.GetNode(DestinationUID);
+    Origin = Map.GetNode(OriginUID);
+
+    //checks if the two nodes are in the same block
+    if (Destination.BlockName != Origin.BlockName)
+    {
+        //Starts the path with the flow path from origin to the GW 
+        //in the Destination's block
+        Path.AddRange(FlowToGW(Origin));
+
+        //assigns the current node to the last in the path, which 
+        //should be the GW in Destination's Block
+        CurrentNode = Map.GetNode(Path.Last());
+    }
+    else //assigns CurrentNode to Origin if they are in the same block
+    { CurrentNode = Origin; }
+
+    //Checks if CurrentNode and Destination are on the same floor
+    if (CurrentNode.Floor != Destination.Floor)
+    {
+        //if not, it works out a suitable EN between Destination and CurrentNode
+        //and flows to it.
+        Path.AddRange(FlowToEN(CurrentNode.UID, NegotiateEN(DestinationUID, CurrentNode.UID)));
+
+        //CurrentNode is set to the last node in the path, which should be the EN
+        //on Destination's floor.
+        CurrentNode = Map.GetNode(Path.Last());
+    }
+    else
+    {
+
+    }
+}
+
+List<int> FlowToGW(int CurrentPosUID, int GWUID)
+{
+    //CurrentNode for this scope
+    Node LocalCurrentNode = null;
+
+    //Gets the nodes connected to the current node and checks if any have any flow directions
+    foreach (Node N in Map.GetNode(CurrentPosUID).GetConnectedNodes())
+    {
+        if (N is ISpecialNode && N.Flow[1] != null)
+        {
+            LocalCurrentNode = N;
+            break;
+        }
+    }
+
+    if (LocalCurrentNode == null)
+    { throw new exception("Flow OriginNode doesn't have any flow connections"); }
+    else
+    {
+        while (LocalCurrentNode is not GatewayNode) do
+        {
+            LocalCurrentNode = LocalCurrentNode.GetConnection(LocalCurrentNode.Flow[1][GWUID])
+        }
+    }
+
+
+}
+
+List<int> FlowToEN(int CurrentPosUID, int ChosenENUID)
 {
 
 }
 
-void 
+//For negotiating an EN to flow to for initial path reduction
+int NegotiateEN(int DestinationUID, int OriginUID)
+{
+
+}
+
+//for negotiating a GW to flow to for initial path reduction
+int NegotiateGW(int DestinationUID, int OriginUID)
+{
+
+}
+
+int NegotiateWaypoint(int DestinationUID, int OriginUID)
+{
+
+}
