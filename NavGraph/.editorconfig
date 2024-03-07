@@ -234,6 +234,9 @@ dotnet_naming_style.uppercase.required_suffix =
 dotnet_naming_style.uppercase.word_separator = 
 dotnet_naming_style.uppercase.capitalization = all_upper
 
+# SYSLIB1224: Types annotated with JsonSerializableAttribute must be classes deriving from JsonSerializerContext.
+dotnet_diagnostic.SYSLIB1224.severity = silent
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4

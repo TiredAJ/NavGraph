@@ -1,5 +1,6 @@
 //
-// As
+// ISpecialFlow is the interface that implements flow directions, ISpecialNode is the 
+// interface that identifies Gateway and Elevation nodes.
 //
 
 //Origin = lowest index, Destination highest
@@ -55,7 +56,7 @@ List<int> FlowToGW(int CurrentPosUID, int GWUID)
     //Gets the nodes connected to the current node and checks if any have any flow directions
     foreach (Node N in Map.GetNode(CurrentPosUID).GetConnectedNodes())
     {
-        if (N is ISpecialNode && N.Flow[1] != null)
+        if (N is ISpecialFlow && N.Flow[1] != null)
         {
             LocalCurrentNode = N;
             break;
@@ -92,7 +93,27 @@ int NegotiateGW(int DestinationUID, int OriginUID)
 
 }
 
+//for negotiating a waypoint for Dest and origin threads to navigate to
 int NegotiateWaypoint(int DestinationUID, int OriginUID)
 {
+    Node DestNode, OrgNode;
+    List<(int UID, int Distance)>[] Waypoints = new List<int>[2];
+    List<int> WaypointDifferences = new List<int>();
 
+    DestNode = Map.GetNode(DestinationUID);
+    OrgNode = Map.GetNode(OriginUID);
+
+    if (DestNode is not ISpecialFlow)
+    { DestNode = Map.GetNode(DestNode.GetConnectedNodes().First(ISpecialFlow)) }
+
+    if (OrgNode is not ISpecialFlow)
+    { OrgNode = Map.GetNode(OrgNode.GetConnectedNodes().First(ISpecialFlow)) }
+
+    Waypoints[1] = DestNode.Flow.Values;
+    Waypoints[2] = OrgNode.Flow.Values;
+
+    for (int i ==0; i < Waypoints[0].count(); i++)
+    { WaypointDifferences.Add(Maths.Abs(Waypoints[0][1].Distance - Waypoints[1][1].Distance)); }
+
+    
 }

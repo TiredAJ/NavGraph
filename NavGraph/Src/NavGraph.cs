@@ -22,7 +22,7 @@ public class NavGraph : Graph<NavNode>
 
     [JsonInclude]
     public Dictionary<string, (int Max, int Min)> Blocks = new Dictionary<string, (int Max, int Min)>();
-    //                         ^No floors
+    //                              ^No floors
     //                  ^Block name
 
     [JsonIgnore]
@@ -32,7 +32,7 @@ public class NavGraph : Graph<NavNode>
 
     [JsonInclude]
     public Dictionary<int, (string Block, int MaxFloor, int MinFloor)> ENGroups =
-        new Dictionary<int, (string Block, int MaxFloor, int MinFloor)>();
+        new Dictionary<int, (string, int, int)>();
 
     //The next assignable UID
     [JsonInclude]
@@ -55,15 +55,15 @@ public class NavGraph : Graph<NavNode>
     /// <summary>
     /// Default Constructor
     /// </summary>
-    /// <param name="GenerateNewGraph">[true] if you're creating a new graph, [false] if you're going to read in data</param>
+    /// <param name="GenerateNewGraph"><see langword="true"/> if you're creating a new graph, <see langword="false"/> if you're going to read in data</param>
     public NavGraph(bool GenerateNewGraph) : base(GenerateNewGraph)
     {
         if (GenerateNewGraph)
         {
             Random RND = new Random(((int)DateTime.Now.Ticks));
 
-            //generates a base UID from MINIMUM_UID to 65536
-            BaseUID = RND.Next(MINIMUM_UID, 65536);
+            //generates a base UID from MINIMUM_UID to 6553
+            BaseUID = RND.Next(MINIMUM_UID, 6553);
 
             _AvailableUID = BaseUID++;
         }

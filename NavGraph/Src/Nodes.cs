@@ -1,11 +1,18 @@
 ﻿// Ignore Spelling: Nav UID Elv
 
 using NavGraphTools.Utilities;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace NavGraphTools;
 
+/// <summary>
+/// Base NavNode object
+/// </summary>
 #region Abstract & Interface
 #region JSON attributes
 [JsonSerializable(typeof(NavNode))]
@@ -144,15 +151,73 @@ public abstract class NavNode
     #endregion
 }
 
+/// <summary>
+/// Marks ElevationNodes and GatewayNodes
+/// </summary>
 public interface ISpecialNode
 { }
 
+/// <summary>
+/// Interface for Flow directions & navigation implementation
+/// </summary>
 public interface ISpecialFlow
 {
     [JsonIgnore]
-    public Dictionary<NodeDirection, (int, int)>?[] Flow { get; set; }
+    public Dictionary<NodeDirection, (int UID, int Distance)>?[] Flow { get; set; }
     //first element is the dict for EN, 2nd is for GW
     //Check if one is null, if so, no flow for that ISN
+
+    /// <summary>
+    /// Gets all the flow directions to <see langword="ElevationNode"/>s
+    /// </summary>
+    /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="ElevationNode"/>s
+    /// and their distance from this Node</returns>
+    public Dictionary<NodeDirection, (int UID, int Distance)>? GetElevationNodes()
+    => Flow[0];
+
+    /// <summary>
+    /// Gets all the flow directions to <see langword="GatewayNode"/>s
+    /// </summary>
+    /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="GatewayNode"/>s
+    /// and their distance from this Node</returns>
+    public Dictionary<NodeDirection, (int UID, int Distance)>? GetGatewayNodes()
+    => Flow[1];
+
+    /// <summary>
+    /// Gets the direction to the inputted _UID
+    /// </summary>
+    /// <param name="_UID">_UID of <see langword="ElevationNode"/></param>
+    /// <returns>A <see langword="NodeDirection"/> towards the requested node</returns>
+    public NodeDirection? GetENDirection(int _UID)
+    {
+        if (Flow[0] != null)
+        {
+            return Flow[0]
+                        .Where(X => X.Value.UID == _UID)
+                        .Select(X => X.Key)
+                        .First();
+        }
+        else
+        { return null; }
+    }
+
+    /// <summary>
+    /// Gets the direction to the inputted _UID
+    /// </summary>
+    /// <param name="_UID">_UID of <see langword="GatewayNode"/></param>
+    /// <returns>A <see langword="NodeDirection"/> towards the requested node</returns>
+    public NodeDirection? GetGWDirection(int _UID)
+    {
+        if (Flow[1] != null)
+        {
+            return Flow[1]
+                        .Where(X => X.Value.UID == _UID)
+                        .Select(X => X.Key)
+                        .First();
+        }
+        else
+        { return null; }
+    }
 }
 #endregion
 
