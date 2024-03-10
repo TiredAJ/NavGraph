@@ -58,12 +58,6 @@ public partial class frm_Main : Form
 
         cmbx_BlockSelect.SelectedIndex = 0;
         cmbx_NodeType.SelectedIndex = 0;
-
-        cmbx_node_ElvDir.Items.AddRange(new object[]
-        { "North", "East", "South", "West",});
-
-        cmbx_node_GWDir.Items.AddRange(new object[]
-        { "North", "East", "South", "West",});
     }
 
     private void ClearBox(Control _BX)
@@ -274,34 +268,6 @@ public partial class frm_Main : Form
         { EditLoad(); }
     }
 
-    private void cmbx_node_ElvGWNode_MouseEnter(object sender, EventArgs e)
-    {
-        var CMBX = sender as ComboBox;
-        List<int> CurrentConnections;
-
-        CMBX.Items.Clear();
-
-        if (CMBX.Tag.ToString().Contains("E"))
-        {
-            CurrentConnections = lst_node_Elevation.Items
-                .Cast<string>()
-                .Select(X => X.SplitNodeID())
-                .ToList();
-
-            CMBX.Items.AddRange(GetAvailableElvGW<ElevationNode>
-                (CurBlock, CurFloor, CurrentConnections).Result);
-        }
-        else if (CMBX.Tag.ToString().Contains("G"))
-        {
-            CurrentConnections = lst_node_Elevation.Items
-                .Cast<string>()
-                .Select(X => X.SplitNodeID())
-                .ToList();
-            CMBX.Items.AddRange(GetAvailableElvGW<GatewayNode>
-                (CurBlock, CurFloor, CurrentConnections).Result);
-        }
-    }
-
     private Task<string[]> GetAvailableElvGW<T>(string _CurBlock, int _CurFloor, List<int> _CurrentConn) where T : ISpecialNode
     {
         return Task.Run(() =>
@@ -318,6 +284,32 @@ public partial class frm_Main : Form
                     .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
                     .ToArray();
         });
+    }
+
+    private void btn_Nodes_GenDirection_Click(object sender, EventArgs e)
+    {
+        tbctrl_MainTabs.Enabled = false;
+
+        Flow_er F = new Flow_er(ref NG);
+
+        F.Progress += ((object _S, ProgressEvent e) => Task.Run(() =>
+        {
+            pbr_Nodes_FlowGenProgress.Invoke(() =>
+            {
+                if (e.InitEvent)
+                {
+                    pbr_Nodes_FlowGenProgress.Maximum = e.Max;
+                    pbr_Nodes_FlowGenProgress.Minimum = e.Min;
+                }
+
+                pbr_Nodes_FlowGenProgress.Value = e.Current;
+                pbr_Nodes_FlowGenProgress.Refresh();
+            });
+        }));
+
+        F.GenerateFlows();
+
+        tbctrl_MainTabs.Enabled = true;
     }
 }
 

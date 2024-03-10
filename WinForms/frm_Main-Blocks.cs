@@ -74,17 +74,33 @@ public partial class frm_Main : Form
                 {
                     StringBuilder SB_Name = new($"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"");
 
-                    if (N.Value is IElevationFlow || N.Value is IGatewayFlow)
+                    if (N.Value is ISpecialFlow NISF)
                     {
-                        SB_Name.Append(" [");
+                        if (NISF.Flow[0] is not null)
+                        {
+                            foreach (var Flow in NISF.Flow[0])
+                            {
+                                SB_Name.Append($"{{{Flow.Key}: ");
 
-                        if (N.Value is IElevationFlow NE)
-                        { SB_Name.Append($"E:{NE.ElvFlowDirection.ToArrow()}"); }
+                                foreach (var FNode in Flow.Value)
+                                { SB_Name.Append($"[{FNode.UID}, {FNode.Distance}N],"); }
 
-                        if (N.Value is IGatewayFlow NG)
-                        { SB_Name.Append($"G:{NG.GatewayFlowDirection.ToArrow()}"); }
+                                SB_Name.Append($"}}");
+                            }
+                        }
 
-                        SB_Name.Append("]");
+                        if (NISF.Flow[1] is not null)
+                        {
+                            foreach (var Flow in NISF.Flow[1])
+                            {
+                                SB_Name.Append($"{{{Flow.Key}: ");
+
+                                foreach (var FNode in Flow.Value)
+                                { SB_Name.Append($"[{FNode.UID}, {FNode.Distance}N],"); }
+
+                                SB_Name.Append($"}}");
+                            }
+                        }
                     }
 
                     TN_Node = TN_Floor.Nodes
