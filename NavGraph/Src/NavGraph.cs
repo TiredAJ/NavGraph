@@ -54,6 +54,10 @@ public class NavGraph : Graph<NavNode>
     private int NextENGroupID
     { get => _NextENGroupID++; }
 
+    [JsonIgnore]
+    public int NodeCount
+    { get => Nodes.Count; }
+
     #endregion
 
     /// <summary>

@@ -38,7 +38,7 @@ class Flow_er
             .Select(X => X.UID)
             .ToList();
 
-        Progress?.Invoke(this, new ProgressEvent(SpecialNodes.Count, 0, 0));
+        Progress?.Invoke(this, new ProgressEvent(NG.NodeCount, 0, 0));
 
         Task.Run(() =>
         {
@@ -71,7 +71,7 @@ class Flow_er
             { Done = true; break; }
             else if (ConnNodes.Count() >= 1)
             {
-                if (ConnNodes.First().Value.IsValidUID())
+                if (!ConnNodes.First().Value.IsValidUID())
                 { break; }
 
                 CurNode = NG[ConnNodes.First().Value];
@@ -93,7 +93,7 @@ class Flow_er
                     //If there's only 1 connection, what do?
                     //EN-Main connects to CN-01, what do now?
 
-                    //CurNode = 
+                    //CurNode = NG[ConnNodes.First().Value];
                 }
                 else
                 {
@@ -103,7 +103,7 @@ class Flow_er
             }
             else if (NodesToReturnTo.Count > 1)
             {
-                if (NodesToReturnTo.Peek().UID.IsValidUID())
+                if (!NodesToReturnTo.Peek().UID.IsValidUID())
                 { break; }
 
                 (NodeDirection Dir, int UID, int Distance) T = NodesToReturnTo.Dequeue();
