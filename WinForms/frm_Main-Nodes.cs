@@ -7,7 +7,7 @@ namespace WinForms;
 public partial class frm_Main : Form
 {
     private void txt_PublicName_TextChanged(object sender, EventArgs e)
-    { txt_InternalName.Text = txt_PublicName.Text.Trim(); }
+    { txt_Nodes_InternalName.Text = txt_PublicName.Text.Trim(); }
 
     private void btn_Node_Create_Click(object sender, EventArgs e)
     {
@@ -110,8 +110,6 @@ public partial class frm_Main : Form
 
     private void cmbx_NodeType_SelectedIndexChanged(object sender, EventArgs e)
     {
-        cmbx_ElvFlow.Enabled = true;
-        cmbx_GWFlow.Enabled = true;
         ckbx_IsElevator.Enabled = false;
 
         if (cmbx_NodeType.SelectedIndex >= 0)
@@ -124,22 +122,12 @@ public partial class frm_Main : Form
             pnl_conn_Down.Enabled = true;
             pnl_conn_Up.Enabled = true;
 
-            cmbx_ElvFlow.Enabled = false;
-
             txt_PublicName.Enabled = false;
 
             ckbx_IsElevator.Enabled = true;
-
-            cmbx_GWFlow.Items.AddRange(new string[] { "Up", "Down" });
-            cmbx_ElvFlow.Items.AddRange(new string[] { "Up", "Down" });
         }
         else
         {
-            cmbx_ElvFlow.Items.Remove("Up");
-            cmbx_ElvFlow.Items.Remove("Down");
-            cmbx_GWFlow.Items.Remove("Up");
-            cmbx_GWFlow.Items.Remove("Down");
-
             pnl_conn_Down.Enabled = false;
             pnl_conn_Up.Enabled = false;
         }
@@ -148,8 +136,6 @@ public partial class frm_Main : Form
         {
             txt_tag_Tags.Enabled = true;
             txt_PublicName.Enabled = true;
-            cmbx_GWFlow.Enabled = false;
-            cmbx_ElvFlow.Enabled = false;
         }
         else
         {
@@ -158,10 +144,7 @@ public partial class frm_Main : Form
         }
 
         if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
-        {
-            SetupGW();
-            cmbx_GWFlow.Enabled = false;
-        }
+        { SetupGW(); }
         else
         {
             pnl_NormalNodes.BringToFront();
@@ -235,14 +218,7 @@ public partial class frm_Main : Form
 
         EN.BlockName = cmbx_BlockSelect.Text;
         EN.Floor = (int)nud_Node_Floor.Value;
-        EN.InternalName = txt_InternalName.Text;
-
-        foreach (string S in lst_node_GW.Items)
-        {
-            var T = S.Split(" - ");
-
-            EN.GateFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
-        }
+        EN.InternalName = txt_Nodes_InternalName.Text;
 
         CurNodeUID = NG.AddNode(EN);
 
@@ -257,24 +233,13 @@ public partial class frm_Main : Form
                 { continue; }
 
                 if ((NodeDirection)PNL.Tag == NodeDirection.Up || (NodeDirection)PNL.Tag == NodeDirection.Down)
-                { NG.ConnectElevationNodes(CurNodeUID, CMBX.SelectedItem.ToString().SplitNodeID(), (NodeDirection)PNL.Tag); }
+                { NG.ConnectElevationNodes(CurNodeUID, CMBX.Text.SplitNodeID(), (NodeDirection)PNL.Tag); }
                 else
-                { NG.ConnectElevationNodes(CurNodeUID, CMBX.SelectedItem.ToString().SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked); }
+                { NG.ConnectElevationNodes(CurNodeUID, CMBX.Text.SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked); }
             }
         }
 
         EN.IsElevator = ckbx_IsElevator.Checked;
-
-        //foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //{
-        //    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //    {
-        //        if ((NodeDirection)Row.Tag == NodeDirection.Up || (NodeDirection)Row.Tag == NodeDirection.Down)
-        //        { NG.ConnectElevationNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag); }
-        //        else
-        //        { NG.ConnectElevationNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
-        //    }
-        //}
 
         return 0;
     }
@@ -285,7 +250,7 @@ public partial class frm_Main : Form
 
         RN.BlockName = cmbx_BlockSelect.Text;
         RN.Floor = (int)nud_Node_Floor.Value;
-        RN.InternalName = txt_InternalName.Text.Trim();
+        RN.InternalName = txt_Nodes_InternalName.Text.Trim();
         RN.RoomName = txt_PublicName.Text.Trim();
         RN.Tags = txt_tag_Tags.Text
                         .Split(new[] { ',' })
@@ -308,13 +273,6 @@ public partial class frm_Main : Form
             }
         }
 
-
-        //foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //{
-        //    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //    { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
-        //}
-
         return 0;
     }
 
@@ -324,21 +282,7 @@ public partial class frm_Main : Form
 
         CN.BlockName = cmbx_BlockSelect.Text;
         CN.Floor = (int)nud_Node_Floor.Value;
-        CN.InternalName = txt_InternalName.Text.Trim();
-
-        foreach (string S in lst_node_Elevation.Items)
-        {
-            var T = S.Split(" - ");
-
-            CN.ElvFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
-        }
-
-        foreach (string S in lst_node_GW.Items)
-        {
-            var T = S.Split(" - ");
-
-            CN.GateFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
-        }
+        CN.InternalName = txt_Nodes_InternalName.Text.Trim();
 
         CurNodeUID = NG.AddNode(CN);
 
@@ -352,15 +296,14 @@ public partial class frm_Main : Form
                 if (CMBX.Text == string.Empty)
                 { continue; }
 
-                NG.ConnectNodes(CurNodeUID, CMBX.SelectedItem.ToString().SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked);
+                int BUID = CMBX.Text.SplitNodeID();
+
+                if (NG.TryGetNode(BUID) is ElevationNode)
+                { NG.ConnectElevationNodes(CurNodeUID, BUID, (NodeDirection)PNL.Tag, CKBX.Checked); }
+                else
+                { NG.ConnectNodes(CurNodeUID, BUID, (NodeDirection)PNL.Tag, CKBX.Checked); }
             }
         }
-
-        //foreach (DataGridViewRow Row in dgv_NodeConnections.Rows)
-        //{
-        //    if ((Row.Cells[1] as DataGridViewComboBoxCell).Value != null)
-        //    { NG.ConnectNodes(CurNodeUID, (Row.Cells[1] as DataGridViewComboBoxCell).Value.ToString().SplitNodeID(), (NodeDirection)Row.Tag, (bool)Row.Cells[2].Value); }
-        //}
 
         return 0;
     }
@@ -378,14 +321,7 @@ public partial class frm_Main : Form
 
         GN.BlockName = cmbx_BlockSelect.Text;
         GN.Floor = (int)nud_Node_Floor.Value;
-        GN.InternalName = txt_InternalName.Text.Trim();
-
-        foreach (string S in lst_node_Elevation.Items)
-        {
-            var T = S.Split(" - ");
-
-            GN.ElvFlow.Add(int.Parse(T[1]), (NodeDirection)T[0].ToDirection());
-        }
+        GN.InternalName = txt_Nodes_InternalName.Text.Trim();
 
         CurNodeUID = NG.AddNode(GN);
 
@@ -461,7 +397,7 @@ public partial class frm_Main : Form
 
         Layouter.IsElevator = ckbx_IsElevator.Checked;
 
-        txt_InternalName.Text = Layouter.GetName();
+        txt_Nodes_InternalName.Text = Layouter.GetName();
     }
 
     private async void cmbx_GW_AvailableNodes_MouseEnter(object sender, EventArgs e)
@@ -612,7 +548,14 @@ public partial class frm_Main : Form
     }
 
     private void ckbx_IsElevator_CheckedChanged(object sender, EventArgs e)
-    { GenerateInternalName(); }
+    {
+        if (txt_Nodes_InternalName.Text.Contains("ES"))
+        { txt_Nodes_InternalName.Text = txt_Nodes_InternalName.Text.Replace("ES", "EN", StringComparison.InvariantCultureIgnoreCase); }
+        else if (txt_Nodes_InternalName.Text.Contains("EN"))
+        { txt_Nodes_InternalName.Text = txt_Nodes_InternalName.Text.Replace("EN", "ES", StringComparison.InvariantCultureIgnoreCase); }
+        else
+        { GenerateInternalName(); }
+    }
 
     private void btn_tag_AddTag_Click(object sender, EventArgs e)
     { txt_tag_Tags.AppendText($"{cmbx_tag_Tags.Text}, "); }
@@ -700,26 +643,6 @@ public partial class frm_Main : Form
             LST.Items.RemoveAt(LST.SelectedIndex);
             LST.SelectedIndex = -1;
             LST.Refresh();
-        }
-    }
-
-    private void btn_node_ElvGWAddConn_Click(object sender, EventArgs e)
-    {
-        var BTN = sender as Button;
-
-        if (BTN.Tag.ToString() == "E")
-        {
-            //(cmbx_GWFlow.SelectedItem as string).ToDirection();
-
-            lst_node_Elevation.Items.Add
-                ($"{cmbx_node_ElvDir.SelectedItem.ToString().ToArrow()} - " +
-                $"{cmbx_node_ElevationNode.SelectedItem.ToString().SplitNodeID()}");
-        }
-        else if (BTN.Tag.ToString() == "G")
-        {
-            lst_node_GW.Items.Add
-                ($"{cmbx_node_GWDir.SelectedItem.ToString().ToArrow()} - " +
-                $"{cmbx_node_GWNode.SelectedItem.ToString().SplitNodeID()}");
         }
     }
 }

@@ -115,5 +115,15 @@ int NegotiateWaypoint(int DestinationUID, int OriginUID)
     for (int i ==0; i < Waypoints[0].count(); i++)
     { WaypointDifferences.Add(Maths.Abs(Waypoints[0][1].Distance - Waypoints[1][1].Distance)); }
 
+    var Lowest = WaypointDifferences.GroupBy((X, Index) => (X, Index)).Min;
+
+    if (Lowest.Count > 1)
+    {
+        
+    }
+}
+
+private int ShortestDistance(List<(int, int)> WaypointDifferences)
+{
     
 }

@@ -1,0 +1,138 @@
+{
+  "Nodes": null,
+  "Blocks": {
+    "Johnstone": {
+      "Item1": 4,
+      "Item2": 0
+    }
+  },
+  "NG": {
+    "BaseUID": 1858,
+    "Blocks": {
+      "Johnstone": {
+        "Item1": 4,
+        "Item2": 0
+      }
+    },
+    "_AvailableUID": 1865,
+    "_NextENGroupID": 2,
+    "Nodes": {
+      "1857": {
+        "$type": "EN",
+        "InternalName": "TRJ-0-ES-Main",
+        "Nodes": {
+          "South": 1858
+        },
+        "IsElevator": false,
+        "ENGroupID": 1,
+        "UID": 1857,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "1858": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 1857,
+          "South": 1859
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1858,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-01"
+      },
+      "1859": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 1858,
+          "South": 1860
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1859,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-02"
+      },
+      "1860": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 1859,
+          "West": 1861,
+          "East": 1863
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1860,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-03"
+      },
+      "1861": {
+        "$type": "CN",
+        "Nodes": {
+          "East": 1860,
+          "West": 1862
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1861,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-04"
+      },
+      "1862": {
+        "$type": "CN",
+        "Nodes": {
+          "East": 1861
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1862,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-05"
+      },
+      "1863": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 1860,
+          "East": 1864
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1863,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-06"
+      },
+      "1864": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 1863
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 1864,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-07"
+      }
+    }
+  }
+}

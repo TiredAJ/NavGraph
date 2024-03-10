@@ -110,22 +110,6 @@ public partial class frm_Main
                 txt_edit_tags_Tags.Text = RN.Tags.unTagList();
             }
         }
-
-        if (T is IGatewayFlow GWF)
-        {
-            cmbx_edit_GWFlow.Enabled = true;
-            cmbx_edit_GWFlow.Text = GWF.GatewayFlowDirection.ToStr();
-        }
-        else
-        { cmbx_edit_GWFlow.Enabled = false; }
-
-        if (T is IElevationFlow ElvF)
-        {
-            cmbx_edit_ElvFlow.Enabled = true;
-            cmbx_edit_ElvFlow.Text = ElvF.ElvFlowDirection.ToStr();
-        }
-        else
-        { cmbx_edit_ElvFlow.Enabled = false; }
     }
 
     private void btn_edit_SaveAndReturn_Click(object sender, EventArgs e)
@@ -146,12 +130,6 @@ public partial class frm_Main
         }
 
         T.InternalName = txt_edit_IntName.Text;
-
-        if (T is IGatewayFlow GWF)
-        { GWF.GatewayFlowDirection = cmbx_edit_GWFlow.Text.ToDirection(); }
-
-        if (T is IElevationFlow ElvF)
-        { ElvF.ElvFlowDirection = cmbx_edit_ElvFlow.Text.ToDirection(); }
 
         foreach (Panel PNL in pnl_edit_NodeConns.Controls.OfType<Panel>())
         {

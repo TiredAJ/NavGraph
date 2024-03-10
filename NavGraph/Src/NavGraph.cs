@@ -1,7 +1,6 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
 using NavGraphTools.Utilities;
-using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -30,10 +29,6 @@ public class NavGraph : Graph<NavNode>
     //                         ^ how many nodes use this tag
     //                  ^Tag
 
-    [JsonInclude]
-    public Dictionary<int, (string Block, int MaxFloor, int MinFloor)> ENGroups =
-        new Dictionary<int, (string, int, int)>();
-
     //The next assignable UID
     [JsonInclude]
     private int _AvailableUID;
@@ -50,6 +45,15 @@ public class NavGraph : Graph<NavNode>
 
     [JsonIgnore]
     private JsonSerializerOptions JSO;
+
+
+    [JsonInclude]
+    private int _NextENGroupID = 1;
+
+    [JsonIgnore]
+    private int NextENGroupID
+    { get => _NextENGroupID++; }
+
     #endregion
 
     /// <summary>
@@ -87,11 +91,14 @@ public class NavGraph : Graph<NavNode>
     /// <returns>UID if succesful, 0 if it fails</returns>
     public int AddNode(NavNode _NewNode)
     {
-        //checks if the ENGroupID of EN exists
-        if (_NewNode is ElevationNode EN && !ENGroups.Keys.Contains(EN.ENGroupID))
+        //checks if the new EN has a group ID, or if one of it's up/down connected
+        //ENs do
+        if (_NewNode is ElevationNode EN && EN.ENGroupID == 0)
         {
-            Debug.WriteLine("EN Group ID doesn't exist in ENGroups");
-            return 0;
+            if (EN.GetConnectedEN().Count > 1)
+            { EN.ENGroupID = (Nodes[EN.GetConnectedEN().First().Value] as ElevationNode).ENGroupID; }
+            else
+            { EN.ENGroupID = GenerateNewENGroupID(); }
         }
 
         //auto increments
@@ -200,7 +207,7 @@ public class NavGraph : Graph<NavNode>
     /// </summary>
     /// <param name="_AUID">The UID of the Elevation Node A</param>
     /// <param name="_BUID">The UID of the Elevation Node B</param>
-    /// <param name="Up">Whether B connects atop A [true] or beneath [false]</param>
+    /// <param name="_Dir">Which direction A is connected to B</param>
     public void ConnectElevationNodes(int _AUID, int _BUID, NodeDirection _Dir)
     {
         _AUID = Math.Abs(_AUID);
@@ -212,8 +219,13 @@ public class NavGraph : Graph<NavNode>
         //checks that both nodes exist in the dictionary and grabs the object
         if (!Nodes.TryGetValue(_AUID, out TempA) || !Nodes.TryGetValue(_BUID, out TempB))
         { throw new Exception("Node does not exist!"); }
-        else if ((TempA is ElevationNode TA && TempB is ElevationNode TB) && TA.Floor != TB.Floor)
+        else if (TempA is ElevationNode TA && TempB is ElevationNode TB)
         {
+            //could expand this to check that on down conn TB's floor is less than Ta's,
+            //but eh
+            if ((_Dir == NodeDirection.Up || _Dir == NodeDirection.Down) && TA.Floor == TB.Floor)
+            { throw new Exception("For up/down, ENs must be on different floors!"); }
+
             TA.ConnectNode(_BUID, _Dir);
             TB.ConnectNode(_AUID, (NodeDirection)((int)_Dir * -1));
         }
@@ -222,30 +234,33 @@ public class NavGraph : Graph<NavNode>
     }
 
     /// <summary>
-    /// Connects an elevation node to a non-elevation node
+    /// Connects an elevation node to a non-elevation node. Only one node must be an 
+    /// Elevation node, the other can be any.
     /// </summary>
-    /// <param name="_ElvUID">The UID of the Elevation Node</param>
-    /// <param name="_NUID">The UID of the non-Elevation Node</param>
-    /// <param name="Up">Whether B connects atop A [true] or beneath [false]</param>
-    public void ConnectElevationNodes(int _ElvUID, int _NUID, NodeDirection _ND, bool _IsOneWay)
+    /// <param name="_AUID">The UID of Node A</param>
+    /// <param name="_BUID">The UID of Node B</param>
+    /// <param name="_Dir">Which direction A is connected to B</param>
+    /// <param name="_IsOneWay">Whether the connection only goes from A to B</param>
+    public void ConnectElevationNodes(int _AUID, int _BUID, NodeDirection _Dir, bool _IsOneWay)
     {
-        _ElvUID = Math.Abs(_ElvUID);
-        _NUID = Math.Abs(_NUID);
+        _AUID = Math.Abs(_AUID);
+        _BUID = Math.Abs(_BUID);
 
         NavNode? A, B;
 
         //checks that both nodes exist in the dictionary and grabs the object
         if (
-                !Nodes.TryGetValue(_ElvUID, out A) ||
-                !Nodes.TryGetValue(_NUID, out B) ||
-                Math.Abs((int)_ND) > 2
+                !Nodes.TryGetValue(_AUID, out A) ||
+                !Nodes.TryGetValue(_BUID, out B) ||
+                Math.Abs((int)_Dir) > 2
             )
         { throw new Exception("Node(s) does not exist!"); }
 
-        if ((A is ElevationNode && B is not ElevationNode))
+        if ((A is ElevationNode && B is not ElevationNode)
+            || (A is not ElevationNode && B is ElevationNode))
         {
-            A.ConnectNode(_NUID, _ND);
-            B.ConnectNode(_ElvUID, (NodeDirection)((int)_ND * -1));
+            A.ConnectNode(_BUID, _Dir);
+            B.ConnectNode(_AUID, (NodeDirection)((int)_Dir * -1));
         }
         else
         { throw new Exception("One or both nodes aren't elevation nodes!"); }
@@ -385,6 +400,8 @@ public class NavGraph : Graph<NavNode>
         }
     }
 
+    private int GenerateNewENGroupID()
+        => NextENGroupID;
 
     #endregion
 

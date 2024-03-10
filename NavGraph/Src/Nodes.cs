@@ -1,11 +1,7 @@
 ﻿// Ignore Spelling: Nav UID Elv
 
 using NavGraphTools.Utilities;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace NavGraphTools;
@@ -163,7 +159,7 @@ public interface ISpecialNode
 public interface ISpecialFlow
 {
     [JsonIgnore]
-    public Dictionary<NodeDirection, (int UID, int Distance)>?[] Flow { get; set; }
+    public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; set; }
     //first element is the dict for EN, 2nd is for GW
     //Check if one is null, if so, no flow for that ISN
 
@@ -172,7 +168,7 @@ public interface ISpecialFlow
     /// </summary>
     /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="ElevationNode"/>s
     /// and their distance from this Node</returns>
-    public Dictionary<NodeDirection, (int UID, int Distance)>? GetElevationNodes()
+    public Dictionary<NodeDirection, List<(int UID, int Distance)>>? GetElevationNodes()
     => Flow[0];
 
     /// <summary>
@@ -180,7 +176,7 @@ public interface ISpecialFlow
     /// </summary>
     /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="GatewayNode"/>s
     /// and their distance from this Node</returns>
-    public Dictionary<NodeDirection, (int UID, int Distance)>? GetGatewayNodes()
+    public Dictionary<NodeDirection, List<(int UID, int Distance)>>? GetGatewayNodes()
     => Flow[1];
 
     /// <summary>
@@ -193,9 +189,11 @@ public interface ISpecialFlow
         if (Flow[0] != null)
         {
             return Flow[0]
-                        .Where(X => X.Value.UID == _UID)
+                        .Where(X => X.Value
+                            .Select(X => X.UID)
+                            .Contains(_UID))
                         .Select(X => X.Key)
-                        .First();
+                        .FirstOrDefault();
         }
         else
         { return null; }
@@ -211,9 +209,11 @@ public interface ISpecialFlow
         if (Flow[1] != null)
         {
             return Flow[1]
-                        .Where(X => X.Value.UID == _UID)
+                        .Where(X => X.Value
+                            .Select(X => X.UID)
+                            .Contains(_UID))
                         .Select(X => X.Key)
-                        .First();
+                        .FirstOrDefault();
         }
         else
         { return null; }
@@ -230,20 +230,20 @@ public class CorridorNode : NavNode, ISpecialFlow
     {
         Flow =
         [
-            new Dictionary<NodeDirection, (int, int)>(),
-            new Dictionary<NodeDirection, (int, int)>()
+            new Dictionary<NodeDirection, List<(int UID, int Distance)>>(),
+            new Dictionary<NodeDirection, List<(int UID, int Distance)>>()
         ];
     }
 
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
-    
+
     /// <summary>
     /// 
     /// </summary>
     [JsonInclude]
-    public Dictionary<NodeDirection, (int, int)>?[] Flow { get; set; }
+    public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; set; }
 }
 
 
@@ -308,9 +308,23 @@ public class ElevationNode : NavNode, ISpecialNode
 
         return Temp;
     }
+
+    public Dictionary<NodeDirection, int> GetConnectedEN()
+    {
+        Dictionary<NodeDirection, int> Temp = new Dictionary<NodeDirection, int>();
+
+        foreach (KeyValuePair<NodeDirection, int> N in Nodes)
+        {
+            if ((N.Key == NodeDirection.Up || N.Key == NodeDirection.Down)
+                && Math.Abs(N.Value) > NavGraph.MINIMUM_UID)
+            { Temp.Add(N.Key, N.Value); }
+        }
+
+        return Temp;
+    }
     #endregion
 
-    #region Overrides
+    #region Other Overrides
     public override string ToString()
     {
         return base.ToString() + $", Up connection: {Nodes[NodeDirection.Up]}," +
