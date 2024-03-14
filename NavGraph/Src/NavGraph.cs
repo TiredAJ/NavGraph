@@ -153,25 +153,136 @@ public class NavGraph : Graph<NavNode>
     #endregion
 
     #region Get
+    /// <summary>
+    /// Gets all the nodes of a particular block.
+    /// </summary>
+    /// <param name="_Block">Name of blocks to get nodes from</param>
+    /// <returns>A dictionary of UIDs and NavNodes</returns>
     public Dictionary<int, NavNode> GetNodes(string _Block)
-    {
-        return GetAllNodes()
-                .Where(X => X.Value.BlockName == _Block)
-                .ToDictionary(X => X.Key, Y => Y.Value);
+        => GetAllNodes()
+            .Where(X => X.Value.BlockName == _Block)
+            .ToDictionary(X => X.Key, Y => Y.Value);
 
-
-    }
-
+    /// <summary>
+    /// Gets all the nodes of a particular floor in a specific block.
+    /// </summary>
+    /// <param name="_Block">Name of blocks to get nodes from</param>
+    /// <param name="_Floor">Floor to get nodes from</param>
+    /// <returns>A dictionary of UIDs and NavNodes</returns>
     public Dictionary<int, NavNode> GetNodes(string _Block, int _Floor)
+        => GetAllNodes()
+            .Where(X => X.Value.BlockName == _Block)
+            .Where(X => X.Value.Floor == _Floor)
+            .ToDictionary(X => X.Key, Y => Y.Value);
+
+    /// <summary>
+    /// Gets the number of nodes on a particular floor, in a particular block
+    /// </summary>
+    /// <param name="_Block">Name of blocks to get nodes from</param>
+    /// <param name="_Floor">Floor to get nodes from</param>
+    /// <returns>A dictionary of UIDs and NavNodes</returns>
+    public int GetFloorNodeCount(string _Block, int _Floor)
+        => GetNodes(_Block, _Floor).Count();
+
+    /// <summary>
+    /// Gets the nodes connected to a specific node
+    /// </summary>
+    /// <param name="_UID">UID of node to get connected nodes from</param>
+    /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
+    public Dictionary<NodeDirection, NavNode>? GetConnectedNodes(int _UID)
     {
-        return GetAllNodes()
-                .Where(X => X.Value.BlockName == _Block)
-                .Where(X => X.Value.Floor == _Floor)
-                .ToDictionary(X => X.Key, Y => Y.Value);
+        if (DoesNodeExist(_UID))
+        {
+            var Temp = Nodes[_UID].GetConnectedNodes();
+
+            Dictionary<NodeDirection, NavNode> ConnNodes = new();
+
+            foreach (var N in Temp)
+            { ConnNodes.Add(N.Key, Nodes[N.Value]); }
+
+            return ConnNodes;
+        }
+        else
+        { return null; }
     }
 
-    public int GetFloorNodeCount(string _Block, int _Floor)
-    { return GetNodes(_Block, _Floor).Count(); }
+    /// <summary>
+    /// Gets the nodes connected to a specific node of a specific type.
+    /// </summary>
+    /// <param name="_UID">UID of node to get connected nodes from</param>
+    /// <typeparam name="T">Type of nodes to retrieve from _UID's connections</typeparam>
+    /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
+    public Dictionary<NodeDirection, NavNode>? GetConnectedNodes<T>(int _UID) where T : NavNode, ISpecialNode
+    { 
+        if (DoesNodeExist(_UID))
+        {
+            var Temp = Nodes[_UID].GetConnectedNodes();
+
+            Dictionary<NodeDirection, NavNode> ConnNodes = new();
+
+            foreach (var N in Temp)
+            {
+                if (Nodes[N.Value] is T)
+                { ConnNodes.Add(N.Key, Nodes[N.Value]); }
+            }
+
+            return ConnNodes;
+        }
+        else
+        { return null; }
+    }
+
+    /// <summary>
+    /// Gets the nodes connected to a specific node of a specific type that inherits ISpecialNode.
+    /// </summary>
+    /// <param name="_UID">UID of node to get connected nodes from</param>
+    /// <typeparam name="T">Type of nodes to retrieve from _UID's connections</typeparam>
+    /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
+    public Dictionary<NodeDirection, NavNode>? GetConnectedSpecialNodes<T>(int _UID) where T : ISpecialNode
+    { 
+        if (DoesNodeExist(_UID))
+        {
+            var Temp = Nodes[_UID].GetConnectedNodes();
+
+            Dictionary<NodeDirection, NavNode> ConnNodes = new();
+
+            foreach (var N in Temp)
+            {
+                if (Nodes[N.Value] is T)
+                { ConnNodes.Add(N.Key, Nodes[N.Value]); }
+            }
+
+            return ConnNodes;
+        }
+        else
+        { return null; }
+    }
+
+    /// <summary>
+    /// Gets the nodes connected to a specific node of a specific type that inherits ISpecialFlow.
+    /// </summary>
+    /// <param name="_UID">UID of node to get connected nodes from</param>
+    /// <typeparam name="T">Type of nodes to retrieve from _UID's connections</typeparam>
+    /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
+    public Dictionary<NodeDirection, NavNode>? GetConnectedFlowNodes<T>(int _UID) where T : ISpecialFlow
+    { 
+        if (DoesNodeExist(_UID))
+        {
+            var Temp = Nodes[_UID].GetConnectedNodes();
+
+            Dictionary<NodeDirection, NavNode> ConnNodes = new();
+
+            foreach (var N in Temp)
+            {
+                if (Nodes[N.Value] is T)
+                { ConnNodes.Add(N.Key, Nodes[N.Value]); }
+            }
+
+            return ConnNodes;
+        }
+        else
+        { return null; }
+    }
     #endregion
 
     #region Connecting Nodes

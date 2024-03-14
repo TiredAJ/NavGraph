@@ -4,6 +4,7 @@ namespace WinForms.Tools;
 
 class Flow_er
 {
+    #region Member Variables
     private NavGraph? NG = null;
 
     private int _Progress = 0;
@@ -14,18 +15,24 @@ class Flow_er
         get => _Progress;
         set
         {
-            Interlocked.Increment(ref _Progress);
-            Progress?.Invoke(this, new ProgressEvent(_Progress));
+            Progress?.Invoke(this, new ProgressEvent
+                (Interlocked.Increment(ref _Progress)));
         }
     }
 
+    private Queue<(NodeDirection Dir, int UID, int Distance)> NodesToReturnTo = new Queue<(NodeDirection Dir, int UID, int Distance)>();
+    private Dictionary<NodeDirection, int> ConnNodes = null;
+
     public event EventHandler<ProgressEvent> Progress;
 
+    #endregion
 
+    #region Constructors
     public Flow_er(ref NavGraph _NG)
     { NG = _NG; }
 
     public Flow_er() { }
+    #endregion
 
     public void GenerateFlows()
     {
@@ -47,74 +54,40 @@ class Flow_er
         });
     }
 
-    private void Flow(int _UID)
+    private void Flow(int _SP_UID)
     {
-        //SpecialNode UID
-        int SN_UID = _UID, CurrentUID = 0, VisitedUIDs = 0, Distance = 0;
-        int IsEN = NG[_UID] is ElevationNode ? 0 : 1;
+        //SpecialNode UID 
+        int SN_UID = _SP_UID, CurrentUID = 0, VisitedUIDs = 0, Distance = 0;
+        int IsEN = NG[_SP_UID] is ElevationNode ? 0 : 1;
         NodeDirection BackDir;
-        bool Done = false; ;
-
-        Queue<(NodeDirection Dir, int UID, int Distance)> NodesToReturnTo = new Queue<(NodeDirection Dir, int UID, int Distance)>();
-        Dictionary<NodeDirection, int> ConnNodes = null;
-
-        NavNode CurNode = NG[SN_UID];
+        bool Done = false;
 
         while (!Done)
         {
-            ConnNodes = CurNode.GetConnectedNodes()
-                .Where(X => (VisitedUIDs & X.Value) != X.Value)
-                .Where(X => NG[X.Value] is ISpecialFlow)
-                .ToDictionary(X => X.Key, Y => Y.Value);
+            if (Init(SN_UID) == -1)
+            { Done = true; }
 
-            if (ConnNodes.Count() == 0 && NodesToReturnTo.Count == 0)
-            { Done = true; break; }
-            else if (ConnNodes.Count() >= 1)
-            {
-                if (!ConnNodes.First().Value.IsValidUID())
-                { break; }
 
-                CurNode = NG[ConnNodes.First().Value];
-                BackDir = (NodeDirection)((int)ConnNodes.First().Key * -1);
-
-                ISpecialFlow ISF_CurNode = (ISpecialFlow)CurNode;
-
-                Distance++;
-
-                if (ISF_CurNode.Flow[IsEN].ContainsKey(BackDir))
-                { ISF_CurNode.Flow[IsEN][BackDir].Add((SN_UID, Distance)); }
-                else
-                { ISF_CurNode.Flow[IsEN].Add(BackDir, new() { (SN_UID, Distance) }); }
-
-                VisitedUIDs = VisitedUIDs | CurNode.UID;
-
-                if (ConnNodes.Count == 1)
-                {
-                    //If there's only 1 connection, what do?
-                    //EN-Main connects to CN-01, what do now?
-
-                    //CurNode = NG[ConnNodes.First().Value];
-                }
-                else
-                {
-                    foreach (var R_Node in ConnNodes.Where(X => X.Value != CurNode.UID && X.Value.IsValidUID()))
-                    { NodesToReturnTo.Enqueue((R_Node.Key, R_Node.Value, Distance)); }
-                }
-            }
-            else if (NodesToReturnTo.Count > 1)
-            {
-                if (!NodesToReturnTo.Peek().UID.IsValidUID())
-                { break; }
-
-                (NodeDirection Dir, int UID, int Distance) T = NodesToReturnTo.Dequeue();
-
-                CurNode = NG[T.UID];
-                BackDir = (NodeDirection)((int)T.Dir * -1);
-            }
         }
 
         _ProgressUpdate++;
     }
+
+    //
+    // Function names beyond this point relate to steps in the accompanying flowchart
+    // (Which'll be added once it's cleaned up)
+    //
+
+    private int Init(int _ISP_UID)
+    {
+        if (NG.GetConnectedNodes<ISpecialNode>(_ISP_UID).Count > 0)
+        {
+            
+        }
+
+        throw new NotImplementedException();
+    }
+
 }
 
 public class ProgressEvent : EventArgs
