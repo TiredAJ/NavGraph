@@ -1,4 +1,5 @@
 ﻿using NavGraphTools;
+using Windows.ApplicationModel.Store;
 
 namespace WinForms.Tools;
 
@@ -20,8 +21,12 @@ class Flow_er
         }
     }
 
-    private Queue<(NodeDirection Dir, int UID, int Distance)> NodesToReturnTo = new Queue<(NodeDirection Dir, int UID, int Distance)>();
+    private Queue<(NodeDirection Dir, int UID, int Distance)> Backlog = new();
     private Dictionary<NodeDirection, int> ConnNodes = null;
+    private NavNode CurrentNode = null, PrevNode = null;
+    private NodeDirection BackDir;
+    private int Distance = 0, IsEN = 0, ISP_UID = 0;
+    private ISpecialFlow FlowNode = null;
 
     public event EventHandler<ProgressEvent> Progress;
 
@@ -32,6 +37,7 @@ class Flow_er
     { NG = _NG; }
 
     public Flow_er() { }
+
     #endregion
 
     public void GenerateFlows()
@@ -56,16 +62,16 @@ class Flow_er
 
     private void Flow(int _SP_UID)
     {
-        //SpecialNode UID 
-        int SN_UID = _SP_UID, CurrentUID = 0, VisitedUIDs = 0, Distance = 0;
-        int IsEN = NG[_SP_UID] is ElevationNode ? 0 : 1;
-        NodeDirection BackDir;
+        //SpecialNode UID
         bool Done = false;
+
+        //This is used for the index of ISpecialFlow.Flow[]
+        IsEN = NG[_SP_UID] is ElevationNode ? 0 : 1;
 
         while (!Done)
         {
-            if (Init(SN_UID) == -1)
-            { Done = true; }
+            //if (Init(SN_UID) == -1)
+            //{ Done = true; }
 
 
         }
@@ -80,12 +86,23 @@ class Flow_er
 
     private int Init(int _ISP_UID)
     {
-        if (NG.GetConnectedNodes<ISpecialNode>(_ISP_UID).Count > 0)
-        {
-            
-        }
+        //if (NG.GetConnectedNodes<CorridorNode>(_ISP_UID).Count > 0)
+        //{
+//
+        //}
 
         throw new NotImplementedException();
+    }
+
+    private void PopBacklog()
+    {
+        var Tn = Backlog.Dequeue();
+
+        CurrentNode = NG[Tn.UID];
+        BackDir = (NodeDirection)((int)Tn.Dir * -1);
+        Distance = ++Tn.Distance;
+        FlowNode = CurrentNode as ISpecialFlow;
+        FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
     }
 
 }
