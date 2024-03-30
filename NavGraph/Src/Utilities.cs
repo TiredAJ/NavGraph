@@ -52,6 +52,13 @@ public static class Extensions
             { return "#"; }
         }
     }
+
+    /// <summary>
+    /// Gets the opposite of this direction
+    /// </summary>
+    /// <returns>A node direction facing the opposite of this direction</returns>
+    public static NodeDirection Inverse(this NodeDirection _ND)
+    { return (NodeDirection)((int)_ND * -1); }
 }
 
 

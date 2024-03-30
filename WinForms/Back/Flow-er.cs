@@ -1,7 +1,10 @@
 ﻿using NavGraphTools;
-using Windows.ApplicationModel.Store;
+using NavGraphTools.Utilities;
 
 namespace WinForms.Tools;
+/*
+ * Uh, this might move to just NavGraph, really doesn't belong here
+ */
 
 class Flow_er
 {
@@ -22,10 +25,12 @@ class Flow_er
     }
 
     private Queue<(NodeDirection Dir, int UID, int Distance)> Backlog = new();
+    private Queue<int> SpecialNodes = new();
     private Dictionary<NodeDirection, int> ConnNodes = null;
-    private NavNode CurrentNode = null, PrevNode = null;
+    private NavNode CurrentNode = null, PrevNode = null, ISP_Node = null;
     private NodeDirection BackDir;
     private int Distance = 0, IsEN = 0, ISP_UID = 0;
+    //                          ^ T
     private ISpecialFlow FlowNode = null;
 
     public event EventHandler<ProgressEvent> Progress;
@@ -40,62 +45,129 @@ class Flow_er
 
     #endregion
 
+
+    //
+    // Function names beyond this point aren't gonna mean much without
+    // referring to Flower_er-Labelled.jpg in the repo
+    //
+
     public void GenerateFlows()
     {
         if (NG is null)
         { throw new NullReferenceException("NG was null!"); }
 
-        List<int> SpecialNodes = NG.GetAllNodes()
+        SpecialNodes = new Queue<int>(NG.GetAllNodes()
             .Select(X => X.Value)
             .Where(X => X is ISpecialNode)
-            .Select(X => X.UID)
-            .ToList();
+            .Select(X => X.UID));
 
         Progress?.Invoke(this, new ProgressEvent(NG.NodeCount, 0, 0));
 
-        Task.Run(() =>
-        {
-            foreach (var UID in SpecialNodes)
-            { Flow(UID); }
-        });
+
+        Task.Run(() => DauBwyntB());
+    }
+
+    //(1)
+    private void Un()
+    {
+        //(2.A)
+        if (!NG.DoesNodeExist(ISP_UID) || NG[ISP_UID].ConnectedNodesCount == 0)
+        { DauBwyntB(); }
+
+        ISP_Node = NG[ISP_UID];
+
+        //(1)
+        //This is used for the index of ISpecialFlow.Flow[]
+        IsEN = ISP_Node is ElevationNode ? 0 : 1;
+
+        Flow(ISP_UID);
+    }
+
+    //(2.B)
+    private void DauBwyntB()
+    {
+        if (SpecialNodes.Count == 0)
+        { return; }
+
+        ISP_UID = SpecialNodes.Dequeue();
+
+        Un();
     }
 
     private void Flow(int _SP_UID)
     {
-        //SpecialNode UID
-        bool Done = false;
-
-        //This is used for the index of ISpecialFlow.Flow[]
-        IsEN = NG[_SP_UID] is ElevationNode ? 0 : 1;
-
-        while (!Done)
+        //(3)
+        if (ISP_Node.ConnectedNodesCount > 1)
         {
-            //if (Init(SN_UID) == -1)
-            //{ Done = true; }
-
-
+            //(4.B)
+            foreach (var KVP in ISP_Node.GetConnectedNodes().Skip(1))
+            { Backlog.Enqueue((KVP.Key, KVP.Value, Distance)); }
         }
 
+        //(4.A)
+        var CN = ISP_Node.GetConnectedNodes().First();
+
+        if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is ISpecialFlow)
+        { PopBacklog(); }
+
+        CurrentNode = NG[CN.Value];
+
+        Distance++;
+        BackDir = CN.Key.Inverse();
+        FlowNode = CurrentNode as ISpecialFlow;
+        FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
+
         _ProgressUpdate++;
+
+        Pump();
     }
 
-    //
-    // Function names beyond this point relate to steps in the accompanying flowchart
-    // (Which'll be added once it's cleaned up)
-    //
-
-    private int Init(int _ISP_UID)
+    //(5)
+    private void Pump()
     {
-        //if (NG.GetConnectedNodes<CorridorNode>(_ISP_UID).Count > 0)
-        //{
-//
-        //}
+        if (CurrentNode.ConnectedNodesCount >= 1)
+        { Wyth(); }
+        else
+        { PopBacklog(); }
+    }
 
-        throw new NotImplementedException();
+    private void Wyth()
+    {
+        PrevNode = CurrentNode;
+
+        var CN = PrevNode.GetConnectedNodes().First();
+
+        if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is ISpecialFlow)
+        { throw new Exception("not sure what to do from here"); }
+
+        CurrentNode = NG[CN.Value];
+        BackDir = CN.Key.Inverse();
+        Distance++;
+
+        FlowNode = CurrentNode as ISpecialFlow;
+        FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
+
+        if (PrevNode.ConnectedNodesCount > 1)
+        { Naw(); }
+        else
+        { Pump(); }
+    }
+
+    public void Naw()
+    {
+        foreach (var KVP in PrevNode.GetConnectedNodes().Skip(1))
+        { Backlog.Enqueue((KVP.Key, KVP.Value, Distance)); }
+
+        Pump();
     }
 
     private void PopBacklog()
     {
+        //(6)
+        if (Backlog.Count == 0)
+        { DauBwyntB(); }
+
+        //(7)
         var Tn = Backlog.Dequeue();
 
         CurrentNode = NG[Tn.UID];
@@ -103,8 +175,9 @@ class Flow_er
         Distance = ++Tn.Distance;
         FlowNode = CurrentNode as ISpecialFlow;
         FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
-    }
 
+        Pump();
+    }
 }
 
 public class ProgressEvent : EventArgs

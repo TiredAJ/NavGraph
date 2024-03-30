@@ -23,12 +23,39 @@ public abstract class NavNode
     { }
 
     #region Member Variables
+    /// <summary>
+    /// The Unique ID of this node
+    /// </summary>
     [JsonInclude]
     public int UID { get; internal set; } = 0;
+
+    /// <summary>
+    /// The name of the block this node is in
+    /// </summary>
+    [JsonInclude]
     public string BlockName { get; set; } = "Default Block";
+
+    /// <summary>
+    /// The floor number this node is on
+    /// </summary>
+    [JsonInclude]
     public int Floor { get; set; } = 0;
+
+    /// <summary>
+    /// The internal (admin-facing) name of this node
+    /// </summary>
+    [JsonInclude]
     public virtual string InternalName { get; set; } = "Default Node";
 
+    /// <summary>
+    /// The number of nodes this is connected to
+    /// </summary>
+    [JsonIgnore]
+    public virtual int ConnectedNodesCount { get => Nodes.Count; }
+
+    /// <summary>
+    /// The connections of this node
+    /// </summary>
     [JsonInclude]
     public virtual Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
     #endregion
@@ -159,7 +186,7 @@ public interface ISpecialNode
 public interface ISpecialFlow
 {
     [JsonIgnore]
-    public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; set; }
+    public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; internal set; }
     //first element is the dict for EN, 2nd is for GW
     //Check if one is null, if so, no flow for that ISN
 
@@ -218,6 +245,22 @@ public interface ISpecialFlow
         else
         { return null; }
     }
+
+    public void Add(int _IsEN, NodeDirection _Dir, int _UID, int _Distance)
+    {
+        if (Flow[_IsEN] is not null)
+        {
+            if (!Flow[_IsEN].ContainsKey(_Dir))
+            { Flow[_IsEN].Add(_Dir, new() { (_UID, _Distance) }); }
+            else
+            { Flow[_IsEN][_Dir].Add((_UID, _Distance)); }
+        }
+        else
+        {
+            Flow[_IsEN] = new()
+            {{ _Dir, new() { (_UID, _Distance) } }};
+        }
+    }
 }
 #endregion
 
@@ -237,10 +280,10 @@ public class CorridorNode : NavNode, ISpecialFlow
 
 
     [JsonInclude]
-    public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
+    public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new();
 
     /// <summary>
-    /// 
+    /// The Flow directions for this node
     /// </summary>
     [JsonInclude]
     public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; set; }
@@ -251,12 +294,21 @@ public class CorridorNode : NavNode, ISpecialFlow
 public class RoomNode : NavNode
 {
     #region Member Variables
+    [JsonInclude]
     public override string InternalName { get; set; } = "Default Room";
+
+    /// <summary>
+    /// The public (user-facing) name of this node
+    /// </summary>
+    [JsonInclude]
     public string RoomName { get; set; } = "Default Room Name";
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
 
+    /// <summary>
+    /// The tags relating to this node
+    /// </summary>
     [ListStringLength(50, true)]
     public List<string> Tags { get; set; } = new List<string>();
     #endregion
@@ -283,14 +335,21 @@ public class RoomNode : NavNode
 public class ElevationNode : NavNode, ISpecialNode
 {
     #region Member Variables
+    [JsonInclude]
     public override string InternalName { get; set; } = "Default Elevation";
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
 
+    /// <summary>
+    /// Specifies whether this node is an elevator (<c>true</c>) or stairs (<c>false</c>)
+    /// </summary>
     [JsonInclude]
     public bool IsElevator { get; set; }
 
+    /// <summary>
+    /// The Elevation group ID for this node
+    /// </summary>
     [JsonInclude]
     public int ENGroupID = 0;
     #endregion
@@ -375,17 +434,24 @@ public class GatewayNode : NavNode, ISpecialNode
 
         internal set
         {//Tries to ensure this only has 1 hard connection
-            if (_Nodes.Count == 1)
-            {
-                _Nodes.Clear();
+            if (_Nodes.Count >= 1)
+            { _Nodes.Clear(); }
 
-                KeyValuePair<NodeDirection, int> Temp = value.First();
+            KeyValuePair<NodeDirection, int> Temp = value.First();
 
-                _Nodes.Add(Temp.Key, Temp.Value);
-            }
+            _Nodes.Add(Temp.Key, Temp.Value);
         }
     }
 
+    /// <summary>
+    /// The number of GWs this is connected to
+    /// </summary>
+    [JsonIgnore]
+    public override int ConnectedNodesCount { get => Connections.Count; }
+
+    /// <summary>
+    /// The GW connections of this node
+    /// </summary>
     [JsonInclude]
     public Dictionary<int, string> Connections = new Dictionary<int, string>();
     //                      ^Block name
@@ -418,7 +484,7 @@ public class GatewayNode : NavNode, ISpecialNode
     }
 
     /// <summary>
-    /// 
+    /// Checks if it's possible to connect to this node on a specific direction
     /// </summary>
     /// <returns>False, unless cosmic bit flip or some shit</returns>
     public override bool IsAvailable(NodeDirection _Direction)
@@ -453,9 +519,6 @@ public class GatewayNode : NavNode, ISpecialNode
     }
     #endregion
 }
-#endregion
-
-#region Misc
 #endregion
 
 public enum NodeDirection
