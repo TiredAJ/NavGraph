@@ -304,6 +304,7 @@ public partial class frm_Main : Form
 
                 pbr_Nodes_FlowGenProgress.Value = e.Current;
                 pbr_Nodes_FlowGenProgress.Refresh();
+
             });
         }));
 

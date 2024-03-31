@@ -96,14 +96,9 @@ public class NavGraph : Graph<NavNode>
     public int AddNode(NavNode _NewNode)
     {
         //checks if the new EN has a group ID, or if one of it's up/down connected
-        //ENs do
-        if (_NewNode is ElevationNode EN && EN.ENGroupID == 0)
-        {
-            if (EN.GetConnectedEN().Count > 1)
-            { EN.ENGroupID = (Nodes[EN.GetConnectedEN().First().Value] as ElevationNode).ENGroupID; }
-            else
-            { EN.ENGroupID = GenerateNewENGroupID(); }
-        }
+        //ENs 
+        //fucking idiot, it's created then shit's connected, this will never run
+
 
         //auto increments
         int TempUID = AvailableUID;
@@ -305,7 +300,7 @@ public class NavGraph : Graph<NavNode>
             (Nodes[_AUID] is ElevationNode || Nodes[_BUID] is ElevationNode) ||
             (Nodes[_AUID] is GatewayNode || Nodes[_BUID] is GatewayNode))
         { throw new Exception("Please do not connect Elevation or Gateway nodes with this function"); }
-        else if (_Dir == NodeDirection.Up || _Dir == NodeDirection.Down)
+        else if (_Dir is (NodeDirection.Up or NodeDirection.Down))
         { throw new Exception("_ND is not valid for this node type"); }
 
         //connects node B to node A
@@ -517,6 +512,22 @@ public class NavGraph : Graph<NavNode>
 
     private int GenerateNewENGroupID()
         => NextENGroupID;
+
+    public void AssignENGroupID(int _UID)
+    {
+        if (!DoesNodeExist(_UID))
+        { return; }
+
+        ElevationNode EN = Nodes[_UID] as ElevationNode;
+
+        if (EN.ENGroupID == 0)
+        {
+            if (EN.GetConnectedEN().Count >= 1)
+            { EN.ENGroupID = (Nodes[EN.GetConnectedEN().First().Value] as ElevationNode).ENGroupID; }
+            else
+            { EN.ENGroupID = GenerateNewENGroupID(); }
+        }
+    }
 
     #endregion
 

@@ -149,6 +149,8 @@ public partial class frm_Main : Form
         {
             pnl_NormalNodes.BringToFront();
             pnl_GW.Visible = false;
+            cmbx_GW_AvailableNodes.Items.Clear();
+            cmbx_GW_Direction.Text = string.Empty;
         }
 
         GenerateInternalName();
@@ -232,12 +234,15 @@ public partial class frm_Main : Form
                 if (CMBX.Text == string.Empty)
                 { continue; }
 
-                if ((NodeDirection)PNL.Tag == NodeDirection.Up || (NodeDirection)PNL.Tag == NodeDirection.Down)
+                //if ((NodeDirection)PNL.Tag == NodeDirection.Up || (NodeDirection)PNL.Tag == NodeDirection.Down)
+                if ((NodeDirection)PNL.Tag is (NodeDirection.Up or NodeDirection.Down))
                 { NG.ConnectElevationNodes(CurNodeUID, CMBX.Text.SplitNodeID(), (NodeDirection)PNL.Tag); }
                 else
                 { NG.ConnectElevationNodes(CurNodeUID, CMBX.Text.SplitNodeID(), (NodeDirection)PNL.Tag, CKBX.Checked); }
             }
         }
+
+        NG.AssignENGroupID(CurNodeUID);
 
         EN.IsElevator = ckbx_IsElevator.Checked;
 
@@ -549,12 +554,22 @@ public partial class frm_Main : Form
 
     private void ckbx_IsElevator_CheckedChanged(object sender, EventArgs e)
     {
-        if (txt_Nodes_InternalName.Text.Contains("ES"))
-        { txt_Nodes_InternalName.Text = txt_Nodes_InternalName.Text.Replace("ES", "EN", StringComparison.InvariantCultureIgnoreCase); }
-        else if (txt_Nodes_InternalName.Text.Contains("EN"))
-        { txt_Nodes_InternalName.Text = txt_Nodes_InternalName.Text.Replace("EN", "ES", StringComparison.InvariantCultureIgnoreCase); }
-        else
+        string T = txt_Nodes_InternalName.Text;
+
+        if (!T.Contains("EE") && !T.Contains("ES"))
         { GenerateInternalName(); }
+
+        CheckBox CKBX = sender as CheckBox;
+
+
+        int Index = T.IndexOf("-E");
+
+        if (CKBX.Checked)
+        { T = T.Replace(T.Substring(Index + 1, 2), "EE"); }
+        else
+        { T = T.Replace(T.Substring(Index + 1, 2), "ES"); }
+
+        txt_Nodes_InternalName.Text = T;
     }
 
     private void btn_tag_AddTag_Click(object sender, EventArgs e)

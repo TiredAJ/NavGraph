@@ -66,7 +66,7 @@ public abstract class NavNode
     #region Altering Connections
     internal virtual void ConnectNode(int _UID, NodeDirection _Dir)
     {
-        if (_Dir == NodeDirection.Up || _Dir == NodeDirection.Down || _UID == 0)
+        if (_Dir is (NodeDirection.Up or NodeDirection.Down) || _UID == 0)
         { return; }
 
         if (!Nodes.ContainsKey(_Dir))
@@ -136,7 +136,7 @@ public abstract class NavNode
     /// <returns><see langword="true"/> if available, <see langword="false"/> otherwise</returns>
     public virtual bool IsAvailable(NodeDirection _Dir)
     {
-        if (_Dir == NodeDirection.Up || _Dir == NodeDirection.Down)
+        if (_Dir is (NodeDirection.Up or NodeDirection.Down))
         { return false; }
 
         if (!Nodes.ContainsKey(_Dir))
@@ -400,7 +400,7 @@ public class ElevationNode : NavNode, ISpecialNode
 
         foreach (KeyValuePair<NodeDirection, int> N in Nodes)
         {
-            if ((N.Key == NodeDirection.Up || N.Key == NodeDirection.Down)
+            if ((N.Key is (NodeDirection.Up or NodeDirection.Down))
                 && Math.Abs(N.Value) > NavGraph.MINIMUM_UID)
             { Temp.Add(N.Key, N.Value); }
         }

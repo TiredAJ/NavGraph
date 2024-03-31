@@ -1,5 +1,6 @@
 ﻿using NavGraphTools;
 using NavGraphTools.Utilities;
+using System.Diagnostics;
 
 namespace WinForms.Tools;
 /*
@@ -26,6 +27,7 @@ class Flow_er
 
     private Queue<(NodeDirection Dir, int UID, int Distance)> Backlog = new();
     private Queue<int> SpecialNodes = new();
+    private HashSet<int> ExclusionSet = new();
     private Dictionary<NodeDirection, int> ConnNodes = null;
     private NavNode CurrentNode = null, PrevNode = null, ISP_Node = null;
     private NodeDirection BackDir;
@@ -64,7 +66,13 @@ class Flow_er
         Progress?.Invoke(this, new ProgressEvent(NG.NodeCount, 0, 0));
 
 
-        Task.Run(() => DauBwyntB());
+        Task.Run(() =>
+        {
+            try
+            { DauBwyntB(); }
+            catch (Exception)
+            { MessageBox.Show("uh oh"); }
+        });
     }
 
     //(1)
@@ -86,10 +94,14 @@ class Flow_er
     //(2.B)
     private void DauBwyntB()
     {
+        ExclusionSet.Clear();
+
         if (SpecialNodes.Count == 0)
-        { return; }
+        { Debug.WriteLine("Done!"); return; }
 
         ISP_UID = SpecialNodes.Dequeue();
+
+        ExclusionSet = new HashSet<int>(SpecialNodes);
 
         Un();
     }
@@ -117,6 +129,8 @@ class Flow_er
         FlowNode = CurrentNode as ISpecialFlow;
         FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
 
+        ExclusionSet.Add(CN.Value);
+
         _ProgressUpdate++;
 
         Pump();
@@ -125,7 +139,7 @@ class Flow_er
     //(5)
     private void Pump()
     {
-        if (CurrentNode.ExclusionCount(SpecialNodes) >= 1)
+        if (CurrentNode.ExclusionCount(ExclusionSet) >= 1)
         { Wyth(); }
         else
         { PopBacklog(); }
@@ -147,7 +161,9 @@ class Flow_er
         FlowNode = CurrentNode as ISpecialFlow;
         FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
 
-        if (PrevNode.ExclusionCount(SpecialNodes) > 1)
+        ExclusionSet.Add(CN.Value);
+
+        if (PrevNode.ExclusionCount(ExclusionSet) > 1)
         { Naw(); }
         else
         { Pump(); }
@@ -155,7 +171,7 @@ class Flow_er
 
     public void Naw()
     {
-        foreach (var KVP in PrevNode.GetConnectedNodes().Skip(SpecialNodes, 1))
+        foreach (var KVP in PrevNode.GetConnectedNodes().Skip(ExclusionSet, 1))
         {
             if (!NG.DoesNodeExist(KVP.Value) || NG[KVP.Value] is not ISpecialFlow)
             { continue; }
