@@ -132,7 +132,7 @@ public abstract class Graph<T>
 
     #region Checks
     public bool IsValidUID(int _UID)
-    { return NavNode.IsValidUID(_UID); }
+    { return Math.Abs(_UID) > NavGraph.MINIMUM_UID; }
     #endregion
 
     #region Serialising stuff

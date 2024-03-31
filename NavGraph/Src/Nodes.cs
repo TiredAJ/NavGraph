@@ -51,7 +51,10 @@ public abstract class NavNode
     /// The number of nodes this is connected to
     /// </summary>
     [JsonIgnore]
-    public virtual int ConnectedNodesCount { get => Nodes.Count; }
+    public virtual int ConnectedNodesCount
+    {
+        get { return Nodes.Count; }
+    }
 
     /// <summary>
     /// The connections of this node
@@ -187,7 +190,7 @@ public interface ISpecialFlow
 {
     [JsonIgnore]
     public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; internal set; }
-    //first element is the dict for EN, 2nd is for GW
+    //first element is the dict for EN ([0]), 2nd is for GW ([1])
     //Check if one is null, if so, no flow for that ISN
 
     /// <summary>
@@ -278,6 +281,14 @@ public class CorridorNode : NavNode, ISpecialFlow
         ];
     }
 
+    /// <summary>
+    /// The number of nodes this is connected to
+    /// </summary>
+    [JsonIgnore]
+    public override int ConnectedNodesCount
+    {
+        get { return Nodes.Count; }
+    }
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new();
@@ -305,6 +316,12 @@ public class RoomNode : NavNode
 
     [JsonInclude]
     public override Dictionary<NodeDirection, int> Nodes { get; internal set; } = new Dictionary<NodeDirection, int>();
+
+    /// <summary>
+    /// The number of nodes this is connected to
+    /// </summary>
+    [JsonIgnore]
+    public override int ConnectedNodesCount { get => Nodes.Count(); }
 
     /// <summary>
     /// The tags relating to this node
@@ -352,6 +369,15 @@ public class ElevationNode : NavNode, ISpecialNode
     /// </summary>
     [JsonInclude]
     public int ENGroupID = 0;
+
+    /// <summary>
+    /// The number of nodes this is connected to
+    /// </summary>
+    [JsonIgnore]
+    public override int ConnectedNodesCount
+    {
+        get { return Nodes.Count; }
+    }
     #endregion
 
     #region Connections
@@ -444,10 +470,17 @@ public class GatewayNode : NavNode, ISpecialNode
     }
 
     /// <summary>
-    /// The number of GWs this is connected to
+    /// The number of Nodes this is connected to, this will return either 1 or 0
     /// </summary>
     [JsonIgnore]
-    public override int ConnectedNodesCount { get => Connections.Count; }
+    public override int ConnectedNodesCount
+    {
+        get => Nodes.Count;
+    }
+
+    [JsonIgnore]
+    public int ConnectionsCount { get => Connections.Count(); }
+
 
     /// <summary>
     /// The GW connections of this node

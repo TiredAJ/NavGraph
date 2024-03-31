@@ -71,7 +71,7 @@ class Flow_er
     private void Un()
     {
         //(2.A)
-        if (!NG.DoesNodeExist(ISP_UID) || NG[ISP_UID].ConnectedNodesCount == 0)
+        if (!NG.DoesNodeExist(ISP_UID) || NG[ISP_UID].NoUpDownCount() == 0)
         { DauBwyntB(); }
 
         ISP_Node = NG[ISP_UID];
@@ -97,17 +97,17 @@ class Flow_er
     private void Flow(int _SP_UID)
     {
         //(3)
-        if (ISP_Node.ConnectedNodesCount > 1)
+        if (ISP_Node.NoUpDownCount() > 1)
         {
             //(4.B)
-            foreach (var KVP in ISP_Node.GetConnectedNodes().Skip(1))
+            foreach (var KVP in ISP_Node.GetConnectedNodes().NoUpDownSkip(1))
             { Backlog.Enqueue((KVP.Key, KVP.Value, Distance)); }
         }
 
         //(4.A)
-        var CN = ISP_Node.GetConnectedNodes().First();
+        var CN = ISP_Node.GetConnectedNodes().NoUpDownFirst();
 
-        if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is ISpecialFlow)
+        if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is not ISpecialFlow)
         { PopBacklog(); }
 
         CurrentNode = NG[CN.Value];
@@ -125,7 +125,7 @@ class Flow_er
     //(5)
     private void Pump()
     {
-        if (CurrentNode.ConnectedNodesCount >= 1)
+        if (CurrentNode.ExclusionCount(SpecialNodes) >= 1)
         { Wyth(); }
         else
         { PopBacklog(); }
@@ -135,9 +135,9 @@ class Flow_er
     {
         PrevNode = CurrentNode;
 
-        var CN = PrevNode.GetConnectedNodes().First();
+        var CN = PrevNode.GetConnectedNodes().First(SpecialNodes);
 
-        if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is ISpecialFlow)
+        if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is not ISpecialFlow)
         { throw new Exception("not sure what to do from here"); }
 
         CurrentNode = NG[CN.Value];
@@ -147,7 +147,7 @@ class Flow_er
         FlowNode = CurrentNode as ISpecialFlow;
         FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
 
-        if (PrevNode.ConnectedNodesCount > 1)
+        if (PrevNode.ExclusionCount(SpecialNodes) > 1)
         { Naw(); }
         else
         { Pump(); }
@@ -155,8 +155,13 @@ class Flow_er
 
     public void Naw()
     {
-        foreach (var KVP in PrevNode.GetConnectedNodes().Skip(1))
-        { Backlog.Enqueue((KVP.Key, KVP.Value, Distance)); }
+        foreach (var KVP in PrevNode.GetConnectedNodes().Skip(SpecialNodes, 1))
+        {
+            if (!NG.DoesNodeExist(KVP.Value) || NG[KVP.Value] is not ISpecialFlow)
+            { continue; }
+
+            Backlog.Enqueue((KVP.Key, KVP.Value, Distance));
+        }
 
         Pump();
     }
@@ -169,6 +174,9 @@ class Flow_er
 
         //(7)
         var Tn = Backlog.Dequeue();
+
+        if (!NG.DoesNodeExist(Tn.UID) || NG[Tn.UID] is not ISpecialFlow)
+        { PopBacklog(); }
 
         CurrentNode = NG[Tn.UID];
         BackDir = (NodeDirection)((int)Tn.Dir * -1);

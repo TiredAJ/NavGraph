@@ -59,6 +59,29 @@ public static class Extensions
     /// <returns>A node direction facing the opposite of this direction</returns>
     public static NodeDirection Inverse(this NodeDirection _ND)
     { return (NodeDirection)((int)_ND * -1); }
+
+    public static KeyValuePair<NodeDirection, int> First(this Dictionary<NodeDirection, int> _N, IEnumerable<int> _Exclusions)
+    { return _N.First(X => !_Exclusions.Contains(X.Value)); }
+
+    public static IEnumerable<KeyValuePair<NodeDirection, int>> Skip(this IEnumerable<KeyValuePair<NodeDirection, int>> _N, IEnumerable<int> _Exclusions, int _Index)
+    { return _N.Skip(_Index).Where(X => !_Exclusions.Contains(X.Value)); }
+
+    public static int NoUpDownCount(this Dictionary<NodeDirection, int> _N)
+    { return _N.Where(X => X.Key is not (NodeDirection.Up or NodeDirection.Down)).Count(); }
+
+    public static int NoUpDownCount(this NavNode _N)
+    { return _N.GetConnectedNodes().Where(X => X.Key is not (NodeDirection.Up or NodeDirection.Down)).Count(); }
+
+    public static IEnumerable<KeyValuePair<NodeDirection, int>> NoUpDownSkip(this IEnumerable<KeyValuePair<NodeDirection, int>> _N, int _Index)
+    { return _N.Where(X => X.Key is not (NodeDirection.Up or NodeDirection.Down)).Skip(1); }
+
+    public static KeyValuePair<NodeDirection, int> NoUpDownFirst(this IEnumerable<KeyValuePair<NodeDirection, int>> _N)
+    { return _N.Where(X => X.Key is not (NodeDirection.Up or NodeDirection.Down)).First(); }
+
+    public static int ExclusionCount(this NavNode _N, IEnumerable<int> _Exclusions)
+    {
+        return _N.GetConnectedNodes().Where(X => !_Exclusions.Contains(X.Value)).Count();
+    }
 }
 
 

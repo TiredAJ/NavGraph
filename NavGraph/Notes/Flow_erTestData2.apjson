@@ -1,0 +1,148 @@
+{
+  "Nodes": null,
+  "Blocks": {
+    "Johnstone": {
+      "Item1": 4,
+      "Item2": 0
+    }
+  },
+  "NG": {
+    "BaseUID": 2422,
+    "Blocks": {
+      "Johnstone": {
+        "Item1": 4,
+        "Item2": 0
+      }
+    },
+    "_AvailableUID": 2430,
+    "_NextENGroupID": 1,
+    "Nodes": {
+      "2421": {
+        "$type": "CN",
+        "Nodes": {
+          "South": 2422,
+          "North": 2424
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 2421,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-01"
+      },
+      "2422": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 2421,
+          "South": 2423,
+          "East": 2425
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 2422,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-02"
+      },
+      "2423": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 2422,
+          "South": 2426
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 2423,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-03"
+      },
+      "2424": {
+        "$type": "GW",
+        "_Nodes": {
+          "South": 2421
+        },
+        "Connections": {},
+        "UID": 2424,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-GW-South"
+      },
+      "2425": {
+        "$type": "EN",
+        "InternalName": "TRJ-0-EN-East",
+        "Nodes": {
+          "West": 2422
+        },
+        "IsElevator": true,
+        "ENGroupID": 1,
+        "UID": 2425,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "2426": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 2423,
+          "East": 2427
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 2426,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-04"
+      },
+      "2427": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 2426,
+          "East": 2428
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 2427,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-05"
+      },
+      "2428": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 2427,
+          "North": 2429
+        },
+        "Flow": [
+          {},
+          {}
+        ],
+        "UID": 2428,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-06"
+      },
+      "2429": {
+        "$type": "EN",
+        "InternalName": "TRJ-0-ES-",
+        "Nodes": {
+          "South": 2428
+        },
+        "IsElevator": false,
+        "ENGroupID": 2,
+        "UID": 2429,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      }
+    }
+  }
+}

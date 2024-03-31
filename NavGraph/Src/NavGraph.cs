@@ -213,7 +213,7 @@ public class NavGraph : Graph<NavNode>
     /// <typeparam name="T">Type of nodes to retrieve from _UID's connections</typeparam>
     /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
     public Dictionary<NodeDirection, NavNode>? GetConnectedNodes<T>(int _UID) where T : NavNode, ISpecialNode
-    { 
+    {
         if (DoesNodeExist(_UID))
         {
             var Temp = Nodes[_UID].GetConnectedNodes();
@@ -239,7 +239,7 @@ public class NavGraph : Graph<NavNode>
     /// <typeparam name="T">Type of nodes to retrieve from _UID's connections</typeparam>
     /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
     public Dictionary<NodeDirection, NavNode>? GetConnectedSpecialNodes<T>(int _UID) where T : ISpecialNode
-    { 
+    {
         if (DoesNodeExist(_UID))
         {
             var Temp = Nodes[_UID].GetConnectedNodes();
@@ -265,7 +265,7 @@ public class NavGraph : Graph<NavNode>
     /// <typeparam name="T">Type of nodes to retrieve from _UID's connections</typeparam>
     /// <returns>A dictionary of NodeDirections and NavNodes, null if invalid _UID</returns>
     public Dictionary<NodeDirection, NavNode>? GetConnectedFlowNodes<T>(int _UID) where T : ISpecialFlow
-    { 
+    {
         if (DoesNodeExist(_UID))
         {
             var Temp = Nodes[_UID].GetConnectedNodes();
@@ -338,7 +338,7 @@ public class NavGraph : Graph<NavNode>
         {
             //could expand this to check that on down conn TB's floor is less than Ta's,
             //but eh
-            if ((_Dir == NodeDirection.Up || _Dir == NodeDirection.Down) && TA.Floor == TB.Floor)
+            if ((_Dir is (NodeDirection.Up or NodeDirection.Down)) && TA.Floor == TB.Floor)
             { throw new Exception("For up/down, ENs must be on different floors!"); }
 
             TA.ConnectNode(_BUID, _Dir);
