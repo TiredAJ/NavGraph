@@ -15,7 +15,7 @@
       }
     },
     "_AvailableUID": 837,
-    "_NextENGroupID": 7,
+    "_NextENGroupID": 1,
     "Nodes": {
       "816": {
         "$type": "CN",
@@ -25,7 +25,14 @@
         },
         "Flow": [
           {},
-          {}
+          {
+            "North": [
+              {
+                "Item1": 817,
+                "Item2": 1
+              }
+            ]
+          }
         ],
         "UID": 816,
         "BlockName": "Johnstone",
