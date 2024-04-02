@@ -63,8 +63,11 @@ public static class Extensions
     public static KeyValuePair<NodeDirection, int> First(this Dictionary<NodeDirection, int> _N, IEnumerable<int> _Exclusions)
     { return _N.First(X => !_Exclusions.Contains(X.Value)); }
 
+    public static KeyValuePair<NodeDirection, int> First(this IEnumerable<KeyValuePair<NodeDirection, int>> _N, IEnumerable<int> _Exclusions)
+    { return _N.First(X => !_Exclusions.Contains(X.Value)); }
+
     public static IEnumerable<KeyValuePair<NodeDirection, int>> Skip(this IEnumerable<KeyValuePair<NodeDirection, int>> _N, HashSet<int> _Exclusions, int _Index)
-    { return _N.Skip(_Index).Where(X => !_Exclusions.Contains(X.Value)); }
+    { return _N.Skip(_Index).ExceptBy(_Exclusions, X => X.Value); }
 
     public static int NoUpDownCount(this Dictionary<NodeDirection, int> _N)
     { return _N.Where(X => X.Key is not (NodeDirection.Up or NodeDirection.Down)).Count(); }
@@ -79,7 +82,10 @@ public static class Extensions
     { return _N.Where(X => X.Key is not (NodeDirection.Up or NodeDirection.Down)).First(); }
 
     public static int ExclusionCount(this NavNode _N, HashSet<int> _Exclusions)
-    { return _N.GetConnectedNodes().Where(X => !_Exclusions.Contains(X.Value)).Count(); }
+    { return _N.GetConnectedNodes().ExceptBy(_Exclusions, X => X.Value).Count(); }
+
+    public static int ExclusionCount(this IEnumerable<KeyValuePair<NodeDirection, int>> _N, HashSet<int> _Exclusions)
+    { return _N.ExceptBy(_Exclusions, X => X.Value).Count(); }
 }
 
 

@@ -28,6 +28,7 @@ class Flow_er
     private Queue<(NodeDirection Dir, int UID, int Distance)> Backlog = new();
     private Queue<int> SpecialNodes = new();
     private HashSet<int> ExclusionSet = new();
+    private IEnumerable<int> SpecialNodesPerm;
     private Dictionary<NodeDirection, int> ConnNodes = null;
     private NavNode CurrentNode = null, PrevNode = null, ISP_Node = null;
     private NodeDirection BackDir;
@@ -63,8 +64,10 @@ class Flow_er
             .Where(X => X is ISpecialNode)
             .Select(X => X.UID));
 
-        Progress?.Invoke(this, new ProgressEvent(NG.NodeCount, 0, 0));
+        SpecialNodesPerm = SpecialNodes.ToArray();
 
+        Progress?.Invoke(this,
+                    new ProgressEvent(SpecialNodesPerm.Count(), 0, 0));
 
         Task.Run(() =>
         {
@@ -97,13 +100,21 @@ class Flow_er
         ExclusionSet.Clear();
 
         if (SpecialNodes.Count == 0)
-        { Debug.WriteLine("Done!"); return; }
+        {
+            Debug.WriteLine("Done!");
+
+            Progress?.Invoke(this, new ProgressEvent(true));
+
+            return;
+        }
 
         ISP_UID = SpecialNodes.Dequeue();
 
-        ExclusionSet = new HashSet<int>(SpecialNodes);
+        ExclusionSet = new HashSet<int>(SpecialNodesPerm);
 
         Un();
+
+        _ProgressUpdate++;
     }
 
     private void Flow(int _SP_UID)
@@ -112,12 +123,12 @@ class Flow_er
         if (ISP_Node.NoUpDownCount() > 1)
         {
             //(4.B)
-            foreach (var KVP in ISP_Node.GetConnectedNodes().NoUpDownSkip(1))
+            foreach (var KVP in GetFlowNodes(ISP_Node).NoUpDownSkip(1))
             { Backlog.Enqueue((KVP.Key, KVP.Value, Distance)); }
         }
 
         //(4.A)
-        var CN = ISP_Node.GetConnectedNodes().NoUpDownFirst();
+        var CN = GetFlowNodes(ISP_Node).NoUpDownFirst();
 
         if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is not ISpecialFlow)
         { PopBacklog(); }
@@ -131,15 +142,13 @@ class Flow_er
 
         ExclusionSet.Add(CN.Value);
 
-        _ProgressUpdate++;
-
         Pump();
     }
 
     //(5)
     private void Pump()
     {
-        if (CurrentNode.ExclusionCount(ExclusionSet) >= 1)
+        if (GetFlowNodes(CurrentNode).ExclusionCount(ExclusionSet) >= 1)
         { Wyth(); }
         else
         { PopBacklog(); }
@@ -149,7 +158,8 @@ class Flow_er
     {
         PrevNode = CurrentNode;
 
-        var CN = PrevNode.GetConnectedNodes().First(SpecialNodes);
+        var CN = GetFlowNodes(PrevNode)
+                                            .First(ExclusionSet);
 
         if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is not ISpecialFlow)
         { throw new Exception("not sure what to do from here"); }
@@ -161,9 +171,21 @@ class Flow_er
         FlowNode = CurrentNode as ISpecialFlow;
         FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
 
+        /*
+         * Issue here, because current node is added to the exclusion list,
+         * then PrevNode is checked for non-excluded nodes.
+         * In Flow_er-Test.png, this happens when travelling south from 817.
+         * 821 is connected to 819 (prev-prev), 822 (current) and 826 (untouched)
+         * Because 822 gets added to ExclusionSet, when checked, 821 only has 1
+         * unexcluded node, so it gets skipped and ignored. Thinking we add
+         * CurrentNode to the ExclusionSet *after* checking connection count
+         * just before Naw() is called.
+         */
+
+
         ExclusionSet.Add(CN.Value);
 
-        if (PrevNode.ExclusionCount(ExclusionSet) > 1)
+        if (GetFlowNodes(PrevNode).ExclusionCount(ExclusionSet) > 1)
         { Naw(); }
         else
         { Pump(); }
@@ -171,7 +193,9 @@ class Flow_er
 
     public void Naw()
     {
-        foreach (var KVP in PrevNode.GetConnectedNodes().Skip(ExclusionSet, 1))
+        foreach (var KVP in
+                            GetFlowNodes(PrevNode)
+                                .Skip(ExclusionSet, 1))
         {
             if (!NG.DoesNodeExist(KVP.Value) || NG[KVP.Value] is not ISpecialFlow)
             { continue; }
@@ -202,12 +226,15 @@ class Flow_er
 
         Pump();
     }
+
+    private IEnumerable<KeyValuePair<NodeDirection, int>> GetFlowNodes(NavNode _N)
+    { return _N.GetConnectedNodes().Where(X => NG.TryGetNode(X.Value) is ISpecialFlow); }
 }
 
 public class ProgressEvent : EventArgs
 {
     public int Max, Min, Current;
-    public bool InitEvent;
+    public bool InitEvent, Done = false;
 
     public ProgressEvent() { }
 
@@ -224,4 +251,7 @@ public class ProgressEvent : EventArgs
         InitEvent = false;
         Current = _Current;
     }
+
+    public ProgressEvent(bool _Done)
+    { Done = _Done; }
 }

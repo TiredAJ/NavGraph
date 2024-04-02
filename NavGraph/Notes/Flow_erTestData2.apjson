@@ -14,14 +14,16 @@
         "Item2": 0
       }
     },
-    "_AvailableUID": 837,
-    "_NextENGroupID": 7,
+    "_AvailableUID": 846,
+    "_NextENGroupID": 1,
     "Nodes": {
       "816": {
         "$type": "CN",
         "Nodes": {
           "North": 817,
-          "South": 818
+          "South": 818,
+          "West": 837,
+          "East": 838
         },
         "Flow": [
           {},
@@ -48,7 +50,8 @@
         "Nodes": {
           "North": 816,
           "South": 819,
-          "East": 820
+          "East": 820,
+          "West": 839
         },
         "Flow": [
           {},
@@ -92,7 +95,8 @@
         "Nodes": {
           "North": 819,
           "East": 822,
-          "West": 826
+          "West": 826,
+          "South": 840
         },
         "Flow": [
           {},
@@ -166,7 +170,8 @@
         "$type": "CN",
         "Nodes": {
           "East": 826,
-          "North": 828
+          "North": 828,
+          "South": 842
         },
         "Flow": [
           {},
@@ -207,7 +212,8 @@
         "$type": "CN",
         "Nodes": {
           "North": 829,
-          "South": 831
+          "South": 831,
+          "East": 841
         },
         "Flow": [
           {},
@@ -234,7 +240,9 @@
         "$type": "CN",
         "Nodes": {
           "East": 833,
-          "South": 834
+          "South": 834,
+          "West": 843,
+          "North": 844
         },
         "Flow": [
           {},
@@ -262,7 +270,8 @@
         "$type": "CN",
         "Nodes": {
           "North": 832,
-          "East": 835
+          "East": 835,
+          "South": 845
         },
         "Flow": [
           {},
@@ -298,6 +307,132 @@
         "IsElevator": false,
         "ENGroupID": 2,
         "UID": 836,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "837": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-01",
+        "RoomName": "",
+        "Nodes": {
+          "East": 816
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 837,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "838": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-02",
+        "RoomName": "",
+        "Nodes": {
+          "West": 816
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 838,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "839": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-03",
+        "RoomName": "",
+        "Nodes": {
+          "East": 818
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 839,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "840": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-04",
+        "RoomName": "",
+        "Nodes": {
+          "North": 821
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 840,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "841": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-05",
+        "RoomName": "",
+        "Nodes": {
+          "West": 830
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 841,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "842": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-06",
+        "RoomName": "",
+        "Nodes": {
+          "North": 827
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 842,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "843": {
+        "$type": "RN",
+        "InternalName": "TRJ-1-RN-01",
+        "RoomName": "",
+        "Nodes": {
+          "East": 832
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 843,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "844": {
+        "$type": "RN",
+        "InternalName": "TRJ-1-RN-02",
+        "RoomName": "",
+        "Nodes": {
+          "South": 832
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 844,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "845": {
+        "$type": "RN",
+        "InternalName": "TRJ-1-RN-03",
+        "RoomName": "",
+        "Nodes": {
+          "North": 834
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 845,
         "BlockName": "Johnstone",
         "Floor": 1
       }

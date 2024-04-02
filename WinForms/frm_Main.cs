@@ -294,6 +294,9 @@ public partial class frm_Main : Form
 
         F.Progress += ((object _S, ProgressEvent e) => Task.Run(() =>
         {
+            if (e.Done)
+            { MessageBox.Show("Flow_er complete!"); return; }
+
             pbr_Nodes_FlowGenProgress.Invoke(() =>
             {
                 if (e.InitEvent)
