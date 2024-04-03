@@ -2125,7 +2125,6 @@ namespace WinForms
             // btn_Export
             // 
             btn_Export.Dock = DockStyle.Bottom;
-            btn_Export.Enabled = false;
             btn_Export.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
             btn_Export.Location = new Point(0, 208);
             btn_Export.Margin = new Padding(0, 3, 0, 3);

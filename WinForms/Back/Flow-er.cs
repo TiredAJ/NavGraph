@@ -73,8 +73,8 @@ class Flow_er
         {
             try
             { DauBwyntB(); }
-            catch (Exception)
-            { MessageBox.Show("uh oh"); }
+            catch (Exception EXC)
+            { MessageBox.Show($"uh oh: {EXC.Message}"); }
         });
     }
 
@@ -111,6 +111,7 @@ class Flow_er
         ISP_UID = SpecialNodes.Dequeue();
 
         ExclusionSet = new HashSet<int>(SpecialNodesPerm);
+        Distance = 0;
 
         Un();
 
@@ -131,7 +132,7 @@ class Flow_er
         var CN = GetFlowNodes(ISP_Node).NoUpDownFirst();
 
         if (!NG.DoesNodeExist(CN.Value) || NG[CN.Value] is not ISpecialFlow)
-        { PopBacklog(); }
+        { PopBacklog(); return; }
 
         CurrentNode = NG[CN.Value];
 
@@ -183,12 +184,20 @@ class Flow_er
          */
 
 
-        ExclusionSet.Add(CN.Value);
+        //ExclusionSet.Add(CN.Value);
 
         if (GetFlowNodes(PrevNode).ExclusionCount(ExclusionSet) > 1)
-        { Naw(); }
+        {
+            ExclusionSet.Add(CN.Value);
+            Naw();
+            return;
+        }
         else
-        { Pump(); }
+        {
+            ExclusionSet.Add(CN.Value);
+            Pump();
+            return;
+        }
     }
 
     public void Naw()
@@ -203,26 +212,35 @@ class Flow_er
             Backlog.Enqueue((KVP.Key, KVP.Value, Distance));
         }
 
-        Pump();
+        /*if (CurrentNode.ExclusionCount(ExclusionSet) == 0)
+        { PopBacklog(); }
+        else
+        {*/
+        Pump(); /*}*/
     }
 
     private void PopBacklog()
     {
         //(6)
         if (Backlog.Count == 0)
-        { DauBwyntB(); }
+        {
+            DauBwyntB();
+            return;
+        }
 
         //(7)
         var Tn = Backlog.Dequeue();
 
         if (!NG.DoesNodeExist(Tn.UID) || NG[Tn.UID] is not ISpecialFlow)
-        { PopBacklog(); }
+        { PopBacklog(); return; }
 
         CurrentNode = NG[Tn.UID];
         BackDir = (NodeDirection)((int)Tn.Dir * -1);
-        Distance = ++Tn.Distance;
+        Distance = Tn.Distance;
         FlowNode = CurrentNode as ISpecialFlow;
         FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
+
+        ExclusionSet.Add(Tn.UID);
 
         Pump();
     }

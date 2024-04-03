@@ -84,11 +84,7 @@ public partial class frm_Main : Form
     private void rbtn_Export_CheckedChanged(object sender, EventArgs e)
     {
         if (sender is RadioButton SE)
-        {
-            ExportOptions = (ExportType)int.Parse(SE.Tag.ToString());
-
-            btn_Export.Enabled = true;
-        }
+        { ExportOptions = (ExportType)int.Parse(SE.Tag.ToString()); }
     }
 
     private void btn_Export_Click(object sender, EventArgs e)
