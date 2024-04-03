@@ -32,8 +32,9 @@ class Flow_er
     private Dictionary<NodeDirection, int> ConnNodes = null;
     private NavNode CurrentNode = null, PrevNode = null, ISP_Node = null;
     private NodeDirection BackDir;
-    private int Distance = 0, IsEN = 0, ISP_UID = 0;
-    //                          ^ T
+    private int Distance = 0, ISP_UID = 0;
+    private bool IsEN = false;
+
     private ISpecialFlow FlowNode = null;
 
     public event EventHandler<ProgressEvent> Progress;
@@ -89,7 +90,7 @@ class Flow_er
 
         //(1)
         //This is used for the index of ISpecialFlow.Flow[]
-        IsEN = ISP_Node is ElevationNode ? 0 : 1;
+        IsEN = ISP_Node is ElevationNode;
 
         Flow(ISP_UID);
     }
@@ -108,14 +109,14 @@ class Flow_er
             return;
         }
 
+        _ProgressUpdate++;
+
         ISP_UID = SpecialNodes.Dequeue();
 
         ExclusionSet = new HashSet<int>(SpecialNodesPerm);
         Distance = 0;
 
         Un();
-
-        _ProgressUpdate++;
     }
 
     private void Flow(int _SP_UID)

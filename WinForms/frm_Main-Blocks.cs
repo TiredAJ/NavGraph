@@ -76,27 +76,14 @@ public partial class frm_Main : Form
 
                     if (N.Value is ISpecialFlow NISF)
                     {
-                        if (NISF.Flow[0] is not null)
+                        if (NISF.Flow is not null)
                         {
-                            foreach (var Flow in NISF.Flow[0])
+                            foreach (var Flow in NISF.Flow)
                             {
-                                SB_Name.Append($"{{{Flow.Key}: ");
+                                SB_Name.Append($"{{{Flow.Key.ToArrow()}: ");
 
-                                foreach (var FNode in Flow.Value)
-                                { SB_Name.Append($"[{FNode.UID}, {FNode.Distance}N],"); }
-
-                                SB_Name.Append($"}}");
-                            }
-                        }
-
-                        if (NISF.Flow[1] is not null)
-                        {
-                            foreach (var Flow in NISF.Flow[1])
-                            {
-                                SB_Name.Append($"{{{Flow.Key}: ");
-
-                                foreach (var FNode in Flow.Value)
-                                { SB_Name.Append($"[{FNode.UID}, {FNode.Distance}N],"); }
+                                foreach (var FN in Flow.Value.OrderBy(X => !X.IsEN))
+                                { SB_Name.Append($"[{(FN.IsEN ? "EN" : "GW")}: {FN.UID}, {FN.Distance}N],"); }
 
                                 SB_Name.Append($"}}");
                             }

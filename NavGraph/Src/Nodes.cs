@@ -189,79 +189,64 @@ public interface ISpecialNode
 public interface ISpecialFlow
 {
     [JsonIgnore]
-    public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; internal set; }
-    //first element is the dict for EN ([0]), 2nd is for GW ([1])
-    //Check if one is null, if so, no flow for that ISN
+    public Dictionary<NodeDirection, List<(int UID, int Distance, bool IsEN)>>? Flow { get; internal set; }
 
     /// <summary>
     /// Gets all the flow directions to <see langword="ElevationNode"/>s
     /// </summary>
     /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="ElevationNode"/>s
     /// and their distance from this Node</returns>
-    public Dictionary<NodeDirection, List<(int UID, int Distance)>>? GetElevationNodes()
-    => Flow[0];
+    public Dictionary<NodeDirection, List<(int UID, int Distance, bool IsEN)>>? GetElevationNodes()
+    => Flow
+        .Where(X =>
+            X.Value.Any(Y => Y.IsEN == true))
+        .ToDictionary();
 
     /// <summary>
     /// Gets all the flow directions to <see langword="GatewayNode"/>s
     /// </summary>
     /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="GatewayNode"/>s
     /// and their distance from this Node</returns>
-    public Dictionary<NodeDirection, List<(int UID, int Distance)>>? GetGatewayNodes()
-    => Flow[1];
+    public Dictionary<NodeDirection, List<(int UID, int Distance, bool IsEN)>>? GetGatewayNodes()
+    => Flow
+        .Where(X =>
+            X.Value.Any(Y => Y.IsEN == false))
+        .ToDictionary();
 
     /// <summary>
     /// Gets the direction to the inputted _UID
     /// </summary>
-    /// <param name="_UID">_UID of <see langword="ElevationNode"/></param>
+    /// <param name="_UID">_UID of requested node</param>
     /// <returns>A <see langword="NodeDirection"/> towards the requested node</returns>
-    public NodeDirection? GetENDirection(int _UID)
+    public NodeDirection? GetDirection(int _UID)
     {
-        if (Flow[0] != null)
+        if (Flow != null)
         {
-            return Flow[0]
-                        .Where(X => X.Value
-                            .Select(X => X.UID)
+            return Flow
+                    .Where(X
+                        => X.Value
+                            .Select(Y => Y.UID)
                             .Contains(_UID))
-                        .Select(X => X.Key)
-                        .FirstOrDefault();
+                    .Select(Z => Z.Key)
+                    .First();
         }
         else
         { return null; }
     }
 
-    /// <summary>
-    /// Gets the direction to the inputted _UID
-    /// </summary>
-    /// <param name="_UID">_UID of <see langword="GatewayNode"/></param>
-    /// <returns>A <see langword="NodeDirection"/> towards the requested node</returns>
-    public NodeDirection? GetGWDirection(int _UID)
+    public void Add(bool _IsEN, NodeDirection _Dir, int _UID, int _Distance)
     {
-        if (Flow[1] != null)
+        if (Flow is not null)
         {
-            return Flow[1]
-                        .Where(X => X.Value
-                            .Select(X => X.UID)
-                            .Contains(_UID))
-                        .Select(X => X.Key)
-                        .FirstOrDefault();
-        }
-        else
-        { return null; }
-    }
-
-    public void Add(int _IsEN, NodeDirection _Dir, int _UID, int _Distance)
-    {
-        if (Flow[_IsEN] is not null)
-        {
-            if (!Flow[_IsEN].ContainsKey(_Dir))
-            { Flow[_IsEN].Add(_Dir, new() { (_UID, _Distance) }); }
+            if (!Flow.ContainsKey(_Dir))
+            { Flow.Add(_Dir, new() { (_UID, _Distance, _IsEN) }); }
             else
-            { Flow[_IsEN][_Dir].Add((_UID, _Distance)); }
+            { Flow[_Dir].Add((_UID, _Distance, _IsEN)); }
         }
         else
         {
-            Flow[_IsEN] = new()
-            {{ _Dir, new() { (_UID, _Distance) } }};
+            Flow = new()
+            {{ _Dir, new() { (_UID, _Distance, _IsEN) } }};
         }
     }
 }
@@ -273,13 +258,7 @@ public interface ISpecialFlow
 public class CorridorNode : NavNode, ISpecialFlow
 {
     public CorridorNode() : base()
-    {
-        Flow =
-        [
-            new Dictionary<NodeDirection, List<(int UID, int Distance)>>(),
-            new Dictionary<NodeDirection, List<(int UID, int Distance)>>()
-        ];
-    }
+    { Flow = new Dictionary<NodeDirection, List<(int UID, int Distance, bool IsEN)>>(); }
 
     /// <summary>
     /// The number of nodes this is connected to
@@ -297,7 +276,7 @@ public class CorridorNode : NavNode, ISpecialFlow
     /// The Flow directions for this node
     /// </summary>
     [JsonInclude]
-    public Dictionary<NodeDirection, List<(int UID, int Distance)>>?[] Flow { get; set; }
+    public Dictionary<NodeDirection, List<(int UID, int Distance, bool IsEN)>>? Flow { get; set; }
 }
 
 
@@ -327,7 +306,7 @@ public class RoomNode : NavNode
     /// The tags relating to this node
     /// </summary>
     [ListStringLength(50, true)]
-    public List<string> Tags { get; set; } = new List<string>();
+    public List<string>? Tags { get; set; } = null;
     #endregion
 
     #region Overrides

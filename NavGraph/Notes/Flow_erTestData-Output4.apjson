@@ -1,0 +1,753 @@
+{
+  "Nodes": null,
+  "Blocks": {
+    "Johnstone": {
+      "Item1": 4,
+      "Item2": 0
+    }
+  },
+  "NG": {
+    "BaseUID": 817,
+    "Blocks": {
+      "Johnstone": {
+        "Item1": 4,
+        "Item2": 0
+      }
+    },
+    "_AvailableUID": 846,
+    "_NextENGroupID": 1,
+    "Nodes": {
+      "816": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 817,
+          "South": 818,
+          "West": 837,
+          "East": 838
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 817,
+              "Item2": 1,
+              "Item3": false
+            }
+          ],
+          "South": [
+            {
+              "Item1": 820,
+              "Item2": 2,
+              "Item3": true
+            },
+            {
+              "Item1": 825,
+              "Item2": 6,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 6,
+              "Item3": false
+            },
+            {
+              "Item1": 831,
+              "Item2": 7,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 816,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-01"
+      },
+      "817": {
+        "$type": "GW",
+        "_Nodes": {
+          "South": 816
+        },
+        "Connections": {},
+        "UID": 817,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-GW-N"
+      },
+      "818": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 816,
+          "South": 819,
+          "East": 820,
+          "West": 839
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 817,
+              "Item2": 2,
+              "Item3": false
+            }
+          ],
+          "East": [
+            {
+              "Item1": 820,
+              "Item2": 1,
+              "Item3": true
+            }
+          ],
+          "South": [
+            {
+              "Item1": 825,
+              "Item2": 5,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 5,
+              "Item3": false
+            },
+            {
+              "Item1": 831,
+              "Item2": 6,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 818,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-02"
+      },
+      "819": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 818,
+          "South": 821
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 817,
+              "Item2": 3,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 2,
+              "Item3": true
+            }
+          ],
+          "South": [
+            {
+              "Item1": 825,
+              "Item2": 4,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 4,
+              "Item3": false
+            },
+            {
+              "Item1": 831,
+              "Item2": 5,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 819,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-03"
+      },
+      "820": {
+        "$type": "EN",
+        "InternalName": "TRJ-0-EN-E",
+        "Nodes": {
+          "West": 818,
+          "Up": 833
+        },
+        "IsElevator": true,
+        "ENGroupID": 1,
+        "UID": 820,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "821": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 819,
+          "East": 822,
+          "West": 826,
+          "South": 840
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 817,
+              "Item2": 4,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 3,
+              "Item3": true
+            }
+          ],
+          "East": [
+            {
+              "Item1": 825,
+              "Item2": 3,
+              "Item3": true
+            }
+          ],
+          "West": [
+            {
+              "Item1": 828,
+              "Item2": 3,
+              "Item3": false
+            },
+            {
+              "Item1": 831,
+              "Item2": 4,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 821,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-04"
+      },
+      "822": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 821,
+          "East": 823
+        },
+        "Flow": {
+          "West": [
+            {
+              "Item1": 817,
+              "Item2": 5,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 4,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 4,
+              "Item3": false
+            },
+            {
+              "Item1": 831,
+              "Item2": 5,
+              "Item3": true
+            }
+          ],
+          "East": [
+            {
+              "Item1": 825,
+              "Item2": 2,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 822,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-05"
+      },
+      "823": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 822,
+          "North": 825
+        },
+        "Flow": {
+          "West": [
+            {
+              "Item1": 817,
+              "Item2": 6,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 5,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 5,
+              "Item3": false
+            },
+            {
+              "Item1": 831,
+              "Item2": 6,
+              "Item3": true
+            }
+          ],
+          "North": [
+            {
+              "Item1": 825,
+              "Item2": 1,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 823,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-06"
+      },
+      "825": {
+        "$type": "EN",
+        "InternalName": "TRJ-0-ES-E",
+        "Nodes": {
+          "South": 823,
+          "Up": 836
+        },
+        "IsElevator": false,
+        "ENGroupID": 2,
+        "UID": 825,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "826": {
+        "$type": "CN",
+        "Nodes": {
+          "East": 821,
+          "West": 827,
+          "South": 829
+        },
+        "Flow": {
+          "East": [
+            {
+              "Item1": 817,
+              "Item2": 5,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 4,
+              "Item3": true
+            },
+            {
+              "Item1": 825,
+              "Item2": 4,
+              "Item3": true
+            }
+          ],
+          "West": [
+            {
+              "Item1": 828,
+              "Item2": 2,
+              "Item3": false
+            }
+          ],
+          "South": [
+            {
+              "Item1": 831,
+              "Item2": 3,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 826,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-07"
+      },
+      "827": {
+        "$type": "CN",
+        "Nodes": {
+          "East": 826,
+          "North": 828,
+          "South": 842
+        },
+        "Flow": {
+          "East": [
+            {
+              "Item1": 817,
+              "Item2": 6,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 5,
+              "Item3": true
+            },
+            {
+              "Item1": 825,
+              "Item2": 5,
+              "Item3": true
+            },
+            {
+              "Item1": 831,
+              "Item2": 4,
+              "Item3": true
+            }
+          ],
+          "North": [
+            {
+              "Item1": 828,
+              "Item2": 1,
+              "Item3": false
+            }
+          ]
+        },
+        "UID": 827,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-08"
+      },
+      "828": {
+        "$type": "GW",
+        "_Nodes": {
+          "South": 827
+        },
+        "Connections": {},
+        "UID": 828,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-GW-W"
+      },
+      "829": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 826,
+          "South": 830
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 817,
+              "Item2": 6,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 5,
+              "Item3": true
+            },
+            {
+              "Item1": 825,
+              "Item2": 5,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 3,
+              "Item3": false
+            }
+          ],
+          "South": [
+            {
+              "Item1": 831,
+              "Item2": 2,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 829,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-09"
+      },
+      "830": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 829,
+          "South": 831,
+          "East": 841
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 817,
+              "Item2": 7,
+              "Item3": false
+            },
+            {
+              "Item1": 820,
+              "Item2": 6,
+              "Item3": true
+            },
+            {
+              "Item1": 825,
+              "Item2": 6,
+              "Item3": true
+            },
+            {
+              "Item1": 828,
+              "Item2": 4,
+              "Item3": false
+            }
+          ],
+          "South": [
+            {
+              "Item1": 831,
+              "Item2": 1,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 830,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-10"
+      },
+      "831": {
+        "$type": "EN",
+        "InternalName": "TRJ-0-ES-S",
+        "Nodes": {
+          "North": 830
+        },
+        "IsElevator": false,
+        "ENGroupID": 3,
+        "UID": 831,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "832": {
+        "$type": "CN",
+        "Nodes": {
+          "East": 833,
+          "South": 834,
+          "West": 843,
+          "North": 844
+        },
+        "Flow": {
+          "East": [
+            {
+              "Item1": 833,
+              "Item2": 1,
+              "Item3": true
+            }
+          ],
+          "South": [
+            {
+              "Item1": 836,
+              "Item2": 3,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 832,
+        "BlockName": "Johnstone",
+        "Floor": 1,
+        "InternalName": "TRJ-1-CN-01"
+      },
+      "833": {
+        "$type": "EN",
+        "InternalName": "TRJ-1-EE-E",
+        "Nodes": {
+          "West": 832,
+          "Down": 820
+        },
+        "IsElevator": true,
+        "ENGroupID": 1,
+        "UID": 833,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "834": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 832,
+          "East": 835,
+          "South": 845
+        },
+        "Flow": {
+          "North": [
+            {
+              "Item1": 833,
+              "Item2": 2,
+              "Item3": true
+            }
+          ],
+          "East": [
+            {
+              "Item1": 836,
+              "Item2": 2,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 834,
+        "BlockName": "Johnstone",
+        "Floor": 1,
+        "InternalName": "TRJ-1-CN-02"
+      },
+      "835": {
+        "$type": "CN",
+        "Nodes": {
+          "West": 834,
+          "East": 836
+        },
+        "Flow": {
+          "West": [
+            {
+              "Item1": 833,
+              "Item2": 3,
+              "Item3": true
+            }
+          ],
+          "East": [
+            {
+              "Item1": 836,
+              "Item2": 1,
+              "Item3": true
+            }
+          ]
+        },
+        "UID": 835,
+        "BlockName": "Johnstone",
+        "Floor": 1,
+        "InternalName": "TRJ-1-CN-03"
+      },
+      "836": {
+        "$type": "EN",
+        "InternalName": "TRJ-1-ES-E",
+        "Nodes": {
+          "West": 835,
+          "Down": 825
+        },
+        "IsElevator": false,
+        "ENGroupID": 2,
+        "UID": 836,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "837": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-01",
+        "RoomName": "",
+        "Nodes": {
+          "East": 816
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 837,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "838": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-02",
+        "RoomName": "",
+        "Nodes": {
+          "West": 816
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 838,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "839": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-03",
+        "RoomName": "",
+        "Nodes": {
+          "East": 818
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 839,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "840": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-04",
+        "RoomName": "",
+        "Nodes": {
+          "North": 821
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 840,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "841": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-05",
+        "RoomName": "",
+        "Nodes": {
+          "West": 830
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 841,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "842": {
+        "$type": "RN",
+        "InternalName": "TRJ-0-RN-06",
+        "RoomName": "",
+        "Nodes": {
+          "North": 827
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 842,
+        "BlockName": "Johnstone",
+        "Floor": 0
+      },
+      "843": {
+        "$type": "RN",
+        "InternalName": "TRJ-1-RN-01",
+        "RoomName": "",
+        "Nodes": {
+          "East": 832
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 843,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "844": {
+        "$type": "RN",
+        "InternalName": "TRJ-1-RN-02",
+        "RoomName": "",
+        "Nodes": {
+          "South": 832
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 844,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      },
+      "845": {
+        "$type": "RN",
+        "InternalName": "TRJ-1-RN-03",
+        "RoomName": "",
+        "Nodes": {
+          "North": 834
+        },
+        "Tags": [
+          ""
+        ],
+        "UID": 845,
+        "BlockName": "Johnstone",
+        "Floor": 1
+      }
+    }
+  }
+}

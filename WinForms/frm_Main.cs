@@ -18,8 +18,6 @@ public partial class frm_Main : Form
     #endregion
 
     #region Exporting
-    private string? DefaultFileLoc = null;
-    private string FileLoc = "";
     private ExportType ExportOptions = ExportType.FARap;
     #endregion
     #endregion
@@ -102,10 +100,14 @@ public partial class frm_Main : Form
             OkRequiresInteraction = true,
         };
 
-        if (DefaultFileLoc == null)
-        { SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
-        else
-        { SFD.InitialDirectory = DefaultFileLoc; }
+        //if (DefaultFileLoc == null)
+        //{ SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
+        //else
+        //{ SFD.InitialDirectory = DefaultFileLoc; }
+
+        if (Directory.Exists("E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"))
+        { SFD.InitialDirectory = "E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"; }
+
 
         switch (ExportOptions)
         {
@@ -169,10 +171,8 @@ public partial class frm_Main : Form
             AddToRecent = true
         };
 
-        //if (DefaultFileLoc == null)
-        //{ OFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
-        //else
-        //{ OFD.InitialDirectory = DefaultFileLoc; }
+        if (Directory.Exists("E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"))
+        { OFD.InitialDirectory = "E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"; }
 
         switch (OFD.ShowDialog())
         {
@@ -291,7 +291,14 @@ public partial class frm_Main : Form
         F.Progress += ((object _S, ProgressEvent e) => Task.Run(() =>
         {
             if (e.Done)
-            { MessageBox.Show("Flow_er complete!"); return; }
+            {
+                MessageBox.Show("Flow_er complete!");
+
+                trvw_Nodes.Invoke(() =>
+                { RefreshNodesTree(); });
+
+                return;
+            }
 
             pbr_Nodes_FlowGenProgress.Invoke(() =>
             {

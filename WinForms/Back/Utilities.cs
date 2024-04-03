@@ -98,6 +98,27 @@ public static class Extensions
         }
     }
 
+    public static string ToArrow(this NodeDirection _ND)
+    {
+        switch (_ND)
+        {
+            case NodeDirection.North:
+            { return "↑"; }
+            case NodeDirection.East:
+            { return "→"; }
+            case NodeDirection.South:
+            { return "↓"; }
+            case NodeDirection.West:
+            { return "←"; }
+            case NodeDirection.Up:
+            { return "▲"; }
+            case NodeDirection.Down:
+            { return "▼"; }
+            default:
+            { return "#"; }
+        }
+    }
+
     public static string ToArrow(this string _ND)
     {
         switch (_ND)
