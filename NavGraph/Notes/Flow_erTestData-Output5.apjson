@@ -10,9 +10,9 @@
     "BaseUID": 817,
     "Blocks": {
       "Johnstone": [
-      4,
-      0
-    ]
+        4,
+        0
+      ]
     },
     "_AvailableUID": 846,
     "_NextENGroupID": 1,
@@ -20,20 +20,20 @@
       "816": {
         "$type": "CN",
         "Nodes": {
-          "North": 817,
-          "South": 818,
-          "West": 837,
-          "East": 838
+          "1": 817,
+          "-1": 818,
+          "-2": 837,
+          "2": 838
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               817,
               1,
               false
             ]
           ],
-          "South": [
+          "-1": [
             [
               820,
               2,
@@ -64,7 +64,7 @@
       "817": {
         "$type": "GW",
         "_Nodes": {
-          "South": 816
+          "-1": 816
         },
         "Connections": {},
         "UID": 817,
@@ -75,27 +75,27 @@
       "818": {
         "$type": "CN",
         "Nodes": {
-          "North": 816,
-          "South": 819,
-          "East": 820,
-          "West": 839
+          "1": 816,
+          "-1": 819,
+          "2": 820,
+          "-2": 839
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               817,
               2,
               false
             ]
           ],
-          "East": [
+          "2": [
             [
               820,
               1,
               true
             ]
           ],
-          "South": [
+          "-1": [
             [
               825,
               5,
@@ -121,11 +121,11 @@
       "819": {
         "$type": "CN",
         "Nodes": {
-          "North": 818,
-          "South": 821
+          "1": 818,
+          "-1": 821
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               817,
               3,
@@ -137,7 +137,7 @@
               true
             ]
           ],
-          "South": [
+          "-1": [
             [
               825,
               4,
@@ -164,8 +164,8 @@
         "$type": "EN",
         "InternalName": "TRJ-0-EN-E",
         "Nodes": {
-          "West": 818,
-          "Up": 833
+          "-2": 818,
+          "3": 833
         },
         "IsElevator": true,
         "ENGroupID": 1,
@@ -176,13 +176,13 @@
       "821": {
         "$type": "CN",
         "Nodes": {
-          "North": 819,
-          "East": 822,
-          "West": 826,
-          "South": 840
+          "1": 819,
+          "2": 822,
+          "-2": 826,
+          "-1": 840
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               817,
               4,
@@ -194,14 +194,14 @@
               true
             ]
           ],
-          "East": [
+          "2": [
             [
               825,
               3,
               true
             ]
           ],
-          "West": [
+          "-2": [
             [
               828,
               3,
@@ -222,11 +222,11 @@
       "822": {
         "$type": "CN",
         "Nodes": {
-          "West": 821,
-          "East": 823
+          "-2": 821,
+          "2": 823
         },
         "Flow": {
-          "West": [
+          "-2": [
             [
               817,
               5,
@@ -248,7 +248,7 @@
               true
             ]
           ],
-          "East": [
+          "2": [
             [
               825,
               2,
@@ -264,11 +264,11 @@
       "823": {
         "$type": "CN",
         "Nodes": {
-          "West": 822,
-          "North": 825
+          "-2": 822,
+          "1": 825
         },
         "Flow": {
-          "West": [
+          "-2": [
             [
               817,
               6,
@@ -290,7 +290,7 @@
               true
             ]
           ],
-          "North": [
+          "1": [
             [
               825,
               1,
@@ -307,8 +307,8 @@
         "$type": "EN",
         "InternalName": "TRJ-0-ES-E",
         "Nodes": {
-          "South": 823,
-          "Up": 836
+          "-1": 823,
+          "3": 836
         },
         "IsElevator": false,
         "ENGroupID": 2,
@@ -319,12 +319,12 @@
       "826": {
         "$type": "CN",
         "Nodes": {
-          "East": 821,
-          "West": 827,
-          "South": 829
+          "2": 821,
+          "-2": 827,
+          "-1": 829
         },
         "Flow": {
-          "East": [
+          "2": [
             [
               817,
               5,
@@ -341,14 +341,14 @@
               true
             ]
           ],
-          "West": [
+          "-2": [
             [
               828,
               2,
               false
             ]
           ],
-          "South": [
+          "-1": [
             [
               831,
               3,
@@ -364,12 +364,12 @@
       "827": {
         "$type": "CN",
         "Nodes": {
-          "East": 826,
-          "North": 828,
-          "South": 842
+          "2": 826,
+          "1": 828,
+          "-1": 842
         },
         "Flow": {
-          "East": [
+          "2": [
             [
               817,
               6,
@@ -391,7 +391,7 @@
               true
             ]
           ],
-          "North": [
+          "1": [
             [
               828,
               1,
@@ -407,7 +407,7 @@
       "828": {
         "$type": "GW",
         "_Nodes": {
-          "South": 827
+          "-1": 827
         },
         "Connections": {},
         "UID": 828,
@@ -418,11 +418,11 @@
       "829": {
         "$type": "CN",
         "Nodes": {
-          "North": 826,
-          "South": 830
+          "1": 826,
+          "-1": 830
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               817,
               6,
@@ -444,7 +444,7 @@
               false
             ]
           ],
-          "South": [
+          "-1": [
             [
               831,
               2,
@@ -460,12 +460,12 @@
       "830": {
         "$type": "CN",
         "Nodes": {
-          "North": 829,
-          "South": 831,
-          "East": 841
+          "1": 829,
+          "-1": 831,
+          "2": 841
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               817,
               7,
@@ -487,7 +487,7 @@
               false
             ]
           ],
-          "South": [
+          "-1": [
             [
               831,
               1,
@@ -504,7 +504,7 @@
         "$type": "EN",
         "InternalName": "TRJ-0-ES-S",
         "Nodes": {
-          "North": 830
+          "1": 830
         },
         "IsElevator": false,
         "ENGroupID": 3,
@@ -515,20 +515,20 @@
       "832": {
         "$type": "CN",
         "Nodes": {
-          "East": 833,
-          "South": 834,
-          "West": 843,
-          "North": 844
+          "2": 833,
+          "-1": 834,
+          "-2": 843,
+          "1": 844
         },
         "Flow": {
-          "East": [
+          "2": [
             [
               833,
               1,
               true
             ]
           ],
-          "South": [
+          "-1": [
             [
               836,
               3,
@@ -545,8 +545,8 @@
         "$type": "EN",
         "InternalName": "TRJ-1-EE-E",
         "Nodes": {
-          "West": 832,
-          "Down": 820
+          "-2": 832,
+          "-3": 820
         },
         "IsElevator": true,
         "ENGroupID": 1,
@@ -557,19 +557,19 @@
       "834": {
         "$type": "CN",
         "Nodes": {
-          "North": 832,
-          "East": 835,
-          "South": 845
+          "1": 832,
+          "2": 835,
+          "-1": 845
         },
         "Flow": {
-          "North": [
+          "1": [
             [
               833,
               2,
               true
             ]
           ],
-          "East": [
+          "2": [
             [
               836,
               2,
@@ -585,18 +585,18 @@
       "835": {
         "$type": "CN",
         "Nodes": {
-          "West": 834,
-          "East": 836
+          "-2": 834,
+          "2": 836
         },
         "Flow": {
-          "West": [
+          "-2": [
             [
               833,
               3,
               true
             ]
           ],
-          "East": [
+          "2": [
             [
               836,
               1,
@@ -613,8 +613,8 @@
         "$type": "EN",
         "InternalName": "TRJ-1-ES-E",
         "Nodes": {
-          "West": 835,
-          "Down": 825
+          "-2": 835,
+          "-3": 825
         },
         "IsElevator": false,
         "ENGroupID": 2,
@@ -627,7 +627,7 @@
         "InternalName": "TRJ-0-RN-01",
         "RoomName": "",
         "Nodes": {
-          "East": 816
+          "2": 816
         },
         "Tags": null,
         "UID": 837,
@@ -639,7 +639,7 @@
         "InternalName": "TRJ-0-RN-02",
         "RoomName": "",
         "Nodes": {
-          "West": 816
+          "-2": 816
         },
         "Tags": null,
         "UID": 838,
@@ -651,7 +651,7 @@
         "InternalName": "TRJ-0-RN-03",
         "RoomName": "",
         "Nodes": {
-          "East": 818
+          "2": 818
         },
         "Tags": null,
         "UID": 839,
@@ -663,7 +663,7 @@
         "InternalName": "TRJ-0-RN-04",
         "RoomName": "",
         "Nodes": {
-          "North": 821
+          "1": 821
         },
         "Tags": null,
         "UID": 840,
@@ -675,7 +675,7 @@
         "InternalName": "TRJ-0-RN-05",
         "RoomName": "",
         "Nodes": {
-          "West": 830
+          "-2": 830
         },
         "Tags": null,
         "UID": 841,
@@ -687,7 +687,7 @@
         "InternalName": "TRJ-0-RN-06",
         "RoomName": "",
         "Nodes": {
-          "North": 827
+          "1": 827
         },
         "Tags": null,
         "UID": 842,
@@ -699,7 +699,7 @@
         "InternalName": "TRJ-1-RN-01",
         "RoomName": "",
         "Nodes": {
-          "East": 832
+          "2": 832
         },
         "Tags": null,
         "UID": 843,
@@ -711,7 +711,7 @@
         "InternalName": "TRJ-1-RN-02",
         "RoomName": "",
         "Nodes": {
-          "South": 832
+          "-1": 832
         },
         "Tags": null,
         "UID": 844,
@@ -723,7 +723,7 @@
         "InternalName": "TRJ-1-RN-03",
         "RoomName": "",
         "Nodes": {
-          "North": 834
+          "1": 834
         },
         "Tags": null,
         "UID": 845,

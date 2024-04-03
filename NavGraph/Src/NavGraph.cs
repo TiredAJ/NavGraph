@@ -3,6 +3,7 @@
 using NavGraphTools.Utilities;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using TupleAsJsonArray;
 
 namespace NavGraphTools;
 
@@ -113,7 +114,7 @@ public class NavGraph : Graph<NavNode>
         //adds the node to the Dictionary
         Nodes.Add(TempUID, _NewNode);
 
-        if (_NewNode is RoomNode RN)
+        if (_NewNode is RoomNode RN && RN.Tags is not null)
         {
             foreach (var T in RN.Tags)
             { AddOrIncrementTag(T); }
@@ -607,6 +608,9 @@ public class NavGraph : Graph<NavNode>
     {
         foreach (var N in Nodes.Values.Where(X => X is RoomNode).Cast<RoomNode>())
         {
+            if (N.Tags is null)
+            { continue; }
+
             foreach (var T in N.Tags)
             { AddOrIncrementTag(T.TrimAndCase()); }
         }
@@ -639,6 +643,9 @@ public class NavGraph : Graph<NavNode>
                 DefaultIgnoreCondition = JsonIgnoreCondition.Never,
                 IncludeFields = true,
                 PropertyNameCaseInsensitive = true,
+                Converters =
+                {new TupleConverterFactory(), new JsonStringEnumConverter
+                    (default, true)}
             };
 
             SerData = JsonSerializer.Deserialize<NGSerialiseTemplate>
@@ -680,6 +687,8 @@ public class NavGraph : Graph<NavNode>
                         IncludeFields = true,
                         WriteIndented = true,
                         PropertyNameCaseInsensitive = true,
+                        Converters =
+                        {new TupleConverterFactory()}
                     };
 
                     //uses the stream writer to write the string output of the JSON Serialiser
@@ -699,6 +708,8 @@ public class NavGraph : Graph<NavNode>
                         IncludeFields = true,
                         WriteIndented = false,
                         PropertyNameCaseInsensitive = true,
+                        Converters =
+                        {new TupleConverterFactory()}
                     };
 
                     //uses the stream writer to write the string output of the JSON Serialiser

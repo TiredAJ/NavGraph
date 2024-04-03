@@ -1,0 +1,72 @@
+{
+  "Nodes": null,
+  "Blocks": {
+    "Johnstone": [
+      4,
+      0
+    ]
+  },
+  "NG": {
+    "BaseUID": 5080,
+    "Blocks": {
+      "Johnstone": [
+        4,
+        0
+      ]
+    },
+    "_AvailableUID": 5082,
+    "_NextENGroupID": 1,
+    "Nodes": {
+      "5079": {
+        "$type": "CN",
+        "Nodes": {
+          "South": 5080,
+          "North": 5081
+        },
+        "Flow": {
+          "North": [
+            [
+              5081,
+              1,
+              false
+            ]
+          ]
+        },
+        "UID": 5079,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-01"
+      },
+      "5080": {
+        "$type": "CN",
+        "Nodes": {
+          "North": 5079
+        },
+        "Flow": {
+          "North": [
+            [
+              5081,
+              2,
+              false
+            ]
+          ]
+        },
+        "UID": 5080,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-CN-02"
+      },
+      "5081": {
+        "$type": "GW",
+        "_Nodes": {
+          "South": 5079
+        },
+        "Connections": {},
+        "UID": 5081,
+        "BlockName": "Johnstone",
+        "Floor": 0,
+        "InternalName": "TRJ-0-GW-"
+      }
+    }
+  }
+}

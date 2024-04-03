@@ -1,6 +1,7 @@
 ﻿// Ignore Spelling: Nav UID Elv
 
 using NavGraphTools.Utilities;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -533,12 +534,20 @@ public class GatewayNode : NavNode, ISpecialNode
 }
 #endregion
 
+//Thanks to @Guru Stron https://stackoverflow.com/a/74694760/19306828
+[JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumMemberConverter))]
 public enum NodeDirection
 {
+    [EnumMember(Value = "1")]
     North = 1,
+    [EnumMember(Value = "2")]
     East = 2,
+    [EnumMember(Value = "-1")]
     South = -1,
+    [EnumMember(Value = "-2")]
     West = -2,
+    [EnumMember(Value = "3")]
     Up = 3,
+    [EnumMember(Value = "-3")]
     Down = -3,
 }
