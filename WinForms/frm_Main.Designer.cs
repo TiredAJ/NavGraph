@@ -222,6 +222,32 @@ namespace WinForms
             txt_set_Separator = new TextBox();
             label11 = new Label();
             lbl_NameTemplate = new Label();
+            tbpg_Stats = new TabPage();
+            groupBox4 = new GroupBox();
+            label57 = new Label();
+            txt_stats_dist_GWDist = new TextBox();
+            label59 = new Label();
+            txt_stats_dist_ENDist = new TextBox();
+            groupBox3 = new GroupBox();
+            txt_stats_misc_TagsCount = new TextBox();
+            txt_stats_misc_IsoNodesCount = new TextBox();
+            lstbx_stats_misc_IsolatedNodes = new ListBox();
+            label60 = new Label();
+            lstbx_stats_misc_Tags = new ListBox();
+            label55 = new Label();
+            groupBox2 = new GroupBox();
+            label54 = new Label();
+            txt_stats_nodes_GWCount = new TextBox();
+            label58 = new Label();
+            txt_stats_nodes_Connections = new TextBox();
+            label53 = new Label();
+            txt_stats_nodes_ENCount = new TextBox();
+            label52 = new Label();
+            txt_stats_nodes_CNCount = new TextBox();
+            label10 = new Label();
+            txt_stats_nodes_RNCount = new TextBox();
+            label9 = new Label();
+            txt_stats_TotalNodeCount = new TextBox();
             tbctrl_MainTabs.SuspendLayout();
             tbpg_Nodes.SuspendLayout();
             gbx_Node.SuspendLayout();
@@ -268,6 +294,10 @@ namespace WinForms
             tbpg_Settings.SuspendLayout();
             panel4.SuspendLayout();
             groupBox1.SuspendLayout();
+            tbpg_Stats.SuspendLayout();
+            groupBox4.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // tbctrl_MainTabs
@@ -277,6 +307,7 @@ namespace WinForms
             tbctrl_MainTabs.Controls.Add(tbpg_Blocks);
             tbctrl_MainTabs.Controls.Add(tbpg_Export);
             tbctrl_MainTabs.Controls.Add(tbpg_Settings);
+            tbctrl_MainTabs.Controls.Add(tbpg_Stats);
             tbctrl_MainTabs.Dock = DockStyle.Fill;
             tbctrl_MainTabs.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbctrl_MainTabs.HotTrack = true;
@@ -2356,6 +2387,275 @@ namespace WinForms
             lbl_NameTemplate.TabIndex = 1;
             lbl_NameTemplate.Text = "Node internal name layout";
             // 
+            // tbpg_Stats
+            // 
+            tbpg_Stats.Controls.Add(groupBox4);
+            tbpg_Stats.Controls.Add(groupBox3);
+            tbpg_Stats.Controls.Add(groupBox2);
+            tbpg_Stats.Controls.Add(label9);
+            tbpg_Stats.Controls.Add(txt_stats_TotalNodeCount);
+            tbpg_Stats.Location = new Point(4, 34);
+            tbpg_Stats.Name = "tbpg_Stats";
+            tbpg_Stats.Padding = new Padding(3);
+            tbpg_Stats.Size = new Size(1541, 641);
+            tbpg_Stats.TabIndex = 6;
+            tbpg_Stats.Text = "Stats";
+            tbpg_Stats.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(label57);
+            groupBox4.Controls.Add(txt_stats_dist_GWDist);
+            groupBox4.Controls.Add(label59);
+            groupBox4.Controls.Add(txt_stats_dist_ENDist);
+            groupBox4.Location = new Point(356, 98);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(203, 168);
+            groupBox4.TabIndex = 10;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Distances";
+            // 
+            // label57
+            // 
+            label57.AutoSize = true;
+            label57.Location = new Point(6, 93);
+            label57.Name = "label57";
+            label57.Size = new Size(194, 25);
+            label57.TabIndex = 7;
+            label57.Text = "Average GW Distance";
+            // 
+            // txt_stats_dist_GWDist
+            // 
+            txt_stats_dist_GWDist.Location = new Point(6, 121);
+            txt_stats_dist_GWDist.Name = "txt_stats_dist_GWDist";
+            txt_stats_dist_GWDist.ReadOnly = true;
+            txt_stats_dist_GWDist.Size = new Size(187, 33);
+            txt_stats_dist_GWDist.TabIndex = 6;
+            txt_stats_dist_GWDist.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label59
+            // 
+            label59.AutoSize = true;
+            label59.Location = new Point(6, 29);
+            label59.Name = "label59";
+            label59.Size = new Size(187, 25);
+            label59.TabIndex = 3;
+            label59.Text = "Average EN Distance";
+            // 
+            // txt_stats_dist_ENDist
+            // 
+            txt_stats_dist_ENDist.Location = new Point(6, 57);
+            txt_stats_dist_ENDist.Name = "txt_stats_dist_ENDist";
+            txt_stats_dist_ENDist.ReadOnly = true;
+            txt_stats_dist_ENDist.Size = new Size(187, 33);
+            txt_stats_dist_ENDist.TabIndex = 2;
+            txt_stats_dist_ENDist.TextAlign = HorizontalAlignment.Center;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(txt_stats_misc_TagsCount);
+            groupBox3.Controls.Add(txt_stats_misc_IsoNodesCount);
+            groupBox3.Controls.Add(lstbx_stats_misc_IsolatedNodes);
+            groupBox3.Controls.Add(label60);
+            groupBox3.Controls.Add(lstbx_stats_misc_Tags);
+            groupBox3.Controls.Add(label55);
+            groupBox3.Location = new Point(8, 331);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(551, 304);
+            groupBox3.TabIndex = 5;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Misc";
+            // 
+            // txt_stats_misc_TagsCount
+            // 
+            txt_stats_misc_TagsCount.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_stats_misc_TagsCount.Location = new Point(168, 30);
+            txt_stats_misc_TagsCount.Name = "txt_stats_misc_TagsCount";
+            txt_stats_misc_TagsCount.ReadOnly = true;
+            txt_stats_misc_TagsCount.Size = new Size(99, 27);
+            txt_stats_misc_TagsCount.TabIndex = 5;
+            txt_stats_misc_TagsCount.TextAlign = HorizontalAlignment.Center;
+            // 
+            // txt_stats_misc_IsoNodesCount
+            // 
+            txt_stats_misc_IsoNodesCount.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_stats_misc_IsoNodesCount.Location = new Point(435, 30);
+            txt_stats_misc_IsoNodesCount.Name = "txt_stats_misc_IsoNodesCount";
+            txt_stats_misc_IsoNodesCount.ReadOnly = true;
+            txt_stats_misc_IsoNodesCount.Size = new Size(99, 27);
+            txt_stats_misc_IsoNodesCount.TabIndex = 4;
+            txt_stats_misc_IsoNodesCount.TextAlign = HorizontalAlignment.Center;
+            // 
+            // lstbx_stats_misc_IsolatedNodes
+            // 
+            lstbx_stats_misc_IsolatedNodes.Cursor = Cursors.NoMoveVert;
+            lstbx_stats_misc_IsolatedNodes.FormattingEnabled = true;
+            lstbx_stats_misc_IsolatedNodes.ItemHeight = 25;
+            lstbx_stats_misc_IsolatedNodes.Location = new Point(273, 57);
+            lstbx_stats_misc_IsolatedNodes.Name = "lstbx_stats_misc_IsolatedNodes";
+            lstbx_stats_misc_IsolatedNodes.Size = new Size(261, 229);
+            lstbx_stats_misc_IsolatedNodes.TabIndex = 3;
+            lstbx_stats_misc_IsolatedNodes.UseTabStops = false;
+            // 
+            // label60
+            // 
+            label60.AutoSize = true;
+            label60.Location = new Point(273, 29);
+            label60.Name = "label60";
+            label60.Size = new Size(137, 25);
+            label60.TabIndex = 2;
+            label60.Text = "Isolated Nodes";
+            // 
+            // lstbx_stats_misc_Tags
+            // 
+            lstbx_stats_misc_Tags.Cursor = Cursors.NoMoveVert;
+            lstbx_stats_misc_Tags.FormattingEnabled = true;
+            lstbx_stats_misc_Tags.ItemHeight = 25;
+            lstbx_stats_misc_Tags.Location = new Point(6, 57);
+            lstbx_stats_misc_Tags.Name = "lstbx_stats_misc_Tags";
+            lstbx_stats_misc_Tags.SelectionMode = SelectionMode.None;
+            lstbx_stats_misc_Tags.Size = new Size(261, 229);
+            lstbx_stats_misc_Tags.TabIndex = 1;
+            lstbx_stats_misc_Tags.UseTabStops = false;
+            // 
+            // label55
+            // 
+            label55.AutoSize = true;
+            label55.Location = new Point(6, 29);
+            label55.Name = "label55";
+            label55.Size = new Size(49, 25);
+            label55.TabIndex = 0;
+            label55.Text = "Tags";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(label54);
+            groupBox2.Controls.Add(txt_stats_nodes_GWCount);
+            groupBox2.Controls.Add(label58);
+            groupBox2.Controls.Add(txt_stats_nodes_Connections);
+            groupBox2.Controls.Add(label53);
+            groupBox2.Controls.Add(txt_stats_nodes_ENCount);
+            groupBox2.Controls.Add(label52);
+            groupBox2.Controls.Add(txt_stats_nodes_CNCount);
+            groupBox2.Controls.Add(label10);
+            groupBox2.Controls.Add(txt_stats_nodes_RNCount);
+            groupBox2.Location = new Point(8, 98);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(342, 227);
+            groupBox2.TabIndex = 4;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Node Type Count";
+            // 
+            // label54
+            // 
+            label54.AutoSize = true;
+            label54.Location = new Point(171, 93);
+            label54.Name = "label54";
+            label54.Size = new Size(143, 25);
+            label54.TabIndex = 9;
+            label54.Text = "Gateway Nodes";
+            // 
+            // txt_stats_nodes_GWCount
+            // 
+            txt_stats_nodes_GWCount.Location = new Point(171, 121);
+            txt_stats_nodes_GWCount.Name = "txt_stats_nodes_GWCount";
+            txt_stats_nodes_GWCount.ReadOnly = true;
+            txt_stats_nodes_GWCount.Size = new Size(159, 33);
+            txt_stats_nodes_GWCount.TabIndex = 8;
+            txt_stats_nodes_GWCount.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label58
+            // 
+            label58.AutoSize = true;
+            label58.Location = new Point(6, 157);
+            label58.Name = "label58";
+            label58.Size = new Size(117, 25);
+            label58.TabIndex = 3;
+            label58.Text = "Connections";
+            // 
+            // txt_stats_nodes_Connections
+            // 
+            txt_stats_nodes_Connections.Location = new Point(6, 185);
+            txt_stats_nodes_Connections.Name = "txt_stats_nodes_Connections";
+            txt_stats_nodes_Connections.ReadOnly = true;
+            txt_stats_nodes_Connections.Size = new Size(159, 33);
+            txt_stats_nodes_Connections.TabIndex = 2;
+            txt_stats_nodes_Connections.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label53
+            // 
+            label53.AutoSize = true;
+            label53.Location = new Point(171, 29);
+            label53.Name = "label53";
+            label53.Size = new Size(148, 25);
+            label53.TabIndex = 7;
+            label53.Text = "Elevation Nodes";
+            // 
+            // txt_stats_nodes_ENCount
+            // 
+            txt_stats_nodes_ENCount.Location = new Point(171, 57);
+            txt_stats_nodes_ENCount.Name = "txt_stats_nodes_ENCount";
+            txt_stats_nodes_ENCount.ReadOnly = true;
+            txt_stats_nodes_ENCount.Size = new Size(159, 33);
+            txt_stats_nodes_ENCount.TabIndex = 6;
+            txt_stats_nodes_ENCount.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label52
+            // 
+            label52.AutoSize = true;
+            label52.Location = new Point(6, 93);
+            label52.Name = "label52";
+            label52.Size = new Size(142, 25);
+            label52.TabIndex = 5;
+            label52.Text = "Corridor Nodes";
+            // 
+            // txt_stats_nodes_CNCount
+            // 
+            txt_stats_nodes_CNCount.Location = new Point(6, 121);
+            txt_stats_nodes_CNCount.Name = "txt_stats_nodes_CNCount";
+            txt_stats_nodes_CNCount.ReadOnly = true;
+            txt_stats_nodes_CNCount.Size = new Size(159, 33);
+            txt_stats_nodes_CNCount.TabIndex = 4;
+            txt_stats_nodes_CNCount.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(6, 29);
+            label10.Name = "label10";
+            label10.Size = new Size(119, 25);
+            label10.TabIndex = 3;
+            label10.Text = "Room Nodes";
+            // 
+            // txt_stats_nodes_RNCount
+            // 
+            txt_stats_nodes_RNCount.Location = new Point(6, 57);
+            txt_stats_nodes_RNCount.Name = "txt_stats_nodes_RNCount";
+            txt_stats_nodes_RNCount.ReadOnly = true;
+            txt_stats_nodes_RNCount.Size = new Size(159, 33);
+            txt_stats_nodes_RNCount.TabIndex = 2;
+            txt_stats_nodes_RNCount.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 21.75F);
+            label9.Location = new Point(8, 3);
+            label9.Name = "label9";
+            label9.Size = new Size(242, 40);
+            label9.TabIndex = 1;
+            label9.Text = "Total Node Count";
+            // 
+            // txt_stats_TotalNodeCount
+            // 
+            txt_stats_TotalNodeCount.Font = new Font("Segoe UI", 21.75F);
+            txt_stats_TotalNodeCount.Location = new Point(14, 46);
+            txt_stats_TotalNodeCount.Name = "txt_stats_TotalNodeCount";
+            txt_stats_TotalNodeCount.ReadOnly = true;
+            txt_stats_TotalNodeCount.Size = new Size(236, 46);
+            txt_stats_TotalNodeCount.TabIndex = 0;
+            txt_stats_TotalNodeCount.TextAlign = HorizontalAlignment.Center;
+            // 
             // frm_Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -2442,6 +2742,14 @@ namespace WinForms
             panel4.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            tbpg_Stats.ResumeLayout(false);
+            tbpg_Stats.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -2639,5 +2947,31 @@ namespace WinForms
         private DataGridViewTextBoxColumn dataGridViewComboBoxColumn1;
         private Button btn_Nodes_GenDirection;
         private ProgressBar pbr_Nodes_FlowGenProgress;
+        private TabPage tbpg_Stats;
+        private Label label9;
+        private TextBox txt_stats_TotalNodeCount;
+        private Label label10;
+        private TextBox txt_stats_nodes_RNCount;
+        private GroupBox groupBox2;
+        private Label label52;
+        private TextBox txt_stats_nodes_CNCount;
+        private Label label54;
+        private TextBox txt_stats_nodes_GWCount;
+        private Label label53;
+        private TextBox txt_stats_nodes_ENCount;
+        private GroupBox groupBox3;
+        private ListBox lstbx_stats_misc_Tags;
+        private Label label55;
+        private GroupBox groupBox4;
+        private Label label57;
+        private TextBox txt_stats_dist_GWDist;
+        private Label label59;
+        private TextBox txt_stats_dist_ENDist;
+        private Label label58;
+        private TextBox txt_stats_nodes_Connections;
+        private ListBox lstbx_stats_misc_IsolatedNodes;
+        private Label label60;
+        private TextBox txt_stats_misc_IsoNodesCount;
+        private TextBox txt_stats_misc_TagsCount;
     }
 }

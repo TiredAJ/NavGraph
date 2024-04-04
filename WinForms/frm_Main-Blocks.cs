@@ -82,8 +82,8 @@ public partial class frm_Main : Form
                             {
                                 SB_Name.Append($"{{{Flow.Key.ToArrow()}: ");
 
-                                foreach (var FN in Flow.Value.OrderBy(X => !X.IsEN))
-                                { SB_Name.Append($"[{(FN.IsEN ? "EN" : "GW")}: {FN.UID}, {FN.Distance}N],"); }
+                                foreach (var FN in Flow.Value.OrderBy(X => !X.Value.IsEN))
+                                { SB_Name.Append($"[{(FN.Value.IsEN ? "EN" : "GW")}: {FN.Key}, {FN.Value.Distance}N],"); }
 
                                 SB_Name.Append($"}}");
                             }

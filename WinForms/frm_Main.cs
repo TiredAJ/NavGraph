@@ -1,6 +1,7 @@
 // Ignore Spelling: frm
 
 using NavGraphTools;
+using WinForms.Back;
 using WinForms.Tools;
 
 namespace WinForms;
@@ -254,6 +255,8 @@ public partial class frm_Main : Form
             txt_set_id_GW.Text = LayoutHelper.NodeIdentifiers["GW"];
             txt_set_id_Room.Text = LayoutHelper.NodeIdentifiers["RN"];
         }
+        else if (e.TabPage == tbpg_Stats)
+        { LoadStats(); }
     }
 
     private void tbctrl_MainTabs_Selecting(object sender, TabControlCancelEventArgs e)
@@ -262,6 +265,8 @@ public partial class frm_Main : Form
         { e.Cancel = true; }
         else if (e.TabPage == tbpg_EditNode)
         { EditLoad(); }
+        else if (e.TabPage == tbpg_Stats && NG.NodeCount == 0)
+        { e.Cancel = true; }
     }
 
     private Task<string[]> GetAvailableElvGW<T>(string _CurBlock, int _CurFloor, List<int> _CurrentConn) where T : ISpecialNode
@@ -287,6 +292,8 @@ public partial class frm_Main : Form
         tbctrl_MainTabs.Enabled = false;
 
         Flow_er F = new Flow_er(ref NG);
+
+        var Result = MessageBox.Show("Would you like to clear existing flows?", "Flow purge confirmation", MessageBoxButtons.YesNoCancel);
 
         F.Progress += ((object _S, ProgressEvent e) => Task.Run(() =>
         {
@@ -314,9 +321,52 @@ public partial class frm_Main : Form
             });
         }));
 
-        F.GenerateFlows();
+        switch (Result)
+        {
+            default:
+            case DialogResult.Cancel:
+            { return; }
+            case DialogResult.Yes:
+            { F.GenerateFlows(true); break; }
+            case DialogResult.No:
+            { F.GenerateFlows(false); break; }
+        }
 
         tbctrl_MainTabs.Enabled = true;
+    }
+
+    public async void LoadStats()
+    {
+        Stats_er S = new Stats_er(ref NG);
+
+        Stats Result = await S.GetStats();
+
+        tbpg_Stats.Invoke(() =>
+        {
+            txt_stats_TotalNodeCount.Text = Result.AllNodes.ToString();
+            txt_stats_nodes_CNCount.Text = Result.CN.ToString();
+            txt_stats_nodes_ENCount.Text = Result.EN.ToString();
+            txt_stats_nodes_GWCount.Text = Result.GW.ToString();
+            txt_stats_nodes_RNCount.Text = Result.RN.ToString();
+
+            txt_stats_dist_ENDist.Text = Result.AverageENDistance.ToString("N2");
+            txt_stats_dist_GWDist.Text = Result.AverageGWDistance.ToString("N2");
+
+            txt_stats_nodes_Connections.Text = Result.Connections.ToString();
+
+            foreach (var KVP in Result.Tags.OrderByDescending(X => X.Value))
+            { lstbx_stats_misc_Tags.Items.Add($"{KVP.Value}: {KVP.Key}"); }
+
+            txt_stats_misc_TagsCount.Text = $"{Result.Tags.Count} tags";
+
+            foreach (var N in Result.IsolatedNodes.Nodes)
+            {
+                lstbx_stats_misc_IsolatedNodes.Items
+                    .Add($"{N.UID}: {N.InternalName}");
+            }
+
+            txt_stats_misc_IsoNodesCount.Text = $"{Result.IsolatedNodes.Count} nodes";
+        });
     }
 }
 

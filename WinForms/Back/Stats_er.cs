@@ -9,115 +9,156 @@ class Stats_er
     public Stats_er(ref NavGraph _NG)
     { NG = _NG; }
 
-    public async Task<int> CountAllNodes()
+    public async Task<Stats> GetStats()
+    {
+        Stats Sts = new();
+
+        Sts.AllNodes = await CountAllNodes();
+        Sts.CN = await CountSpecificNodes<CorridorNode>();
+        Sts.EN = await CountSpecificNodes<ElevationNode>();
+        Sts.RN = await CountSpecificNodes<RoomNode>();
+        Sts.GW = await CountSpecificNodes<GatewayNode>();
+
+        Sts.Tags = NG.Tags;
+
+        Sts.AverageENDistance = await AverageDistanceFromEN();
+        Sts.AverageGWDistance = await AverageDistanceFromGW();
+
+        Sts.Connections = await CountConnections();
+
+        Sts.IsolatedNodes = await IsolatedNodeCount();
+
+        return Sts;
+    }
+
+    private async Task<int> CountAllNodes()
     { return NG.CountNodes(); }
 
-    public async Task<int> CountSpecificNodes<T>()
+    private async Task<int> CountSpecificNodes<T>() where T : NavNode
     {
-        return NG
-                .GetAllNodes()
-                .Where(X => X.Value is T)
-                .Count();
-    }
-
-    public async Task<int> CountConnections()
-    {
-        int Count = 0;
-
-        foreach (var N in NG.GetAllNodes().Values)
-        { Count += N.ConnectedNodesCount; }
-
-        return Count;
-    }
-
-    public async Task<int> CountConnections<T>() where T : NavNode
-    {
-        int Count = 0;
-        IEnumerable<NavNode> Nodes = NG.GetAllNodes()
-                                        .Select(X => X.Value)
-                                        .Where(X => X is T);
-
-        foreach (var N in Nodes)
-        { Count += N.ConnectedNodesCount; }
-
-        return Count;
-    }
-
-    public async Task<List<string>> CommonTags()
-    {
-        return NG.Tags.OrderByDescending(X => X.Value)
-                        .Take(5)
-                        .Select(X => X.Key)
-                        .ToList();
-    }
-
-    public async Task<(int Count, IEnumerable<NavNode>? Nodes)> IsolatedNodeCount()
-    {
-        List<NavNode> IsolatedNodes = new();
-
-        foreach (var N in NG.GetAllNodes().Values)
+        return await Task.Run(int () =>
         {
-            if (N.ConnectedNodesCount == 0)
-            { IsolatedNodes.Add(N); }
-        }
-
-        if (IsolatedNodes.Count == 0)
-        { return (0, null); }
-        else
-        { return (IsolatedNodes.Count, IsolatedNodes); }
+            return NG
+                    .GetAllNodes()
+                    .Where(X => X.Value is T)
+                    .Count();
+        });
     }
 
-    public async Task<double> AverageDistanceFromEN()
+    private async Task<int> CountConnections()
     {
-        List<int> Distances = new();
-
-        foreach (var N in NG.GetAllNodes().Values)
+        return await Task.Run(int () =>
         {
-            if (N is not ISpecialFlow)
-            { continue; }
+            int Count = 0;
 
-            foreach (var L in (N as ISpecialFlow).Flow.Values)
+            foreach (var N in NG.GetAllNodes().Values)
+            { Count += N.ConnectedNodesCount; }
+
+            return Count;
+        });
+    }
+
+    private async Task<int> CountConnections<T>() where T : NavNode
+    {
+        return await Task.Run(int () =>
+        {
+            int Count = 0;
+            IEnumerable<NavNode> Nodes = NG.GetAllNodes()
+                                            .Select(X => X.Value)
+                                            .Where(X => X is T);
+
+            foreach (var N in Nodes)
+            { Count += N.ConnectedNodesCount; }
+
+            return Count;
+        });
+    }
+
+    private async Task<(int Count, IEnumerable<NavNode>? Nodes)> IsolatedNodeCount()
+    {
+        return await Task.Run((int Count, IEnumerable<NavNode>? Nodes) () =>
+        {
+            List<NavNode> IsolatedNodes = new();
+
+            foreach (var N in NG.GetAllNodes().Values)
             {
-                if (L is null)
+                if (N.ConnectedNodesCount == 0)
+                { IsolatedNodes.Add(N); }
+            }
+
+            if (IsolatedNodes.Count == 0)
+            { return (0, null); }
+            else
+            { return (IsolatedNodes.Count, IsolatedNodes); }
+        });
+    }
+
+    private async Task<double> AverageDistanceFromEN()
+    {
+        return await Task.Run(double () =>
+        {
+            List<int> Distances = new();
+
+            foreach (var N in NG.GetAllNodes().Values)
+            {
+                if (N is not ISpecialFlow)
                 { continue; }
-                else
+
+                foreach (var L in (N as ISpecialFlow).Flow.Values)
                 {
-                    foreach (var T in L)
+                    if (L is null)
+                    { continue; }
+                    else
                     {
-                        if (T.IsEN)
-                        { Distances.Add(T.Distance); }
+                        foreach (var T in L.Values)
+                        {
+                            if (T.IsEN)
+                            { Distances.Add(T.Distance); }
+                        }
                     }
                 }
             }
-        }
 
-        return Distances.Average();
+            return Distances.Average();
+        });
     }
 
-    public async Task<double> AverageDistanceFromGW()
+    private async Task<double> AverageDistanceFromGW()
     {
-        List<int> Distances = new();
-
-        foreach (var N in NG.GetAllNodes().Values)
+        return await Task.Run(double () =>
         {
-            if (N is not ISpecialFlow)
-            { continue; }
+            List<int> Distances = new();
 
-            foreach (var L in (N as ISpecialFlow).Flow.Values)
+            foreach (var N in NG.GetAllNodes().Values)
             {
-                if (L is null)
+                if (N is not ISpecialFlow)
                 { continue; }
-                else
+
+                foreach (var L in (N as ISpecialFlow).Flow.Values)
                 {
-                    foreach (var T in L)
+                    if (L is null)
+                    { continue; }
+                    else
                     {
-                        if (!T.IsEN)
-                        { Distances.Add(T.Distance); }
+                        foreach (var T in L.Values)
+                        {
+                            if (!T.IsEN)
+                            { Distances.Add(T.Distance); }
+                        }
                     }
                 }
             }
-        }
 
-        return Distances.Average();
+            return Distances.Average();
+        });
     }
+}
+
+public struct Stats
+{
+    public int AllNodes, RN, EN, GW, CN;
+    public int Connections;
+    public Dictionary<string, int> Tags;
+    public (int Count, IEnumerable<NavNode>? Nodes) IsolatedNodes;
+    public double AverageENDistance, AverageGWDistance;
 }

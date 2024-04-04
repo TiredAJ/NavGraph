@@ -55,7 +55,7 @@ class Flow_er
     // referring to Flower_er-Labelled.jpg in the repo
     //
 
-    public void GenerateFlows()
+    public void GenerateFlows(bool _ClearFlows)
     {
         if (NG is null)
         { throw new NullReferenceException("NG was null!"); }
@@ -64,6 +64,9 @@ class Flow_er
             .Select(X => X.Value)
             .Where(X => X is ISpecialNode)
             .Select(X => X.UID));
+
+        if (_ClearFlows)
+        { ClearFlows(); }
 
         SpecialNodesPerm = SpecialNodes.ToArray();
 
@@ -137,10 +140,12 @@ class Flow_er
 
         CurrentNode = NG[CN.Value];
 
-        Distance++;
-        BackDir = CN.Key.Inverse();
-        FlowNode = CurrentNode as ISpecialFlow;
-        FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
+        if (CurrentNode is ISpecialFlow ISF && !ISF.ContainsUID(ISP_UID))
+        {
+            Distance++;
+            BackDir = CN.Key.Inverse();
+            ISF.Add(IsEN, BackDir, ISP_UID, Distance);
+        }
 
         ExclusionSet.Add(CN.Value);
 
@@ -167,25 +172,13 @@ class Flow_er
         { throw new Exception("not sure what to do from here"); }
 
         CurrentNode = NG[CN.Value];
-        BackDir = CN.Key.Inverse();
-        Distance++;
 
-        FlowNode = CurrentNode as ISpecialFlow;
-        FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
-
-        /*
-         * Issue here, because current node is added to the exclusion list,
-         * then PrevNode is checked for non-excluded nodes.
-         * In Flow_er-Test.png, this happens when travelling south from 817.
-         * 821 is connected to 819 (prev-prev), 822 (current) and 826 (untouched)
-         * Because 822 gets added to ExclusionSet, when checked, 821 only has 1
-         * unexcluded node, so it gets skipped and ignored. Thinking we add
-         * CurrentNode to the ExclusionSet *after* checking connection count
-         * just before Naw() is called.
-         */
-
-
-        //ExclusionSet.Add(CN.Value);
+        if (CurrentNode is ISpecialFlow ISF && !ISF.ContainsUID(ISP_UID))
+        {
+            Distance++;
+            BackDir = CN.Key.Inverse();
+            ISF.Add(IsEN, BackDir, ISP_UID, Distance);
+        }
 
         if (GetFlowNodes(PrevNode).ExclusionCount(ExclusionSet) > 1)
         {
@@ -236,10 +229,13 @@ class Flow_er
         { PopBacklog(); return; }
 
         CurrentNode = NG[Tn.UID];
-        BackDir = (NodeDirection)((int)Tn.Dir * -1);
-        Distance = Tn.Distance;
-        FlowNode = CurrentNode as ISpecialFlow;
-        FlowNode.Add(IsEN, BackDir, ISP_UID, Distance);
+
+        if (CurrentNode is ISpecialFlow ISF && !ISF.ContainsUID(ISP_UID))
+        {
+            BackDir = (NodeDirection)((int)Tn.Dir * -1);
+            Distance = Tn.Distance;
+            ISF.Add(IsEN, BackDir, ISP_UID, Distance);
+        }
 
         ExclusionSet.Add(Tn.UID);
 
@@ -248,6 +244,16 @@ class Flow_er
 
     private IEnumerable<KeyValuePair<NodeDirection, int>> GetFlowNodes(NavNode _N)
     { return _N.GetConnectedNodes().Where(X => NG.TryGetNode(X.Value) is ISpecialFlow); }
+
+    private void ClearFlows()
+    {
+        var NodesToClean = NG.GetAllNodes()
+                                                .Where(X => X.Value is ISpecialFlow)
+                                                .Select(X => X.Value);
+
+        foreach (var N in NodesToClean.Cast<ISpecialFlow>())
+        { N.ClearFlow(); }
+    }
 }
 
 public class ProgressEvent : EventArgs
