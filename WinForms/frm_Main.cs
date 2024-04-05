@@ -1,6 +1,7 @@
 // Ignore Spelling: frm
 
 using NavGraphTools;
+using NavGraphTools.Utilities;
 using WinForms.Back;
 using WinForms.Tools;
 

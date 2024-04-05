@@ -482,14 +482,14 @@ public class GatewayNode : NavNode, ISpecialNode
     /// The GW connections of this node
     /// </summary>
     [JsonInclude]
-    public Dictionary<int, string> Connections = new Dictionary<int, string>();
-    //                      ^Block name
-    //                 ^gateway UID
+    public Dictionary<string, List<int>> Connections = new();
+    //                           ^gateway UIDs
+    //                  ^Block name
     #endregion
 
     #region Overrides
     /// <summary>
-    /// Returns the 1 connected non-gateway node
+    /// Returns the 1 hard-connected non-gateway node
     /// </summary>
     /// <returns>A dictionary defining their direction and their UID</returns>
     public override Dictionary<NodeDirection, int> GetConnectedNodes()
@@ -499,7 +499,7 @@ public class GatewayNode : NavNode, ISpecialNode
     /// Gets connected Gateway nodes
     /// </summary>
     /// <returns>A dictionary of Gateway UIDs and the name of their block</returns>
-    public Dictionary<int, string> GetConnectedGateways()
+    public Dictionary<string, List<int>> GetConnectedGateways()
     { return Connections; }
 
     public override string ToString()

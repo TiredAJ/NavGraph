@@ -103,7 +103,7 @@ public abstract class Graph<T>
 
     #region Node Checking
     /// <summary>
-    /// Checks if a node with the specified UI exists
+    /// Checks if a node with the specified UID exists
     /// </summary>
     /// <param name="_UID">UID of the node to check</param>
     /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>

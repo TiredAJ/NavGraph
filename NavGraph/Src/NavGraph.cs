@@ -157,7 +157,8 @@ public class NavGraph : Graph<NavNode>
     public Dictionary<int, NavNode> GetNodes(string _Block)
         => GetAllNodes()
             .Where(X => X.Value.BlockName == _Block)
-            .ToDictionary(X => X.Key, Y => Y.Value);
+            .ToDictionary(X => X.Key,
+                        Y => Y.Value);
 
     /// <summary>
     /// Gets all the nodes of a particular floor in a specific block.
@@ -167,9 +168,11 @@ public class NavGraph : Graph<NavNode>
     /// <returns>A dictionary of UIDs and NavNodes</returns>
     public Dictionary<int, NavNode> GetNodes(string _Block, int _Floor)
         => GetAllNodes()
-            .Where(X => X.Value.BlockName == _Block)
-            .Where(X => X.Value.Floor == _Floor)
-            .ToDictionary(X => X.Key, Y => Y.Value);
+            .Where(X =>
+                X.Value.BlockName == _Block &&
+                X.Value.Floor == _Floor)
+            .ToDictionary(X => X.Key,
+                        Y => Y.Value);
 
     /// <summary>
     /// Gets the number of nodes on a particular floor, in a particular block
@@ -278,6 +281,20 @@ public class NavGraph : Graph<NavNode>
         }
         else
         { return null; }
+    }
+
+    public Dictionary<int, NavNode> GatewaysToBlock(string _TargetBlock, string _StartingBlock)
+    {
+        var GWs =
+                    Nodes
+                        .Where(X =>
+                            X.Value.BlockName == _StartingBlock &&
+                            X.Value is GatewayNode GN &&
+                            GN.GetConnectedGateways().ContainsKey(_TargetBlock))
+                        .ToDictionary();
+
+        if (GWs.Count() == 0)
+        { throw new("Uh oh"); }
     }
     #endregion
 
@@ -492,6 +509,49 @@ public class NavGraph : Graph<NavNode>
 
         //counts how many elements are in the returned dictionary
         return Temp.GetConnectedNodes().Count;
+    }
+
+    /// <summary>
+    /// Checks if a node exists within the NavGraph
+    /// </summary>
+    /// <param name="_Node">Node object to find</param>
+    /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
+    public bool DoesNodeExist(NavNode _Node)
+    { return Nodes.Values.Contains(_Node); }
+
+    /// <summary>
+    /// Checks if a node exists within the NavGraph and offers it's UID
+    /// </summary>
+    /// <param name="_Node">Node object to find</param>
+    /// <param name="_UID">Returned UID of _Node</param>
+    /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
+    public bool DoesNodeExist(NavNode _Node, out int _UID)
+    {
+        _UID = 0;
+
+        foreach (var KVP in Nodes)
+        {
+            if (KVP.Value == _Node)
+            { _UID = KVP.Key; return true; }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if node with inputted UID exists, if so it does offer the node itself
+    /// </summary>
+    /// <param name="_UID">UID of node to find</param>
+    /// <param name="_Node">The returned node</param>
+    /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
+    public bool DoesNodeExist(int _UID, out NavNode? _Node)
+    {
+        _Node = null;
+
+        if (DoesNodeExist(_UID))
+        { _Node = Nodes[_UID]; return true; }
+
+        return false;
     }
     #endregion
 
