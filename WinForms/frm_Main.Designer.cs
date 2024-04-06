@@ -29,10 +29,10 @@ namespace WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             tbctrl_MainTabs = new TabControl();
             tbpg_Nodes = new TabPage();
             gbx_Node = new GroupBox();
@@ -236,6 +236,8 @@ namespace WinForms
             lstbx_stats_misc_Tags = new ListBox();
             label55 = new Label();
             groupBox2 = new GroupBox();
+            label56 = new Label();
+            txt_stats_nodes_Flows = new TextBox();
             label54 = new Label();
             txt_stats_nodes_GWCount = new TextBox();
             label58 = new Label();
@@ -315,7 +317,7 @@ namespace WinForms
             tbctrl_MainTabs.Multiline = true;
             tbctrl_MainTabs.Name = "tbctrl_MainTabs";
             tbctrl_MainTabs.SelectedIndex = 0;
-            tbctrl_MainTabs.Size = new Size(1549, 679);
+            tbctrl_MainTabs.Size = new Size(1169, 679);
             tbctrl_MainTabs.TabIndex = 0;
             tbctrl_MainTabs.TabStop = false;
             tbctrl_MainTabs.Selecting += tbctrl_MainTabs_Selecting;
@@ -328,7 +330,7 @@ namespace WinForms
             tbpg_Nodes.Location = new Point(4, 34);
             tbpg_Nodes.Name = "tbpg_Nodes";
             tbpg_Nodes.Padding = new Padding(3);
-            tbpg_Nodes.Size = new Size(1541, 641);
+            tbpg_Nodes.Size = new Size(1161, 641);
             tbpg_Nodes.TabIndex = 0;
             tbpg_Nodes.Text = "Nodes";
             tbpg_Nodes.UseVisualStyleBackColor = true;
@@ -347,34 +349,34 @@ namespace WinForms
             gbx_Node.Controls.Add(nud_Node_Floor);
             gbx_Node.Controls.Add(cmbx_NodeType);
             gbx_Node.Controls.Add(cmbx_BlockSelect);
-            gbx_Node.Controls.Add(pnl_NormalNodes);
-            gbx_Node.Controls.Add(pnl_GW);
             gbx_Node.Controls.Add(label5);
             gbx_Node.Controls.Add(label4);
             gbx_Node.Controls.Add(label3);
             gbx_Node.Controls.Add(label2);
             gbx_Node.Controls.Add(label1);
+            gbx_Node.Controls.Add(pnl_NormalNodes);
+            gbx_Node.Controls.Add(pnl_GW);
             gbx_Node.Dock = DockStyle.Fill;
             gbx_Node.Location = new Point(460, 3);
             gbx_Node.Name = "gbx_Node";
             gbx_Node.Padding = new Padding(5);
-            gbx_Node.Size = new Size(1078, 635);
+            gbx_Node.Size = new Size(698, 635);
             gbx_Node.TabIndex = 0;
             gbx_Node.TabStop = false;
             gbx_Node.Text = "Node";
             // 
             // pbr_Nodes_FlowGenProgress
             // 
-            pbr_Nodes_FlowGenProgress.Location = new Point(579, 352);
+            pbr_Nodes_FlowGenProgress.Location = new Point(561, 351);
             pbr_Nodes_FlowGenProgress.Name = "pbr_Nodes_FlowGenProgress";
-            pbr_Nodes_FlowGenProgress.Size = new Size(255, 42);
+            pbr_Nodes_FlowGenProgress.Size = new Size(129, 42);
             pbr_Nodes_FlowGenProgress.TabIndex = 22;
             // 
             // btn_Nodes_GenDirection
             // 
-            btn_Nodes_GenDirection.Location = new Point(579, 222);
+            btn_Nodes_GenDirection.Location = new Point(561, 221);
             btn_Nodes_GenDirection.Name = "btn_Nodes_GenDirection";
-            btn_Nodes_GenDirection.Size = new Size(255, 124);
+            btn_Nodes_GenDirection.Size = new Size(129, 124);
             btn_Nodes_GenDirection.TabIndex = 21;
             btn_Nodes_GenDirection.Text = "Generate Flow Directions";
             btn_Nodes_GenDirection.UseVisualStyleBackColor = true;
@@ -548,7 +550,7 @@ namespace WinForms
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(430, 0);
+            label20.Location = new Point(448, 0);
             label20.Name = "label20";
             label20.Size = new Size(95, 25);
             label20.TabIndex = 16;
@@ -617,11 +619,11 @@ namespace WinForms
             // txt_tag_Tags
             // 
             txt_tag_Tags.Enabled = false;
-            txt_tag_Tags.Location = new Point(0, 300);
+            txt_tag_Tags.Location = new Point(4, 300);
             txt_tag_Tags.Multiline = true;
             txt_tag_Tags.Name = "txt_tag_Tags";
             txt_tag_Tags.ReadOnly = true;
-            txt_tag_Tags.Size = new Size(364, 53);
+            txt_tag_Tags.Size = new Size(360, 53);
             txt_tag_Tags.TabIndex = 6;
             // 
             // pnl_conn_East
@@ -851,10 +853,10 @@ namespace WinForms
             pnl_GW.Controls.Add(label6);
             pnl_GW.Controls.Add(cmbx_GW_Direction);
             pnl_GW.Controls.Add(dgv_GatewayConnections);
-            pnl_GW.Location = new Point(2, 229);
+            pnl_GW.Location = new Point(2, 221);
             pnl_GW.Margin = new Padding(3, 4, 3, 4);
             pnl_GW.Name = "pnl_GW";
-            pnl_GW.Size = new Size(546, 301);
+            pnl_GW.Size = new Size(546, 353);
             pnl_GW.TabIndex = 14;
             pnl_GW.Visible = false;
             // 
@@ -904,32 +906,32 @@ namespace WinForms
             // 
             // dgv_GatewayConnections
             // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgv_GatewayConnections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgv_GatewayConnections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_GatewayConnections.Columns.AddRange(new DataGridViewColumn[] { dgvcmbx_GW_AvailableNodes, dataGridViewCheckBoxColumn1 });
             dgv_GatewayConnections.Dock = DockStyle.Bottom;
             dgv_GatewayConnections.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv_GatewayConnections.Location = new Point(0, 78);
+            dgv_GatewayConnections.Location = new Point(0, 97);
             dgv_GatewayConnections.MultiSelect = false;
             dgv_GatewayConnections.Name = "dgv_GatewayConnections";
             dgv_GatewayConnections.RowHeadersWidth = 51;
             dgv_GatewayConnections.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_GatewayConnections.Size = new Size(546, 223);
+            dgv_GatewayConnections.Size = new Size(546, 256);
             dgv_GatewayConnections.TabIndex = 13;
             dgv_GatewayConnections.TabStop = false;
             dgv_GatewayConnections.CellClick += dgv_GatewayConnections_CellClick;
             // 
             // dgvcmbx_GW_AvailableNodes
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvcmbx_GW_AvailableNodes.DefaultCellStyle = dataGridViewCellStyle6;
             dgvcmbx_GW_AvailableNodes.Frozen = true;
             dgvcmbx_GW_AvailableNodes.HeaderText = "Available Nodes";
             dgvcmbx_GW_AvailableNodes.MinimumWidth = 250;
@@ -1052,7 +1054,7 @@ namespace WinForms
             tbpg_EditNode.Controls.Add(pnl_edit_Main);
             tbpg_EditNode.Location = new Point(4, 34);
             tbpg_EditNode.Name = "tbpg_EditNode";
-            tbpg_EditNode.Size = new Size(1541, 641);
+            tbpg_EditNode.Size = new Size(1161, 641);
             tbpg_EditNode.TabIndex = 5;
             tbpg_EditNode.Text = "Edit Node";
             tbpg_EditNode.UseVisualStyleBackColor = true;
@@ -1068,7 +1070,7 @@ namespace WinForms
             pnl_edit_Main.Dock = DockStyle.Fill;
             pnl_edit_Main.Location = new Point(0, 0);
             pnl_edit_Main.Name = "pnl_edit_Main";
-            pnl_edit_Main.Size = new Size(1541, 641);
+            pnl_edit_Main.Size = new Size(1161, 641);
             pnl_edit_Main.TabIndex = 39;
             // 
             // pbx_Decor
@@ -1291,7 +1293,7 @@ namespace WinForms
             pnl_edit_Nodes.Controls.Add(label37);
             pnl_edit_Nodes.Controls.Add(label38);
             pnl_edit_Nodes.Controls.Add(btn_edit_tags_AddNew);
-            pnl_edit_Nodes.Location = new Point(0, 261);
+            pnl_edit_Nodes.Location = new Point(-190, 261);
             pnl_edit_Nodes.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_Nodes.Name = "pnl_edit_Nodes";
             pnl_edit_Nodes.Size = new Size(1061, 385);
@@ -1674,7 +1676,7 @@ namespace WinForms
             pnl_edit_GWNodeConnections.Controls.Add(dgv_edit_gw_Connections);
             pnl_edit_GWNodeConnections.Controls.Add(label34);
             pnl_edit_GWNodeConnections.Controls.Add(label48);
-            pnl_edit_GWNodeConnections.Location = new Point(0, 261);
+            pnl_edit_GWNodeConnections.Location = new Point(-190, 261);
             pnl_edit_GWNodeConnections.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_GWNodeConnections.Name = "pnl_edit_GWNodeConnections";
             pnl_edit_GWNodeConnections.Size = new Size(1061, 385);
@@ -1785,14 +1787,14 @@ namespace WinForms
             // 
             dgv_edit_gw_Connections.AllowUserToAddRows = false;
             dgv_edit_gw_Connections.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgv_edit_gw_Connections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgv_edit_gw_Connections.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgv_edit_gw_Connections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_edit_gw_Connections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewCheckBoxColumn2, dataGridViewComboBoxColumn1 });
             dgv_edit_gw_Connections.EditMode = DataGridViewEditMode.EditOnEnter;
@@ -1820,8 +1822,8 @@ namespace WinForms
             // 
             // dataGridViewComboBoxColumn1
             // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewComboBoxColumn1.DefaultCellStyle = dataGridViewCellStyle8;
             dataGridViewComboBoxColumn1.Frozen = true;
             dataGridViewComboBoxColumn1.HeaderText = "Connected Nodes";
             dataGridViewComboBoxColumn1.MinimumWidth = 250;
@@ -1856,7 +1858,7 @@ namespace WinForms
             tbpg_Blocks.Location = new Point(4, 34);
             tbpg_Blocks.Name = "tbpg_Blocks";
             tbpg_Blocks.Padding = new Padding(3);
-            tbpg_Blocks.Size = new Size(1541, 641);
+            tbpg_Blocks.Size = new Size(1161, 641);
             tbpg_Blocks.TabIndex = 1;
             tbpg_Blocks.Text = "Blocks";
             tbpg_Blocks.UseVisualStyleBackColor = true;
@@ -1869,7 +1871,7 @@ namespace WinForms
             pnl_Right_Blocks.Location = new Point(292, 3);
             pnl_Right_Blocks.Name = "pnl_Right_Blocks";
             pnl_Right_Blocks.Padding = new Padding(5);
-            pnl_Right_Blocks.Size = new Size(1246, 635);
+            pnl_Right_Blocks.Size = new Size(866, 635);
             pnl_Right_Blocks.TabIndex = 5;
             // 
             // gbx_EditBlock
@@ -1885,7 +1887,7 @@ namespace WinForms
             gbx_EditBlock.Dock = DockStyle.Fill;
             gbx_EditBlock.Location = new Point(5, 268);
             gbx_EditBlock.Name = "gbx_EditBlock";
-            gbx_EditBlock.Size = new Size(1236, 362);
+            gbx_EditBlock.Size = new Size(856, 362);
             gbx_EditBlock.TabIndex = 3;
             gbx_EditBlock.TabStop = false;
             gbx_EditBlock.Text = "Edit Block";
@@ -1973,7 +1975,7 @@ namespace WinForms
             gbx_NewBlock.Dock = DockStyle.Top;
             gbx_NewBlock.Location = new Point(5, 5);
             gbx_NewBlock.Name = "gbx_NewBlock";
-            gbx_NewBlock.Size = new Size(1236, 263);
+            gbx_NewBlock.Size = new Size(856, 263);
             gbx_NewBlock.TabIndex = 2;
             gbx_NewBlock.TabStop = false;
             gbx_NewBlock.Text = "New Block";
@@ -2057,7 +2059,7 @@ namespace WinForms
             tbpg_Export.Location = new Point(4, 34);
             tbpg_Export.Name = "tbpg_Export";
             tbpg_Export.Padding = new Padding(6, 5, 6, 5);
-            tbpg_Export.Size = new Size(1541, 641);
+            tbpg_Export.Size = new Size(1161, 641);
             tbpg_Export.TabIndex = 2;
             tbpg_Export.Text = "Export/Import";
             tbpg_Export.UseVisualStyleBackColor = true;
@@ -2071,7 +2073,7 @@ namespace WinForms
             panel2.Location = new Point(6, 487);
             panel2.Margin = new Padding(9);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1529, 149);
+            panel2.Size = new Size(1149, 149);
             panel2.TabIndex = 12;
             // 
             // btn_Import
@@ -2081,7 +2083,7 @@ namespace WinForms
             btn_Import.Location = new Point(0, 64);
             btn_Import.Margin = new Padding(0, 3, 0, 3);
             btn_Import.Name = "btn_Import";
-            btn_Import.Size = new Size(1527, 83);
+            btn_Import.Size = new Size(1147, 83);
             btn_Import.TabIndex = 9;
             btn_Import.Text = "Import";
             btn_Import.UseVisualStyleBackColor = true;
@@ -2097,7 +2099,7 @@ namespace WinForms
             panel1.Location = new Point(6, 5);
             panel1.Margin = new Padding(9);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1529, 293);
+            panel1.Size = new Size(1149, 293);
             panel1.TabIndex = 11;
             // 
             // panel3
@@ -2109,7 +2111,7 @@ namespace WinForms
             panel3.Location = new Point(0, 0);
             panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1527, 189);
+            panel3.Size = new Size(1147, 189);
             panel3.TabIndex = 10;
             // 
             // rbtn_Export_FARapp
@@ -2160,7 +2162,7 @@ namespace WinForms
             btn_Export.Location = new Point(0, 208);
             btn_Export.Margin = new Padding(0, 3, 0, 3);
             btn_Export.Name = "btn_Export";
-            btn_Export.Size = new Size(1527, 83);
+            btn_Export.Size = new Size(1147, 83);
             btn_Export.TabIndex = 9;
             btn_Export.Text = "Export";
             btn_Export.UseVisualStyleBackColor = true;
@@ -2175,7 +2177,7 @@ namespace WinForms
             tbpg_Settings.Controls.Add(lbl_NameTemplate);
             tbpg_Settings.Location = new Point(4, 34);
             tbpg_Settings.Name = "tbpg_Settings";
-            tbpg_Settings.Size = new Size(1541, 641);
+            tbpg_Settings.Size = new Size(1161, 641);
             tbpg_Settings.TabIndex = 4;
             tbpg_Settings.Text = "Settings";
             tbpg_Settings.UseVisualStyleBackColor = true;
@@ -2397,7 +2399,7 @@ namespace WinForms
             tbpg_Stats.Location = new Point(4, 34);
             tbpg_Stats.Name = "tbpg_Stats";
             tbpg_Stats.Padding = new Padding(3);
-            tbpg_Stats.Size = new Size(1541, 641);
+            tbpg_Stats.Size = new Size(1161, 641);
             tbpg_Stats.TabIndex = 6;
             tbpg_Stats.Text = "Stats";
             tbpg_Stats.UseVisualStyleBackColor = true;
@@ -2529,6 +2531,8 @@ namespace WinForms
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label56);
+            groupBox2.Controls.Add(txt_stats_nodes_Flows);
             groupBox2.Controls.Add(label54);
             groupBox2.Controls.Add(txt_stats_nodes_GWCount);
             groupBox2.Controls.Add(label58);
@@ -2545,6 +2549,24 @@ namespace WinForms
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Node Type Count";
+            // 
+            // label56
+            // 
+            label56.AutoSize = true;
+            label56.Location = new Point(171, 157);
+            label56.Name = "label56";
+            label56.Size = new Size(59, 25);
+            label56.TabIndex = 11;
+            label56.Text = "Flows";
+            // 
+            // txt_stats_nodes_Flows
+            // 
+            txt_stats_nodes_Flows.Location = new Point(171, 185);
+            txt_stats_nodes_Flows.Name = "txt_stats_nodes_Flows";
+            txt_stats_nodes_Flows.ReadOnly = true;
+            txt_stats_nodes_Flows.Size = new Size(159, 33);
+            txt_stats_nodes_Flows.TabIndex = 10;
+            txt_stats_nodes_Flows.TextAlign = HorizontalAlignment.Center;
             // 
             // label54
             // 
@@ -2660,7 +2682,7 @@ namespace WinForms
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1549, 679);
+            ClientSize = new Size(1169, 679);
             Controls.Add(tbctrl_MainTabs);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -2973,5 +2995,7 @@ namespace WinForms
         private Label label60;
         private TextBox txt_stats_misc_IsoNodesCount;
         private TextBox txt_stats_misc_TagsCount;
+        private Label label56;
+        private TextBox txt_stats_nodes_Flows;
     }
 }

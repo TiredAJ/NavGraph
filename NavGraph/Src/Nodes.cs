@@ -521,7 +521,7 @@ public class GatewayNode : NavNode, ISpecialNode
 
     public new bool IsConnected(int _UID)
     {
-        if (Connections.ContainsKey(_UID) || Nodes.ContainsValue(_UID))
+        if (Nodes.ContainsValue(_UID) || Connections.Values.Any(X => X.Contains(_UID)))
         { return true; }
         else
         { return false; }
@@ -535,16 +535,24 @@ public class GatewayNode : NavNode, ISpecialNode
 
     internal void ConnectNode(int _NodeUID, string _BlockName)
     {
-        if (Connections.ContainsKey(_NodeUID))
-        { Connections[_NodeUID] = _BlockName; }
+        if (Connections.ContainsKey(_BlockName))
+        {
+            if (Connections[_BlockName] == null)
+            { Connections[_BlockName] = new List<int>() { _NodeUID }; }
+            else
+            { Connections[_BlockName].Add(_NodeUID); }
+        }
         else
-        { Connections.Add(_NodeUID, _BlockName); }
+        { Connections.Add(_BlockName, new List<int>() { _NodeUID }); }
     }
 
     internal void RemoveConnectedNode(int _NodeUID)
     {
-        if (Connections.ContainsKey(_NodeUID))
-        { Connections.Remove(_NodeUID); }
+        foreach (var KVP in Connections)
+        {
+            if (KVP.Value.Contains(_NodeUID))
+            { KVP.Value.Remove(_NodeUID); return; }
+        }
     }
     #endregion
 }

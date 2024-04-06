@@ -67,9 +67,9 @@ public class Path_er
         if (Floor.Any(X => X.Value is GatewayNode))
         { /*travel to different floor*/ }
 
-        var Gateways = Floor
-                .Where(X => X.Value is GatewayNode GN &&
-                    NG.);
+        //var Gateways = Floor
+        //        .Where(X => X.Value is GatewayNode GN &&
+        //            NG.);
 
 
     }
@@ -104,7 +104,7 @@ public class Path_er
     { }
 
     private int Negotiate(ISpecialFlow _A, ISpecialFlow _B)
-    { }
+    { throw new NotImplementedException(); }
 }
 public class PatherProgressEvent : EventArgs
 {

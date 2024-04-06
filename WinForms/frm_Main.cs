@@ -354,6 +354,7 @@ public partial class frm_Main : Form
             txt_stats_dist_GWDist.Text = Result.AverageGWDistance.ToString("N2");
 
             txt_stats_nodes_Connections.Text = Result.Connections.ToString();
+            txt_stats_nodes_Flows.Text = Result.Flows.ToString();
 
             foreach (var KVP in Result.Tags.OrderByDescending(X => X.Value))
             { lstbx_stats_misc_Tags.Items.Add($"{KVP.Value}: {KVP.Key}"); }

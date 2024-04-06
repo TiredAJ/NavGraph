@@ -42,22 +42,26 @@ public partial class frm_Main
 
         if (T is GatewayNode GN)
         {
-            pnl_edit_GWNodeConnections.BringToFront();
+            throw new NotImplementedException();
 
-            foreach (var GW in GN.GetConnectedGateways())
-            {
-                GatewayNode? GNt = NG.TryGetNode<GatewayNode>(GW.Key);
+            //pnl_edit_GWNodeConnections.BringToFront();
 
-                if (GNt == null)
-                { continue; }
+            //foreach (var GW in GN.GetConnectedGateways())
+            //{
+            //    StringBuilder SB = new();
 
-                //.Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
-                dgv_edit_gw_Connections.Rows
-                    .Add($"{GW.Value} \"{GNt.InternalName}\"", GW.Key);
-            }
+            //    GatewayNode? GNt = NG.TryGetNode<GatewayNode>(GW.Key);
 
-            if (dgv_edit_gw_Connections.Rows.Count > 0)
-            { dgv_edit_BlockList(0); }
+            //    if (GNt == null)
+            //    { continue; }
+
+            //    //.Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+            //    dgv_edit_gw_Connections.Rows
+            //        .Add($"{GW.Value} \"{GNt.InternalName}\"", GW.Key);
+            //}
+
+            //if (dgv_edit_gw_Connections.Rows.Count > 0)
+            //{ dgv_edit_BlockList(0); }
         }
         else
         { pnl_edit_GWNodeConnections.SendToBack(); }

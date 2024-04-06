@@ -285,6 +285,8 @@ public class NavGraph : Graph<NavNode>
 
     public Dictionary<int, NavNode> GatewaysToBlock(string _TargetBlock, string _StartingBlock)
     {
+        throw new NotImplementedException();
+
         var GWs =
                     Nodes
                         .Where(X =>

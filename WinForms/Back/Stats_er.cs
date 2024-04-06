@@ -28,6 +28,8 @@ class Stats_er
 
         Sts.IsolatedNodes = await IsolatedNodeCount();
 
+        Sts.Flows = await CountFlows();
+
         return Sts;
     }
 
@@ -152,12 +154,31 @@ class Stats_er
             return Distances.Average();
         });
     }
+
+    private async Task<int> CountFlows()
+    {
+        int Count = 0;
+
+        var ISFs = NG
+                                    .GetAllNodes()
+                                    .Select(X => X.Value)
+                                    .Where(X => X is ISpecialFlow)
+                                    .Cast<ISpecialFlow>();
+
+        foreach (var I in ISFs)
+        {
+            foreach (var KVP in I.Flow)
+            { Count += KVP.Value.Count(); }
+        }
+
+        return Count;
+    }
 }
 
 public struct Stats
 {
     public int AllNodes, RN, EN, GW, CN;
-    public int Connections;
+    public int Connections, Flows;
     public Dictionary<string, int> Tags;
     public (int Count, IEnumerable<NavNode>? Nodes) IsolatedNodes;
     public double AverageENDistance, AverageGWDistance;
