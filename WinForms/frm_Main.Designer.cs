@@ -48,6 +48,11 @@ namespace WinForms
             nud_Node_Floor = new NumericUpDown();
             cmbx_NodeType = new ComboBox();
             cmbx_BlockSelect = new ComboBox();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
             pnl_NormalNodes = new Panel();
             btn_Clear = new Button();
             btn_tag_AddTag = new Button();
@@ -89,11 +94,6 @@ namespace WinForms
             dgv_GatewayConnections = new DataGridView();
             dgvcmbx_GW_AvailableNodes = new DataGridViewComboBoxColumn();
             dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
             pnl_Tree = new Panel();
             trvw_Nodes = new TreeView();
             pnl_Search = new Panel();
@@ -114,13 +114,9 @@ namespace WinForms
             txt_edit_IntName = new TextBox();
             label45 = new Label();
             label43 = new Label();
-            cmbx_edit_GWFlow = new ComboBox();
-            cmbx_edit_ElvFlow = new ComboBox();
             label44 = new Label();
             txt_edit_NodeType = new TextBox();
             txt_edit_Block = new TextBox();
-            label41 = new Label();
-            label42 = new Label();
             pnl_edit_Nodes = new Panel();
             pnl_edit_NodeConns = new Panel();
             label28 = new Label();
@@ -489,6 +485,51 @@ namespace WinForms
             cmbx_BlockSelect.Size = new Size(185, 29);
             cmbx_BlockSelect.TabIndex = 1;
             cmbx_BlockSelect.SelectedIndexChanged += cmbx_BlockSelect_SelectedIndexChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(200, 89);
+            label5.Name = "label5";
+            label5.Size = new Size(132, 25);
+            label5.TabIndex = 7;
+            label5.Text = "Internal Name";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(9, 89);
+            label4.Name = "label4";
+            label4.Size = new Size(119, 25);
+            label4.TabIndex = 5;
+            label4.Text = "Public Name";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(390, 24);
+            label3.Name = "label3";
+            label3.Size = new Size(55, 25);
+            label3.TabIndex = 3;
+            label3.Text = "Floor";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(8, 25);
+            label2.Name = "label2";
+            label2.Size = new Size(102, 25);
+            label2.TabIndex = 2;
+            label2.Text = "Node Type";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(199, 23);
+            label1.Name = "label1";
+            label1.Size = new Size(57, 25);
+            label1.TabIndex = 0;
+            label1.Text = "Block";
             // 
             // pnl_NormalNodes
             // 
@@ -949,51 +990,6 @@ namespace WinForms
             dataGridViewCheckBoxColumn1.SortMode = DataGridViewColumnSortMode.Automatic;
             dataGridViewCheckBoxColumn1.Width = 80;
             // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(200, 89);
-            label5.Name = "label5";
-            label5.Size = new Size(132, 25);
-            label5.TabIndex = 7;
-            label5.Text = "Internal Name";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(9, 89);
-            label4.Name = "label4";
-            label4.Size = new Size(119, 25);
-            label4.TabIndex = 5;
-            label4.Text = "Public Name";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(390, 24);
-            label3.Name = "label3";
-            label3.Size = new Size(55, 25);
-            label3.TabIndex = 3;
-            label3.Text = "Floor";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(8, 25);
-            label2.Name = "label2";
-            label2.Size = new Size(102, 25);
-            label2.TabIndex = 2;
-            label2.Text = "Node Type";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(199, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(57, 25);
-            label1.TabIndex = 0;
-            label1.Text = "Block";
-            // 
             // pnl_Tree
             // 
             pnl_Tree.Controls.Add(trvw_Nodes);
@@ -1065,8 +1061,8 @@ namespace WinForms
             pnl_edit_Main.Controls.Add(btn_edit_ReturnNoSave);
             pnl_edit_Main.Controls.Add(btn_edit_SaveAndReturn);
             pnl_edit_Main.Controls.Add(panel14);
-            pnl_edit_Main.Controls.Add(pnl_edit_Nodes);
             pnl_edit_Main.Controls.Add(pnl_edit_GWNodeConnections);
+            pnl_edit_Main.Controls.Add(pnl_edit_Nodes);
             pnl_edit_Main.Dock = DockStyle.Fill;
             pnl_edit_Main.Location = new Point(0, 0);
             pnl_edit_Main.Name = "pnl_edit_Main";
@@ -1115,16 +1111,12 @@ namespace WinForms
             panel14.Controls.Add(txt_edit_IntName);
             panel14.Controls.Add(label45);
             panel14.Controls.Add(label43);
-            panel14.Controls.Add(cmbx_edit_GWFlow);
-            panel14.Controls.Add(cmbx_edit_ElvFlow);
             panel14.Controls.Add(label44);
             panel14.Controls.Add(txt_edit_NodeType);
             panel14.Controls.Add(txt_edit_Block);
-            panel14.Controls.Add(label41);
-            panel14.Controls.Add(label42);
-            panel14.Location = new Point(508, 3);
+            panel14.Location = new Point(508, 55);
             panel14.Name = "panel14";
-            panel14.Size = new Size(550, 251);
+            panel14.Size = new Size(550, 126);
             panel14.TabIndex = 40;
             // 
             // txt_edit_Floor
@@ -1210,32 +1202,6 @@ namespace WinForms
             label43.TabIndex = 30;
             label43.Text = "Internal Name";
             // 
-            // cmbx_edit_GWFlow
-            // 
-            cmbx_edit_GWFlow.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbx_edit_GWFlow.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbx_edit_GWFlow.Font = new Font("Segoe UI", 12F);
-            cmbx_edit_GWFlow.FormattingEnabled = true;
-            cmbx_edit_GWFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
-            cmbx_edit_GWFlow.Location = new Point(195, 159);
-            cmbx_edit_GWFlow.Name = "cmbx_edit_GWFlow";
-            cmbx_edit_GWFlow.Size = new Size(187, 29);
-            cmbx_edit_GWFlow.TabIndex = 34;
-            cmbx_edit_GWFlow.Tag = "ClearMe";
-            // 
-            // cmbx_edit_ElvFlow
-            // 
-            cmbx_edit_ElvFlow.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbx_edit_ElvFlow.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbx_edit_ElvFlow.Font = new Font("Segoe UI", 12F);
-            cmbx_edit_ElvFlow.FormattingEnabled = true;
-            cmbx_edit_ElvFlow.Items.AddRange(new object[] { "North", "East", "South", "West" });
-            cmbx_edit_ElvFlow.Location = new Point(6, 159);
-            cmbx_edit_ElvFlow.Name = "cmbx_edit_ElvFlow";
-            cmbx_edit_ElvFlow.Size = new Size(183, 29);
-            cmbx_edit_ElvFlow.TabIndex = 32;
-            cmbx_edit_ElvFlow.Tag = "ClearMe";
-            // 
             // label44
             // 
             label44.AutoSize = true;
@@ -1262,24 +1228,6 @@ namespace WinForms
             txt_edit_Block.ReadOnly = true;
             txt_edit_Block.Size = new Size(186, 29);
             txt_edit_Block.TabIndex = 39;
-            // 
-            // label41
-            // 
-            label41.AutoSize = true;
-            label41.Location = new Point(195, 131);
-            label41.Name = "label41";
-            label41.Size = new Size(128, 25);
-            label41.TabIndex = 35;
-            label41.Text = "Gateway Flow";
-            // 
-            // label42
-            // 
-            label42.AutoSize = true;
-            label42.Location = new Point(4, 131);
-            label42.Name = "label42";
-            label42.Size = new Size(124, 25);
-            label42.TabIndex = 33;
-            label42.Text = "Elevator Flow";
             // 
             // pnl_edit_Nodes
             // 
@@ -1676,10 +1624,10 @@ namespace WinForms
             pnl_edit_GWNodeConnections.Controls.Add(dgv_edit_gw_Connections);
             pnl_edit_GWNodeConnections.Controls.Add(label34);
             pnl_edit_GWNodeConnections.Controls.Add(label48);
-            pnl_edit_GWNodeConnections.Location = new Point(-190, 261);
+            pnl_edit_GWNodeConnections.Location = new Point(0, 261);
             pnl_edit_GWNodeConnections.Margin = new Padding(3, 4, 3, 4);
             pnl_edit_GWNodeConnections.Name = "pnl_edit_GWNodeConnections";
-            pnl_edit_GWNodeConnections.Size = new Size(1061, 385);
+            pnl_edit_GWNodeConnections.Size = new Size(1058, 385);
             pnl_edit_GWNodeConnections.TabIndex = 31;
             // 
             // btn_edit_gw_DGVDelete
@@ -1693,7 +1641,7 @@ namespace WinForms
             // 
             // btn_edit_gw_AddConn
             // 
-            btn_edit_gw_AddConn.Location = new Point(306, 225);
+            btn_edit_gw_AddConn.Location = new Point(300, 224);
             btn_edit_gw_AddConn.Name = "btn_edit_gw_AddConn";
             btn_edit_gw_AddConn.Size = new Size(187, 41);
             btn_edit_gw_AddConn.TabIndex = 23;
@@ -1706,7 +1654,7 @@ namespace WinForms
             cmbx_edit_gw_ConnNode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_edit_gw_ConnNode.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_edit_gw_ConnNode.FormattingEnabled = true;
-            cmbx_edit_gw_ConnNode.Location = new Point(168, 185);
+            cmbx_edit_gw_ConnNode.Location = new Point(162, 184);
             cmbx_edit_gw_ConnNode.Margin = new Padding(3, 4, 3, 4);
             cmbx_edit_gw_ConnNode.Name = "cmbx_edit_gw_ConnNode";
             cmbx_edit_gw_ConnNode.Size = new Size(325, 33);
@@ -1719,7 +1667,7 @@ namespace WinForms
             // cmbx_edit_gw_ConnBlock
             // 
             cmbx_edit_gw_ConnBlock.FormattingEnabled = true;
-            cmbx_edit_gw_ConnBlock.Location = new Point(16, 185);
+            cmbx_edit_gw_ConnBlock.Location = new Point(10, 184);
             cmbx_edit_gw_ConnBlock.Margin = new Padding(3, 4, 3, 4);
             cmbx_edit_gw_ConnBlock.Name = "cmbx_edit_gw_ConnBlock";
             cmbx_edit_gw_ConnBlock.Size = new Size(138, 33);
@@ -1733,9 +1681,9 @@ namespace WinForms
             gbx_edit_gw_HC.Controls.Add(cmbx_edit_HardNodeDir);
             gbx_edit_gw_HC.Controls.Add(label40);
             gbx_edit_gw_HC.Controls.Add(label39);
-            gbx_edit_gw_HC.Location = new Point(8, 4);
+            gbx_edit_gw_HC.Location = new Point(2, 3);
             gbx_edit_gw_HC.Name = "gbx_edit_gw_HC";
-            gbx_edit_gw_HC.Size = new Size(494, 100);
+            gbx_edit_gw_HC.Size = new Size(467, 100);
             gbx_edit_gw_HC.TabIndex = 18;
             gbx_edit_gw_HC.TabStop = false;
             gbx_edit_gw_HC.Text = "Hard Connection";
@@ -1745,7 +1693,7 @@ namespace WinForms
             cmbx_edit_HardNodeNode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbx_edit_HardNodeNode.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbx_edit_HardNodeNode.FormattingEnabled = true;
-            cmbx_edit_HardNodeNode.Location = new Point(160, 57);
+            cmbx_edit_HardNodeNode.Location = new Point(133, 57);
             cmbx_edit_HardNodeNode.Margin = new Padding(3, 4, 3, 4);
             cmbx_edit_HardNodeNode.Name = "cmbx_edit_HardNodeNode";
             cmbx_edit_HardNodeNode.Size = new Size(325, 33);
@@ -1760,7 +1708,7 @@ namespace WinForms
             cmbx_edit_HardNodeDir.Location = new Point(8, 57);
             cmbx_edit_HardNodeDir.Margin = new Padding(3, 4, 3, 4);
             cmbx_edit_HardNodeDir.Name = "cmbx_edit_HardNodeDir";
-            cmbx_edit_HardNodeDir.Size = new Size(138, 33);
+            cmbx_edit_HardNodeDir.Size = new Size(110, 33);
             cmbx_edit_HardNodeDir.TabIndex = 14;
             cmbx_edit_HardNodeDir.TabStop = false;
             cmbx_edit_HardNodeDir.Tag = "ClearMe";
@@ -1777,7 +1725,7 @@ namespace WinForms
             // label39
             // 
             label39.AutoSize = true;
-            label39.Location = new Point(160, 29);
+            label39.Location = new Point(133, 29);
             label39.Name = "label39";
             label39.Size = new Size(162, 25);
             label39.TabIndex = 17;
@@ -1798,7 +1746,7 @@ namespace WinForms
             dgv_edit_gw_Connections.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv_edit_gw_Connections.Columns.AddRange(new DataGridViewColumn[] { dataGridViewCheckBoxColumn2, dataGridViewComboBoxColumn1 });
             dgv_edit_gw_Connections.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv_edit_gw_Connections.Location = new Point(508, 7);
+            dgv_edit_gw_Connections.Location = new Point(498, 7);
             dgv_edit_gw_Connections.MultiSelect = false;
             dgv_edit_gw_Connections.Name = "dgv_edit_gw_Connections";
             dgv_edit_gw_Connections.ReadOnly = true;
@@ -1836,7 +1784,7 @@ namespace WinForms
             // label34
             // 
             label34.AutoSize = true;
-            label34.Location = new Point(16, 156);
+            label34.Location = new Point(10, 155);
             label34.Name = "label34";
             label34.Size = new Size(57, 25);
             label34.TabIndex = 21;
@@ -1845,7 +1793,7 @@ namespace WinForms
             // label48
             // 
             label48.AutoSize = true;
-            label48.Location = new Point(168, 156);
+            label48.Location = new Point(162, 155);
             label48.Name = "label48";
             label48.Size = new Size(162, 25);
             label48.TabIndex = 22;
@@ -2898,8 +2846,6 @@ namespace WinForms
         private TabPage tbpg_EditNode;
         private Label label47;
         private CheckBox ckbx_edit_IsElevator;
-        private ComboBox cmbx_edit_GWFlow;
-        private ComboBox cmbx_edit_ElvFlow;
         private TextBox txt_edit_IntName;
         private TextBox txt_edit_PubName;
         private Panel pnl_edit_Nodes;
@@ -2939,8 +2885,6 @@ namespace WinForms
         private Label label40;
         private ComboBox cmbx_edit_HardNodeDir;
         private DataGridView dgv_edit_gw_Connections;
-        private Label label41;
-        private Label label42;
         private Label label43;
         private Label label44;
         private Label label45;

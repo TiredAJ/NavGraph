@@ -42,26 +42,34 @@ public partial class frm_Main
 
         if (T is GatewayNode GN)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
 
-            //pnl_edit_GWNodeConnections.BringToFront();
+            pnl_edit_GWNodeConnections.BringToFront();
 
-            //foreach (var GW in GN.GetConnectedGateways())
-            //{
-            //    StringBuilder SB = new();
+            foreach (var GW in GN.GetConnectedGateways())
+            {
+                string BlockName = GW.Key;
 
-            //    GatewayNode? GNt = NG.TryGetNode<GatewayNode>(GW.Key);
+                foreach (var UID in GW.Value)
+                {
+                    GatewayNode? TNode = NG.TryGetNode(UID) as GatewayNode;
 
-            //    if (GNt == null)
-            //    { continue; }
+                    dgv_edit_gw_Connections.Rows
+                        .Add(BlockName, $"{TNode.UID} \"{TNode.InternalName}\"");
+                }
 
-            //    //.Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
-            //    dgv_edit_gw_Connections.Rows
-            //        .Add($"{GW.Value} \"{GNt.InternalName}\"", GW.Key);
-            //}
+                //    GatewayNode? GNt = NG.TryGetNode<GatewayNode>(GW.Key);
 
-            //if (dgv_edit_gw_Connections.Rows.Count > 0)
-            //{ dgv_edit_BlockList(0); }
+                //    if (GNt == null)
+                //    { continue; }
+
+                //    //.Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
+                //    dgv_edit_gw_Connections.Rows
+                //        .Add($"{GW.Value} \"{GNt.InternalName}\"", GW.Key);
+            }
+
+            if (dgv_edit_gw_Connections.Rows.Count > 0)
+            { dgv_edit_BlockList(0); }
         }
         else
         { pnl_edit_GWNodeConnections.SendToBack(); }
