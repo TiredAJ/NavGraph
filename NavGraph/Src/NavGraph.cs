@@ -1,6 +1,8 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
 using NavGraphTools.Utilities;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TupleAsJsonArray;
@@ -298,6 +300,19 @@ public class NavGraph : Graph<NavNode>
         if (GWs.Count() == 0)
         { throw new("Uh oh"); }
     }
+    
+    public Dictionary<int, NavNode> GetBlock(string _Block)
+        => Nodes
+            .Where(X => X.Value.BlockName == _Block)
+            .ToDictionary(X => X.Key, Y => Y.Value);
+
+    public Dictionary<int, NavNode> GetFloor(string _Block, int _Floor)
+        => Nodes
+            .Where(X => X.Value.BlockName == _Block && X.Value.Floor == _Floor)
+            .ToDictionary(X => X.Key, Y => Y.Value);
+
+    
+
     #endregion
 
     #region Connecting Nodes
