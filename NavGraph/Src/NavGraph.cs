@@ -285,34 +285,6 @@ public class NavGraph : Graph<NavNode>
         { return null; }
     }
 
-    public Dictionary<int, NavNode> GatewaysToBlock(string _TargetBlock, string _StartingBlock)
-    {
-        throw new NotImplementedException();
-
-        var GWs =
-                    Nodes
-                        .Where(X =>
-                            X.Value.BlockName == _StartingBlock &&
-                            X.Value is GatewayNode GN &&
-                            GN.GetConnectedGateways().ContainsKey(_TargetBlock))
-                        .ToDictionary();
-
-        if (GWs.Count() == 0)
-        { throw new("Uh oh"); }
-    }
-    
-    public Dictionary<int, NavNode> GetBlock(string _Block)
-        => Nodes
-            .Where(X => X.Value.BlockName == _Block)
-            .ToDictionary(X => X.Key, Y => Y.Value);
-
-    public Dictionary<int, NavNode> GetFloor(string _Block, int _Floor)
-        => Nodes
-            .Where(X => X.Value.BlockName == _Block && X.Value.Floor == _Floor)
-            .ToDictionary(X => X.Key, Y => Y.Value);
-
-    
-
     #endregion
 
     #region Connecting Nodes
@@ -827,6 +799,57 @@ public class ReadonlyNavGraph : Graph<NavNode>
 
         //counts how many elements are in the returned dictionary
         return Temp.GetConnectedNodes().Count;
+    }
+
+
+    public Dictionary<int, NavNode> GatewaysToBlock(string _TargetBlock, string _StartingBlock)
+    {
+        throw new NotImplementedException();
+
+        var GWs =
+                    Nodes
+                        .Where(X =>
+                            X.Value.BlockName == _StartingBlock &&
+                            X.Value is GatewayNode GN &&
+                            GN.GetConnectedGateways().ContainsKey(_TargetBlock))
+                        .ToDictionary();
+
+        if (GWs.Count() == 0)
+        { throw new("Uh oh"); }
+    }
+    
+    public Dictionary<int, NavNode> GetBlock(string _Block)
+        => Nodes
+            .Where(X => X.Value.BlockName == _Block)
+            .ToDictionary(X => X.Key, Y => Y.Value);
+
+    public Dictionary<int, NavNode> GetFloor(string _Block, int _Floor)
+        => Nodes
+            .Where(X => X.Value.BlockName == _Block && X.Value.Floor == _Floor)
+            .ToDictionary(X => X.Key, Y => Y.Value);
+
+    public Dictionary<int, int> Optimal<T>(NavNode _Origin, string _Block, int _Floor) where T : NavNode 
+    {
+        ISpecialFlow Temp;
+
+        if (_Origin is not ISpecialFlow)
+        {
+            Temp = _Origin.GetConnectedNodes()
+                            .Select(X => Nodes[X.Value])
+                            .OfType<ISpecialFlow>()
+                            .First();
+        }
+        else 
+        { Temp = _Origin as ISpecialFlow; }
+
+        IEnumerable<Dictionary<int, (int Distance, bool IsEN)>?>? F = Temp.Flow.Values;
+
+
+
+
+
+
+        throw new NotImplementedException();
     }
 }
 

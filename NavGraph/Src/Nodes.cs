@@ -263,6 +263,42 @@ public interface ISpecialFlow
 
     public void ClearFlow()
     { Flow = null; }
+
+    public bool Connected_GW(out IEnumerable<int>? _UIDs)
+    {
+        var T = Connected(false);
+
+        _UIDs = T.UIDs;
+
+        return T.DoesContain;
+    }
+
+    public bool Connected_EN(out IEnumerable<int>? _UIDs)
+    {
+        var T = Connected(true);
+
+        _UIDs = T.UIDs;
+
+        return T.DoesContain;
+    }
+
+    private (bool DoesContain, IEnumerable<int>? UIDs) Connected(bool _Q_EN)
+    {
+        List<int>? Temp = new List<int>();
+
+        foreach (var T in Flow.Values)
+        {
+            foreach (var KVP in T)
+            {
+                if (KVP.Value.IsEN == _Q_EN)
+                { Temp.Add(KVP.Key); }
+            }
+        }
+
+        return (Temp.Count > 0 ? true : false, Temp);
+    }
+
+
 }
 #endregion
 
