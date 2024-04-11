@@ -298,7 +298,7 @@ public interface ISpecialFlow
         return (Temp.Count > 0 ? true : false, Temp);
     }
 
-
+    
 }
 #endregion
 
@@ -563,6 +563,14 @@ public class GatewayNode : NavNode, ISpecialNode
         { return false; }
     }
 
+    /// <summary>
+    /// Checks if this GW connects to a specific block
+    /// </summary>
+    /// <param name="_Block">Name of block</param>
+    /// <returns>True if it is connected, false otherwise</returns>
+    public bool IsConnected(string _Block)
+    { return Connections.ContainsKey(_Block); }
+
     internal override void ConnectNode(int _NodeUID, NodeDirection _Direction)
     {
         if (_Direction != NodeDirection.Up && _Direction != NodeDirection.Down)
@@ -590,6 +598,17 @@ public class GatewayNode : NavNode, ISpecialNode
             { KVP.Value.Remove(_NodeUID); return; }
         }
     }
+    
+    /// <summary>
+    /// Used to check if this GW connects to a specific block
+    /// </summary>
+    /// <param name="_Block"></param>
+    /// <returns></returns>
+    public bool Connects(string _Block)
+    {  }
+
+
+
     #endregion
 }
 #endregion

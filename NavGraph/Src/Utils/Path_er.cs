@@ -1,4 +1,6 @@
-﻿namespace NavGraphTools.Utilities;
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace NavGraphTools.Utilities;
 
 public class Path_er
 {
@@ -62,18 +64,19 @@ public class Path_er
 
     private void DauBwyntA()
     {
-        var Floor = NG.GetNodes(Origin.BlockName, Origin.Floor);
+        var Block = NG
+                                            .GetNodes(Origin.BlockName)
+                                            .Select(X => X.Value);
 
-        if (Floor.Any(X => X.Value is GatewayNode))
-        { /*travel to different floor*/ }
+        var Floor = Block
+                                            .Where(X => X.Floor == Origin.Floor);
 
-        //var Gateways = Floor
-        //        .Where(X => X.Value is GatewayNode GN &&
-        //            NG.);
+        if (Floor.Any(X => X is GatewayNode GN && GN.UID ))
+        {
 
+        }
 
     }
-
 
 
     private void DauBwyntB()
