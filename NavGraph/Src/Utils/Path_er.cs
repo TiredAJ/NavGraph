@@ -1,10 +1,8 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace NavGraphTools.Utilities;
+﻿namespace NavGraphTools.Utilities;
 
 public class Path_er
 {
-    private NavGraph NG = null;
+    private ReadonlyNavGraph NG = null;
     private NavNode Origin, Destination, Current, Temporary;
     private Path_erStages _Stage = Path_erStages.None;
     private List<int> Path = new();
@@ -21,7 +19,7 @@ public class Path_er
 
     public event EventHandler<PatherProgressEvent> Progress;
 
-    public Path_er(ref NavGraph _NG)
+    public Path_er(ref ReadonlyNavGraph _NG)
     { NG = _NG; }
 
     public void Start(NavNode _Origin, NavNode _Destination)
@@ -56,31 +54,64 @@ public class Path_er
 
         Stage = Path_erStages.Dau;
 
+        //Dau
         if (Origin.BlockName == Destination.BlockName)
         { Tri(); return; }
         else
-        { DauBwyntA(); return; }
+        { DauBwynt(); return; }
     }
 
-    private void DauBwyntA()
+    private void DauBwynt()
     {
-        var Block = NG
-                                            .GetNodes(Origin.BlockName)
-                                            .Select(X => X.Value);
+        ISpecialFlow P;
 
-        var Floor = Block
-                                            .Where(X => X.Floor == Origin.Floor);
+        if (Origin is ISpecialFlow ISF && ISF.Connected_GW(out _))
+        {
+            var GWs = ISF.GetGatewayNodes()
+                                                            .OrderByDescending(X =>
+                                                                X.Value.OrderByDescending(X => X.Value));
+        }
 
-        if (Floor.Any(X => X is GatewayNode GN && GN.UID ))
+        var ISFNodes = NG.GetNodes<ISpecialFlow>(Origin.Nodes.Values);
+
+        if (ISFNodes.Count() > 0)
         {
 
         }
 
+
+        var Block = NG
+                                        .GetNodes(Origin.BlockName)
+                                        .Select(X => X.Value);
+
+        var Floor = Block
+                                        .Where(X => X.Floor == Origin.Floor);
+
+        if (Floor.Any(X => X is GatewayNode GN &&
+                GN.IsConnected(Destination.BlockName)))
+        {//DauBwyntA
+            DauBwyntAUn(Floor.Where(X => X is GatewayNode GN &&
+                            GN.IsConnected(Destination.BlockName)));
+        }
+        else if (Block.Any(X => X is GatewayNode GN &&
+                    GN.IsConnected(Destination.BlockName)))
+        {//DayBwyntB
+            DauBwyntBUn(Block.Where(X => X is GatewayNode GN &&
+                            GN.IsConnected(Destination.BlockName)));
+        }
+        else
+        { throw new Exception("Can't escape block!"); }
     }
 
+    private void DauBwyntAUn(IEnumerable<NavNode> _GWs)
+    {
 
-    private void DauBwyntB()
-    { }
+    }
+
+    private void DauBwyntBUn(IEnumerable<NavNode> _GWs)
+    {
+
+    }
 
     private void Tri()
     { }

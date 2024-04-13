@@ -80,7 +80,7 @@ public partial class frm_Main : Form
                         {
                             foreach (var Flow in NISF.Flow)
                             {
-                                SB_Name.Append($"{{{Flow.Key.ToArrow()}: ");
+                                SB_Name.Append($" {{{Flow.Key.ToArrow()}: ");
 
                                 foreach (var FN in Flow.Value.OrderBy(X => !X.Value.IsEN))
                                 { SB_Name.Append($"[{(FN.Value.IsEN ? "EN" : "GW")}: {FN.Key}, {FN.Value.Distance}N],"); }
@@ -98,10 +98,16 @@ public partial class frm_Main : Form
                         foreach (var CN in GN.GetConnectedNodes())
                         {
                             TN_Node.Nodes.Add
-                            ($"{CN.Key}:".PadRight(6) + $" {CN.Value}]");
+                            ($"{CN.Key}:".PadRight(6) + $" {CN.Value}");
                         }
+
                         foreach (var CN in GN.GetConnectedGateways())
-                        { TN_Node.Nodes.Add($"{CN.Key} -> {CN.Value}"); }
+                        {
+                            TN_Node.Nodes.Add(CN.Key, $"{CN.Key}");
+
+                            foreach (var CN_UID in CN.Value)
+                            { TN_Node.Nodes[CN.Key].Nodes.Add($"{CN_UID}"); }
+                        }
                     }
                     else
                     {

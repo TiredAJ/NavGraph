@@ -1,7 +1,7 @@
 {
   "Nodes": null,
   "Blocks": {
-    "Johnstone": [
+    "Johnstown": [
       4,
       0
     ]
@@ -9,7 +9,7 @@
   "NG": {
     "BaseUID": 5080,
     "Blocks": {
-      "Johnstone": [
+      "Johnstown": [
         4,
         0
       ]
@@ -33,7 +33,7 @@
           ]
         },
         "UID": 5079,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 0,
         "InternalName": "TRJ-0-CN-01"
       },
@@ -52,7 +52,7 @@
           ]
         },
         "UID": 5080,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 0,
         "InternalName": "TRJ-0-CN-02"
       },
@@ -63,7 +63,7 @@
         },
         "Connections": {},
         "UID": 5081,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 0,
         "InternalName": "TRJ-0-GW-"
       }

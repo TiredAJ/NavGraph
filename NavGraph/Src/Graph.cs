@@ -143,3 +143,6 @@ public abstract class Graph<T>
     public abstract void Deserialise(Stream _InputStream);
     #endregion
 }
+
+public interface Node
+{ }

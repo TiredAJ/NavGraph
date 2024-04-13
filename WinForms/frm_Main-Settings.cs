@@ -1,4 +1,6 @@
-﻿namespace WinForms;
+﻿using WinForms.Tools;
+
+namespace WinForms;
 
 public partial class frm_Main : Form
 {

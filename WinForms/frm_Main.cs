@@ -28,7 +28,7 @@ public partial class frm_Main : Form
     {
         InitializeComponent();
 
-        NG.Blocks.Add("Johnstone", (4, 0));
+        NG.Blocks.Add("Johnstown", (4, 0));
         RefreshBlocksList();
 
         pnl_conn_Down.Tag = NodeDirection.Down;

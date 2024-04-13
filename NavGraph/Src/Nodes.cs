@@ -18,7 +18,7 @@ namespace NavGraphTools;
 [JsonDerivedType(typeof(CorridorNode), typeDiscriminator: "CN")]
 [JsonDerivedType(typeof(GatewayNode), typeDiscriminator: "GW")]
 #endregion
-public abstract class NavNode
+public abstract class NavNode : Node
 {
     public NavNode()
     { }
@@ -183,13 +183,13 @@ public abstract class NavNode
 /// <summary>
 /// Marks ElevationNodes and GatewayNodes
 /// </summary>
-public interface ISpecialNode
+public interface ISpecialNode : Node
 { }
 
 /// <summary>
 /// Interface for Flow directions & navigation implementation
 /// </summary>
-public interface ISpecialFlow
+public interface ISpecialFlow : Node
 {
     [JsonIgnore]
     public Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>>? Flow { get; internal set; }
@@ -199,22 +199,28 @@ public interface ISpecialFlow
     /// </summary>
     /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="ElevationNode"/>s
     /// and their distance from this Node</returns>
-    public Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>>? GetElevationNodes()
+    public Dictionary<NodeDirection, Dictionary<int, int>>? GetElevationNodes()
     => Flow
         .Where(X =>
             X.Value.Any(Y => Y.Value.IsEN == true))
-        .ToDictionary();
+        .ToDictionary(X => X.Key,
+            Y => Y.Value
+                .ToDictionary(X => X.Key,
+                    Y => Y.Value.Distance));
 
     /// <summary>
     /// Gets all the flow directions to <see langword="GatewayNode"/>s
     /// </summary>
     /// <returns>A dictionary of <see langword="NodeDirection"/>s and tuples of <see langword="GatewayNode"/>s
     /// and their distance from this Node</returns>
-    public Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>>? GetGatewayNodes()
+    public Dictionary<NodeDirection, Dictionary<int, int>>? GetGatewayNodes()
     => Flow
         .Where(X =>
             X.Value.Any(Y => Y.Value.IsEN == false))
-        .ToDictionary();
+        .ToDictionary(X => X.Key,
+            Y => Y.Value
+                .ToDictionary(X => X.Key,
+                    Y => Y.Value.Distance));
 
     /// <summary>
     /// Gets the direction to the inputted _UID
@@ -298,7 +304,7 @@ public interface ISpecialFlow
         return (Temp.Count > 0 ? true : false, Temp);
     }
 
-    
+
 }
 #endregion
 
@@ -598,16 +604,14 @@ public class GatewayNode : NavNode, ISpecialNode
             { KVP.Value.Remove(_NodeUID); return; }
         }
     }
-    
+
     /// <summary>
-    /// Used to check if this GW connects to a specific block
+    /// 
     /// </summary>
     /// <param name="_Block"></param>
     /// <returns></returns>
-    public bool Connects(string _Block)
-    {  }
-
-
+    public IEnumerable<int> AvailableNodes(string _Block)
+        => Connections[_Block];
 
     #endregion
 }

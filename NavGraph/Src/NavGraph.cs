@@ -1,8 +1,6 @@
 ﻿// Ignore Spelling: Nav UID AUID BUID Deserialise
 
 using NavGraphTools.Utilities;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TupleAsJsonArray;
@@ -175,7 +173,6 @@ public class NavGraph : Graph<NavNode>
                 X.Value.Floor == _Floor)
             .ToDictionary(X => X.Key,
                         Y => Y.Value);
-
     /// <summary>
     /// Gets the number of nodes on a particular floor, in a particular block
     /// </summary>
@@ -801,7 +798,6 @@ public class ReadonlyNavGraph : Graph<NavNode>
         return Temp.GetConnectedNodes().Count;
     }
 
-
     public Dictionary<int, NavNode> GatewaysToBlock(string _TargetBlock, string _StartingBlock)
     {
         throw new NotImplementedException();
@@ -817,7 +813,7 @@ public class ReadonlyNavGraph : Graph<NavNode>
         if (GWs.Count() == 0)
         { throw new("Uh oh"); }
     }
-    
+
     public Dictionary<int, NavNode> GetBlock(string _Block)
         => Nodes
             .Where(X => X.Value.BlockName == _Block)
@@ -828,7 +824,7 @@ public class ReadonlyNavGraph : Graph<NavNode>
             .Where(X => X.Value.BlockName == _Block && X.Value.Floor == _Floor)
             .ToDictionary(X => X.Key, Y => Y.Value);
 
-    public Dictionary<int, int> Optimal<T>(NavNode _Origin, string _Block, int _Floor) where T : NavNode 
+    public Dictionary<int, int> Optimal<T>(NavNode _Origin, string _Block, int _Floor) where T : NavNode
     {
         ISpecialFlow Temp;
 
@@ -839,7 +835,7 @@ public class ReadonlyNavGraph : Graph<NavNode>
                             .OfType<ISpecialFlow>()
                             .First();
         }
-        else 
+        else
         { Temp = _Origin as ISpecialFlow; }
 
         IEnumerable<Dictionary<int, (int Distance, bool IsEN)>?>? F = Temp.Flow.Values;
@@ -851,6 +847,111 @@ public class ReadonlyNavGraph : Graph<NavNode>
 
         throw new NotImplementedException();
     }
+
+    public List<NavNode> GetNodes(IEnumerable<int> _UIDs)
+    {
+        List<NavNode> T = new();
+
+        foreach (var UID in _UIDs)
+        {
+            if (DoesNodeExist(UID))
+            { T.Add(Nodes[UID]); }
+        }
+
+        return T;
+    }
+
+    public IEnumerable<T> GetNodes<T>(IEnumerable<int> _UIDs) where T : class, Node
+    {
+        List<T> Tl = new();
+
+        foreach (var UID in _UIDs)
+        {
+            if (DoesNodeExist(UID) && Nodes[UID] is T)
+            { Tl.Add(Nodes[UID] as T); }
+        }
+
+        return Tl.Where(X => X is not null);
+    }
+
+    /// <summary>
+    /// Gets all the nodes of a particular block.
+    /// </summary>
+    /// <param name="_Block">Name of blocks to get nodes from</param>
+    /// <returns>A dictionary of UIDs and NavNodes</returns>
+    public Dictionary<int, NavNode> GetNodes(string _Block)
+        => GetAllNodes()
+            .Where(X => X.Value.BlockName == _Block)
+            .ToDictionary(X => X.Key,
+                        Y => Y.Value);
+
+    /// <summary>
+    /// Gets all the nodes of a particular floor in a specific block.
+    /// </summary>
+    /// <param name="_Block">Name of blocks to get nodes from</param>
+    /// <param name="_Floor">Floor to get nodes from</param>
+    /// <returns>A dictionary of UIDs and NavNodes</returns>
+    public Dictionary<int, NavNode> GetNodes(string _Block, int _Floor)
+        => GetAllNodes()
+            .Where(X =>
+                X.Value.BlockName == _Block &&
+                X.Value.Floor == _Floor)
+            .ToDictionary(X => X.Key,
+                        Y => Y.Value);
+
+    /// <summary>
+    /// Gets the number of nodes on a particular floor, in a particular block
+    /// </summary>
+    /// <param name="_Block">Name of blocks to get nodes from</param>
+    /// <param name="_Floor">Floor to get nodes from</param>
+    /// <returns>A dictionary of UIDs and NavNodes</returns>
+    public int GetFloorNodeCount(string _Block, int _Floor)
+        => GetNodes(_Block, _Floor).Count();
+
+    #region Node Checking
+    /// <summary>
+    /// Checks if a node exists within the NavGraph
+    /// </summary>
+    /// <param name="_Node">Node object to find</param>
+    /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
+    public bool DoesNodeExist(NavNode _Node)
+    { return Nodes.Values.Contains(_Node); }
+
+    /// <summary>
+    /// Checks if a node exists within the NavGraph and offers it's UID
+    /// </summary>
+    /// <param name="_Node">Node object to find</param>
+    /// <param name="_UID">Returned UID of _Node</param>
+    /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
+    public bool DoesNodeExist(NavNode _Node, out int _UID)
+    {
+        _UID = 0;
+
+        foreach (var KVP in Nodes)
+        {
+            if (KVP.Value == _Node)
+            { _UID = KVP.Key; return true; }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if node with inputted UID exists, if so it does offer the node itself
+    /// </summary>
+    /// <param name="_UID">UID of node to find</param>
+    /// <param name="_Node">The returned node</param>
+    /// <returns><c>true</c> if the node exists or <c>false</c> if it doesn't</returns>
+    public bool DoesNodeExist(int _UID, out NavNode? _Node)
+    {
+        _Node = null;
+
+        if (DoesNodeExist(_UID))
+        { _Node = Nodes[_UID]; return true; }
+
+        return false;
+    }
+    #endregion
 }
 
 public enum NGSerialiseOptions : int

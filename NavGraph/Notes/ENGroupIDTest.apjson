@@ -1,7 +1,7 @@
 {
   "Nodes": null,
   "Blocks": {
-    "Johnstone": {
+    "Johnstown": {
       "Item1": 4,
       "Item2": 0
     }
@@ -9,7 +9,7 @@
   "NG": {
     "BaseUID": 4963,
     "Blocks": {
-      "Johnstone": {
+      "Johnstown": {
         "Item1": 4,
         "Item2": 0
       }
@@ -27,7 +27,7 @@
         "IsElevator": true,
         "ENGroupID": 1,
         "UID": 4962,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 0
       },
       "4963": {
@@ -41,7 +41,7 @@
           {}
         ],
         "UID": 4963,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 0,
         "InternalName": "TRJ-0-CN-0"
       },
@@ -55,7 +55,7 @@
         "IsElevator": false,
         "ENGroupID": 2,
         "UID": 4964,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 0
       },
       "4965": {
@@ -68,7 +68,7 @@
         "IsElevator": true,
         "ENGroupID": 1,
         "UID": 4965,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 1
       },
       "4966": {
@@ -81,7 +81,7 @@
           {}
         ],
         "UID": 4966,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 1,
         "InternalName": "TRJ-1-CN-0"
       },
@@ -94,7 +94,7 @@
         "IsElevator": false,
         "ENGroupID": 2,
         "UID": 4967,
-        "BlockName": "Johnstone",
+        "BlockName": "Johnstown",
         "Floor": 1
       }
     }

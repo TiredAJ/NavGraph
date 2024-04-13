@@ -1,11 +1,12 @@
 ﻿using NavGraphTools;
-using System.Diagnostics;
 using WinForms.Tools;
 
 namespace WinForms;
 
 public partial class frm_Main : Form
 {
+    private HashSet<int> AlreadyConnectedNodes = new();
+
     private void txt_PublicName_TextChanged(object sender, EventArgs e)
     { txt_Nodes_InternalName.Text = txt_PublicName.Text.Trim(); }
 
@@ -189,28 +190,35 @@ public partial class frm_Main : Form
 
     private void dgv_GatewayConnections_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        Stopwatch SW = new Stopwatch();
-
-        if (e.ColumnIndex == 0)
+        if (e.ColumnIndex == 0 && e.RowIndex >= 0)
         {
-            SW.Start();
-
             Task.Run(() =>
             {
                 var AvailableNodes = NG.GetAllNodes()
                     .AsParallel()
-                    .Where(X => X.Key != CurNodeUID)
-                    .Where
-                    (
-                        X => X.Value is GatewayNode GN
-                        && !GN.IsConnected(CurNodeUID)
-                    )
+                    .Where(X => X.Value is GatewayNode GN &&
+                            !AlreadyConnectedNodes.Contains(X.Key))
                     .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
                     .ToArray();
-            });
 
-            SW.Stop();
-            Debug.WriteLine($"Retrieving Nodes took {SW.ElapsedMilliseconds}ms");
+                dgv_GatewayConnections.Invoke(() =>
+                {
+                    var CMBX = dgv_GatewayConnections
+                                                    .Rows[e.RowIndex]
+                                                    .Cells[e.ColumnIndex]
+                                                    as DataGridViewComboBoxCell;
+
+                    if (CMBX is null)
+                    { throw new Exception("CMBX was null!"); }
+
+                    if (CMBX.Items.Count > 0)
+                    { CMBX.Items.Clear(); }
+
+                    CMBX.Items.AddRange(AvailableNodes);
+
+                    dgv_GatewayConnections.Refresh();
+                });
+            });
         }
     }
 
@@ -461,6 +469,18 @@ public partial class frm_Main : Form
                     .Select(X => $"{X.Key} \"{X.Value.InternalName}\"")
                     .ToArray();
         });
+    }
+
+    private void dgv_GatewayConnections_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+        {
+            AlreadyConnectedNodes.AddIfNotNull(dgv_GatewayConnections
+                                                .Rows[e.RowIndex]
+                                                .Cells[e.ColumnIndex]
+                                                .Value.ToString()
+                                                .SplitNodeID());
+        }
     }
 
     private Task<string[]> GetAvailableElevation(int _CurUID, string _CurBlock, int _CurFloor, NodeDirection _CurDir, bool _IsEE)

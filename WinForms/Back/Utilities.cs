@@ -1,7 +1,7 @@
 ﻿using NavGraphTools;
 using System.Text;
 
-namespace WinForms;
+namespace WinForms.Tools;
 
 public static class Extensions
 {
@@ -9,15 +9,17 @@ public static class Extensions
     /// Takes a string and extracts the UID from it
     /// </summary>
     /// <returns>int extracted from input</returns>
-    public static int SplitNodeID(this string _In/*, int Level*/)
+    public static int SplitNodeID(this string? _In)
     {
+        if (_In is null)
+        { return 0; }
+
         if (_In.Length > 0 && _In[2] == ':')
-        { return int.Parse(_In.Split(new[] { ' ', ':' })[1]); }
+        { return int.Parse(_In.Split([' ', ':'])[1]); }
         else if (_In.Contains(" - "))
         { return int.Parse(_In.Split(" - ")[1]); }
         else
-        { return int.Parse(_In.Split(new[] { ' ', ':' })[0]); }
-
+        { return int.Parse(_In.Split([' ', ':'])[0]); }
     }
 
     public static NodeDirection? ToDirection(this object? _Obj)
@@ -226,6 +228,12 @@ public static class Extensions
         { return false; }
         else
         { return true; }
+    }
+
+    public static void AddIfNotNull<T>(this HashSet<T> _I, T? Value)
+    {
+        if (Value is not null)
+        { _I.Add(Value); }
     }
 }
 
