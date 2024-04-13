@@ -96,11 +96,6 @@ public class NavGraph : Graph<NavNode>
     /// <returns>UID if succesful, 0 if it fails</returns>
     public int AddNode(NavNode _NewNode)
     {
-        //checks if the new EN has a group ID, or if one of it's up/down connected
-        //ENs 
-        //fucking idiot, it's created then shit's connected, this will never run
-
-
         //auto increments
         int TempUID = AvailableUID;
 
@@ -114,7 +109,7 @@ public class NavGraph : Graph<NavNode>
         //adds the node to the Dictionary
         Nodes.Add(TempUID, _NewNode);
 
-        if (_NewNode is RoomNode RN && RN.Tags is not null)
+        if (_NewNode is RoomNode RN && RN.Tags is not null && RN.Tags.Count > 0)
         {
             foreach (var T in RN.Tags)
             { AddOrIncrementTag(T); }
@@ -662,6 +657,9 @@ public class NavGraph : Graph<NavNode>
         }
     }
 
+    /// <summary>
+    /// Orders the tags alphabetically? might remove
+    /// </summary>
     private void OrderTags()
     {
         Tags = Tags

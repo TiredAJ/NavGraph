@@ -56,8 +56,8 @@ public partial class frm_Main : Form
 
         Layouter = new();
 
-        cmbx_BlockSelect.SelectedIndex = 0;
-        cmbx_NodeType.SelectedIndex = 0;
+        cmbx_nodes_BlockSelect.SelectedIndex = 0;
+        cmbx_nodes_NodeType.SelectedIndex = 0;
     }
 
     private void ClearBox(Control _BX)
@@ -78,6 +78,18 @@ public partial class frm_Main : Form
 
                 C.Refresh();
             }
+        }
+    }
+
+    private void ClearDGV(Control _Box)
+    {
+        if (_Box is not (Panel or GroupBox))
+        { return; }
+
+        foreach (Control C in _Box.Controls)
+        {
+            if (C is DataGridView DGV)
+            { DGV.Rows.Clear(); }
         }
     }
 
@@ -370,6 +382,7 @@ public partial class frm_Main : Form
             txt_stats_misc_IsoNodesCount.Text = $"{Result.IsolatedNodes.Count} nodes";
         });
     }
+
 }
 
 public enum ExportType : int

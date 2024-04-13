@@ -7,20 +7,17 @@ public partial class frm_Main : Form
 {
     private HashSet<int> AlreadyConnectedNodes = new();
 
-    private void txt_PublicName_TextChanged(object sender, EventArgs e)
-    { txt_Nodes_InternalName.Text = txt_PublicName.Text.Trim(); }
-
     private void btn_Node_Create_Click(object sender, EventArgs e)
     {
         int Result = -1;
 
-        if (cmbx_NodeType.SelectedItem.ToString() == "Elevation")
+        if (cmbx_nodes_NodeType.SelectedItem.ToString() == "Elevation")
         { Result = Create_Elevation(); }
-        else if (cmbx_NodeType.SelectedItem.ToString() == "Room")
+        else if (cmbx_nodes_NodeType.SelectedItem.ToString() == "Room")
         { Result = Create_Room(); }
-        else if (cmbx_NodeType.SelectedItem.ToString() == "Corridor")
+        else if (cmbx_nodes_NodeType.SelectedItem.ToString() == "Corridor")
         { Result = Create_Corridor(); }
-        else if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
+        else if (cmbx_nodes_NodeType.SelectedItem.ToString() == "Gateway")
         { Result = Create_Gateway(); }
 
         if (Result == -1)
@@ -29,8 +26,9 @@ public partial class frm_Main : Form
         RefreshNodesTree();
         ClearBox(gbx_Node);
         ClearBox(pnl_GW);
+        ClearDGV(pnl_GW);
 
-        txt_tag_Tags.Clear();
+        txt_nodes_Tags.Clear();
         cmbx_tag_Tags.Text = string.Empty;
 
         CurNodeUID = 0;
@@ -84,8 +82,8 @@ public partial class frm_Main : Form
         NG.RemoveNode(_UID);
         trvw_Nodes.Nodes.RemoveByKey(_UID.ToString());
 
-        btn_node_Edit.Enabled = false;
-        //btn_Node_Delete.Enabled = false;
+        btn_nodes_Edit.Enabled = false;
+        //btn_nodes_Delete.Enabled = false;
     }
 
     private void btn_Node_Save_Click(object sender, EventArgs e)
@@ -93,18 +91,18 @@ public partial class frm_Main : Form
 
     private void nud_Node_Floor_ValueChanged(object sender, EventArgs e)
     {
-        CurFloor = (int)nud_Node_Floor.Value;
+        CurFloor = (int)nud_nodes_Floor.Value;
         GenerateInternalName();
     }
 
     private void cmbx_BlockSelect_SelectedIndexChanged(object sender, EventArgs e)
     {
-        var Floor = NG.Blocks[cmbx_BlockSelect.SelectedItem.ToString()];
+        var Floor = NG.Blocks[cmbx_nodes_BlockSelect.SelectedItem.ToString()];
 
-        nud_Node_Floor.Maximum = Floor.Max;
-        nud_Node_Floor.Minimum = Floor.Min;
+        nud_nodes_Floor.Maximum = Floor.Max;
+        nud_nodes_Floor.Minimum = Floor.Min;
 
-        CurBlock = cmbx_BlockSelect.SelectedItem.ToString();
+        CurBlock = cmbx_nodes_BlockSelect.SelectedItem.ToString();
 
         GenerateInternalName();
     }
@@ -113,17 +111,17 @@ public partial class frm_Main : Form
     {
         ckbx_IsElevator.Enabled = false;
 
-        if (cmbx_NodeType.SelectedIndex >= 0)
+        if (cmbx_nodes_NodeType.SelectedIndex >= 0)
         { pnl_NormalNodes.Enabled = true; }
         else
         { pnl_NormalNodes.Enabled = false; }
 
-        if (cmbx_NodeType.Text == "Elevation")
+        if (cmbx_nodes_NodeType.Text == "Elevation")
         {
             pnl_conn_Down.Enabled = true;
             pnl_conn_Up.Enabled = true;
 
-            txt_PublicName.Enabled = false;
+            txt_nodes_PublicName.Enabled = false;
 
             ckbx_IsElevator.Enabled = true;
         }
@@ -133,18 +131,20 @@ public partial class frm_Main : Form
             pnl_conn_Up.Enabled = false;
         }
 
-        if (cmbx_NodeType.SelectedItem.ToString() == "Room")
+        if (cmbx_nodes_NodeType.SelectedItem.ToString() == "Room")
         {
-            txt_tag_Tags.Enabled = true;
-            txt_PublicName.Enabled = true;
+            txt_nodes_Tags.Enabled = true;
+            txt_nodes_PublicName.Enabled = true;
+            btn_nodes_PublicNmCpy.Enabled = true;
         }
         else
         {
-            txt_tag_Tags.Enabled = false;
-            txt_PublicName.Enabled = false;
+            txt_nodes_Tags.Enabled = false;
+            txt_nodes_PublicName.Enabled = false;
+            btn_nodes_PublicNmCpy.Enabled = false;
         }
 
-        if (cmbx_NodeType.SelectedItem.ToString() == "Gateway")
+        if (cmbx_nodes_NodeType.SelectedItem.ToString() == "Gateway")
         { SetupGW(); }
         else
         {
@@ -226,9 +226,9 @@ public partial class frm_Main : Form
     {
         ElevationNode EN = new ElevationNode();
 
-        EN.BlockName = cmbx_BlockSelect.Text;
-        EN.Floor = (int)nud_Node_Floor.Value;
-        EN.InternalName = txt_Nodes_InternalName.Text;
+        EN.BlockName = cmbx_nodes_BlockSelect.Text;
+        EN.Floor = (int)nud_nodes_Floor.Value;
+        EN.InternalName = txt_nodes_InternalName.Text;
 
         CurNodeUID = NG.AddNode(EN);
 
@@ -261,13 +261,14 @@ public partial class frm_Main : Form
     {
         RoomNode RN = new RoomNode();
 
-        RN.BlockName = cmbx_BlockSelect.Text;
-        RN.Floor = (int)nud_Node_Floor.Value;
-        RN.InternalName = txt_Nodes_InternalName.Text.Trim();
-        RN.RoomName = txt_PublicName.Text.Trim();
-        RN.Tags = txt_tag_Tags.Text
+        RN.BlockName = cmbx_nodes_BlockSelect.Text;
+        RN.Floor = (int)nud_nodes_Floor.Value;
+        RN.InternalName = txt_nodes_InternalName.Text.Trim();
+        RN.RoomName = txt_nodes_PublicName.Text.Trim();
+        RN.Tags = txt_nodes_Tags.Text
                         .Split(new[] { ',' })
                         .Select(X => X.Trim())
+                        .Where(X => X != string.Empty)
                         .ToList();
 
         CurNodeUID = NG.AddNode(RN);
@@ -293,9 +294,9 @@ public partial class frm_Main : Form
     {
         CorridorNode CN = new CorridorNode();
 
-        CN.BlockName = cmbx_BlockSelect.Text;
-        CN.Floor = (int)nud_Node_Floor.Value;
-        CN.InternalName = txt_Nodes_InternalName.Text.Trim();
+        CN.BlockName = cmbx_nodes_BlockSelect.Text;
+        CN.Floor = (int)nud_nodes_Floor.Value;
+        CN.InternalName = txt_nodes_InternalName.Text.Trim();
 
         CurNodeUID = NG.AddNode(CN);
 
@@ -332,9 +333,9 @@ public partial class frm_Main : Form
 
         GatewayNode GN = new GatewayNode();
 
-        GN.BlockName = cmbx_BlockSelect.Text;
-        GN.Floor = (int)nud_Node_Floor.Value;
-        GN.InternalName = txt_Nodes_InternalName.Text.Trim();
+        GN.BlockName = cmbx_nodes_BlockSelect.Text;
+        GN.Floor = (int)nud_nodes_Floor.Value;
+        GN.InternalName = txt_nodes_InternalName.Text.Trim();
 
         CurNodeUID = NG.AddNode(GN);
 
@@ -391,26 +392,26 @@ public partial class frm_Main : Form
 
     private void GenerateInternalName()
     {
-        if (cmbx_NodeType.Text != "" && cmbx_BlockSelect.Text != "")
+        if (cmbx_nodes_NodeType.Text != "" && cmbx_nodes_BlockSelect.Text != "")
         {
-            Layouter._Blockname = cmbx_BlockSelect.Text;
-            Layouter._Floor = (int)nud_Node_Floor.Value;
-            Layouter._Type = cmbx_NodeType.Text;
+            Layouter._Blockname = cmbx_nodes_BlockSelect.Text;
+            Layouter._Floor = (int)nud_nodes_Floor.Value;
+            Layouter._Type = cmbx_nodes_NodeType.Text;
             Layouter._Separator = txt_set_Separator.Text.First();
             Layouter._Prefix = txt_set_Prefix.Text;
         }
         else
         {
-            Layouter._Blockname = cmbx_BlockSelect.Items[0].ToString();
+            Layouter._Blockname = cmbx_nodes_BlockSelect.Items[0].ToString();
             Layouter._Floor = 0;
-            Layouter._Type = cmbx_NodeType.Items[0] as string;
+            Layouter._Type = cmbx_nodes_NodeType.Items[0] as string;
             Layouter._Separator = txt_set_Separator.Text.First();
             Layouter._Prefix = txt_set_Prefix.Text;
         }
 
         Layouter.IsElevator = ckbx_IsElevator.Checked;
 
-        txt_Nodes_InternalName.Text = Layouter.GetName();
+        txt_nodes_InternalName.Text = Layouter.GetName();
     }
 
     private async void cmbx_GW_AvailableNodes_MouseEnter(object sender, EventArgs e)
@@ -527,7 +528,7 @@ public partial class frm_Main : Form
 
         CurDir = (NodeDirection)CMBX.Tag;
 
-        string Required = cmbx_NodeType.Text;
+        string Required = cmbx_nodes_NodeType.Text;
         bool IsEE = ckbx_IsElevator.Checked;
 
         Task.Run(async () =>
@@ -574,7 +575,7 @@ public partial class frm_Main : Form
 
     private void ckbx_IsElevator_CheckedChanged(object sender, EventArgs e)
     {
-        string T = txt_Nodes_InternalName.Text;
+        string T = txt_nodes_InternalName.Text;
 
         if (!T.Contains("EE") && !T.Contains("ES"))
         { GenerateInternalName(); }
@@ -589,28 +590,27 @@ public partial class frm_Main : Form
         else
         { T = T.Replace(T.Substring(Index + 1, 2), "ES"); }
 
-        txt_Nodes_InternalName.Text = T;
+        txt_nodes_InternalName.Text = T;
     }
 
     private void btn_tag_AddTag_Click(object sender, EventArgs e)
-    { txt_tag_Tags.AppendText($"{cmbx_tag_Tags.Text}, "); }
-
-    private void btn_tag_AddNewTag_Click(object sender, EventArgs e)
     {
         if (cmbx_tag_Tags.Text == string.Empty)
         { return; }
 
         string NewTag = cmbx_tag_Tags.Text;
 
-        if (NG.GetTags().Contains(NewTag))
-        { txt_tag_Tags.AppendText($"{cmbx_tag_Tags.Text}, "); }
+        if (!NG.GetTags().Contains(NewTag))
+        {
+            cmbx_tag_Tags.Items.Add(NewTag);
 
-        cmbx_tag_Tags.Text = string.Empty;
+            cmbx_tag_Tags.Refresh();
+        }
 
-        txt_tag_Tags.AppendText($"{NewTag}, ");
-        cmbx_tag_Tags.Items.Add(NewTag);
-
-        cmbx_tag_Tags.Refresh();
+        if (txt_nodes_Tags.Text == string.Empty)
+        { txt_nodes_Tags.AppendText($"{cmbx_tag_Tags.Text}"); }
+        else
+        { txt_nodes_Tags.AppendText($", {cmbx_tag_Tags.Text}"); }
     }
 
     private void btn_tree_Search_Click(object sender, EventArgs e)
@@ -669,7 +669,7 @@ public partial class frm_Main : Form
     }
 
     private void btn_Clear_Click(object sender, EventArgs e)
-    { txt_tag_Tags.Text = string.Empty; }
+    { txt_nodes_Tags.Text = string.Empty; }
 
     private void lst_node_ElvGW_DeleteKey(object sender, KeyEventArgs e)
     {
@@ -680,28 +680,6 @@ public partial class frm_Main : Form
             LST.Refresh();
         }
     }
-}
-
-public class TempNode
-{
-    public static int? UID, Floor;
-    //Both used by all nodes
-
-    public static string?
-        PublicName = "", InternalName = "", BlockName = "";
-    //   ^Room nodes                         ^used by all nodes
-    //                    ^Used by all nodes
-
-    public static Dictionary<NodeDirection, int>? NodeConnections = new();
-    //Used by all nodes (with slight differences)
-
-    public static Dictionary<int, string>? GatewayConnections = new();
-    //Gateway nodes
-
-    public static List<string>? Tags = new();
-    //Room nodes
-
-    public NodeDirection? ElvNodeDirection, GWNodeDirection;
-    //All nodes bar GW and Elv for obvious reasons
-
+    private void btn_PublicNmCpy_Click(object sender, EventArgs e)
+    { txt_nodes_InternalName.Text = txt_nodes_PublicName.Text; }
 }

@@ -28,7 +28,7 @@ public partial class frm_Main : Form
     private void RefreshBlocksList()
     {
         lst_Blocks.Items.Clear();
-        cmbx_BlockSelect.Items.Clear();
+        cmbx_nodes_BlockSelect.Items.Clear();
         FillBlocksControls();
     }
 
@@ -38,9 +38,9 @@ public partial class frm_Main : Form
         lst_Blocks.Items.AddRange(NG.Blocks.Keys.ToArray());
         lst_Blocks.Refresh();
 
-        cmbx_BlockSelect.Items.Clear();
-        cmbx_BlockSelect.Items.AddRange(NG.Blocks.Keys.ToArray());
-        cmbx_BlockSelect.Refresh();
+        cmbx_nodes_BlockSelect.Items.Clear();
+        cmbx_nodes_BlockSelect.Items.AddRange(NG.Blocks.Keys.ToArray());
+        cmbx_nodes_BlockSelect.Refresh();
     }
 
     //Goddam, this does a lot of fairly heay stuff
@@ -72,26 +72,31 @@ public partial class frm_Main : Form
 
                 foreach (var N in NG.GetNodes(KVP.Key, i))
                 {
-                    StringBuilder SB_Name = new($"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"");
+                    TN_Node = TN_Floor.Nodes.Add(N.Key.ToString(), $"{N.Value.GetType().NodeTypeShort()}:{N.Key} \"{N.Value.InternalName}\"");
+
+                    StringBuilder SB_Name = new($"");
 
                     if (N.Value is ISpecialFlow NISF)
                     {
                         if (NISF.Flow is not null)
                         {
+                            TN_Node.Nodes.Add("FD", "Flow Directions");
                             foreach (var Flow in NISF.Flow)
                             {
-                                SB_Name.Append($" {{{Flow.Key.ToArrow()}: ");
+                                SB_Name.Append($"{Flow.Key.ToArrow()}: ");
 
-                                foreach (var FN in Flow.Value.OrderBy(X => !X.Value.IsEN))
+                                foreach (var FN in Flow.Value.OrderByDescending(X => !X.Value.IsEN))
                                 { SB_Name.Append($"[{(FN.Value.IsEN ? "EN" : "GW")}: {FN.Key}, {FN.Value.Distance}N],"); }
 
-                                SB_Name.Append($"}}");
+                                TN_Node.Nodes["FD"].Nodes.Add(SB_Name.ToString());
+                                SB_Name.Clear();
                             }
                         }
                     }
 
-                    TN_Node = TN_Floor.Nodes
-                        .Add($"{N.Key}", SB_Name.ToString());
+                    //TN_Floor.Nodes[N.Key.ToString()].Nodes
+                    //TN_Node.Nodes
+                    //    .Add($"{N.Key}", SB_Name.ToString());
 
                     if (N.Value is GatewayNode GN)
                     {
@@ -105,13 +110,13 @@ public partial class frm_Main : Form
                         {
                             TN_Node.Nodes.Add(CN.Key, $"{CN.Key}");
 
-                            foreach (var CN_UID in CN.Value)
+                            foreach (var CN_UID in CN.Value.OrderDescending())
                             { TN_Node.Nodes[CN.Key].Nodes.Add($"{CN_UID}"); }
                         }
                     }
                     else
                     {
-                        foreach (var CN in N.Value.GetConnectedNodes())
+                        foreach (var CN in N.Value.GetConnectedNodes().OrderByDescending(X => X.Value))
                         {
                             TN_Node.Nodes.Add
                             ($"{CN.Key}:".PadRight(6) + $" {CN.Value}");
