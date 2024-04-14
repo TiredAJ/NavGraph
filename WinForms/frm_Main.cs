@@ -368,10 +368,14 @@ public partial class frm_Main : Form
             txt_stats_nodes_Connections.Text = Result.Connections.ToString();
             txt_stats_nodes_Flows.Text = Result.Flows.ToString();
 
+            lstbx_stats_misc_Tags.Items.Clear();
+
             foreach (var KVP in Result.Tags.OrderByDescending(X => X.Value))
             { lstbx_stats_misc_Tags.Items.Add($"{KVP.Value}: {KVP.Key}"); }
 
             txt_stats_misc_TagsCount.Text = $"{Result.Tags.Count} tags";
+
+            lstbx_stats_misc_IsolatedNodes.Items.Clear();
 
             foreach (var N in Result.IsolatedNodes.Nodes)
             {

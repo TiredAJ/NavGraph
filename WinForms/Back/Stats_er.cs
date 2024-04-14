@@ -103,7 +103,7 @@ class Stats_er
 
             foreach (var N in NG.GetAllNodes().Values)
             {
-                if (N is not ISpecialFlow)
+                if (N is not ISpecialFlow ISF || ISF.Flow is null)
                 { continue; }
 
                 foreach (var L in (N as ISpecialFlow).Flow.Values)
@@ -133,7 +133,7 @@ class Stats_er
 
             foreach (var N in NG.GetAllNodes().Values)
             {
-                if (N is not ISpecialFlow)
+                if (N is not ISpecialFlow ISF || ISF.Flow is null)
                 { continue; }
 
                 foreach (var L in (N as ISpecialFlow).Flow.Values)
@@ -162,7 +162,8 @@ class Stats_er
         var ISFs = NG
                                     .GetAllNodes()
                                     .Select(X => X.Value)
-                                    .Where(X => X is ISpecialFlow)
+                                    .Where(X => X is ISpecialFlow ISF && 
+                                        ISF.Flow is not null)
                                     .Cast<ISpecialFlow>();
 
         foreach (var I in ISFs)
