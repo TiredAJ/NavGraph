@@ -1,11 +1,13 @@
-﻿namespace NavGraphTools.Utilities;
+﻿using System.Diagnostics;
+
+namespace NavGraphTools.Utilities;
 
 public class Path_er
 {
     private ReadonlyNavGraph NG = null;
     private NavNode Origin, Destination, Current, Temporary;
     private Path_erStages _Stage = Path_erStages.None;
-    private List<int> Path = new();
+    private List<(NodeDirection, int)> Path = new();
 
     public Path_erStages Stage
     {
@@ -56,27 +58,34 @@ public class Path_er
 
         //Dau
         if (Origin.BlockName == Destination.BlockName)
-        { Tri(); return; }
+        { Current = Origin; Tri(); return; }
         else
         { DauBwynt(); return; }
     }
 
+    #region Dau
     private void DauBwynt()
     {
         ISpecialFlow P;
 
-        if (Origin is ISpecialFlow ISF && ISF.Connected_GW(out _))
+        IEnumerable<int> GWs_UIDS;
+        List<NavNode> GWs_Nodes = new();
+
+        if (Origin is ISpecialFlow ISF && ISF.Connected_GW(out GWs_UIDS))
         {
-            var GWs = ISF.GetGatewayNodes()
-                                                            .OrderByDescending(X =>
-                                                                X.Value.OrderByDescending(X => X.Value));
+            GWs_Nodes = GWs_UIDS
+                        .Select(X => NG[X])
+                        .Where(X => X is not null && X.BlockName == Destination.BlockName)
+                        .ToList();
+
+            Debug.WriteLine(GWs_Nodes.First().InternalName);
         }
 
+        //gets the ISFs connected to Origin?
         var ISFNodes = NG.GetNodes<ISpecialFlow>(Origin.Nodes.Values);
 
-        if (ISFNodes.Count() > 0)
+        if (ISFNodes.Count() > 0 && ISFNodes.Any(X => X.Connected_GW(out GWs_UIDS)))
         {
-
         }
 
 
@@ -112,9 +121,15 @@ public class Path_er
     {
 
     }
+    #endregion
 
     private void Tri()
-    { }
+    {
+        if (Current.Floor == Destination.Floor)
+        { Pedwar(); return; }
+
+
+    }
 
     private void TriBwyntA()
     { }
@@ -126,7 +141,11 @@ public class Path_er
     { }
 
     private void Pedwar()
-    { }
+    {
+        if (Current is not ISpecialNode)
+        { PedwarBwyntA(); return; }
+
+    }
 
     private void PedwarBwyntA()
     { }
@@ -139,6 +158,41 @@ public class Path_er
 
     private int Negotiate(ISpecialFlow _A, ISpecialFlow _B)
     { throw new NotImplementedException(); }
+
+    private ISpecialFlow? GetISF(int _UID, int? Floor = null, string? Block = null)
+    {
+        NavNode? N;
+
+        return NG.TryGetNode(_UID, out N) ? GetISF(N) : null;
+    }
+
+    private ISpecialFlow? GetISF(NavNode? _N, int? Floor = null, string? Block = null)
+    {
+        if (_N is null)
+        { return null; }
+
+        ISpecialFlow ISf;
+
+        if (_N is not ISpecialFlow)
+        {
+            var Conss = NG
+                        .GetConnectedNodes(_N, true)
+                        .Where(X => X.Value is ISpecialFlow)
+                        .ToDictionary(X => X.Key, Y => (ISpecialFlow)Y.Value);
+
+
+        }
+
+        if (_N is ISpecialFlow ISF && ISF.Connected_GW(out IEnumerable<int> GWs_UIDS))
+        {
+            List<NavNode> GWs_Nodes = GWs_UIDS
+                                        .Select(X => NG[X])
+                                        .Where(X => X is not null && X.BlockName == Destination.BlockName)
+                                        .ToList();
+
+            Debug.WriteLine(GWs_Nodes.First().InternalName);
+        }
+    }
 }
 public class PatherProgressEvent : EventArgs
 {

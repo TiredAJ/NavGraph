@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminPanelCLI", "..\AdminPa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForms", "..\WinForms\WinForms.csproj", "{7BE8CEFA-16FF-4603-936A-12C972FE0461}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Path_erTesterCLI", "..\Path_erTesterCLI\Path_erTesterCLI.csproj", "{AF11B59C-7588-456B-9A7C-804B9E4D3C82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{7BE8CEFA-16FF-4603-936A-12C972FE0461}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BE8CEFA-16FF-4603-936A-12C972FE0461}.Release|x64.ActiveCfg = Release|Any CPU
 		{7BE8CEFA-16FF-4603-936A-12C972FE0461}.Release|x64.Build.0 = Release|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Debug|x64.Build.0 = Debug|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Release|x64.ActiveCfg = Release|Any CPU
+		{AF11B59C-7588-456B-9A7C-804B9E4D3C82}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

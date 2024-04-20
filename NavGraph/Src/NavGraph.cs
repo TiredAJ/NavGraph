@@ -906,6 +906,31 @@ public class ReadonlyNavGraph : Graph<NavNode>
     public int GetFloorNodeCount(string _Block, int _Floor)
         => GetNodes(_Block, _Floor).Count();
 
+    public Dictionary<NodeDirection, NavNode>? GetConnectedNodes(NavNode _N, bool NullCheck = false)
+    {
+        var C = _N.GetConnectedNodes();
+
+        if (NullCheck)
+        {
+            return C.Where(X => Nodes.ContainsKey(X.Value))
+                    .ToDictionary(X => X.Key,
+                               Y => Nodes[Y.Value]);
+        }
+        else
+        {
+            return C.ToDictionary(X => X.Key,
+                Y => Nodes[Y.Value]);
+        }
+    }
+
+    public Dictionary<NodeDirection, NavNode>? GetConnectedNodes(int _UID, bool NullCheck = false)
+    {
+        if (Nodes.ContainsKey(_UID))
+        { return GetConnectedNodes(Nodes[_UID], NullCheck); }
+        else
+        { return null; }
+    }
+
     #region Node Checking
     /// <summary>
     /// Checks if a node exists within the NavGraph
