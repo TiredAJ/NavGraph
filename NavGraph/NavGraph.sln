@@ -5,8 +5,6 @@ VisualStudioVersion = 17.9.34518.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavGraph", "NavGraph.csproj", "{B5177EFE-FD4B-4D10-9591-9BEED43B0FC5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavigatorTester", "..\NavigatorTester\NavigatorTester.csproj", "{6FCBE956-5C91-4790-A84D-3006F06354B4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminPanelCLI", "..\AdminPanelCLI\AdminPanelCLI.csproj", "{F7393CD2-69C0-4677-98BE-2286085D04A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForms", "..\WinForms\WinForms.csproj", "{7BE8CEFA-16FF-4603-936A-12C972FE0461}"
