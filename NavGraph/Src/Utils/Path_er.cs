@@ -8,6 +8,7 @@ public class Path_er
     private NavNode Origin, Destination, Current, Temporary;
     private Path_erStages _Stage = Path_erStages.None;
     private List<(NodeDirection, int)> Path = new();
+    private GatewayNode DestGW;
 
     public Path_erStages Stage
     {
@@ -123,6 +124,7 @@ public class Path_er
     }
     #endregion
 
+    #region Tri
     private void Tri()
     {
         if (Current.Floor == Destination.Floor)
@@ -132,14 +134,28 @@ public class Path_er
     }
 
     private void TriBwyntA()
-    { }
+    {
+        List<int> DestGWFloorENs = NG.GetFloor(Destination.BlockName, DestGW.Floor)
+                                        .Select(X => (X.Value as ElevationNode).ENGroupID)
+                                        .ToList();
+        List<int> DestFloorENs = NG.GetFloor(Destination.BlockName, Destination.Floor)
+                                        .Select(X => (X.Value as ElevationNode).ENGroupID)
+                                        .ToList();
+
+        List<int> SuitableENGroups = DestFloorENs.Intersect(DestGWFloorENs).ToList();
+
+
+
+    }
 
     private void TriBwyntB()
     { }
 
     private void TriBwyntC()
     { }
+    #endregion
 
+    #region Pedwar
     private void Pedwar()
     {
         if (Current is not ISpecialNode)
@@ -155,44 +171,44 @@ public class Path_er
 
     private void PumpBwyntB()
     { }
+    #endregion
 
+    #region Misc
     private int Negotiate(ISpecialFlow _A, ISpecialFlow _B)
     { throw new NotImplementedException(); }
 
-    private ISpecialFlow? GetISF(int _UID, int? Floor = null, string? Block = null)
+    private Dictionary<NodeDirection, ISpecialFlow>? GetISF(int _UID, int? _Floor = null, string? _Block = null)
     {
         NavNode? N;
 
-        return NG.TryGetNode(_UID, out N) ? GetISF(N) : null;
+        return NG.TryGetNode(_UID, out N) ? GetISF(N, _Floor, _Block) : null;
     }
 
-    private ISpecialFlow? GetISF(NavNode? _N, int? Floor = null, string? Block = null)
+    private Dictionary<NodeDirection, ISpecialFlow>? GetISF(NavNode? _N, int? _Floor = null, string? _Block = null)
     {
         if (_N is null)
         { return null; }
 
         ISpecialFlow ISf;
 
-        if (_N is not ISpecialFlow)
+        if (_N is ISpecialFlow ISF)
+        { return new Dictionary<NodeDirection, ISpecialFlow>() { { 0, ISF } }; }
+        else
         {
-            var Conss = NG
+            var Conns = NG
                         .GetConnectedNodes(_N, true)
-                        .Where(X => X.Value is ISpecialFlow)
-                        .ToDictionary(X => X.Key, Y => (ISpecialFlow)Y.Value);
+                        .Where(X => X.Value is ISpecialFlow);
 
+            if (_Floor is not null)
+            { Conns = Conns.Where(X => X.Value.Floor == _Floor); }
 
-        }
+            if (_Block is not null)
+            { Conns = Conns.Where(X => X.Value.BlockName == _Block); }
 
-        if (_N is ISpecialFlow ISF && ISF.Connected_GW(out IEnumerable<int> GWs_UIDS))
-        {
-            List<NavNode> GWs_Nodes = GWs_UIDS
-                                        .Select(X => NG[X])
-                                        .Where(X => X is not null && X.BlockName == Destination.BlockName)
-                                        .ToList();
-
-            Debug.WriteLine(GWs_Nodes.First().InternalName);
+            return Conns.ToDictionary(X => X.Key, Y => Y.Value as ISpecialFlow);
         }
     }
+    #endregion
 }
 public class PatherProgressEvent : EventArgs
 {
