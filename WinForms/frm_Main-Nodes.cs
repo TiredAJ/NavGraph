@@ -392,11 +392,13 @@ public partial class frm_Main : Form
 
     private void GenerateInternalName()
     {
+        string TypeStr = "";
+
         if (cmbx_nodes_NodeType.Text != "" && cmbx_nodes_BlockSelect.Text != "")
         {
             Layouter._Blockname = cmbx_nodes_BlockSelect.Text;
             Layouter._Floor = (int)nud_nodes_Floor.Value;
-            Layouter._Type = cmbx_nodes_NodeType.Text;
+            TypeStr = cmbx_nodes_NodeType.Text;
             Layouter._Separator = txt_set_Separator.Text.First();
             Layouter._Prefix = txt_set_Prefix.Text;
         }
@@ -404,14 +406,12 @@ public partial class frm_Main : Form
         {
             Layouter._Blockname = cmbx_nodes_BlockSelect.Items[0].ToString();
             Layouter._Floor = 0;
-            Layouter._Type = cmbx_nodes_NodeType.Items[0] as string;
+            TypeStr = cmbx_nodes_NodeType.Items[0] as string;
             Layouter._Separator = txt_set_Separator.Text.First();
             Layouter._Prefix = txt_set_Prefix.Text;
         }
 
-        Layouter.IsElevator = ckbx_IsElevator.Checked;
-
-        txt_nodes_InternalName.Text = Layouter.GetName();
+        txt_nodes_InternalName.Text = Layouter.GetName(TypeStr, ckbx_IsElevator.Checked);
     }
 
     private async void cmbx_GW_AvailableNodes_MouseEnter(object sender, EventArgs e)
@@ -574,24 +574,7 @@ public partial class frm_Main : Form
     }
 
     private void ckbx_IsElevator_CheckedChanged(object sender, EventArgs e)
-    {
-        string T = txt_nodes_InternalName.Text;
-
-        if (!T.Contains("EE") && !T.Contains("ES"))
-        { GenerateInternalName(); }
-
-        CheckBox CKBX = sender as CheckBox;
-
-
-        int Index = T.IndexOf("-E");
-
-        if (CKBX.Checked)
-        { T = T.Replace(T.Substring(Index + 1, 2), "EE"); }
-        else
-        { T = T.Replace(T.Substring(Index + 1, 2), "ES"); }
-
-        txt_nodes_InternalName.Text = T;
-    }
+    { GenerateInternalName(); }
 
     private void btn_tag_AddTag_Click(object sender, EventArgs e)
     {

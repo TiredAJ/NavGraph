@@ -210,6 +210,7 @@ public partial class frm_Main : Form
 
         RefreshNodesTree();
         RefreshBlocksList();
+        cmbx_tag_Tags.Items.AddRange(NG.Tags.Keys.ToArray());
     }
 
     private void frm_Main_FormClosing(object sender, FormClosingEventArgs e)

@@ -247,7 +247,7 @@ public class LayoutHelper
     private StringBuilder SB = new();
 
     public char _Separator = '-';
-    public string _Blockname, _Type, _Prefix;
+    public string _Blockname, TypeStr, _Prefix;
     public int _Floor;
     public bool IsElevator = false;
 
@@ -264,12 +264,12 @@ public class LayoutHelper
 
     public void SetLayout(string _Layout)
     {
-        var Bits = _Layout.Split('{', '}');
+        var Bits = _Layout.Split('{', '}').Where(X => X != "");
+
+        LayoutOrder.Clear();
 
         foreach (var S in Bits)
         {
-            LayoutOrder.Clear();
-
             switch (S)
             {
                 case "B":
@@ -290,8 +290,11 @@ public class LayoutHelper
         }
     }
 
-    public string GetName()
+    public string GetName(string _Type, bool _IsElv = false)
     {
+        IsElevator = _IsElv;
+        TypeStr = _Type;
+
         SB.Clear();
         RunLayout();
         return SB.ToString();
@@ -315,7 +318,7 @@ public class LayoutHelper
     { return _Floor.ToString(); }
 
     private string NodeType()
-    { return NodeIdentifier(_Type, IsElevator); }
+    { return NodeIdentifier(); }
 
     private string Separator()
     { return _Separator.ToString(); }
@@ -323,16 +326,16 @@ public class LayoutHelper
     private string Prefix()
     { return _Prefix; }
 
-    private string NodeIdentifier(string _T, bool _Elv)
+    private string NodeIdentifier()
     {
-        switch (_T)
+        switch (TypeStr)
         {
             case "Corridor":
             { return NodeIdentifiers["CN"]; }
             case "Room":
             { return NodeIdentifiers["RN"]; }
             case "Elevation":
-            { return _Elv == true ? NodeIdentifiers["EN1"] : NodeIdentifiers["EN0"]; }
+            { return IsElevator ? NodeIdentifiers["EN1"] : NodeIdentifiers["EN0"]; }
             case "Gateway":
             { return NodeIdentifiers["GW"]; }
             default:

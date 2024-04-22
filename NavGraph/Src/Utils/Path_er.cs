@@ -68,6 +68,21 @@ public class Path_er
     private void DauBwynt()
     {
         ISpecialFlow P;
+        Dictionary<NodeDirection, ISpecialFlow> ISFs;
+
+        ISFs = GetISF(Origin);
+
+        if (ISFs.First().Key == 0)
+        {//Origin is alread an ISF
+
+        }
+        else
+        {
+
+        }
+
+
+
 
         IEnumerable<int> GWs_UIDS;
         List<NavNode> GWs_Nodes = new();
@@ -113,9 +128,23 @@ public class Path_er
         { throw new Exception("Can't escape block!"); }
     }
 
+
     private void DauBwyntAUn(IEnumerable<NavNode> _GWs)
     {
 
+    }
+
+    private void DauBwyntB()
+    {
+        var BlockGWs = NG
+                                            .GetBlock(Origin.BlockName)
+                                            .Where(X => X is GatewayNode)
+                                            .Select(X => X)
+
+        if (true)
+        {
+
+        }
     }
 
     private void DauBwyntBUn(IEnumerable<NavNode> _GWs)
@@ -129,23 +158,45 @@ public class Path_er
     {
         if (Current.Floor == Destination.Floor)
         { Pedwar(); return; }
-
-
+        else
+        { TriBwyntA(); return; }
     }
 
     private void TriBwyntA()
     {
+        //gets all the ENGroupIDs on the floor the gateway current will enter through
         List<int> DestGWFloorENs = NG.GetFloor(Destination.BlockName, DestGW.Floor)
                                         .Select(X => (X.Value as ElevationNode).ENGroupID)
                                         .ToList();
+
+        //gets all the ENGroupIDs on the floor of the destination node
         List<int> DestFloorENs = NG.GetFloor(Destination.BlockName, Destination.Floor)
                                         .Select(X => (X.Value as ElevationNode).ENGroupID)
                                         .ToList();
 
+        //Finds common ENGroupIDs
         List<int> SuitableENGroups = DestFloorENs.Intersect(DestGWFloorENs).ToList();
 
+        //gets the ENs on C's floor that are in the suitability list
+        DestGWFloorENs = DestGWFloorENs
+                            .Where(X => SuitableENGroups
+                                .Contains((NG[X] as ElevationNode).ENGroupID))
+                            .ToList();
 
+        var ISF = GetISF(DestGW)
+                                                    .Select(X => (X.Key, X.Value))
+                                                    .First();
 
+        var ChosenEN = ISF.Value.GetElevationNodes()
+                        .ToDictionary(X => X.Key,
+                                        Y => Y.Value
+                            .ToDictionary(X => NG[X.Key], Y => Y.Value)
+                            .OrderBy(X => X.Value)
+                            .Select(X => (X.Key, X.Value))
+                            .First())
+                        .OrderBy(X => X.Value.Value)
+                        .Select(X => (X.Key, X.Value.Key, X.Value.Value))
+                        .First();
     }
 
     private void TriBwyntB()
@@ -188,10 +239,7 @@ public class Path_er
     {
         if (_N is null)
         { return null; }
-
-        ISpecialFlow ISf;
-
-        if (_N is ISpecialFlow ISF)
+        else if (_N is ISpecialFlow ISF)
         { return new Dictionary<NodeDirection, ISpecialFlow>() { { 0, ISF } }; }
         else
         {

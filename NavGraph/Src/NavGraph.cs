@@ -647,7 +647,11 @@ public class NavGraph : Graph<NavNode>
     /// </summary>
     public void UpdateAllTags()
     {
-        foreach (var N in Nodes.Values.Where(X => X is RoomNode).Cast<RoomNode>())
+        var SuitableNodes = Nodes.Values
+                                        .Where(X => X is RoomNode)
+                                        .Cast<RoomNode>();
+
+        foreach (var N in SuitableNodes)
         {
             if (N.Tags is null)
             { continue; }
