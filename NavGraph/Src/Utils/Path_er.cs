@@ -68,13 +68,19 @@ public class Path_er
     private void DauBwynt()
     {
         ISpecialFlow P;
-        Dictionary<NodeDirection, ISpecialFlow> ISFs;
+        Dictionary<NodeDirection, ISpecialFlow> ISFs = new();
+        //Dictionary<string, GatewayNode> GWs = new();
 
         ISFs = GetISF(Origin);
 
         if (ISFs.First().Key == 0)
-        {//Origin is alread an ISF
+        {//Origin is already an ISF
+            var GWFlows = ISFs.First().Value.GetGatewayNodes();
 
+            foreach (var Dir in GWFlows)
+            {
+
+            }
         }
         else
         {
@@ -139,7 +145,7 @@ public class Path_er
         var BlockGWs = NG
                                             .GetBlock(Origin.BlockName)
                                             .Where(X => X is GatewayNode)
-                                            .Select(X => X)
+                                            .Select(X => X);
 
         if (true)
         {

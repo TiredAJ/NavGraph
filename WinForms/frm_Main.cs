@@ -114,14 +114,8 @@ public partial class frm_Main : Form
             OkRequiresInteraction = true,
         };
 
-        //if (DefaultFileLoc == null)
-        //{ SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); }
-        //else
-        //{ SFD.InitialDirectory = DefaultFileLoc; }
-
-        if (Directory.Exists("E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"))
-        { SFD.InitialDirectory = "E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"; }
-
+        if (Directory.Exists("E:\\GitHub\\_Individual Project\\Notes\\AdminPanel\\Maps"))
+        { SFD.InitialDirectory = "E:\\GitHub\\_Individual Project\\Notes\\AdminPanel\\Maps"; }
 
         switch (ExportOptions)
         {
@@ -185,8 +179,8 @@ public partial class frm_Main : Form
             AddToRecent = true
         };
 
-        if (Directory.Exists("E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"))
-        { OFD.InitialDirectory = "E:\\GitHub\\_Individual Project\\NavGraph\\NavGraph\\Notes"; }
+        if (Directory.Exists("E:\\GitHub\\_Individual Project\\Notes\\AdminPanel\\Maps"))
+        { OFD.InitialDirectory = "E:\\GitHub\\_Individual Project\\Notes\\AdminPanel\\Maps"; }
 
         switch (OFD.ShowDialog())
         {
