@@ -196,8 +196,38 @@ public class Path_er
     {
         NodeDirection ElvDir = _Start.Floor < _Target.Floor ? NodeDirection.Up : NodeDirection.Down;
         NodeDirection CurDir = 0;
+        NodeDirection SSkip, TSkip;
 
         NavNode LocalCurrent = _Start;
+        NavNode? StartSkip, TargetSkip
+
+        var StartENGroups = GetFlows(_Start, out StartSkip).Value;
+
+        SSkip = (NodeDirection)StartENGroups.Dir;
+
+        var TargetENGroups = GetFlows(_Target, out TargetSkip).Value;
+
+        TSkip = (NodeDirection)StartENGroups.Dir;
+
+        //gets the common Elevation node
+        var Common = StartENGroups
+                                    .Flow.Values
+                                    .SelectMany(X => X)
+                                    .OrderBy(X => X.Value.Distance)
+                                    .Where(X => X.Value.IsEN)
+                                    .Select(X => NG[X.Key] as ElevationNode)
+                                    .IntersectBy<ElevationNode, ElevationNode>
+                                    (
+                                        TargetENGroups.Flow.Values
+                                        .SelectMany(X => X)
+                                        .OrderBy(X => X.Value.Distance)
+                                        .Where(X => X.Value.IsEN)
+                                        .Select(X => NG[X.Key] as ElevationNode),
+                                        X => X.ENGroupID
+                                    );
+
+        
+
 
         //decide best EN on _Start's floor to travel to, then \/
 
@@ -212,7 +242,7 @@ public class Path_er
         //{
         //    CurDir = (NodeDirection)LocalCISF.GetDirection(_GW.UID);
 
-        //    if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir), out LocalCurrent))
+        //    if (!NG.TryGetNode(LocalC222222urrent.GetNode(CurDir), out LocalCurrent))
         //    { throw new Exception("Node returned null!"); }
 
         //    LocalCISF = LocalCurrent as ISpecialFlow;
@@ -302,6 +332,21 @@ public class Path_er
         { return ISF.GetDirection(_UID); }
         else
         { return null; }
+    }
+
+    private ISpecialFlow? GetISF(int _UID)
+    {
+        NavNode T;
+
+        if (!NG.TryGetNode(_UID, out T))
+        { return null; }
+        else
+        { return GetISF(T); }
+    }
+
+    private ISpecialFlow? GetISF(NavNode? _N)
+    {
+        
     }
 
     #endregion
