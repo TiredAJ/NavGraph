@@ -10,13 +10,13 @@ public static class Program
     {
         NG = new ReadonlyNavGraph();
 
-        using (Stream S = new StreamReader("Johnstone6.apjson").BaseStream)
+        using (Stream S = new StreamReader("Johnstone-6-pp.ajson").BaseStream)
         { NG.Deserialise(S); }
 
         PR = new Path_er(ref NG);
 
-        PR.Start(49875, 49879);
-        //                         ^TRJ005
+        PR.Start(49875, 50057);
+        //                         ^TRS-1-RN-031-c
         //          ^TRJ001
 
     }

@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-
-namespace NavGraphTools.Utilities;
+﻿namespace NavGraphTools.Utilities;
 
 public class Path_er
 {
     private ReadonlyNavGraph NG = null;
     private NavNode Origin, Destination, Current, Temporary;
     private Path_erStages _Stage = Path_erStages.None;
-    private List<(NodeDirection, int)> Path = new();
+    private List<(NodeDirection, NavNode)> Path = new();
     private GatewayNode DestGW;
 
     public Path_erStages Stage
@@ -57,103 +55,89 @@ public class Path_er
 
         Stage = Path_erStages.Dau;
 
+        Path.Add((0, Origin));
+
+        Current = Origin;
+
         //Dau
         if (Origin.BlockName == Destination.BlockName)
-        { Current = Origin; Tri(); return; }
+        { Tri(); return; }
         else
-        { DauBwynt(); return; }
+        { DauBwyntA(); return; }
     }
 
     #region Dau
-    private void DauBwynt()
+    private void DauBwyntA()
     {
-        ISpecialFlow P;
-        Dictionary<NodeDirection, ISpecialFlow> ISFs = new();
-        //Dictionary<string, GatewayNode> GWs = new();
+        NavNode? Skip;
 
-        ISFs = GetISF(Origin);
+        var Temp = GetFlows(Current, out Skip);
 
-        if (ISFs.First().Key == 0)
-        {//Origin is already an ISF
-            var GWFlows = ISFs.First().Value.GetGatewayNodes();
+        if (Skip is not null)
+        { Path.Add(((NodeDirection)Temp.Value.Dir, Skip)); }
 
-            foreach (var Dir in GWFlows)
-            {
+        Current = Skip;
 
-            }
-        }
-        else
-        {
+        Dictionary<NodeDirection, (int UID, int Distance)> ReducedISFs = new();
 
-        }
+        foreach (var KVP in Temp.Value.Flow.Where(X => X.Value.Any(X => NG[X.Key] is GatewayNode GW && GW.IsConnected(Destination.BlockName))))
+        { ReducedISFs.Add(KVP.Key, KVP.Value.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
 
+        (NodeDirection Dir, int UID) ChosenGW = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
 
-
-
-        IEnumerable<int> GWs_UIDS;
-        List<NavNode> GWs_Nodes = new();
-
-        if (Origin is ISpecialFlow ISF && ISF.Connected_GW(out GWs_UIDS))
-        {
-            GWs_Nodes = GWs_UIDS
-                        .Select(X => NG[X])
-                        .Where(X => X is not null && X.BlockName == Destination.BlockName)
-                        .ToList();
-
-            Debug.WriteLine(GWs_Nodes.First().InternalName);
-        }
-
-        //gets the ISFs connected to Origin?
-        var ISFNodes = NG.GetNodes<ISpecialFlow>(Origin.Nodes.Values);
-
-        if (ISFNodes.Count() > 0 && ISFNodes.Any(X => X.Connected_GW(out GWs_UIDS)))
-        {
-        }
-
-
-        var Block = NG
-                                        .GetNodes(Origin.BlockName)
-                                        .Select(X => X.Value);
-
-        var Floor = Block
-                                        .Where(X => X.Floor == Origin.Floor);
-
-        if (Floor.Any(X => X is GatewayNode GN &&
-                GN.IsConnected(Destination.BlockName)))
-        {//DauBwyntA
-            DauBwyntAUn(Floor.Where(X => X is GatewayNode GN &&
-                            GN.IsConnected(Destination.BlockName)));
-        }
-        else if (Block.Any(X => X is GatewayNode GN &&
-                    GN.IsConnected(Destination.BlockName)))
-        {//DayBwyntB
-            DauBwyntBUn(Block.Where(X => X is GatewayNode GN &&
-                            GN.IsConnected(Destination.BlockName)));
-        }
-        else
-        { throw new Exception("Can't escape block!"); }
+        DauBwyntAUn(ChosenGW);
+        return;
     }
 
-
-    private void DauBwyntAUn(IEnumerable<NavNode> _GWs)
+    private void DauBwyntAUn((NodeDirection Dir, int UID) _GW)
     {
+        NavNode LocalCurrent;
+        NodeDirection CurDir = 0;
 
+        if (!NG.TryGetNode(Current.GetNode(_GW.Dir), out LocalCurrent))
+        { throw new Exception("Node returned null!"); }
+
+        ISpecialFlow LocalCISF = LocalCurrent as ISpecialFlow;
+
+        Path.Add((_GW.Dir, LocalCurrent));
+
+        while (LocalCurrent != NG[_GW.UID])
+        {
+            CurDir = (NodeDirection)LocalCISF.GetDirection(_GW.UID);
+
+            if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir), out LocalCurrent))
+            { throw new Exception("Node returned null!"); }
+
+            LocalCISF = LocalCurrent as ISpecialFlow;
+
+            Path.Add((CurDir, LocalCurrent));
+        }
+
+        //2.A.2
+        DestGW = NG[(Current as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
+
+        Current = DestGW;
+
+        Path.Add((0, Current));
+
+        Tri(); return;
     }
 
     private void DauBwyntB()
     {
         var BlockGWs = NG
-                                            .GetBlock(Origin.BlockName)
-                                            .Where(X => X is GatewayNode)
-                                            .Select(X => X);
+                                    .GetBlock(Origin.BlockName)
+                                    .Where(X => X.Value is GatewayNode GW &&
+                                        GW.IsConnected(Destination.BlockName))
+                                    .Select(X => X.Value as GatewayNode);
 
-        if (true)
-        {
-
-        }
+        if (BlockGWs is not null && BlockGWs.Count() < 1)
+        { throw new Exception("No viable exits from Block!"); }
+        else
+        { DauBwyntBUn(BlockGWs); return; }
     }
 
-    private void DauBwyntBUn(IEnumerable<NavNode> _GWs)
+    private void DauBwyntBUn(IEnumerable<GatewayNode?> _GWs)
     {
 
     }
@@ -170,39 +154,8 @@ public class Path_er
 
     private void TriBwyntA()
     {
-        //gets all the ENGroupIDs on the floor the gateway current will enter through
-        List<int> DestGWFloorENs = NG.GetFloor(Destination.BlockName, DestGW.Floor)
-                                        .Select(X => (X.Value as ElevationNode).ENGroupID)
-                                        .ToList();
-
-        //gets all the ENGroupIDs on the floor of the destination node
-        List<int> DestFloorENs = NG.GetFloor(Destination.BlockName, Destination.Floor)
-                                        .Select(X => (X.Value as ElevationNode).ENGroupID)
-                                        .ToList();
-
-        //Finds common ENGroupIDs
-        List<int> SuitableENGroups = DestFloorENs.Intersect(DestGWFloorENs).ToList();
-
-        //gets the ENs on C's floor that are in the suitability list
-        DestGWFloorENs = DestGWFloorENs
-                            .Where(X => SuitableENGroups
-                                .Contains((NG[X] as ElevationNode).ENGroupID))
-                            .ToList();
-
-        var ISF = GetISF(DestGW)
-                                                    .Select(X => (X.Key, X.Value))
-                                                    .First();
-
-        var ChosenEN = ISF.Value.GetElevationNodes()
-                        .ToDictionary(X => X.Key,
-                                        Y => Y.Value
-                            .ToDictionary(X => NG[X.Key], Y => Y.Value)
-                            .OrderBy(X => X.Value)
-                            .Select(X => (X.Key, X.Value))
-                            .First())
-                        .OrderBy(X => X.Value.Value)
-                        .Select(X => (X.Key, X.Value.Key, X.Value.Value))
-                        .First();
+        FlowToEN();
+        Pedwar(); return;
     }
 
     private void TriBwyntB()
@@ -217,51 +170,140 @@ public class Path_er
     {
         if (Current is not ISpecialNode)
         { PedwarBwyntA(); return; }
-
+        else
+        { PumpBwyntA(); return; }
     }
 
     private void PedwarBwyntA()
     { }
 
     private void PumpBwyntA()
-    { }
+    {
+        //var ISF = GetFlows(Destination);
+    }
 
     private void PumpBwyntB()
     { }
+    #endregion
+
+    #region Flow
+    /// <summary>
+    /// Will flow from the start to the Target, traversing floors (adding to Path).
+    /// </summary>
+    /// <param name="_Start">Node to start from</param>
+    /// <param name="_Target">Node target to flow to</param>
+    private void FlowToEN(NavNode _Start, NavNode _Target)
+    {
+        NodeDirection ElvDir = _Start.Floor < _Target.Floor ? NodeDirection.Up : NodeDirection.Down;
+        NodeDirection CurDir = 0;
+
+        NavNode LocalCurrent = _Start;
+
+        //decide best EN on _Start's floor to travel to, then \/
+
+        //if (!NG.TryGetNode(Current.GetNode(_GW.Dir), out LocalCurrent))
+        //{ throw new Exception("Node returned null!"); }
+
+        //ISpecialFlow LocalCISF = LocalCurrent as ISpecialFlow;
+
+        //Path.Add((_GW.Dir, LocalCurrent));
+
+        //while (LocalCurrent != NG[_GW.UID])
+        //{
+        //    CurDir = (NodeDirection)LocalCISF.GetDirection(_GW.UID);
+
+        //    if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir), out LocalCurrent))
+        //    { throw new Exception("Node returned null!"); }
+
+        //    LocalCISF = LocalCurrent as ISpecialFlow;
+
+        //    Path.Add((CurDir, LocalCurrent));
+        //}
+
+        //DestGW = NG[(Current as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
+
+        //Current = DestGW;
+
+        //Path.Add((0, Current));
+
+        //throw new NotImplementedException();
+    }
+
+    private void FlowToGW()
+    {
+        //think this might be handy, also maybe these should return the last node?
+    }
+
     #endregion
 
     #region Misc
     private int Negotiate(ISpecialFlow _A, ISpecialFlow _B)
     { throw new NotImplementedException(); }
 
-    private Dictionary<NodeDirection, ISpecialFlow>? GetISF(int _UID, int? _Floor = null, string? _Block = null)
+    /// <summary>
+    /// Gets the next best ISF from the current node.
+    /// </summary>
+    /// <param name="_UID">The node UID to get an ISF from</param>
+    /// <returns>A tuple of node direction (Dir) and Flow. Dir will be null if the current node is an ISF, otherwise it'll contain the direction to get to the ISF from the inputted node</returns>
+    private (NodeDirection?, Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>>)? GetFlows(int _UID, out NavNode? _Skip)
     {
         NavNode? N;
 
-        return NG.TryGetNode(_UID, out N) ? GetISF(N, _Floor, _Block) : null;
+        _Skip = null;
+
+        return NG.TryGetNode(_UID, out N) ? GetFlows(N, out _Skip) : null;
     }
 
-    private Dictionary<NodeDirection, ISpecialFlow>? GetISF(NavNode? _N, int? _Floor = null, string? _Block = null)
+    /// <summary>
+    /// Gets the next best ISF from the current node.
+    /// </summary>
+    /// <param name="_N">The node to get an ISF from</param>
+    /// <param name="_Skip">If _N isn't an ISF, _Skip is the first connecting ISF node</param>
+    /// <returns>A tuple of node direction (Dir) and Flow. Dir will be null if the current node is an ISF, otherwise it'll contain the direction to get to the ISF from the inputted node</returns>
+    private (NodeDirection? Dir, Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>> Flow)? GetFlows(NavNode? _N, out NavNode? _Skip)
     {
+        _Skip = null;
+
         if (_N is null)
         { return null; }
         else if (_N is ISpecialFlow ISF)
-        { return new Dictionary<NodeDirection, ISpecialFlow>() { { 0, ISF } }; }
+        { return (null, ISF.Flow); }
         else
         {
-            var Conns = NG
+            var Conn = NG
                         .GetConnectedNodes(_N, true)
-                        .Where(X => X.Value is ISpecialFlow);
+                        .Where(X => X.Value is ISpecialFlow)
+                        .First();
 
-            if (_Floor is not null)
-            { Conns = Conns.Where(X => X.Value.Floor == _Floor); }
+            //connected ISF node to _N
+            _Skip = Conn.Value;
 
-            if (_Block is not null)
-            { Conns = Conns.Where(X => X.Value.BlockName == _Block); }
-
-            return Conns.ToDictionary(X => X.Key, Y => Y.Value as ISpecialFlow);
+            return (Conn.Key, (Conn.Value as ISpecialFlow).Flow);
         }
     }
+
+    /// <summary>
+    /// Gets the flow direction for a specified UID
+    /// </summary>
+    /// <param name="_N">Node (ISF)</param>
+    /// <param name="_UID"></param>
+    /// <returns></returns>
+    private NodeDirection? GetDirection(NavNode? _N, int _UID)
+    {
+        if (_N is ISpecialFlow ISF)
+        { return GetDirection(ISF, _UID); }
+        else
+        { return null; }
+    }
+
+    private NodeDirection? GetDirection(ISpecialFlow? _ISF, int _UID)
+    {
+        if (_ISF is ISpecialFlow ISF)
+        { return ISF.GetDirection(_UID); }
+        else
+        { return null; }
+    }
+
     #endregion
 }
 public class PatherProgressEvent : EventArgs

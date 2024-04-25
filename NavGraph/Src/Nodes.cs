@@ -304,7 +304,6 @@ public interface ISpecialFlow : Node
         return (Temp.Count > 0 ? true : false, Temp);
     }
 
-
 }
 #endregion
 

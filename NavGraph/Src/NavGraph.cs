@@ -58,7 +58,6 @@ public class NavGraph : Graph<NavNode>
     [JsonIgnore]
     public int NodeCount
     { get => Nodes.Count; }
-
     #endregion
 
     /// <summary>
@@ -783,7 +782,19 @@ public class ReadonlyNavGraph : Graph<NavNode>
     {
         //generates a StreamReader from the input stream and passes it to the JSON deserialiser
         using (StreamReader Reader = new StreamReader(_InputStream))
-        { Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd()); }
+        {
+            JsonSerializerOptions JSO = new JsonSerializerOptions()
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.Never,
+                IncludeFields = true,
+                PropertyNameCaseInsensitive = true,
+                Converters =
+                {new TupleConverterFactory(), new JsonStringEnumConverter
+                    (default, true)}
+            };
+
+            Nodes = JsonSerializer.Deserialize<Dictionary<int, NavNode>>(Reader.ReadToEnd(), JSO);
+        }
     }
 
     //why is this here?
