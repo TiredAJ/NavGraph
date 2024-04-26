@@ -17,9 +17,12 @@ public static class Program
 
         PR.Progress += PR_Progress;
 
+        //PR.Start(50057, 49997, Finish);
+        //              ^TRS031C         ^TRJ113 
         PR.Start(49997, 50054, Finish);
-        //                              ^TRS032
-        //              ^TRJ001
+        //              ^TRJ113         ^TRS032  
+
+        //49875 TRJ001, 50057 TRS-1-RN-031-C
 
     }
 
@@ -43,7 +46,7 @@ public static class Program
             if (Start && Step.Dir == 0)
             { Console.WriteLine($"Starting at {Name}"); Start = false; }
             else if (Step.Dir == 0)
-            { Console.WriteLine($"Head out towards {Step.N.BlockName} via {Name}"); }
+            { Console.WriteLine($"Head out towards {Step.N.BlockName} ({Name})"); }
             else
             { Console.WriteLine($"Go {Step.Dir,-6} to {Name}"); }
         }

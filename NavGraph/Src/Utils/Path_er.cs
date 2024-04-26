@@ -81,6 +81,11 @@ public class Path_er
 
         var Temp = GetFlows(Current, out Skip, out SkipDir);
 
+        //2.B
+        if (!Temp.Values.Any(X => X.Keys.Any(X => NG[X] is GatewayNode GW && GW.IsConnected(Destination.BlockName))))
+        { DauBwyntB(); return; }
+
+        //2.A
         if (Skip is not null)
         { Path.Add(((NodeDirection)SkipDir, Skip)); }
 
@@ -113,21 +118,33 @@ public class Path_er
 
     private void DauBwyntB()
     {
-        var BlockGWs = NG
-                                    .GetBlock(Origin.BlockName)
-                                    .Where(X => X.Value is GatewayNode GW &&
-                                        GW.IsConnected(Destination.BlockName))
-                                    .Select(X => X.Value as GatewayNode);
+        var BlockGW = NG
+                                .GetBlock(Origin.BlockName)
+                                .Where(X => X.Value is GatewayNode GW &&
+                                    GW.IsConnected(Destination.BlockName))
+                                .Select(X => X.Value as GatewayNode)
+                                .OrderBy(X => Math.Abs(X.Floor - Current.Floor))
+                                .First();
 
-        if (BlockGWs is not null && BlockGWs.Count() < 1)
+        if (BlockGW is not null)
         { throw new Exception("No viable exits from Block!"); }
         else
-        { DauBwyntBUn(BlockGWs); return; }
+        { DauBwyntBUn(BlockGW); return; }
     }
 
-    private void DauBwyntBUn(IEnumerable<GatewayNode?> _GWs)
+    private void DauBwyntBUn(GatewayNode? _GW)
     {
         throw new NotImplementedException();
+
+        NodeDirection? DirSkip;
+        NavNode LocalSkip;
+
+        //will take us to floor _GW is on
+        FlowToEN(Current, _GW);
+
+        //Current
+
+        //FlowToGW()
 
 
         //(NodeDirection Dir, int UID) GW = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
@@ -267,11 +284,26 @@ public class Path_er
             Path.Add((CurDir, LocalCurrent));
         }
 
-        DestEN = NG[(LocalCurrent as ElevationNode).Nodes[ElvDir]] as ElevationNode;
+        if (LocalCurrent.Floor == _Target.Floor)
+        {
+            DestEN = NG[(LocalCurrent as ElevationNode).Nodes[ElvDir]] as ElevationNode;
 
-        Current = DestEN;
+            Current = DestEN;
 
-        Path.Add((ElvDir, Current));
+            Path.Add((ElvDir, Current));
+        }
+        else
+        {
+            while (LocalCurrent.Floor != _Target.Floor)
+            {
+                LocalCurrent = NG[LocalCurrent.GetNode(ElvDir)];
+
+                Path.Add((ElvDir, LocalCurrent));
+            }
+
+            Current = LocalCurrent;
+            DestEN = Current as ElevationNode;
+        }
 
         return;
 
