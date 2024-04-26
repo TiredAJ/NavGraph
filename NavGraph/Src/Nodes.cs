@@ -624,14 +624,19 @@ public enum NodeDirection
 {
     [EnumMember(Value = "1")]
     North = 1,
+
     [EnumMember(Value = "2")]
     East = 2,
+
     [EnumMember(Value = "-1")]
     South = -1,
+
     [EnumMember(Value = "-2")]
     West = -2,
+
     [EnumMember(Value = "3")]
     Up = 3,
+
     [EnumMember(Value = "-3")]
     Down = -3,
 }

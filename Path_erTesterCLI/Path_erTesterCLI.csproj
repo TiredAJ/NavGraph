@@ -18,6 +18,9 @@
       <None Update="Johnstone-6.5.ajson">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Johnstone7.ajson">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
