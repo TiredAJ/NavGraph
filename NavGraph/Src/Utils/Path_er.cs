@@ -7,6 +7,7 @@ public class Path_er
     private Path_erStages _Stage = Path_erStages.None;
     private List<(NodeDirection, NavNode)> Path = new();
     private GatewayNode DestGW;
+    private ElevationNode DestEN;
 
     public Path_erStages Stage
     {
@@ -50,16 +51,17 @@ public class Path_er
     private void _Start()
     {
         Stage = Path_erStages.Started;
+        Stage = Path_erStages.Un;
 
         Temporary = Destination;
-
-        Stage = Path_erStages.Dau;
 
         Path.Add((0, Origin));
 
         Current = Origin;
 
         //Dau
+        Stage = Path_erStages.Dau;
+
         if (Origin.BlockName == Destination.BlockName)
         { Tri(); return; }
         else
@@ -101,7 +103,7 @@ public class Path_er
 
         Path.Add((_GW.Dir, LocalCurrent));
 
-        while (LocalCurrent != NG[_GW.UID])
+        while (LocalCurrent.UID != _GW.UID)
         {
             CurDir = (NodeDirection)LocalCISF.GetDirection(_GW.UID);
 
@@ -110,11 +112,15 @@ public class Path_er
 
             LocalCISF = LocalCurrent as ISpecialFlow;
 
+            //Console.WriteLine($"LocalCurrent: {LocalCurrent}");
+
             Path.Add((CurDir, LocalCurrent));
         }
 
+        Console.WriteLine(LocalCurrent);
+
         //2.A.2
-        DestGW = NG[(Current as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
+        DestGW = NG[(LocalCurrent as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
 
         Current = DestGW;
 
@@ -146,6 +152,8 @@ public class Path_er
     #region Tri
     private void Tri()
     {
+        Stage = Path_erStages.Tri;
+
         if (Current.Floor == Destination.Floor)
         { Pedwar(); return; }
         else
@@ -154,7 +162,7 @@ public class Path_er
 
     private void TriBwyntA()
     {
-        FlowToEN();
+        FlowToEN(Current, Destination);
         Pedwar(); return;
     }
 
@@ -168,6 +176,8 @@ public class Path_er
     #region Pedwar
     private void Pedwar()
     {
+        Stage = Path_erStages.Pedwar;
+
         if (Current is not ISpecialNode)
         { PedwarBwyntA(); return; }
         else
@@ -176,9 +186,13 @@ public class Path_er
 
     private void PedwarBwyntA()
     { }
+    #endregion
 
+    #region Pump
     private void PumpBwyntA()
     {
+        Stage = Path_erStages.Pump;
+
         //var ISF = GetFlows(Destination);
     }
 
@@ -199,7 +213,7 @@ public class Path_er
         NodeDirection SSkip, TSkip;
 
         NavNode LocalCurrent = _Start;
-        NavNode? StartSkip, TargetSkip
+        NavNode? StartSkip, TargetSkip;
 
         var StartENGroups = GetFlows(_Start, out StartSkip).Value;
 
@@ -207,50 +221,56 @@ public class Path_er
 
         var TargetENGroups = GetFlows(_Target, out TargetSkip).Value;
 
-        TSkip = (NodeDirection)StartENGroups.Dir;
+        TSkip = (NodeDirection)TargetENGroups.Dir;
 
+        #region big lad
         //gets the common Elevation node
-        var Common = StartENGroups
+        List<int> Common = StartENGroups
                                     .Flow.Values
                                     .SelectMany(X => X)
                                     .OrderBy(X => X.Value.Distance)
                                     .Where(X => X.Value.IsEN)
-                                    .Select(X => NG[X.Key] as ElevationNode)
-                                    .IntersectBy<ElevationNode, ElevationNode>
+                                    .Select(X => (NG[X.Key] as ElevationNode).ENGroupID)
+                                    .Intersect
                                     (
                                         TargetENGroups.Flow.Values
                                         .SelectMany(X => X)
                                         .OrderBy(X => X.Value.Distance)
                                         .Where(X => X.Value.IsEN)
-                                        .Select(X => NG[X.Key] as ElevationNode),
-                                        X => X.ENGroupID
-                                    );
+                                        .Select(X => (NG[X.Key] as ElevationNode).ENGroupID)
+                                    )
+                                    .ToList();
+        #endregion
 
-        
+        Dictionary<NodeDirection, (int UID, int Distance)> ReducedISFs = new();
 
+        foreach (var KVP in StartENGroups.Flow.Where(X => X.Value.Any(X => NG[X.Key] is ElevationNode EN && Common.Contains(EN.ENGroupID))))
+        { ReducedISFs.Add(KVP.Key, KVP.Value.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
 
-        //decide best EN on _Start's floor to travel to, then \/
+        (NodeDirection Dir, int UID) ChosenEN = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
 
-        //if (!NG.TryGetNode(Current.GetNode(_GW.Dir), out LocalCurrent))
-        //{ throw new Exception("Node returned null!"); }
+        if (!NG.TryGetNode(Current.GetNode(ChosenEN.Dir), out LocalCurrent))
+        { throw new Exception("Node returned null!"); }
 
-        //ISpecialFlow LocalCISF = LocalCurrent as ISpecialFlow;
+        ISpecialFlow LocalCISF = LocalCurrent as ISpecialFlow;
 
-        //Path.Add((_GW.Dir, LocalCurrent));
+        Path.Add((ChosenEN.Dir, LocalCurrent));
 
-        //while (LocalCurrent != NG[_GW.UID])
-        //{
-        //    CurDir = (NodeDirection)LocalCISF.GetDirection(_GW.UID);
+        while (LocalCurrent.UID != ChosenEN.UID) //check UID not node
+        {
+            CurDir = (NodeDirection)LocalCISF.GetDirection(ChosenEN.UID);
 
-        //    if (!NG.TryGetNode(LocalC222222urrent.GetNode(CurDir), out LocalCurrent))
-        //    { throw new Exception("Node returned null!"); }
+            if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir), out LocalCurrent))
+            { throw new Exception("Node returned null!"); }
 
-        //    LocalCISF = LocalCurrent as ISpecialFlow;
+            LocalCISF = LocalCurrent as ISpecialFlow;
 
-        //    Path.Add((CurDir, LocalCurrent));
-        //}
+            Path.Add((CurDir, LocalCurrent));
+        }
 
-        //DestGW = NG[(Current as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
+        Console.WriteLine($"Current: {Current}");
+
+        //DestEN = NG[(Current as ElevationNode).Nodes[Destination.BlockName].First()] as GatewayNode;
 
         //Current = DestGW;
 
@@ -332,21 +352,6 @@ public class Path_er
         { return ISF.GetDirection(_UID); }
         else
         { return null; }
-    }
-
-    private ISpecialFlow? GetISF(int _UID)
-    {
-        NavNode T;
-
-        if (!NG.TryGetNode(_UID, out T))
-        { return null; }
-        else
-        { return GetISF(T); }
-    }
-
-    private ISpecialFlow? GetISF(NavNode? _N)
-    {
-        
     }
 
     #endregion

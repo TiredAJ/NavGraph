@@ -547,8 +547,10 @@ public class GatewayNode : NavNode, ISpecialNode
     {
         StringBuilder SB = new StringBuilder();
 
+        SB.Append($"UID: {UID}, Internal name: {InternalName}, Blocks: ");
+
         foreach (var CN in Connections)
-        { SB.Append($"Block: {CN.Key}, UID: {CN.Value}\n"); }
+        { SB.Append($"{CN.Key} - {CN.Value.Count}, "); }
 
         return SB.ToString();
     }

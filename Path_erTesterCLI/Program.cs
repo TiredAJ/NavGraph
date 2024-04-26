@@ -15,9 +15,14 @@ public static class Program
 
         PR = new Path_er(ref NG);
 
+        PR.Progress += PR_Progress;
+
         PR.Start(49875, 50057);
         //                         ^TRS-1-RN-031-c
         //          ^TRJ001
 
     }
+
+    private static void PR_Progress(object? sender, PatherProgressEvent e)
+    { Console.WriteLine($"Progress: {e.Current}"); }
 }
