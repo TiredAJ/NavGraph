@@ -1,93 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="NavGraphTools.NetGraph">
-    <Position X="18.5" Y="5.5" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAIAA=</HashCode>
-      <FileName>Src\APStuff.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="NavGraphTools.APNode">
-    <Position X="9.5" Y="1.25" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAEAE=</HashCode>
-      <FileName>Src\APStuff.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="NavGraphTools.Graph&lt;T&gt;">
-    <Position X="16.75" Y="1.25" Width="2.75" />
+    <Position X="5.5" Y="9" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAgAAQAAAAAAAAAAABEAAAAACAAAQAAAAAAAAAAIAA=</HashCode>
+      <HashCode>AAAgAAQAAAAAAAAACABEAAABACAAAQAAAAAAAAAAIAA=</HashCode>
       <FileName>Src\Graph.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NavGraphTools.NavGraph">
-    <Position X="13.75" Y="5.5" Width="4.25" />
+    <Position X="2.5" Y="11.25" Width="4.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAEAIAAAAAgAADAgAAAgAAIQAAAIIAI=</HashCode>
+      <HashCode>AAgFAQQAQABAEAUAICAAAIgQIDAkgUAgAAawAAAMYCI=</HashCode>
       <FileName>Src\NavGraph.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NavGraphTools.ReadonlyNavGraph">
-    <Position X="18.5" Y="7.5" Width="2.75" />
+    <Position X="7.5" Y="11.25" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAIAA=</HashCode>
+      <HashCode>AAgAAAQAAAAAAAQAAAAAAAAAACACgAACAAAAAAgAIAQ=</HashCode>
       <FileName>Src\NavGraph.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="NavGraphTools.Navigator">
-    <Position X="9.5" Y="3.25" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAABAAAIBAAAIAAAAAAIwACAAAAAAEAQAQAAgAAAA=</HashCode>
-      <FileName>Src\Navigator.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="NavGraphTools.NavNode">
-    <Position X="2" Y="1.25" Width="4.5" />
+    <Position X="7" Y="3" Width="4.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAiBAAAAAAAAAlEAgAACAABEAAAgAAAAAAAAQACEBA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAlEAgAAAAABEAAAgAAAIAAQAYAAEBA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NavGraphTools.CorridorNode">
-    <Position X="0.5" Y="6.25" Width="3.5" />
+    <Position X="1" Y="6.25" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NavGraphTools.RoomNode">
-    <Position X="4.5" Y="6.25" Width="3.5" />
+    <Position X="9.5" Y="6.25" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAiAAAAAAAAAAAEAgAAAAAAAAAAAEAAAAAAABACAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAEAgAAAAAAAAAAAEAAIAAAABAAAAA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NavGraphTools.ElevationNode">
-    <Position X="4.5" Y="9.25" Width="3.75" />
+    <Position X="13.75" Y="6.25" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAEAgAAAAAAAAAAgAAAAAAAAAACAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAEAkAgAAAAAAAAAAgAAAIAAQIYAAAAA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="NavGraphTools.GatewayNode">
-    <Position X="0.5" Y="9.25" Width="3.5" />
+    <Position X="5.25" Y="6.25" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAiAAAAAAAAAAAEAAAAAAAAAAAAgAAAAAAAACAAAAA=</HashCode>
+      <HashCode>AEAgAAAAAAAAAABEAAAAABAAAAAAgAAAIACQAaCAAAA=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="NavGraphTools.IAPInfo">
-    <Position X="9.5" Y="7.5" Width="2.5" />
+  <Interface Name="NavGraphTools.ISpecialNode">
+    <Position X="13.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Src\APStuff.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Src\Nodes.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="NavGraphTools.NodeDirection">
-    <Position X="7.75" Y="2.75" Width="1.5" />
+  <Interface Name="NavGraphTools.ISpecialFlow">
+    <Position X="2" Y="3.75" Width="4.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIEABKAgAAIQAAAAAAAgAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Src\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="NavGraphTools.NodeDirection" Collapsed="true">
+    <Position X="13.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAIAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAABAAY=</HashCode>
       <FileName>Src\Nodes.cs</FileName>
