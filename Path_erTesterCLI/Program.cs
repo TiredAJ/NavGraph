@@ -8,6 +8,8 @@ public static class Program
 
     public static void Main(string[] args)
     {
+        int AUID, BUID;
+
         NG = new ReadonlyNavGraph();
 
         using (Stream S = new StreamReader("Johnstone7.ajson").BaseStream)
@@ -17,13 +19,31 @@ public static class Program
 
         PR.Progress += PR_Progress;
 
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter UID of starting node: ");
+
+            int.TryParse(Console.ReadLine(), out AUID);
+
+            Console.WriteLine("Please enter UID of destination node: ");
+
+            int.TryParse(Console.ReadLine(), out BUID);
+
+            if (!NG.IsValidUID(AUID) || !NG.IsValidUID(BUID))
+            { Console.WriteLine("Invalid UIDs!"); }
+            else
+            { PR.Start(AUID, BUID, Finish); }
+        } while (true);
+
+
         //PR.Start(50057, 49997, Finish);
         //              ^TRS031C         ^TRJ113 
         //PR.Start(49997, 50054, Finish);
         //              ^TRJ113         ^TRS032  
         //PR.Start(49984, 49981, Finish);
         //              ^TRJ128         ^TRJ133
-        PR.Start(49957, 50006, Finish);
+        //PR.Start(49957, 50006, Finish);
         //              ^TRJ132         ^TRJ103
 
         //49875 TRJ001, 50057 TRS-1-RN-031-C
@@ -55,6 +75,9 @@ public static class Program
             { Console.WriteLine($"Go {Step.Dir,-6} to {Name}"); }
         }
 
-        Console.WriteLine("You have arrived at your destination!");
+        Console.WriteLine("You have arrived at your destination! Press any key to restart...");
+        Console.ReadKey();
+
+        Console.Clear();
     }
 }

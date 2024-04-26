@@ -3,13 +3,14 @@
 public class Path_er
 {
     private ReadonlyNavGraph NG = null;
-    private NavNode Origin, Destination, Current, Temporary;
+    private NavNode Origin, Destination, Current;
     private Path_erStages _Stage = Path_erStages.None;
     private List<(NodeDirection, NavNode)> Path = new();
     private GatewayNode DestGW;
     private ElevationNode DestEN;
     private Action<List<(NodeDirection, NavNode)>>? Callback;
 
+    //Updates the caller about which stage Path_er is currently on
     public Path_erStages Stage
     {
         get => _Stage;
@@ -55,12 +56,12 @@ public class Path_er
         _Start();
     }
 
+    //Main starting point
     private void _Start()
     {
-        Stage = Path_erStages.Started;
-        Stage = Path_erStages.Un;
+        Reset();
 
-        Temporary = Destination;
+        Stage = Path_erStages.Un;
 
         Path.Add((0, Origin));
 
@@ -75,15 +76,25 @@ public class Path_er
         { DauBwyntA(); return; }
     }
 
+    private void Reset()
+    {
+        Path.Clear();
+        Stage = Path_erStages.Started;
+        Current = null;
+        DestGW = null;
+        DestEN = null;
+    }
+
     #region Dau
     private void DauBwyntA()
     {
         NavNode? Skip;
         NodeDirection? SkipDir;
 
+        //gets available flows from skipped node
         var Temp = GetFlows(Current, out Skip, out SkipDir);
 
-        //2._B
+        //2._B - checks if any of the flow directions are to suitable GWs
         if (!Temp.Values.Any(X => X.Keys.Any(X => NG[X] is GatewayNode GW && GW.IsConnected(Destination.BlockName))))
         { DauBwyntB(); return; }
 
@@ -95,9 +106,12 @@ public class Path_er
 
         Dictionary<NodeDirection, (int UID, int Distance)> ReducedISFs = new();
 
+        //goes through and compresses the flow list into just their direction,
+        //UID and distance, also filters out ENs
         foreach (var KVP in Temp.Where(X => X.Value.Any(X => NG[X.Key] is GatewayNode GW && GW.IsConnected(Destination.BlockName))))
         { ReducedISFs.Add(KVP.Key, KVP.Value.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
 
+        //choses the GW with the shortest distance
         (NodeDirection Dir, int UID) ChosenGW = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
 
         DauBwyntAUn(ChosenGW);
@@ -106,9 +120,10 @@ public class Path_er
 
     private void DauBwyntAUn((NodeDirection Dir, int UID) _GW)
     {
+        //Flows from the current point to GW
         NavNode LocalCurrent = FlowToGW(_GW);
 
-        //2._A.2
+        //2._A.2 - Gets the GW in the destination's block
         DestGW = NG[(LocalCurrent as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
 
         Current = DestGW;
@@ -120,6 +135,7 @@ public class Path_er
 
     private void DauBwyntB()
     {
+        //gets a suitable GW in the current block based on floor-distance
         var BlockGW = NG
                                 .GetBlock(Origin.BlockName)
                                 .Where(X => X.Value is GatewayNode GW &&
@@ -144,8 +160,6 @@ public class Path_er
         FlowToEN(Current, _GW);
 
         var Flows = GetFlows(Current, out LocalSkip, out DirSkip).Where(X => X.Value.ContainsKey(_GW.UID)).First();
-
-        //Path.Add((DirSkip.Value, LocalSkip));
 
         DauBwyntAUn((Flows.Key, _GW.UID));
         return;
@@ -230,6 +244,7 @@ public class Path_er
     /// <param name="_Target">Node target to flow to</param>
     private void FlowToEN(NavNode _Start, NavNode _Target)
     {
+        //determines whether we need to move up or down floors
         NodeDirection ElvDir = _Start.Floor < _Target.Floor ? NodeDirection.Up : NodeDirection.Down;
         NodeDirection CurDir = 0;
         NodeDirection? SSkip, TSkip;
@@ -242,7 +257,7 @@ public class Path_er
         var TargetENGroups = GetFlows(_Target, out TargetSkip, out TSkip);
 
         #region big lad
-        //gets the common Elevation node
+        //gets the common Elevation node groups
         List<int> Common = StartENGroups
                                     .Values
                                     .SelectMany(X => X)
@@ -262,12 +277,16 @@ public class Path_er
 
         Dictionary<NodeDirection, (int UID, int Distance)> ReducedISFs = new();
 
+        //filters out GWs and compresses the ISF list
         foreach (var KVP in StartENGroups.Where(X => X.Value.Any(X => NG[X.Key] is ElevationNode EN && Common.Contains(EN.ENGroupID))))
         { ReducedISFs.Add(KVP.Key, KVP.Value.Where(X => NG[X.Key] is ElevationNode EN && Common.Contains(EN.ENGroupID)).OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
         //fucking forgot to filter out GWs
 
+        //choses the EN closest to _Start
         (NodeDirection Dir, int UID) ChosenEN = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
 
+
+        //This is the main flow section
         if (!NG.TryGetNode(Current.GetNode(ChosenEN.Dir), out LocalCurrent))
         { throw new Exception("Node returned null!"); }
 
@@ -289,6 +308,7 @@ public class Path_er
 
         LocalCurrent = NG[(LocalCurrent as ElevationNode).Nodes[ElvDir]] as ElevationNode;
 
+        //the above only gets us to the EN, this gets us to our desired floor
         if (LocalCurrent.Floor == _Target.Floor)
         {
             DestEN = LocalCurrent as ElevationNode;
@@ -359,10 +379,11 @@ public class Path_er
         NodeDirection? CurDir;
         List<(NodeDirection Dir, NavNode Node)> TempPath = new();
 
-        var Temp = GetFlows(_Start, out LocalCurrent, out CurDir)
-                                                        .Where(X => X.Value.Any(X => X.Key == _Target.UID))
-                                                        .Select(X => (X.Key, X.Value.Values.First()))
-                                                        .First();
+        //gets ideal ISF node
+        _ = GetFlows(_Start, out LocalCurrent, out CurDir)
+                .Where(X => X.Value.Any(X => X.Key == _Target.UID))
+                .Select(X => (X.Key, X.Value.Values.First()))
+                .First();
 
         Previous = _Start;
 
@@ -399,8 +420,9 @@ public class Path_er
         List<(NodeDirection Dir, NavNode N)> APath = new(), BPath = new();
         bool Duplicate = false;
 
-        var FA = GetFlows(_A, out NSkipA, out DSkipA);
-        var FB = GetFlows(_B, out NSkipB, out DSkipB);
+        //gets ideal ISFs for both _A and _B
+        _ = GetFlows(_A, out NSkipA, out DSkipA);
+        _ = GetFlows(_B, out NSkipB, out DSkipB);
 
         ISpecialFlow LocalCISFA = NSkipA as ISpecialFlow;
         ISpecialFlow LocalCISFB = NSkipB as ISpecialFlow;
@@ -418,6 +440,7 @@ public class Path_er
 
         APath.Add((CurDir.Value, LocalCurrent));
 
+        //main loop from origin/current to ISP
         while (LocalCurrent.UID != _ISP.UID)
         {
             CurDir = LocalCISFA.GetDirection(_ISP.UID).Value;
@@ -437,6 +460,7 @@ public class Path_er
 
         CurDir = LocalCISFB.GetDirection(_ISP.UID);
 
+        //checks if loop is necessary from destination to ISP
         if (VisitedNodes.Contains(NSkipB.UID))
         {
             Duplicate = true;
@@ -444,8 +468,6 @@ public class Path_er
         }
         else
         {
-            //BPath.Add((DSkipB.Value.Inverse(), NSkipB));
-
             LocalCurrent = NSkipB;
 
             Previous = LocalCurrent;
@@ -458,6 +480,7 @@ public class Path_er
             BPath.Add((CurDir.Value.Inverse(), Previous));
             VisitedNodes.Add(LocalCurrent.UID);
 
+            //main destination -> ISP loop
             while (LocalCurrent.UID != _ISP.UID)
             {
                 CurDir = LocalCISFB.GetDirection(_ISP.UID).Value;
@@ -501,6 +524,7 @@ public class Path_er
 
         Dictionary<int, (int ADist, int BDist)> Flows = new();
 
+        //collects common flows from both nodes...
         foreach (var D in AFlow.Values)
         {
             foreach (var KVP in D)
@@ -516,10 +540,12 @@ public class Path_er
             }
         }
 
+        //and ranks them by distance, separated because it was playing up
         var Ordered = Flows
                                                 .ToDictionary(X => X.Key, Y => Y.Value.ADist + Y.Value.BDist)
                                                 .OrderBy(X => X.Value);
 
+        //first is chosen
         return NG[Ordered.First().Key];
     }
 
