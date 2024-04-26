@@ -193,11 +193,16 @@ public class Path_er
     {
         Stage = Path_erStages.Pump;
 
+        FlowBackToISP(Destination, Current as ISpecialNode);
+
         //var ISF = GetFlows(Destination);
     }
 
     private void PumpBwyntB()
-    { }
+    {
+        Stage = Path_erStages.Pump;
+
+    }
     #endregion
 
     #region Flow
@@ -268,13 +273,15 @@ public class Path_er
             Path.Add((CurDir, LocalCurrent));
         }
 
-        Console.WriteLine($"Current: {Current}");
+        //Console.WriteLine($"Current: {Current}");
 
-        //DestEN = NG[(Current as ElevationNode).Nodes[Destination.BlockName].First()] as GatewayNode;
+        DestEN = NG[(LocalCurrent as ElevationNode).Nodes[ElvDir]] as ElevationNode;
 
-        //Current = DestGW;
+        Current = DestEN;
 
-        //Path.Add((0, Current));
+        Path.Add((0, Current));
+
+        return;
 
         //throw new NotImplementedException();
     }
@@ -284,6 +291,21 @@ public class Path_er
         //think this might be handy, also maybe these should return the last node?
     }
 
+    /// <summary>
+    /// Reverse-flows from destination (_Start) to current (_Target)
+    /// </summary>
+    /// <param name="_Start">The end-destination to flow from</param>
+    /// <param name="_Target">The current node to flow towards</param>
+    private void FlowBackToISP(NavNode _Start, NavNode _Target)
+    {
+        if (_Target is not ISpecialNode)
+        { throw new Exception("_Target was not an ISP!"); }
+
+        NavNode Skip;
+        NodeDirection SkipDir;
+
+        ISpecialFlow ISF = GetFlows(_Start, out Skip).Value.;
+    }
     #endregion
 
     #region Misc
@@ -303,6 +325,13 @@ public class Path_er
 
         return NG.TryGetNode(_UID, out N) ? GetFlows(N, out _Skip) : null;
     }
+
+
+    /*
+     *
+     *  change Dir to an out like _Skip you fucking idiot
+     *
+     */
 
     /// <summary>
     /// Gets the next best ISF from the current node.
