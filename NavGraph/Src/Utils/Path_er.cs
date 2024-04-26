@@ -15,8 +15,10 @@ public class Path_er
         get => _Stage;
         internal set
         {
-            Progress?.Invoke(this, new PatherProgressEvent
-                (value));
+            if (value == Path_erStages.Completed)
+            { Progress?.Invoke(this, new PatherProgressEvent(true)); }
+
+            Progress?.Invoke(this, new PatherProgressEvent(value));
         }
     }
 
@@ -81,11 +83,11 @@ public class Path_er
 
         var Temp = GetFlows(Current, out Skip, out SkipDir);
 
-        //2.B
+        //2._B
         if (!Temp.Values.Any(X => X.Keys.Any(X => NG[X] is GatewayNode GW && GW.IsConnected(Destination.BlockName))))
         { DauBwyntB(); return; }
 
-        //2.A
+        //2._A
         if (Skip is not null)
         { Path.Add(((NodeDirection)SkipDir, Skip)); }
 
@@ -106,7 +108,7 @@ public class Path_er
     {
         NavNode LocalCurrent = FlowToGW(_GW);
 
-        //2.A.2
+        //2._A.2
         DestGW = NG[(LocalCurrent as GatewayNode).Connections[Destination.BlockName].First()] as GatewayNode;
 
         Current = DestGW;
@@ -180,7 +182,14 @@ public class Path_er
     }
 
     private void PedwarBwyntA()
-    { }
+    {
+        NavNode? Waypoint = Negotiate(Current, Destination);
+
+        if (Waypoint is null)
+        { throw new Exception("Where mah waypoint??"); }
+
+        PumpBwyntB(Waypoint); return;
+    }
     #endregion
 
     #region Pump
@@ -190,14 +199,16 @@ public class Path_er
 
         FlowBackToISP(Destination, Current);
 
-        Diwedd();
+        Diwedd(); return;
     }
 
-    private void PumpBwyntB()
+    private void PumpBwyntB(NavNode? _Waypoint)
     {
         Stage = Path_erStages.Pump;
 
-        Diwedd();
+        WaypointFlowing(Current, Destination, _Waypoint);
+
+        Diwedd(); return;
     }
     #endregion
 
@@ -341,7 +352,7 @@ public class Path_er
     private void FlowBackToISP(NavNode _Start, NavNode _Target)
     {
         if (_Target is not ISpecialNode)
-        { throw new Exception("_Target was not an ISP!"); }
+        { throw new Exception("_Target was not an _ISP!"); }
 
         NavNode LocalCurrent, Previous;
         ISpecialFlow LocalISF;
@@ -379,33 +390,138 @@ public class Path_er
 
         return;
     }
+
+    private void WaypointFlowing(NavNode _A, NavNode _B, NavNode _ISP)
+    {
+        NavNode NSkipA, NSkipB, LocalCurrent, Previous;
+        NodeDirection? DSkipA, DSkipB, CurDir;
+        HashSet<int> VisitedNodes = new();
+        List<(NodeDirection Dir, NavNode N)> APath = new(), BPath = new();
+        bool Duplicate = false;
+
+        var FA = GetFlows(_A, out NSkipA, out DSkipA);
+        var FB = GetFlows(_B, out NSkipB, out DSkipB);
+
+        ISpecialFlow LocalCISFA = NSkipA as ISpecialFlow;
+        ISpecialFlow LocalCISFB = NSkipB as ISpecialFlow;
+
+        LocalCurrent = NSkipA;
+
+        CurDir = LocalCISFA.GetDirection(_ISP.UID);
+
+        APath.Add((DSkipA.Value, NSkipA));
+
+        if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir.Value), out LocalCurrent))
+        { throw new Exception("Node returned null"); }
+
+        LocalCISFA = LocalCurrent as ISpecialFlow;
+
+        APath.Add((CurDir.Value, LocalCurrent));
+
+        while (LocalCurrent.UID != _ISP.UID)
+        {
+            CurDir = LocalCISFA.GetDirection(_ISP.UID).Value;
+
+            if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir.Value), out LocalCurrent))
+            { throw new Exception("Node returned null"); }
+
+            LocalCISFA = LocalCurrent as ISpecialFlow;
+
+            if (LocalCISFA is not null)
+            { APath.Add((CurDir.Value, LocalCurrent)); }
+        }
+
+        VisitedNodes = new HashSet<int>(APath.Select(X => X.N.UID));
+
+        //Local current should now be at waypoint
+
+        CurDir = LocalCISFB.GetDirection(_ISP.UID);
+
+        if (VisitedNodes.Contains(NSkipB.UID))
+        {
+            Duplicate = true;
+            BPath.Add((CurDir.Value, NSkipB));
+        }
+        else
+        {
+            //BPath.Add((DSkipB.Value.Inverse(), NSkipB));
+
+            LocalCurrent = NSkipB;
+
+            Previous = LocalCurrent;
+
+            if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir.Value), out LocalCurrent))
+            { throw new Exception("Node returned null"); }
+
+            LocalCISFB = LocalCurrent as ISpecialFlow;
+
+            BPath.Add((CurDir.Value.Inverse(), Previous));
+            VisitedNodes.Add(LocalCurrent.UID);
+
+            while (LocalCurrent.UID != _ISP.UID)
+            {
+                CurDir = LocalCISFB.GetDirection(_ISP.UID).Value;
+
+                Previous = LocalCurrent;
+
+                if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir.Value), out LocalCurrent))
+                { throw new Exception("Node returned null"); }
+
+                LocalCISFB = LocalCurrent as ISpecialFlow;
+
+                BPath.Add((CurDir.Value.Inverse(), Previous));
+
+                if (!VisitedNodes.Add(LocalCurrent.UID))
+                { Duplicate = true; break; }
+            }
+        }
+
+        if (!Duplicate)
+        { throw new Exception("How???"); }
+
+        List<(NodeDirection Dir, NavNode N)> TPath = APath.TakeWhile(X => X.N != BPath.Last().N).ToList();
+
+        BPath.Reverse();
+
+        TPath.AddRange(BPath.ToArray());
+        TPath.Add((DSkipB.Value.Inverse(), _B));
+
+        Path.AddRange(TPath.ToArray());
+    }
     #endregion
 
     #region Misc
-    private int Negotiate(ISpecialFlow _A, ISpecialFlow _B)
-    { throw new NotImplementedException(); }
-
-    /// <summary>
-    /// Gets the next best ISF from the current node.
-    /// </summary>
-    /// <param name="_UID">The node UID to get an ISF from</param>
-    /// <returns>A tuple of node direction (Dir) and Flow. Dir will be null if the current node is an ISF, otherwise it'll contain the direction to get to the ISF from the inputted node</returns>
-    private Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>>? GetFlows(int _UID, out NavNode? _Skip, out NodeDirection? _SkipDir)
+    private NavNode? Negotiate(NavNode _A, NavNode _B)
     {
-        NavNode? N;
+        NavNode NSkipA, NSkipB;
+        NodeDirection? DirSkipA, DirSkipB;
 
-        _Skip = null;
-        _SkipDir = null;
+        var AFlow = GetFlows(_A, out NSkipA, out DirSkipA);
+        var BFlow = GetFlows(_B, out NSkipB, out DirSkipB);
 
-        return NG.TryGetNode(_UID, out N) ? GetFlows(N, out _Skip, out _SkipDir) : null;
+        Dictionary<int, (int ADist, int BDist)> Flows = new();
+
+        foreach (var D in AFlow.Values)
+        {
+            foreach (var KVP in D)
+            { Flows.TryAdd(KVP.Key, (KVP.Value.Distance, 0)); }
+        }
+
+        foreach (var D in BFlow.Values)
+        {
+            foreach (var KVP in D)
+            {
+                if (Flows.ContainsKey(KVP.Key))
+                { Flows[KVP.Key] = (Flows[KVP.Key].ADist, KVP.Value.Distance); }
+            }
+        }
+
+        var Ordered = Flows
+                                                .ToDictionary(X => X.Key, Y => Y.Value.ADist + Y.Value.BDist)
+                                                .OrderBy(X => X.Value);
+
+        return NG[Ordered.First().Key];
     }
-
-
-    /*
-     *
-     *  change Dir to an out like _Skip you fucking idiot
-     *
-     */
 
     /// <summary>
     /// Gets the next best ISF from the current node.
@@ -413,7 +529,7 @@ public class Path_er
     /// <param name="_N">The node to get an ISF from</param>
     /// <param name="_Skip">If _N isn't an ISF, _Skip is the first connecting ISF node</param>
     /// <param name="_SkipDir">If _N isn't an ISF, _SkipDir is the direction to _Skip</param>
-    /// <returns>A tuple of node direction (Dir) and Flow. Dir will be null if the current node is an ISF, otherwise it'll contain the direction to get to the ISF from the inputted node</returns>
+    /// <returns>_A tuple of node direction (Dir) and Flow. Dir will be null if the current node is an ISF, otherwise it'll contain the direction to get to the ISF from the inputted node</returns>
     private Dictionary<NodeDirection, Dictionary<int, (int Distance, bool IsEN)>>? GetFlows(NavNode? _N, out NavNode? _Skip, out NodeDirection? _SkipDir)
     {
         _Skip = null;
@@ -436,20 +552,6 @@ public class Path_er
 
             return (Conn.Value as ISpecialFlow).Flow;
         }
-    }
-
-    /// <summary>
-    /// Gets the flow direction for a specified UID
-    /// </summary>
-    /// <param name="_N">Node (ISF)</param>
-    /// <param name="_UID"></param>
-    /// <returns></returns>
-    private NodeDirection? GetDirection(NavNode? _N, int _UID)
-    {
-        if (_N is ISpecialFlow ISF)
-        { return GetDirection(ISF, _UID); }
-        else
-        { return null; }
     }
 
     private NodeDirection? GetDirection(ISpecialFlow? _ISF, int _UID)
