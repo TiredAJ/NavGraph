@@ -126,7 +126,7 @@ public class Path_er
                                 .OrderBy(X => Math.Abs(X.Floor - Current.Floor))
                                 .First();
 
-        if (BlockGW is not null)
+        if (BlockGW is null)
         { throw new Exception("No viable exits from Block!"); }
         else
         { DauBwyntBUn(BlockGW); return; }
@@ -134,22 +134,19 @@ public class Path_er
 
     private void DauBwyntBUn(GatewayNode? _GW)
     {
-        throw new NotImplementedException();
-
+        NavNode LocalCurrent;
         NodeDirection? DirSkip;
-        NavNode LocalSkip;
+        NavNode? LocalSkip;
 
         //will take us to floor _GW is on
         FlowToEN(Current, _GW);
 
-        //Current
+        var Flows = GetFlows(Current, out LocalSkip, out DirSkip).Where(X => X.Value.ContainsKey(_GW.UID)).First();
 
-        //FlowToGW()
+        //Path.Add((DirSkip.Value, LocalSkip));
 
-
-        //(NodeDirection Dir, int UID) GW = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
-        //
-        //NavNode LocalCurrent = FlowToGW(GW);
+        DauBwyntAUn((Flows.Key, _GW.UID));
+        return;
     }
     #endregion
 
@@ -161,20 +158,14 @@ public class Path_er
         if (Current.Floor == Destination.Floor)
         { Pedwar(); return; }
         else
-        { TriBwyntA(); return; }
+        { TriBwyntA_B(); return; }
     }
 
-    private void TriBwyntA()
+    private void TriBwyntA_B()
     {
         FlowToEN(Current, Destination);
         Pedwar(); return;
     }
-
-    private void TriBwyntB()
-    { }
-
-    private void TriBwyntC()
-    { }
     #endregion
 
     #region Pedwar
@@ -261,7 +252,8 @@ public class Path_er
         Dictionary<NodeDirection, (int UID, int Distance)> ReducedISFs = new();
 
         foreach (var KVP in StartENGroups.Where(X => X.Value.Any(X => NG[X.Key] is ElevationNode EN && Common.Contains(EN.ENGroupID))))
-        { ReducedISFs.Add(KVP.Key, KVP.Value.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
+        { ReducedISFs.Add(KVP.Key, KVP.Value.Where(X => NG[X.Key] is ElevationNode EN && Common.Contains(EN.ENGroupID)).OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
+        //fucking forgot to filter out GWs
 
         (NodeDirection Dir, int UID) ChosenEN = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
 
@@ -284,9 +276,11 @@ public class Path_er
             Path.Add((CurDir, LocalCurrent));
         }
 
+        LocalCurrent = NG[(LocalCurrent as ElevationNode).Nodes[ElvDir]] as ElevationNode;
+
         if (LocalCurrent.Floor == _Target.Floor)
         {
-            DestEN = NG[(LocalCurrent as ElevationNode).Nodes[ElvDir]] as ElevationNode;
+            DestEN = LocalCurrent as ElevationNode;
 
             Current = DestEN;
 
