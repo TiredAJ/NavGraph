@@ -61,6 +61,9 @@ public class Path_er
     {
         Reset();
 
+        if (Origin is not RoomNode || Destination is not RoomNode)
+        { throw new Exception("Either input nodes aren't room nodes!"); }
+
         Stage = Path_erStages.Un;
 
         Path.Add((0, Origin));
@@ -109,7 +112,13 @@ public class Path_er
         //goes through and compresses the flow list into just their direction,
         //UID and distance, also filters out ENs
         foreach (var KVP in Temp.Where(X => X.Value.Any(X => NG[X.Key] is GatewayNode GW && GW.IsConnected(Destination.BlockName))))
-        { ReducedISFs.Add(KVP.Key, KVP.Value.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.Distance)).First()); }
+        {
+            ReducedISFs.Add(KVP.Key, KVP.Value
+                            .Where(X => NG[X.Key] is GatewayNode)
+                            .OrderBy(X => X.Value.Distance)
+                            .Select(X => (X.Key, X.Value.Distance))
+                            .First());
+        }
 
         //choses the GW with the shortest distance
         (NodeDirection Dir, int UID) ChosenGW = ReducedISFs.OrderBy(X => X.Value.Distance).Select(X => (X.Key, X.Value.UID)).First();
@@ -253,6 +262,13 @@ public class Path_er
         NavNode? StartSkip, TargetSkip;
 
         var StartENGroups = GetFlows(_Start, out StartSkip, out SSkip);
+
+        if (StartSkip is not null)
+        {
+            LocalCurrent = StartSkip;
+            Current = LocalCurrent;
+            Path.Add(((NodeDirection)SSkip, StartSkip));
+        }
 
         var TargetENGroups = GetFlows(_Target, out TargetSkip, out TSkip);
 
@@ -478,35 +494,54 @@ public class Path_er
             LocalCISFB = LocalCurrent as ISpecialFlow;
 
             BPath.Add((CurDir.Value.Inverse(), Previous));
-            VisitedNodes.Add(LocalCurrent.UID);
 
-            //main destination -> ISP loop
-            while (LocalCurrent.UID != _ISP.UID)
+            if (!VisitedNodes.Add(LocalCurrent.UID))
+            { Duplicate = true; BPath.Add((0, LocalCurrent)); }
+            else
             {
-                CurDir = LocalCISFB.GetDirection(_ISP.UID).Value;
+                //main destination -> ISP loop
+                while (LocalCurrent.UID != _ISP.UID)
+                {
+                    CurDir = LocalCISFB.GetDirection(_ISP.UID).Value;
 
-                Previous = LocalCurrent;
+                    Previous = LocalCurrent;
 
-                if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir.Value), out LocalCurrent))
-                { throw new Exception("Node returned null"); }
+                    if (!NG.TryGetNode(LocalCurrent.GetNode(CurDir.Value), out LocalCurrent))
+                    { throw new Exception("Node returned null"); }
 
-                LocalCISFB = LocalCurrent as ISpecialFlow;
+                    LocalCISFB = LocalCurrent as ISpecialFlow;
 
-                BPath.Add((CurDir.Value.Inverse(), Previous));
+                    BPath.Add((CurDir.Value.Inverse(), Previous));
 
-                if (!VisitedNodes.Add(LocalCurrent.UID))
-                { Duplicate = true; break; }
+                    if (!VisitedNodes.Add(LocalCurrent.UID))
+                    { Duplicate = true; BPath.Add((0, LocalCurrent)); break; }
+                }
             }
         }
 
         if (!Duplicate)
         { throw new Exception("How???"); }
 
-        List<(NodeDirection Dir, NavNode N)> TPath = APath.TakeWhile(X => X.N != BPath.Last().N).ToList();
+        var T = APath.Where(X => X.N == BPath.Last().N).First();
+
+        APath = APath.TakeWhile(X => X.N != BPath.Last().N).ToList();
+
+        List<(NodeDirection Dir, NavNode N)> TPath = APath;
+
+        TPath.Add(T);
 
         BPath.Reverse();
 
-        TPath.AddRange(BPath.ToArray());
+        TPath.AddRange(BPath.Skip(1).ToArray());
+
+        //if (TPath.First().N != APath.First().N)
+        //{
+        //    TPath.Add(APath.First());
+
+        //}
+        //else
+        //{ TPath.AddRange(BPath.ToArray());}
+
         TPath.Add((DSkipB.Value.Inverse(), _B));
 
         Path.AddRange(TPath.ToArray());

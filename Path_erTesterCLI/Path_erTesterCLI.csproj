@@ -12,13 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Johnstone-6-pp.ajson">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Johnstone-6.5.ajson">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Johnstone7.ajson">
+      <None Update="Johnstone8.ajson">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

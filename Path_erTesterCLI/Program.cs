@@ -12,7 +12,7 @@ public static class Program
 
         NG = new ReadonlyNavGraph();
 
-        using (Stream S = new StreamReader("Johnstone7.ajson").BaseStream)
+        using (Stream S = new StreamReader("Johnstone8.ajson").BaseStream)
         { NG.Deserialise(S); }
 
         PR = new Path_er(ref NG);
@@ -22,6 +22,7 @@ public static class Program
         do
         {
             Console.Clear();
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine("Please enter UID of starting node: ");
 
             int.TryParse(Console.ReadLine(), out AUID);
